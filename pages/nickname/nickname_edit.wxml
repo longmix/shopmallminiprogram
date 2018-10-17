@@ -1,0 +1,7 @@
+<view class="section">
+  <input placeholder="请输入昵称" value="{{nickname}}"  bindinput="nameInput" auto-focus/>
+</view>
+
+
+   <button class="keep_button" type="primary" bindtap="keep_button"> 保存 </button>
+

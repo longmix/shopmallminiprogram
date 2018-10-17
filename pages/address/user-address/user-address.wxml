@@ -1,0 +1,37 @@
+
+<!--地址管理-->
+<radio-group class="radio-group">
+<view hidden="{{hiddenAddress}}" class="address" wx:for="{{address}}">
+  <view class="address-icon" bindtap="setDefault" data-id="{{item.addressid}}">
+    <radio checked="{{item.is_default==1?true:false}}" value="{{index}}" />
+  </view>
+  
+  <view class="address-detail">
+    <view bindtap="select_address_to_order" data-id="{{item.addressid}}">
+    <view class="address-name-phone">
+      <text class="address-name">{{item.name}}</text>
+      <text class="address-phone">{{item.mobile}}</text>
+    </view>
+    <view class="address-info">{{item.province_name}}{{item.city_name}}{{item.district_name}}{{item.address}}</view>
+    </view>
+    <view class="address-edit">
+      <view>
+        <icon></icon>
+        <text hidden="{{item.is_default==0?false:true}}"></text>
+      </view>
+      <view>
+        <text hidden="{{item.is_default==0?false:true}}" bindtap="setDefault" data-id="{{item.addressid}}">设置默认</text>
+        <text hidden="{{item.is_default==0?false:true}}"> | </text>
+        <text data-id="{{item.addressid}}" bindtap="saveAddress">编辑</text>
+        <text> | </text>
+        <text data-id="{{item.addressid}}" bindtap="delAddress">删除</text>
+      </view>
+    </view>
+  </view>
+</view>
+</radio-group>
+<navigator url="../address?cartId={{cartId}}&action=add">
+  <view hidden="{{hiddenAddress}}" class="add-address">
+    <view class="btn_max">新增地址</view>
+  </view>
+</navigator>

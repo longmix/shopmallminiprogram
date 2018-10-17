@@ -1,0 +1,23 @@
+<!--pages/help_detail/help_detail.wxml-->
+<import src="../../wxParse/wxParse.wxml" />
+<import src="../../mars/templates/component.wxml" />
+<template is="loading" data="{{loading}}" />
+<view hidden="{{loading}}" class="weui-article">
+  <view class="weui-article__h1">{{title}}</view>
+  <view class="weui-article__section">
+    <image src="{{headlineItem_img}}" style="width:100%;" mode="{{mode}}"></image>
+     <view class="weui-article__title">
+
+       <template is="wxParse" data="{{wxParseData:content.nodes}}" /> 
+    </view> 
+    <view class="weui-article__section">
+      <template is="htmlpart" data="{{articleInfo}}" />
+    </view>
+  </view>
+</view>
+
+<button class='xg_button' open-type="share" type="primary"> 分享给朋友 </button>
+<view class="returnto">
+  <button class='returnto_btn' type="primary" bindtap="returnto_toutiao">头条列表</button>
+  <button class='returnto_btn' type="primary" bindtap="returnto_index">商户主页</button>
+</view>

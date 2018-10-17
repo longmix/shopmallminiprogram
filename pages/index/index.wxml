@@ -1,0 +1,63 @@
+<!-- index.wxml 
+   <navigator target="miniProgram" open-type="navigate" app-id="wx424d6888ee0403e9" path="/pages/index/index" version="develop">
+   打开绑定的小程序
+   </navigator>
+   -->
+<view class="page">
+ <view wx:if="{{wxa_show_index_swiper == 1}}">
+  <swiper bindchange="bindchange" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" style="height:{{imgheights[current]}}rpx;">
+    <block wx:for="{{imgUrls}}" wx:key="{{index}}">
+      <swiper-item>
+        <image src="{{item.image}}"  data-id='{{index}}' mode="widthFix"  class="slide-image" bindload="imageLoad"/>
+      </swiper-item>
+    </block>
+  </swiper>
+   </view>
+  <view wx:if="{{wxa_show_index_icon == 1}}">
+   <view class='style1' wx:if="{{icon_list!=null||icon_list!=''}}">
+     <view class='style2' wx:for="{{icon_list}}">
+      <image class='style3'  src='{{item.src}}' bindtap='icon_url' data-index="{{index}}"></image>
+      <view class='style4'>{{item.name}}</view>
+     </view>
+   </view> 
+   </view>
+   <!--商户头条start-->
+    <view wx:if="{{wxa_show_toutiao == 1}}">
+   <view class="toutiao">
+     <view class="toutiao_left" bindtap="touTiaoList">
+     <image src="../../images/toutiao.gif"></image>
+     </view>
+    <view class="toutiao_right" bindtap="touTiaoItem" data-id="{{toutiao_item_id}}">
+    <text>{{headlineItem}}</text>
+    </view>
+   </view>
+   </view>
+   <!--商户头条end-->
+<view wx:if="{{wxa_show_pic_pinpu == 1}}">
+   <view style='width:100%;' wx:if="{{img_list!=null||img_list!=''}}">
+     <view  wx:for="{{img_list}}">
+      <image style='width:100%;' mode="widthFix" src='{{item.image}}'></image>
+     </view>
+   </view>   
+</view>   
+    <view class="cont">
+      <navigator class="pr" url="../product/detail?productid={{item.productid}}" hover-class="changestyle"
+                 wx:for="{{product_list}}" open-type='navigateTo'>
+        <image class="photo" src="{{item.picture}}"></image>
+        <view class="title">{{item.name}}</view>
+        <view style="display:flex;line-height:50rpx;padding:10rpx 0;">
+          <view class="gmxx" style="  color: red;">¥ {{item.price}}</view>
+          <view class="gmx" wx:if="{{item.price2 > 0}}">¥ {{item.price2}}</view>
+        </view>
+        <view style="display:flex;line-height:50rpx;color:#999">
+          <view class="gmxx" style="font-size:28rpx;width:30%">
+            <text wx:if="{{item.is_recommend==1}}">推荐</text>
+            <text wx:elif="{{item.is_hot==1}}">热销</text>
+            <text wx:else>新品</text>
+          </view>
+          <view class="ku" style="width:60%">销量：{{item.sale_volume}}</view>
+        </view>
+      </navigator>
+    </view>
+    <view class="clear mt10" bindtap="getMore">点击查看更多</view>
+  </view>
