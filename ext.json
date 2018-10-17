@@ -1,0 +1,34 @@
+{
+  "extEnable": true,
+  "extAppid": "wx00d1e2843c3b3f77",
+  "directCommit": false,
+  "ext": {
+    "name": "wechat",
+    "attr": {
+      "host": "open.weixin.qq.com",
+      "users": [
+        "user_1",
+        "user_2"
+      ]
+    },
+    "xiaochengxu_appid": "wx00d1e2843c3b3f77",
+    "force_sellerid_flag": 0,
+    "force_sellerid_value": "pQNNmSkaq"
+  },
+  "extPages": {
+    "pages/help/help": {
+      "navigationBarTitleText": "帮助中心"
+    }
+  },
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "通版商城",
+    "navigationBarTextStyle": "black"
+  },
+
+  "networkTimeout": {
+    "request": 10000,
+    "downloadFile": 10000
+  }
+}
