@@ -18,9 +18,8 @@
 
 ### 查看在线演示：
 
-![image](https://raw.githubusercontent.com/longmix/shopmallmobile/master/doc/qrcode_shopmobiledemo.png)
+![image](https://raw.githubusercontent.com/longmix/shopmallminiprogram/master/doc/gh_ef882fb581e9_430.jpg)
 
-http://yanyubao.tseo.cn/shopmobiledemo/
 
 ### 如何安装商城系统？
 
@@ -62,10 +61,10 @@ http://yanyubao.tseo.cn/shopmobiledemo/
 
 [http://www.abot.cn/yanyubao-api-shop](http://www.abot.cn/yanyubao-api-shop)
 
-## 商城系统预览图
+## 小程序商城预览图
 
-![image](https://raw.githubusercontent.com/longmix/shopmallmobile/master/doc/screenshop01.jpg)
-![image](https://raw.githubusercontent.com/longmix/shopmallmobile/master/doc/screenshop02.jpg)
+![image](https://raw.githubusercontent.com/longmix/shopmallminiprogram/master/doc/shop_mall_mini_program_01.jpg)
+![image](https://raw.githubusercontent.com/longmix/shopmallminiprogram/master/doc/shop_mall_mini_program_02.jpg)
 
 
 
