@@ -18,7 +18,7 @@
 
 ### 查看在线演示：
 
-![image](https://raw.githubusercontent.com/longmix/shopmallminiprogram/master/doc/gh_ef882fb581e9_430.jpg)
+![image](https://raw.githubusercontent.com/longmix/shopmallminiprogram/master/doc/gh_ef882fb581e9_258.jpg)
 
 
 ### 如何安装商城系统？
