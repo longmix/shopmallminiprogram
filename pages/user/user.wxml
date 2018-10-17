@@ -1,0 +1,192 @@
+<!--pages/user/user.wxml-->
+<view class="page">
+    <view class="userinfo" style="background:{{wxa_shop_nav_bg_color}}">
+		  	<navigator url="../userinfo/userinfo" open-type="navigate">
+          <image class="userinfo-avatar fl_l"  src="{{headimgurl}}" background-size="cover"></image>
+        </navigator>
+        <navigator  url='/pages/login/login' wx:if="{{nick_name==0}}"><text class="fl_l" style='color:#fff;font-size:32rpx;text-decoration:none;font-weigh：bold；'>未登录</text></navigator>
+			<text class="fl_l" wx:else>{{nickname}}</text>
+      
+      </view>
+    <!--<view class="sc mt10 df">
+        <view class="df_1 tc">
+        <navigator url="../user/shoucang" hover-class="none">
+          <view><image src="/images/use_sc.png"></image></view>
+          <text>我的收藏</text>
+          </navigator>
+        </view>
+        <view class="df_1 tc">
+        <navigator url="../qyry/qyry" hover-class="none">
+          <view><image src="/images/use_ry.png"></image></view>
+          <text>企业荣誉</text>
+          </navigator>
+        </view>
+    </view> -->
+    <!--订单详情-->
+    <view class="qbdd mt10">
+    <span class="font_14 c3">全部订单</span>
+    <navigator class="fl_r c9 font_12 l_h20" url="../user/dingdan?currentTab=0&otype=1" hover-class="none" >查看全部订单 ></navigator>
+    </view>
+    <view class="sc df tc bte ">
+    <navigator class="df_1" url="../user/dingdan?currentTab=0&otype=1" hover-class="none" >
+        <view>
+        <image src="/images/dfk.png"></image> 
+       </view> 
+        <text class="font_12">待付款<text style="color:red">({{data.status_count1}})</text></text>
+      </navigator>
+
+    <!-- <navigator class="df_1" url="../user/dingdan" hover-class="none" >
+      <view><image src="/images/dfh.png"></image>{{orderInfo.HasSum}}</view>
+        <text class="font_12">待发货</text>      
+      </navigator> -->
+
+      <navigator class="df_1" url="../user/dingdan?currentTab=1&otype=2" hover-class="none" >
+          <view><image src="/images/dpl.png"></image></view>
+          <text class="font_12">待发货<text style="color:red">({{data.status_count2}})</text></text>
+      </navigator>
+
+    <navigator class="df_1" url="../user/dingdan?currentTab=2&otype=6" hover-class="none" >
+          <view><image src="/images/dsh.png"></image></view>
+          <text  class="font_12">待收货<text style="color:red">({{data.status_count3}})</text></text>
+      </navigator>
+
+    
+    <navigator class="df_1" url="../user/dingdan?currentTab=3&otype=7" hover-class="none" >
+          <view><image src="/images/tksh.png"></image></view>
+          <text class="font_12">已完成<text style="color:red">({{data.status_count4}})</text></text>
+       </navigator>
+    </view>
+<!--
+<view class="qbdd mt10">
+ <navigator url="../address/user-address/user-address">
+    <span class="font_14 c3">地址管理</span>
+    <span class="fl_r c9 font_12 l_h20" hover-class="none"> ></span>
+  </navigator>
+</view>
+<view class="qbdd mt10">
+ <navigator url="../rituall/rituall">
+    <span class="font_14 c3">优惠劵</span>
+    <span class="fl_r c9 font_12 l_h20" hover-class="none"> ></span>
+ </navigator>
+</view>
+<view bindtap='myChat' class="qbdd mt110" style='height:20px;'>
+    <span class="font_14 c33">联系客服</span>
+    <span class="fl_r c9 font_12 l_h20" hover-class="none"> ></span>
+</view>
+-->
+<!-- 九宫格图标 begin -->
+<view class='icon-box'>
+  <view bindtap='myChat' data-id='1' class='icon-list'>
+   <image src='../../images/icon/xianjin.png'></image>
+   <view class='icon-text'><text>我的现金</text></view>
+  </view>
+
+  <view bindtap='myChat' data-id='2' class='icon-list'>
+   <image src='../../images/icon/zengkuan.png'></image>
+   <view class='icon-text'><text>我的赠款</text></view>
+  </view>
+
+  <view bindtap='myChat' data-id='3' class='icon-list'>
+   <image src='../../images/icon/jifen.png'></image>
+   <view class='icon-text'><text>我的积分</text></view>
+  </view>
+</view>
+
+<view class='icon-box'>
+  <view bindtap='myChat' data-id='4' class='icon-list'>
+   <image src='../../images/icon/tuiguang.png'></image>
+   <view class='icon-text'><text>推广联盟</text></view>
+  </view>
+
+  <view bindtap='myChat' data-id='5' class='icon-list'>
+   <image src='../../images/icon/erweima.png'></image>
+   <view class='icon-text'><text>推广二维码</text></view>
+  </view>
+
+  <view bindtap='myChat' data-id='6' class='icon-list'>
+   <image src='../../images/icon/shangpin.png'></image>
+   <view class='icon-text'><text>可推广商品</text></view>
+  </view>
+</view>
+
+<view class='icon-box'>
+ <navigator url="../cart/cart" open-type="switchTab">
+  <view class='icon-list'>
+   <image src='../../images/icon/gouwuche.png'></image>
+   <view class='icon-text'><text>我的购物车</text></view>
+  </view>
+  </navigator>
+ <navigator url="shoucang" open-type="navigate">
+  <view class='icon-list'>
+   <image src='../../images/icon/shoucang.png'></image>
+   <view class='icon-text'><text>我的收藏</text></view>
+  </view>
+ </navigator>
+  <view bindtap='myChat' data-id='7' class='icon-list'>
+   <image src='../../images/icon/manjian.png'></image>
+   <view class='icon-text'><text>满减优惠券</text></view>
+  </view>
+</view>
+
+<view class='icon-box'>
+  <view bindtap='myChat' data-id='11' class='icon-list'>
+   <image src='../../images/icon/huiyuanquan.png'></image>
+   <view class='icon-text'><text>会员优惠券</text></view>
+  </view>
+
+  <view bindtap='myChat' data-id='8' class='icon-list'>
+   <image src='../../images/icon/zhifubao.png'></image>
+   <view class='icon-text'><text>支付宝账号</text></view>
+  </view>
+
+  <view bindtap='myChat' data-id='9' class='icon-list'>
+   <image src='../../images/icon/yinhangka.png'></image>
+   <view class='icon-text'><text>银行卡账号</text></view>
+  </view>
+</view>
+
+<view class='icon-box'>
+ <navigator url="../address/user-address/user-address" open-type="navigate">
+  <view class='icon-list'>
+   <image src='../../images/icon/dizhi.png'></image>
+   <view class='icon-text'><text>收货地址</text></view>
+  </view>
+  </navigator>
+ <navigator url="../userinfo/userinfo" open-type="navigate">
+  <view class='icon-list'>
+   <image src='../../images/icon/gerenziliao.png'></image>
+   <view class='icon-text'><text>个人资料</text></view>
+  </view>
+ </navigator>
+  <view bindtap='myChat' data-id='9' class='icon-list'>
+   <image src='../../images/icon/fapiao.png'></image>
+   <view class='icon-text'><text>发票管理</text></view>
+  </view>
+</view>
+
+<view class='icon-box'>
+ <navigator url="shangchengma" open-type="navigate">
+  <view class='icon-list'>
+   <image src='../../images/icon/shangcheng.png'></image>
+   <view class='icon-text'><text>切换商城</text></view>
+  </view>
+  </navigator>
+   <navigator url="../about_applet/about_applet" open-type="navigate">
+  <view class='icon-list'>
+   <image src='../../images/icon/xiaochengxu.png'></image>
+   <view class='icon-text'><text>关于小程序</text></view>
+  </view>
+  </navigator>
+  <view bindtap='myChat' data-id='18' class='icon-list'>
+   <image src='../../images/icon/kefu.png'></image>
+   <view class='icon-text'><text>联系客服</text></view>
+  </view>
+</view>
+<!-- 九宫格图标 end -->
+
+<view style="display:block; height:800rpx;width:100%;"> </view>
+
+
+</view>
+
+

@@ -1,0 +1,24 @@
+.container {
+  font-size: 12px;
+  background-color: white;
+}
+.title {
+  margin-top: 20rpx;
+  font-size: 25px;
+  text-align: center;
+}
+.section {
+  padding: 10px 15px;
+  font-size: inherit;
+  border: 1rpx solid #ddd;
+
+  margin: 40rpx 30rpx 0 30rpx;
+}
+.btn-area {
+  margin-top: 40rpx;
+}
+.btn-area button{
+  width: 92%;
+  background-color: #1AAD19;
+  color: white;
+}

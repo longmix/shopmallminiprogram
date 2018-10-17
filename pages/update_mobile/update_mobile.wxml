@@ -1,0 +1,28 @@
+<!--pages/update_mobile/update_mobile.wxml-->
+
+  <view class="section1">
+    <input type="number" placeholder="请输入手机号" value="{{mobile}}" name="mobile" bindinput="phoneInput" auto-focus/>
+  </view>
+  <view class="section3">
+    
+    <image bindtap="click_check" src="{{img_checkcode_url}}"></image>
+    <input type="number" placeholder="请输入图片验证码"  bindinput="imgInput" auto-focus/>
+  
+  </view>
+  <view class="section2">
+    <input type="number" name="verifycode_sms" placeholder="请输入手机验证码"  bindinput="telInput" auto-focus/>
+    <button type="primary" disabled="{{disabled}}"  bindtap="send_btn" class="send_btn">{{second}}</button>
+  </view>
+
+  <button type="primary" bindtap="check_button" class="check_btn" >设置手机号码</button>
+
+  
+
+
+
+
+
+
+
+
+
