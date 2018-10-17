@@ -1,0 +1,59 @@
+/* pages/help_detail/help_detail.wxss */
+@import "../../wxParse/wxParse.wxss";
+
+.weui-article__title .summary {
+  color: #1b82d1;
+
+}
+
+.xg_button {
+  width:80%;
+}
+
+.returnto button{
+  width:45%;
+  float:left;
+  margin:2%;
+  font-size:15px;
+  background-color: #a58904;
+}
+.wxParse-inline{
+    display: inline;
+    margin: 0;
+    padding: 0;
+    font-size:0.8em;
+}
+.wxParse-p{
+    text-align: left;
+    margin: 10rpx;
+    font-size:0.8em;
+}
+.weui-article__section p{
+  margin-top: 30px;
+  text-indent: 2em;
+}
+.weui-article {
+  padding: 20px 15px;
+  font-size: 40rpx;
+}
+.weui-article__section {
+  margin-bottom: 1.5em;
+}
+.weui-article__h1 {
+  font-size: 18px;
+  font-weight: 400;
+  margin-bottom: .9em;
+}
+.weui-article__h2 {
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: .34em;
+}
+.weui-article__h3 {
+  font-weight: 400;
+  font-size: 15px;
+  margin-bottom: .34em;
+}
+.weui-article__p {
+  margin: 0 0 .8em;
+}

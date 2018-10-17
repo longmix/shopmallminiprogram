@@ -1,0 +1,110 @@
+
+<view class='tx_box'>
+<view style='height:30rpx;'></view>
+ <view class='btn1'>
+  <image src="{{headimgurl}}" bindtap="clickImage"></image>
+ </view>
+</view>
+<view class="user_list">
+        <navigator url="../nickname/nickname_edit">          
+            <view class="weui_cell">      
+                <view class="weui_cell_bd">
+                    <view class="weui_cell_bd_p"> 昵称 </view>
+                </view>
+                <view class="badge">{{userListInfo.nickname}}</view>
+                <view class="with_arrow"></view>
+            </view>
+        </navigator>
+</view>
+<view class="user_list">
+        <navigator url="../update_mobile/update_mobile">          
+            <view class="weui_cell">      
+                <view class="weui_cell_bd">
+                    <view class="weui_cell_bd_p"> 手机 </view>
+                </view>
+                <view class="badge">{{userListInfo.mobile}}</view>
+                <view class="with_arrow"></view>
+            </view>
+        </navigator>
+</view>
+<view class="user_list">
+        <navigator url="../account_edit/account_edit">          
+            <view class="weui_cell">      
+                <view class="weui_cell_bd">
+                    <view class="weui_cell_bd_p">设置登录账号及密码</view>
+                </view>
+                <view class="badge"></view>
+                <view class="with_arrow"></view>
+            </view>
+        </navigator>
+</view>
+<!--
+<view class="user_list">
+        <navigator url="../account_edit/account_edit">          
+            <view class="weui_cell">      
+                <view class="weui_cell_bd">
+                    <view class="weui_cell_bd_p"> 账号 </view>
+                </view>
+                <view class="badge">{{userListInfo.account}}</view>
+                <view class="with_arrow"></view>
+            </view>
+        </navigator>
+</view>
+<view class="user_list">
+        <navigator url="../update_mobile/update_mobile">          
+            <view class="weui_cell">      
+                <view class="weui_cell_bd">
+                    <view class="weui_cell_bd_p"> 手机 </view>
+                </view>
+                <view class="badge">{{userListInfo.mobile}}</view>
+                <view class="with_arrow"></view>
+            </view>
+        </navigator>
+</view>
+<view class="user_list">
+        <navigator url="../time_date/time_date">          
+            <view class="weui_cell">      
+                <view class="weui_cell_bd">
+                    <view class="weui_cell_bd_p"> 生日 </view>
+                </view>
+                <view class="badge">{{userListInfo.birthday}}</view>
+                <view class="with_arrow"></view>
+            </view>
+        </navigator>
+</view>
+<view class="user_list">
+        <navigator url="../sex_edit/sex_edit">          
+            <view class="weui_cell">      
+                <view class="weui_cell_bd">
+                    <view class="weui_cell_bd_p"> 性别 </view>
+                </view>
+                <view class="badge" wx:if="{{userListInfo.sex}}==0">男</view>
+                <view class="badge" wx:else>女</view>
+                <view class="with_arrow"></view>
+            </view>
+        </navigator>
+</view>
+<view class="user_list">
+        <navigator url="../area_edit/area_edit">          
+            <view class="weui_cell">      
+                <view class="weui_cell_bd">
+                    <view class="weui_cell_bd_p"> 地区 </view>
+                </view>
+                <view class="badge">{{userListInfo.country}}{{userListInfo.province}}</view>
+                <view class="with_arrow"></view>
+            </view>
+        </navigator>
+</view>
+<view class="user_list">
+        <navigator url="../sign_edit/sign_edit">          
+            <view class="weui_cell">      
+                <view class="weui_cell_bd">
+                    <view class="weui_cell_bd_p"> 个性签名 </view>
+                </view>
+                <view class="badge">{{userListInfo.signature}}</view>
+                <view class="with_arrow"></view>
+            </view>
+        </navigator>
+</view>
+-->
+<button class='btn' bindtap="logout" type="primary"> 退出登录 </button>

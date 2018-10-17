@@ -1,0 +1,73 @@
+/* pages/update_mobile/update_mobile.wxss */
+page{
+    background-color:#F0F0F0;  
+}
+.from-list{
+    width:100%;
+   
+}
+
+.section1{
+    width:100%;
+    height:50px;
+    background-color:#fff;
+    margin:10px auto 0;
+    border-bottom: 1px solid #ECECEC;
+}
+.section1 input{
+    width:80%;
+    height:50px;
+    padding-left:20px;
+}
+.section2{
+    width:100%;
+    height:50px;
+    background-color:#fff;
+    margin:10px 0 0;
+    position:relative;
+}
+.section2 input{
+    width:60%;
+    height:50px;
+    padding-left:20px;
+    margin:0 0 0;
+}
+.send_btn{
+    width:35%;
+    height:40px;
+    line-height:40px;
+    position:absolute;
+    top:4px;
+    left:220px;
+     
+}
+.section3{
+    width:100%;
+    height:50px;
+    background-color:#fff;
+    margin:10px 0 0;
+    position:relative;
+}
+.section3 image{
+    width:120px;
+    height:40px;
+    line-height:40px;
+    padding-top:4px;
+    padding-left:20px;
+    float:left;
+}
+.section3 input{
+    width:50%;
+    height:50px;
+    padding-left:20px;
+    float:left;
+}
+
+.check_btn{
+    margin:50px auto;
+    width:85%;
+    height:50px;
+    background-color:orange;
+    line-height:50px;
+    color:#FFF;
+}
