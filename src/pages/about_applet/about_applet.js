@@ -11,10 +11,16 @@ Page({
     // 页面初始化 options为页面跳转所带来的参数
     var that = this
 
-    var num = app.globalData.version_number;
     that.setData({
-      version_number: num,
+      shop_name: app.globalData.shop_name,
+      version_number: app.globalData.version_number,
+      kefu_telephone: app.globalData.kefu_telephone,
+      kefu_qq: app.globalData.kefu_qq,
+      kefu_website: app.globalData.kefu_website,
+      kefu_gongzhonghao: app.globalData.kefu_gongzhonghao
     });
+
+    console.log("444444", that.data.shop_name)
 
   },
   callTel: function () {

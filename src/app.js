@@ -1,15 +1,5 @@
 // app.js
 App({
-  /*d: {
-    hostUrl: 'https://wxplus.paoyeba.com/index.php',
-    hostImg: 'http://img.ynjmzb.net',
-    hostVideo: 'http://zhubaotong-file.oss-cn-beijing.aliyuncs.com',
-    userId: 1,
-    appId:"",
-    appKey:"",
-    //http_server: 'https://yanyubao.tseo.cn/index.php?',
-    //ceshiUrl: '192.168.0.87/yanyubao_server/index.php',
-  },*/
   onLaunch: function () {   
     //调用API从本地缓存中获取数据
     var logs = wx.getStorageSync('logs') || []
@@ -20,7 +10,6 @@ App({
 
 
     let extConfig = wx.getExtConfigSync ? wx.getExtConfigSync() : {}
-    //console.log(extConfig)
 
     this.globalData.xiaochengxu_appid = extConfig.xiaochengxu_appid;
 
@@ -29,6 +18,29 @@ App({
     if (extConfig.force_sellerid_flag == 1) {
       this.globalData.force_sellerid = 1;
       this.globalData.default_sellerid = extConfig.force_sellerid_value;
+    }
+
+    if (extConfig.shop_name){
+      console.log("444444", extConfig.shop_name)
+      this.globalData.shop_name = extConfig.shop_name;
+    }
+    if (extConfig.version_number) {
+      this.globalData.version_number = extConfig.version_number;
+    }
+    if (extConfig.kefu_telephone) {
+      this.globalData.kefu_telephone = extConfig.kefu_telephone;
+    }
+    if (extConfig.kefu_qq) {
+      this.globalData.kefu_qq = extConfig.kefu_qq;
+    }
+    if (extConfig.kefu_qq) {
+      this.globalData.kefu_qq = extConfig.kefu_qq;
+    }
+    if (extConfig.kefu_website) {
+      this.globalData.kefu_website = extConfig.kefu_website;
+    }
+    if (extConfig.kefu_gongzhonghao) {
+      this.globalData.kefu_gongzhonghao = extConfig.kefu_gongzhonghao;
     }
 
   },
@@ -41,8 +53,8 @@ App({
     //缓存返回数据
     wx.setStorageSync("wxa_user_info", user_info_str);
 
-    console.log('111111111111111111');
-    console.log(wx.getStorageSync("wxa_user_info"));
+    //console.log('111111111111111111');
+    //console.log(wx.getStorageSync("wxa_user_info"));
   },
   get_user_info: function () {
     //缓存返回数据
@@ -372,7 +384,11 @@ App({
    force_sellerid: 1, 
 
    sellerid: '',
-   version_number: "1.2.0"
+   version_number: "1.2.0",
+   kefu_telephone:"021-31128716",
+   kefu_qq:"537086268",
+   kefu_website:"www.abot.cn",
+   kefu_gongzhonghao:"延誉宝"
   },
 
   onPullDownRefresh: function (){

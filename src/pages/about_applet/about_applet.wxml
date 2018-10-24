@@ -3,26 +3,26 @@
     <view class="logo_img">
       <image src="../../images/yyb.png"></image>
     </view>
-    <view class="code_num2">通版商城</view>
+    <view class="code_num2">{{shop_name}}</view>
     <view class="code_num">版本号:{{version_number}}</view>
   </view>
 </view>
 <view class="list">
   <view class="list_li">
-    <view class="li_title">定制开发</view>
-    <view class="li_info" bindtap="callTel">021-31128716</view>
+    <view class="li_title">客服电话</view>
+    <view class="li_info" bindtap="callTel">{{kefu_telephone}}</view>
   </view>
   <view class="list_li">
-    <view class="li_title">QQ客服</view>
-    <view class="li_info">537086268</view>
+    <view class="li_title">客服</view>
+    <view class="li_info">{{kefu_qq}}</view>
   </view>
   <view class="list_li">
-    <view class="li_title">上海延誉</view>
-    <view class="li_info">www.abot.cn</view>
+    <view class="li_title">官方网站</view>
+    <view class="li_info">{{kefu_website}}</view>
   </view>
    <view class="list_li">
     <view class="li_title">微信公众号</view>
-    <view class="li_info">延誉宝</view>
+    <view class="li_info">{{kefu_gongzhonghao}}</view>
   </view>
   <!--
   <view class="list_li" bindtap="openChat">
