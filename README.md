@@ -1,6 +1,6 @@
 # 小程序商城源代码，含完整购物车、用户中心和订单管理
 
-延誉商城小程序，商城源代码支持最新的微信小程序开放接口，包括使用open-data获取微信用户的头像和昵称信息等。
+延誉宝商城小程序，商城源代码支持最新的微信小程序开放接口，包括使用open-data获取微信用户的头像和昵称信息等。
 
 这个项目是小程序商城源码的下载，如果需要H5商城，请转到这个项目：[https://github.com/longmix/shopmallmobile](https://github.com/longmix/shopmallmobile)
 
