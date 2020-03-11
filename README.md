@@ -27,30 +27,43 @@
 
 ### 如何修改为自己的商城，并替换成自己的商品？
 
-打开项目的主目录，找到ext.json文件，修改以下内容
+打开项目的主目录，找到app.js文件，修改以下内容
 
 ```javascript
-{
-  "extEnable": true,
-  "extAppid": "wx00d1e2843c3b3f77",
-  "directCommit": false,
-  "ext": {
-    "name": "wechat",
-    "attr": {
-      "host": "open.weixin.qq.com",
-      "users": [
-        "user_1",
-        "user_2"
-      ]
-    },
-    "xiaochengxu_appid": "wx00d1e2843c3b3f77",
-    "force_sellerid_flag": 0,
-    "force_sellerid_value": "pQNNmSkaq"
+App({
+  globalData:{
+	  
+   xiaochengxu_appid: 'wx00d1e2843c3b3f77', 
+   shop_name:'又一个通版商城',
+   default_sellerid: 'pQNNmSkaq', 
+   
+   force_sellerid: 1, 
+   token:'inkqzh1493969716',
+   sellerid: '',
+   version_number: "1.2.0",
+   kefu_telephone:"021-31128716",
+   kefu_qq:"537086268",
+   kefu_website:"www.abot.cn",
+   kefu_gongzhonghao:"延誉宝",
+   
+   http_weiduke_server: 'https://cms.weiduke.com/',
+   http_server: 'https://yanyubao.tseo.cn/',
+   userInfo: {}
   },
 ```
 
-将extAppid、xiaochengxu_appid和force_sellerid_value设置为自己的即可。如何获取自己的sellerid？[在这里注册](http://www.abot.cn)，登录后即可拥有自己的sellerid。extAppid、xiaochengxu_appid是相同的，申请小程序的都可以看到。
+1、将xiaochengxu_appid换成自己小程序Appid。
 
+2、将shop_name改成自己的商城名称（小程序名称）。
+
+3、default_sellerid换成自己的延誉宝商户编号。
+
+
+如何获取自己的default_sellerid？[在这里 http://www.abot.cn 注册](http://www.abot.cn)，登录后即可拥有自己的default_sellerid。
+
+其他的配置项都是客服信息等，请根据需要替换。
+
+小程序的request合法域名请填写 *cms.weiduke.com* 和 *yanyubao.tseo.cn* ，这两个域名都支持https，不需要再申请SSL证书。如果需要定位和地图服务，还需要增加合法域名：*api.map.baidu.com*
 
 
 ## 商城管理员后台使用说明
