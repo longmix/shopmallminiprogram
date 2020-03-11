@@ -21,6 +21,10 @@ Page({
       that.data.sellerid = app.globalData.sellerid;
     }
 
+    wx.setNavigationBarTitle({
+      title: app.globalData.shop_name
+    })
+
     this.initArticleList(that.data.sellerid);
 
   },
@@ -68,7 +72,9 @@ Page({
     console.log('点击商户头条进入该详情'+e.currentTarget.dataset.id);
 
     var id = e.currentTarget.dataset.id;
-    wx.redirectTo({
+    wx.setStorageSync('browser_cache_id', id);
+    
+    wx.navigateTo({
       url: '../help_detail/help_detail?id=' + id + '&sellerid=' + that.data.sellerid
       
     })

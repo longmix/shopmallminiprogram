@@ -22,6 +22,20 @@
 .me{
   height: 100%;
 }
+.open-data{
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+
+}
+
+.flex{
+  
+  text-align:center;
+
+}
 .userinfo{
   position: relative;
   width: 750rpx;
@@ -29,18 +43,16 @@
   background: #008842;
   color: #fff;
   display: flex;
-  flex-direction: column;
   align-items: center;
 }
 .userinfo-avatar {
   display: block;
   width: 160rpx;
   height: 160rpx;
-  margin: 20rpx;
-  margin-top: 50rpx;
   border-radius: 50%;
   border:2px solid #fff;
   box-shadow: 3px 3px 10px rgba(0,0,0,0.2);
+  overflow:hidden;
 }
 
 .userinfo-nickname {
@@ -82,4 +94,29 @@ contact-button{
   position: relative;
   left:-50px;
   opacity: 0;
+}
+
+.a_1{
+  width:90%;
+  margin-left: 5%;
+  display:flex;
+  align-items:center;
+}
+
+.a_2{
+  margin-left: 50rpx;
+  font-size:28rpx;
+}
+
+.a_2 view{
+  padding: 8rpx 0;
+}
+
+.b_1{
+  display: flex;
+}
+
+
+.c_1{
+  margin-left: 126rpx;
 }

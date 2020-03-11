@@ -1,8 +1,12 @@
 <!--pages/login/login.wxml-->
+<view class="page" style='width:100%;overflow-x:hidden;'>
 <view class='box'>
- <image src='{{shop_list.icon}}'></image>
+ <image src='{{shop_list.icon}}' mode="widthFix"></image>
 </view>
  <view style='text-align:center;margin:50rpx auto;color:#666; font-size:30rpx;display:none;'>{{shop_list.name}}</view>
+
+
+<view wx:if="{{show_mobile_login == 0}}">
 <form bindsubmit="formSubmit" report-submit="true">
 <view class="section1">
   <input type="number" bindinput="phoneInput"  placeholder="请输入手机号" value="{{mobile}}" name="mobile" confirm-type="next" />
@@ -11,7 +15,7 @@
 <view class="section3">
   
   <image bindtap="click_check" src="{{img_checkcode_url}}"></image>
-  <input type="number" placeholder="请输入图片上数字"  bindinput="imgInput" confirm-type="next" />
+  <input type="number" placeholder="请输入答案"  bindinput="imgInput" confirm-type="next" />
  
 </view>
 <view class="section2">
@@ -23,7 +27,14 @@
 </view>
 </form>
 <view style='font-size:15px;color:#666;margin-left:65%;'>
-<navigator url='login_by_password' open-type='redirectTo'>
+<view bindtap='toLoginByPassword'>
 <text>账号密码登录</text>
-</navigator>
+</view>
+</view>
+
+</view><!-- end of if -->
+
+
+
+<button open-type="getPhoneNumber" plain="true" bindgetphonenumber="btn_one_click_login" class="check_btn2" style="background-color:#E64340; color:#ffffff;">使用微信手机号一键登录</button>
 </view>

@@ -1,0 +1,21 @@
+<!--pages/order/coupon_list.wxml-->
+<view class="stamp stamp03 {{item.can_use == 1? '' : 'not_use'}}" style="" wx:for="{{coupon_list}}" wx:for-item="item">
+      <view class="par" style="width:55%;">
+        <view class="b-1">{{item.name}}</view>
+        <view class="a-1">
+          <view class="sign">¥</view>
+          <view class="aa-1">{{item.price}}</view>
+        </view>
+        <view class="aaa-1">订单满{{item.price2}}元</view>
+        <!-- <input type = "hidden" name="price2" id="price2_118" value="0.00" /> -->
+      </view>
+      <view class="copy">
+        <view>副券</view>
+        <view class="b-1">
+            <view>{{item.starttime}}</view> 
+            <view>{{item.endtime}}</view>
+        </view>
+      <button class="employ" bindtap='toOrderQueren'  data-ucid="{{item.ucid}}" style="">立即使用</button>						
+      </view>
+      <text></text>
+</view>

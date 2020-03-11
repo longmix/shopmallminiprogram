@@ -1,0 +1,27 @@
+<!--pages/welcome_page/welcome_page.wxml-->
+<view>
+<image src="http://yanyubao.tseo.cn/uploads/jianghanyinhua_wxa_welcome_index.jpg" mode="widthFix" style="width:100%"></image>
+</view>
+<view class="list">
+    <block wx:for="{{shopList}}" wx:key="*this" data-productid="{{item.productid}}">
+        <view class="ban">
+            <navigator url="../product/detail?productid={{item.productid}}" class="cover flex-wrp">
+                <image class="banner" src="{{item.picture}}" mode="widthFix"></image>
+          <view class="act-item ellipsis">
+              <text class="type">{{item.name}}</text>
+            </view>
+              <view class="act-item ellipsis" >
+                <text class="kkk">{{item.seller_name}}</text>
+            </view>
+            <view class="act-item ellipsis" >
+                <text style="color:red">¥ {{item.price}}</text>
+            </view>
+              <view class="act-item ellipsis" >
+                <text style="color:#999999;font-size:25rpx">已有{{item.sale_volume}}人购买</text>
+            </view>
+            </navigator>
+        </view> 
+        
+    </block>
+
+</view>

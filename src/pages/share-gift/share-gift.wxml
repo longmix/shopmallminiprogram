@@ -1,0 +1,31 @@
+<!--pages/share-gift/share-gift.wxml-->
+
+<view style="background-color:{{share_gift_activity_bg_color ? share_gift_activity_bg_color : '#ffffff'}};height:{{windowHeight}}px;">
+  <view class="wxacode" style="background:{{wxa_shop_nav_bg_color}}">
+          <view class='flex'>
+            <image class="wxacode-avatar " mode="widthFix" src="{{wxacode_url}}" background-size="cover"></image>       
+          </view>      
+  </view>
+  <view class='event-img'>
+    <image src="{{share_gift_activity_img}}" mode="widthFix"></image>
+  </view>
+  <view style='margin:32rpx;margin-top:30rpx;margin-bottom:150rpx;padding-bottom:80rpx;'>
+
+   
+    <view class='wenzhang_detail'>
+        <import src="../../wxParse/wxParse.wxml"/> 
+        <view class="wxParse"> 
+            <scroll-view  scroll-y='true'>
+              <template is="wxParse" data='{{wxParseData:content.nodes}}'/>
+            </scroll-view>
+        </view>
+        <!-- <view class="article_bottom">
+            <view style="color:#bfbfbf;">阅读 {{wz_text.click}}</view>
+            <view bindtap='doArticleDianzan'><image style="width:30rpx;height:30rpx;margin-right:15rpx"  src="../../images/{{isDianzan ? 'dianzan_red.png' : 'dianzan_grey.png'}}"></image><text style="color:{{isDianzan ? '#d81e06' : '#bfbfbf'}};font-size:30rpx">{{dianzanNum}}</text>
+            </view>
+        </view>  -->
+    </view>
+  </view>
+
+  <button  class="share-button" open-type="share" style="color:{{share_gift_activity_btn_font_color?share_gift_activity_btn_font_color:'#fff'}};background-color:{{share_gift_activity_btn_bg_color ? share_gift_activity_btn_bg_color : '#f00'}}">{{share_gift_activity_btn_font ? share_gift_activity_btn_font : '分享有礼'}}</button>
+</view>

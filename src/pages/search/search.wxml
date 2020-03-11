@@ -6,11 +6,11 @@
 <view class="cont" wx:if="{{hotKeyShow}}">
     <text class="font_14">热门搜索</text>
     <view class="w100">
-        <button wx:for="{{hotKeyList}}" bindtap="doKeySearch" data-key="{{item.keyword}}">{{item.keyword}}</button>
+        <button wx:for="{{hotKeyList}}" bindtap="doKeySearch" data-key="{{item}}">{{item}}</button>
     </view>
     <text class="font_14 mt10">历史搜索</text>
     <view class="w100">
-        <button wx:for="{{historyKeyList}}" bindtap="doKeySearch" data-key="{{item.keyword}}">{{item.keyword}}</button>
+        <button wx:for="{{historyKeyList}}" bindtap="doKeySearch" data-key="{{item}}">{{item}}</button>
     </view>
 </view>
 <view class="search_no" wx:if="{{!!searchValue && !productData.length}}">
@@ -19,10 +19,10 @@
 </view>
 <view class="shop" wx:for="{{productData}}"> 
     <navigator url="../product/detail?productId={{item.id}}" hover-class="changestyle">      
-        <image class="sh_slt" src="{{item.photo_x}}"></image>
+        <image class="sh_slt" src="{{item.picture}}"></image>
         <view class="sp_text">
             <view class="sp_tit ovh1">{{item.name}}</view>
-            <view class="sp_jg">￥ {{item.price_yh}}</view>
+            <view class="sp_jg">￥ {{item.price}}</view>
         </view>
     </navigator>
 </view>

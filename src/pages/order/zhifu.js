@@ -3,7 +3,7 @@ var userInfo = app.get_user_info();
 var util = require('../../utils/util.js');
 Page({
   data: {
-    time:'2016-09-01',
+    date:'2016-09-01',
     zz_pay:true,
     payView:true,
     pageBackgroundColor:''
@@ -12,14 +12,19 @@ Page({
     app.getColor();
   },
   onLoad: function (options) {
-    var time = util.formatTime(new Date());
+    console.log('options', options)
+    var date = util.formatTime(new Date());
+    var time = util.formatTime2(new Date());
     // 再通过setData更改Page()里面的data，动态更新页面的数据
     this.setData({
+      date: date,
       time: time
     });
     showView: (options.showView == "true" ? true : false)
     this.setData({
-      orderId: options.orderId
+      orderId: options.orderId,
+      balance_zengsong_dikou: options.balance_zengsong_dikou,
+      balance_dikou: options.balance_dikou,
     });
     this.loadOrderDetail();
     var that = this;
@@ -27,7 +32,8 @@ Page({
       url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=payment_type_list',
       method: 'post',
       data: {
-        sellerid: app.get_sellerid()
+        sellerid: app.get_sellerid(),
+        appid: app.globalData.xiaochengxu_appid
       },
       header: {
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -37,9 +43,24 @@ Page({
         var code = res.data.code;
         if (code == 1) {
           var type_list = res.data.data;
-          console.log(type_list);
+
+
+          var show_weixin_pay = 0;
+          var show_zhuanzhang_pay = 0;
+          for(var i=0; i<type_list.length; i++){
+            if (type_list[i].payment_type == 3){
+              show_weixin_pay = 1;
+            }
+
+            if (type_list[i].payment_type == 6) {
+              show_zhuanzhang_pay = 1;
+            }
+          }
+ 
           that.setData({
             type_list: type_list,
+            show_weixin_pay: show_weixin_pay,
+            show_zhuanzhang_pay: show_zhuanzhang_pay
           });
         } else {
           wx.showToast({
@@ -131,8 +152,21 @@ Page({
         if (code == 1) {
           var orderData = res.data.orderinfo;
           console.log(orderData);
+
+          var pay_price = orderData.order_total_price;
+
+          if(that.data.balance_zengsong_dikou){
+            pay_price = pay_price - that.data.balance_zengsong_dikou;
+          }
+
+          if (that.data.balance_dikou) {
+            pay_price = pay_price - that.data.balance_dikou;
+          }
+
+
           that.setData({
             orderData: orderData,
+            pay_price: util.sprintf("%6.2f", pay_price),
           });
         } else {
           wx.showToast({
@@ -159,6 +193,14 @@ Page({
   },
   bindDateChange: function (e) {
     var that = this;
+    that.data.date = e.detail.value;
+    console.log(e);
+    that.setData({
+      date: e.detail.value
+    })
+  },
+  bindTimeChange: function (e) {
+    var that = this;
     that.data.time = e.detail.value;
     console.log(e);
     that.setData({
@@ -174,6 +216,14 @@ Page({
     })
   },
   dateInput:function(){
+    var that = this;
+    var time = e.detail.value;
+    console.log(e);
+    that.setData({
+      date: date
+    })
+  },
+  timeInput: function () {
     var that = this;
     var time = e.detail.value;
     console.log(e);
@@ -213,11 +263,11 @@ Page({
         userid: userInfo.userid,
         checkstr: userInfo.checkstr,
         sellerid: app.get_sellerid(),
-        money: that.data.orderData.price,
-        yue_amount: true,
-        zengkuan_amount: 0.00,
+        money: that.data.pay_price,
+        yue_amount: that.data.balance_dikou,
+        zengkuan_amount: that.data.balance_zengsong_dikou,
         offlinepayid: that.data.payList.offlinepayid,
-        time:that.data.time,
+        time: that.data.date + ' ' + that.data.time,
         huikuan_pingtai: that.data.adds.huikuan_pingtai,
         name: that.data.adds.name,
         body: "商城支付订单",
@@ -291,7 +341,19 @@ Page({
         console.log('order_buy order_buy order_buy', res);
 
         if (res.data.code == 1) {
+          if (res.data.wxpay_params.errcode == 1) {
+            wx.showToast({
+              title: "网络错误!",
+              duration: 2000,
+              icon: 'none',
+            });
+            return;
+          }
+
           var payment_parameter_str = res.data.wxpay_params.parameters;
+
+
+          
 
           var payment_parameter = JSON.parse(payment_parameter_str);
           

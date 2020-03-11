@@ -11,13 +11,21 @@ Page({
     app.getColor();
   },
   onLoad:function(options){
+    
     this.setData({
       orderId: options.orderId,
+      balance_zengsong_dikou: options.balance_zengsong_dikou,
+      balance_dikou: options.balance_dikou
     })
     this.loadProductDetail();
   },
   loadProductDetail:function(){
+    var app = getApp();
+    // pages/order/detail.js
+    var userInfo = app.get_user_info();
     var that = this;
+    console.log('userid', userInfo.userid);
+    console.log('userstr', userInfo.checkstr);
     wx.request({
       url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=order_xiangqing',
       method: 'post',

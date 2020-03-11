@@ -39,6 +39,7 @@ Page({
 
 
   btn_user_login: function (userinfo) {
+    console.log('dfsdfsdfsdfsd',userinfo);
     console.log('getUserInfo button click, and get following msg');
     console.log(userinfo);
     if (!this.data.account) {
@@ -69,10 +70,13 @@ Page({
     if (userinfo.detail.errMsg == 'getUserInfo:ok') {
 
       //wx.request({}) // 将用户信息、匿名识别符发送给服务器，调用成功时执行 callback(null, res)
-      var that = this
+      var that = this;
+
+      console.log('wx.login <<<==== btn_user_login <<<==== login_by_password');
+
       wx.login({
         success: function (res) {
-          console.log('wx.login return message');
+          console.log(' btn_user_login wx.login return message');
           console.log(res);
           console.log(res.code);
           that.data.js_code = res.code;
@@ -91,7 +95,15 @@ Page({
     app.getColor();
   },
   onLoad: function (options) {
+    // console.log('dddddddd888', app.get_sellerid());
     var that = this;
+
+    if (options.fromPage) {
+      that.setData({
+        fromPage: options.fromPage
+      })
+    }
+
     wx.getStorage({
       key: 'shop_list',
       success: function (res) {
@@ -186,6 +198,7 @@ Page({
     })
     var that = this;
     //console.log(code+'hehe');
+    console.log('dddddddd', app.get_sellerid());
     wx.request({
       url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=login_by_password',
       header: {
@@ -199,6 +212,7 @@ Page({
         password: that.data.password,
         verifycode: that.data.verifycode,
         sellerid: app.get_sellerid(),
+        parentid: app.get_current_parentid(),
 
         formId: that.data.formId,
 
@@ -209,20 +223,28 @@ Page({
       success: function (request_res) {
         console.log(4444444444444444444);
         console.log(request_res);
+
         var data = request_res.data;
         //var res = JSON.parse(data);
         //console.log(res);
         console.log(request_res.data);
-        if (request_res.data.code == 1) {
+        if (request_res.data && (request_res.data.code == 1)) {
           console.log("update_mobile : check_button : ");
           console.log('登录成功返回userid:' + request_res.data.userid);
+
           app.globalData.sellerid = app.get_sellerid();
           app.globalData.userInfo.user_openid = request_res.data.openid;
           app.globalData.userInfo.userid = request_res.data.userid;
           app.globalData.userInfo.checkstr = request_res.data.checkstr;
+
+          //保存openid
+          app.set_current_openid(request_res.data.openid);
+          
           console.log('更新缓存的用户信息:');
           console.log(app.globalData.userInfo);
+          
           app.set_user_info(app.globalData.userInfo);
+          
           wx.showModal({
             title: '提示',
             content: request_res.data.msg,
@@ -230,6 +252,11 @@ Page({
             success: function (res) {
               //console.log("回调结果"+res.code);
               if (res.confirm) {
+                if (that.data.fromPage == 'share-detail') {
+                  wx.navigateBack({
+                    delta: 1
+                  })
+                }
                 wx.switchTab({
                   url: '/pages/user/user'
                 })
@@ -244,7 +271,14 @@ Page({
             icon: 'fail',
             duration: 2000
           });
-          that.click_check();
+
+          app.globalData.tokenstr = request_res.data.tokenstr;
+
+          that.setData({
+            img_checkcode_url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=getverifycodeimg' + '&tokenstr=' + request_res.data.tokenstr
+          });
+
+          //that.click_check();
         }
 
         console.log("延誉宝服务器解析jscode并返回以下内容：");
@@ -356,86 +390,20 @@ Page({
     // 页面关闭
   },
 
-  btn_one_click_login: function (e) {
-    var that = this;
-    // console.log(e.detail.errMsg)
-    // console.log(e.detail.iv)
-    // console.log(e.detail.encryptedData)
 
-    wx.login({
-      success: function (res) {
-        console.log("获取到的jscode是:" + res.code);
-
-        //如果拒绝授权， e.detail.errMsg
-        //console.log(e.detail.errMsg);return;
-
-        wx.request({
-          url: app.globalData.http_server + '?g=Yanyubao&m=Xiaochengxu&a=wxa_one_click_login',
-          header: {
-            "Content-Type": "application/x-www-form-urlencoded"
-          },
-          method: "POST",
-          dataType: 'json',
-          data: {
-            js_code: res.code,
-            xiaochengxu_appid: app.globalData.xiaochengxu_appid,
-            iv: e.detail.iv,
-            encryptedData: e.detail.encryptedData,
-
-            //uwid: app.globalData.userInfo.uwid,
-            //checkstr: app.globalData.userInfo.checkstr,
-            // userid: app.globalData.userInfo.userid
-          },
-          success: function (res) {
-            console.log(res);
-
-            if (res.data.code == 1) {
-              //更新checkstr和uwid，
-              app.globalData.userInfo.userid = res.data.userid;
-              //app.globalData.userInfo.checkstr = res.data.checkstr;
-
-              console.log('一键登录成功，userid:' + res.data.userid);
-
-              app.globalData.sellerid = app.get_sellerid();
-              app.globalData.userInfo.user_openid = res.data.openid;
-              app.globalData.userInfo.userid = res.data.userid;
-              app.globalData.userInfo.checkstr = res.data.checkstr;
-
-              console.log(app.globalData.userInfo);
-
-              app.set_user_info(app.globalData.userInfo);
-
-              //跳转到指定页面
-              //var last_url = app.get_last_url();
-              //console.log(last_url);
-
-              var last_url = '../index/index';
-
-              wx.switchTab({
-                url: last_url
-              });
-            }
-            else {
-              //一键登录返回错误代码
-              wx.showToast({
-                title: res.data.msg,
-                icon: 'fail',
-                duration: 2000
-              });
-
-            }
-          }
-        });
-
-      },
-      fail: function (login_res) {
-        console.log('login.js  wx.login失败。');
-      }
-
-    });
-
-
+  //跳转到短信登录页面
+  toLogin: function () {
+    var that = this
+    var url = 'login'
+    if (that.data.fromPage) {
+      url += '?fromPage=' + that.data.fromPage
+    }
+    wx.navigateTo({
+      url: url,
+    })
   }
+
+  
 
 
 })

@@ -1,0 +1,61 @@
+<!--cms/publish/publish.wxml-->
+<!-- <view class="a-top">
+    <view>分类</view>
+    <view class="section">
+    <picker bindchange="bindPickerChangeCata" value="{{cataIndex}}" range="{{cataArr}}">
+      <view class="picker" style='color:#6798E9'>
+        {{cataArr[cataIndex]}}
+      </view>
+    </picker>
+  </view>
+</view> -->
+<view class="a-con-textarea">
+  <textarea bindinput='inputContent' class="a-textarea" value='{{ideaText}}'  placeholder="素材文案" />
+</view>
+
+<view style='padding:20rpx;display:flex;flex-wrap:wrap;'>
+  <view class='camera-a' bindtap='' wx:for="{{imgList}}">
+        <image style="width:190rpx;height:190rpx;" src="{{item}}"></image>
+  </view>
+  <view class='camera-a' bindtap='chooseImg' wx:if="{{publishtype=='image'}}">
+      <image src="../../images/camera.png"></image>
+      <view>上传图片</view>
+  </view>
+
+  <view class='camera-a' bindtap='' wx:if="{{video}}">
+        <video style="width:190rpx;height:190rpx" src="{{video}}"></video>
+  </view>
+  <view class='camera-a' bindtap='chooseVideo' wx:if="{{publishtype=='video'}}">
+      <image src="../../images/camera.png"></image>
+      <view>上传视频</view>
+  </view>
+</view>
+
+<view>
+  <view class='pub-btn-con'>
+    <view class='pub-btn' bindtap='publishIdea'>立即发布</view>
+    <checkbox-group bindchange="checkBox" class="" wx:if="{{faquan_xieyi_status=='1'}}">
+      <label class='pub-xieyi'>
+        <checkbox value="{{checked}}"  checked="{{checked}}"/>完成立即发布表示同意 <view bindtap='readAgreement' style='float:right'>《发布许可协议》</view> 
+      </label>
+    </checkbox-group >
+  </view>
+</view>
+
+<view class="wx-popup" hidden="{{flag}}">
+  <view class='popup-container'>
+    <view class="wx-popup-title">发布许可协议</view>
+    <view class="wx-popup-subtitle">{{faquan_xieyi_title}}</view>
+    <view class="wx-popup-con">
+      
+    <scroll-view scroll-y class="a-1" scroll-left="{{scrollLeft}}" bindscrolltolower="lower" style="height: 600rpx;">     
+     {{faquan_xieyi_content}}      
+    </scroll-view>  
+
+
+    </view>
+    <view class="wx-popup-btn">
+      <text class="btn-ok" bindtap='selectAgree'>同意协议</text>
+    </view>
+  </view>
+</view>

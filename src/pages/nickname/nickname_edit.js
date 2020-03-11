@@ -8,6 +8,11 @@ Page({
   },
   onLoad:function(options){
     var that = this
+
+    if(!userInfo){
+      userInfo = app.get_user_info();
+    }
+
     app.check_user_login();
     
     // 页面初始化 options为页面跳转所带来的参数
@@ -16,7 +21,7 @@ Page({
       success: function (res) {
         console.log(res.data);
          that.setData({
-           nickname: res.data.nickname,
+           nickname: res.data.fenxiao_info.nickname,
  
           });
       }
@@ -33,18 +38,20 @@ Page({
   },
   keep_button:function(){
     var that = this;
+    console.log('that.data.nickname', that.data.nickname);
+    console.log('that.data.name', that.data.name);
     if(that.data.name==that.data.nickname){
       wx.showToast({
         title: '保存成功',
         icon: 'success',
         duration: 2000
       });
-      wx.redirectTo({
-        url: '../userinfo/userinfo'
-      })
+      // wx.redirectTo({
+      //   url: '../userinfo/userinfo'
+      // })
       return;
     }
-  console.log(1111);
+  console.log(1111555555);
     wx.request({
       url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=user_info_save',
       header: {  
@@ -58,7 +65,7 @@ Page({
          sellerid: app.get_sellerid()
       },    
       success:function(res){
-        console.log(res);
+        console.log('success',res);
         if(res.data.code == 1){
           wx.showToast({
               title: res.data.msg,
@@ -79,7 +86,11 @@ Page({
           })
         }
       
+      },
+      fail:function(res){
+        console.log('failfail',res)
       }
+
     });
 
   },

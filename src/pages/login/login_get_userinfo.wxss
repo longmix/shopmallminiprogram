@@ -1,0 +1,133 @@
+/* pages/update_mobile/update_mobile.wxss */
+page{
+    background-color:#F0F0F0;
+    font-size:28rpx;
+}
+
+.box {
+  width:100%;
+  text-align: center;
+  margin: 20rpx;
+}
+.box image{
+  width:180rpx;
+  height:180rpx;
+}
+
+.from-list{
+    width:100%;
+   
+}
+
+.section1{
+width:90%;
+height:96rpx;
+line-height:48px;
+background-color:#fff;
+margin:40rpx auto 0;
+border-bottom:1px solid #ECECEC;
+border:1px solid #17A8E2;
+border-radius:21px;
+
+}
+.section1 input{
+    width:80%;
+    height:80rpx;
+    padding:3px 20px;
+}
+.section2{
+    width:90%;
+    height:96rpx;
+    background-color:#fff;
+    margin:40rpx auto 0;
+    position:relative;
+    border:1px solid #17A8E2;
+    border-radius:21px;
+}
+.section2 input{
+    width:50%;
+    height:80rpx;
+    padding:3px 20px;
+    margin:0 0 0;
+}
+.send_btn{
+    width:240rpx;
+    height:80rpx;
+    line-height:80rpx;
+    position:absolute;
+    top:8rpx;
+    left:60%;
+    font-size:28rpx;
+}
+.section3{
+    width:90%;
+    height:96rpx;
+    background-color:#fff;
+    margin:40rpx auto 0;
+    position:relative;
+    border:1px solid #17A8E2;
+    border-radius:21px;
+}
+.section3 image{
+    width:30%;
+    height:68rpx;
+    line-height:60rpx;
+    padding-top:13rpx;
+    margin-left:-9rpx;
+
+    
+}
+.section3 input{
+    width:55%;
+    height:80rpx;
+    margin:3px 20px;
+    float:left;
+}
+
+.check_btn2{
+    margin:50px auto;
+    width:80%;
+    height:40px;
+    background-color:#07C160;
+    line-height:40px;
+    color:#FFF;
+    border:1px solid #fff;
+}
+
+.userinfo-avatar {
+  display:block;
+width:126rpx;
+height:126rpx;
+border-radius:50%;
+border:1px solid #fff;
+box-shadow:3px 3px 10px rgba(0,0,0,0.2);
+overflow:hidden;
+
+}
+.userinfo-userNickName{
+  color: #666;
+  text-align:center;
+}
+
+.shouquan-con{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 17%;
+  margin-top: 100rpx;
+}
+
+.open-con{
+  display:flex;
+  flex-direction:column;
+  align-content:center;
+}
+.shouquan-a{
+  width: 60rpx;
+}
+
+.shouquan-b{
+  width:126rpx;
+height:126rpx;
+
+}

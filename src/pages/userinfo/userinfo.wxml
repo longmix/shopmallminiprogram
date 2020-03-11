@@ -11,7 +11,7 @@
                 <view class="weui_cell_bd">
                     <view class="weui_cell_bd_p"> 昵称 </view>
                 </view>
-                <view class="badge">{{userListInfo.nickname}}</view>
+                <view class="badge">{{userListInfo.fenxiao_info.nickname}}</view>
                 <view class="with_arrow"></view>
             </view>
         </navigator>

@@ -500,3 +500,59 @@ swiper{
 .wxParse-img{
   display: flex;
 }
+.specs{
+  padding-left: 5%;
+  font-size:28rpx;
+}
+
+.specs-a{
+  padding:2% 5% 0 5%;
+  
+  margin-top:20rpx;
+}
+
+.specs-b{
+  font-size:28rpx;
+  border-top:2px solid rgb(204, 204, 204);
+  padding-top:14rpx;
+
+}
+
+.specs-c{
+  display: flex;
+  padding:3% 5% 0 5%;
+  flex-wrap:wrap;
+}
+.specs-c view{
+  font-size:28rpx;
+  padding:4rpx 10rpx;
+  margin-left: 10rpx;
+  border-radius: 8rpx;
+}
+
+.specs-d{
+  border:1px solid #e5e5e5;
+  color:#444;
+  margin-right: 20rpx;
+  font-size:28rpx;
+  padding:6rpx 14rpx;
+  border-radius:5px;
+}
+
+.specs-e{
+  border:1px solid #dd2727;
+  background-color:#dd2727; 
+  color:#fff;
+  margin-right: 20rpx;
+  font-size:28rpx;
+  padding:6rpx 14rpx;
+  border-radius:5px;
+}
+.gmx{
+  text-align: left;
+  width: 50%; 
+  font-size: 22rpx;
+  margin-right:10rpx; 
+  text-decoration:line-through;
+  color: #999
+}

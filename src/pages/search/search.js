@@ -6,7 +6,7 @@ Page({
     hotKeyShow:true,
     historyKeyShow:true,
     searchValue:'',
-    page:0,
+    page:1,
     productData:[],
     historyKeyList:[],
     hotKeyList:[]
@@ -16,40 +16,69 @@ Page({
   },
   onLoad:function(options){
     var that = this;
+    var historyKeyList = wx.getStorageSync('historyKeyList_cache');
+    if (historyKeyList){
+        that.setData({
+          historyKeyList: historyKeyList,
+      })
+    }
+    console.log('56565', that.data.historyKeyList)
+    
     wx.request({
-      url: app.d.ceshiUrl + '/Api/Search/index',
-      method:'post',
-      data: {uid:app.d.userId},
+      url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppH5&a=get_shop_option',
+      method: 'post',
+      data: {
+        sellerid: app.get_sellerid(),
+        keyword: that.data.searchValue,
+        sort: 1,
+        page: that.data.page,
+      },
       header: {
-        'Content-Type':  'application/x-www-form-urlencoded'
+        'Content-Type': 'application/x-www-form-urlencoded'
       },
       success: function (res) {
-        var remen = res.data.remen;
-        var history = res.data.history;
-
+        console.log('sssss',res)
+        var hotKeyList = res.data.hot_keywords
         that.setData({
-          historyKeyList:history,
-          hotKeyList:remen,
-        });
+          hotKeyList: hotKeyList,
+        })
       },
-      fail:function(e){
+      fail: function (e) {
         wx.showToast({
           title: '网络异常！',
           duration: 2000
         });
       },
-    })
+    });
+
+
   },
   onReachBottom:function(){
       //下拉加载更多多...
       this.setData({
-        page:(this.data.page+10)
+        page:(this.data.page+1)
       })
       
       this.searchProductData();
   },
+
+//删除指定元素
+  remove:function (e) {  
+    var index = this.data.historyKeyList.indexOf(e);
+    if (index > -1) {
+      this.data.historyKeyList.splice(index, 1);
+    }
+  },
+
+
   doKeySearch:function(e){
     var key = e.currentTarget.dataset.key;
+
+    var historyKeyList = this.data.historyKeyList;
+    this.remove(key);
+    historyKeyList.unshift(key);
+    wx.setStorageSync('historyKeyList_cache', historyKeyList)
+    
     this.setData({
       searchValue: key,
        hotKeyShow:false,
@@ -61,6 +90,13 @@ Page({
   },
   doSearch:function(){
     var searchKey = this.data.searchValue;
+
+    var historyKeyList = this.data.historyKeyList;
+    this.remove(searchKey);
+    historyKeyList.unshift(searchKey);
+    wx.setStorageSync('historyKeyList_cache', historyKeyList)
+    console.log('dddddd', searchKey);
+
     if (!searchKey) {
         this.setData({
             focus: true,
@@ -119,18 +155,19 @@ Page({
   searchProductData:function(){
     var that = this;
     wx.request({
-      url: app.d.ceshiUrl + '/Api/Search/searches',
+      url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=product_list',
       method:'post',
       data: {
-        keyword:that.data.searchValue,
-        uid: app.d.userId,
-        page:that.data.page,
+        sellerid: app.get_sellerid(), 
+        keyword:that.data.searchValue, 
+        sort: 1,
+        page: that.data.page,
       },
       header: {
         'Content-Type':  'application/x-www-form-urlencoded'
       },
       success: function (res) {   
-        var data = res.data.pro;
+        var data = res.data.product_list;
         that.setData({
           productData:that.data.productData.concat(data),
         });

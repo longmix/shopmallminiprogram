@@ -1,4 +1,5 @@
 // pages/address/user-address/user-address.js
+
 var app = getApp();
 var userInfo = app.get_user_info();
 Page({
@@ -17,6 +18,13 @@ Page({
     app.getColor();
   },
   onLoad: function (options) {
+    var userInfo = app.get_user_info();
+    if ((!userInfo) || (!userInfo.userid)) {
+      wx.redirectTo({
+        url: '/pages/login/login',
+      })
+      return;
+    };
     var that = this;
     // 页面初始化 options为页面跳转所带来的参数
     var cartId = options.cartId;
@@ -60,14 +68,30 @@ Page({
         wx.hideLoading();
         // success
         var code = res.data.code
-        var address = res.data.addressList;
+        
+        var address = [];
+
         if (code == 1) {
+          var address = res.data.addressList;
+        }
+
+        that.setData({
+          address: address          
+        })
+
+        if (cartId) {
           that.setData({
-            address: address,
-            cartId:cartId,
+            cartId: cartId
+          })
+        }
+
+        if (buynum) {
+          that.setData({
             buynum: buynum
           })
         }
+
+
       },
       fail: function () {
         // fail
@@ -85,6 +109,7 @@ Page({
   },
   select_address_to_order:function(e){
     console.log('aaaaaaaaaaaaaaaaaaaaa', this.data.is_from_order_page);
+    
     if (!this.data.is_from_order_page){
       return;
     }
@@ -118,8 +143,7 @@ Page({
         var amount = that.data.amount;
         var productid = that.data.productid;
         var action = that.data.action;
-        console.log(action)
-        console.log(15987987987979879)
+
         if(cartId == 321){
           if (code == 1) {
             if (action == 'direct_buy') {
@@ -165,7 +189,7 @@ Page({
   },
   saveAddress:function (e) {
     var addressId = e.currentTarget.dataset.id;
-    wx.navigateTo({
+    wx.redirectTo({
       url: '../address?action=edit&addressId=' + addressId,
     });
   },
@@ -235,12 +259,15 @@ Page({
       success: function (res) {
         // success
         var address = res.data.addressList;
-        if (address == '') {
-          var address = []
+        if (!address) {
+          address = []
         }
+
         that.setData({
           address: address,
         })
+
+        
       },
       fail: function () {
         // fail

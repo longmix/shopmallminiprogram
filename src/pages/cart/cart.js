@@ -67,7 +67,9 @@ bindMinus: function(e) {
     });
 },
 onShow: function () {
-  //this.onLoad();
+  console.log('onshow',userInfo);
+  
+  this.onLoad();
   this.loadProductData();
   this.sum();
   
@@ -164,6 +166,13 @@ bindSelectAll: function() {
  },
 
 bindCheckout: function() {
+  var userInfo = app.get_user_info();
+  if ((!userInfo) || (!userInfo.userid)) {
+    wx.navigateTo({
+      url: '/pages/login/login',
+    })
+    return;
+  };
    // 初始化toastStr字符串
      var toastStr = '';
    // 遍历取出已勾选的cid
@@ -231,10 +240,15 @@ onLoad:function(options){
    // var that = this;
     //this.loadProductData();
   app.getColor();
+  if(!userInfo){
+    userInfo = app.get_user_info();
+  }
     
 },
 removeShopCard:function(e){
     var that = this;
+    var index = parseInt(e.currentTarget.dataset.index);
+    var num = that.data.carts[index].amount;
     var productid = e.currentTarget.dataset.cartid;
     wx.showModal({
       title: '提示',
@@ -257,7 +271,12 @@ removeShopCard:function(e){
             var data = res.data;
             if(data.code == 1){
               //that.data.productData.length =0;
-              that.loadProductData();
+              // that.loadProductData();
+
+              // 购物车数据
+              var carts = that.data.carts;
+              carts.splice(index,1);
+              that.sum();
             }else{
               wx.showToast({
                 title: '操作失败！',
@@ -306,6 +325,7 @@ removeShopCard:function(e){
             carts: '',
           });
         }
+        
         //endInitData
       },
     });

@@ -15,7 +15,7 @@
       <view>
   <view class="title">{{detail.name}}</view>
   <view class="gmxx">
-    <view><span class="jiage">¥：{{detail.price}}</span>
+    <view><span class="jiage">¥{{detail.price}} {{detail.product_take_score}}</span><view class="gmx" wx:if="{{detail.product_take_score}}">¥ {{detail.price2}}</view>
        <view class="share_box" >
         <view class="share_hide">
             <image src="/images/fenxiang.png" ></image>
@@ -28,11 +28,24 @@
 
   </view>
   </view>
+  <view class="specs" wx:if="{{attr_list}}">商品选项</view>
+  <!-- 规格开始 -->
+  <view class="specs-a" style='display:flex;'>
+    <view  class="{{option_list_arr[0] == item ? 'specs-e' : 'specs-d'}}" wx:for="{{attr_key_arr}}" wx:for-index="index" data-spec1="{{item}}" bindtap='changeSpec1'>
+      {{item}}        
+    </view>
+  </view>
+  <view class="specs-a"  style="display:flex;" wx:if="attr_list_arr[spec1] != null">
+      <view  class="{{option_list_arr[1] == item2 ? 'specs-e' : 'specs-d'}}" wx:for="{{attr_list_arr[spec1]}}" wx:for-index="index" data-spec2="{{item2}}" wx:for-item="item2" bindtap="changeSpec2">
+          {{item2}}      
+      </view>
+  </view>
+  <!-- 规格结束 -->
 </view>
 <view class="block_ladder">
  <view class="drpt_0" style="display:{{jietijiage==1?'block':'none'}};">
     <view class="yhmc">阶梯价格</view>
-    <view class="drpt_1" wx:for="{{youhui_data}}">
+    <view class="drpt_1" wx:for="{{youhui_data}}" wx:key="{{index}}">
       <view class="yh_1">{{item.min}}件-{{item.max}}件 {{item.price/100}}元</view>
     </view>
  </view>   

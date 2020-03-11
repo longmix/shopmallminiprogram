@@ -39,6 +39,19 @@ Page({
       url: '../help_detail/help_detail?action=detail&id=yinsishengming'
     });
   },
+  clearStorage:function(){
+    wx.removeStorage({
+      key: 'option_list_str',
+      success(res) {
+        wx.showToast({
+          title: '清除缓存成功',
+        })
+      }
+    })
+    
+       
+    
+  },
   onReady:function(){
     // 页面渲染完成
   },

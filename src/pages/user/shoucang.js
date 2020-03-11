@@ -7,6 +7,12 @@ Page({
     favoriteList:[],
   },
   onLoad:function(options){
+    if ((!userInfo) || (!userInfo.userid)) {
+      wx.navigateTo({
+        url: '/pages/login/login',
+      })
+      return;
+    };
     this.loadProductData();
   },
   onShow:function(){

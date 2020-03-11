@@ -1,4 +1,6 @@
 
+
+
 <!--地址管理-->
 <radio-group class="radio-group">
 <view hidden="{{hiddenAddress}}" class="address" wx:for="{{address}}">
@@ -30,7 +32,7 @@
   </view>
 </view>
 </radio-group>
-<navigator url="../address?cartId={{cartId}}&action=add">
+<navigator url="../address?cartId={{cartId}}&action=add" open-type="redirect">
   <view hidden="{{hiddenAddress}}" class="add-address">
     <view class="btn_max">新增地址</view>
   </view>

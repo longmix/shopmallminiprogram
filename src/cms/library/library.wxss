@@ -1,0 +1,107 @@
+/* cms/library/library.wxss */
+.c-1{
+  padding: 16rpx 5%;
+  margin-bottom: 36rpx;
+}
+.c-1 input{
+  border-radius:100rpx;
+  border:1px solid #ccc;
+  font-size:28rpx;
+  height: 70rpx;
+  padding:6rpx 10rpx 0rpx 60rpx;
+}
+
+.c-1 image{
+  position: relative;
+  width:30rpx;
+  height:30rpx;
+  left:18rpx;
+  top:70rpx;
+}
+
+
+.tab-item1{
+  margin:0 67rpx;
+  display:inline-block;
+  font-size:31rpx;
+  color:#5AB1AB;
+}
+.tab-item{margin:0 36rpx;display: inline-block;font-size: 28rpx;}
+/* .tab-item.active{color: #4675F9;position: relative;}
+.tab-item.active:after{ content: "";display: block;height: 8rpx;width: 52rpx;background: #4675F9;position: absolute; bottom: 0;left: 5rpx;border-radius: 16rpx;} */
+.item-ans{ width: 100%;display: flex; flex-grow: row no-wrap;justify-content: space-between; padding: 30rpx;box-sizing: border-box; height: 180rpx;align-items: center;border-bottom: 1px solid #F2F2F2;}
+.avatar{width: 100rpx;height: 100rpx;position: relative;padding-right: 30rpx;}
+.avatar .img{width: 100%;height: 100%;}
+.avatar .doyen{width: 40rpx;height: 40rpx;position: absolute;bottom: -2px;right: 20rpx;}
+.expertInfo{font-size: 12px;flex-grow: 2;color: #B0B0B0;line-height: 1.5em;}
+.expertInfo .name{font-size: 16px;color:#000;margin-bottom: 6px;}
+.askBtn{ width: 120rpx;height: 60rpx;line-height: 60rpx;text-align: center;font-size: 14px; border-radius: 60rpx;border: 1px solid #4675F9; color:#4675F9;}
+.tab-content{margin-top: 80rpx;}
+.scoll-h{height: 100%;}
+
+.tab-h1{
+    height: 84rpx;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    line-height: 80rpx;
+    background: #fff; 
+    font-size: 16px;
+    white-space: nowrap;
+}
+
+
+.tab-h2{
+    height: 80rpx;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    line-height: 80rpx;
+    background: #eee; 
+    font-size: 16px;
+    white-space: nowrap;
+}
+
+
+
+.a-2{
+  float:left;
+  width:30%;
+  text-align:center;
+  margin-left:2.5%;
+  font-size:22rpx;
+  margin-top:50rpx;
+  height:250rpx;
+}
+
+.a-2 image{
+  width:140rpx;
+  height:140rpx;
+}
+
+.a-3{
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.active{
+  font-size:28rpx;
+  color:#4675F9;
+  border-bottom-color:#4675F9;
+  border-bottom-style:1px solid;
+  border-bottom-width:0px;
+  border:1px solid;
+  border-top:0px;
+  border-left:0px;
+  border-right:0px;
+}
+
+.active2{
+  font-size:28rpx;
+  color:#4675F9;
+}

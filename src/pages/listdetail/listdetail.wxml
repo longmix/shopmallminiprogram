@@ -1,3 +1,18 @@
+<view class="search df">
+    <input class="df_1" placeholder="请输入你有搜索的内容" confirm-type="search"  focus="{{focus}}" value="{{searchValue}}" bindinput="searchValueInput" bindconfirm="doSearch"/>
+    <button bindtap="doSearch"><image class="searchcion" src="/images/search.png"></image></button>
+</view>
+<view class="cont" wx:if="{{hotKeyShow}}">
+    <text class="font_14">热门搜索</text>
+    <view class="w100">
+        <button wx:for="{{hotKeyList}}" bindtap="doKeySearch" data-key="{{item}}">{{item}}</button>
+    </view>
+    <text class="font_14">历史搜索</text>
+    <view class="w100">
+        <button wx:for="{{historyKeyList}}" bindtap="doKeySearch" data-key="{{item}}">{{item}}</button>
+    </view>
+</view>
+
 <view class="list">
     <block wx:for="{{shopList}}" wx:key="*this" data-productid="{{item.productid}}">
         <view class="ban">
@@ -10,7 +25,7 @@
                 <text class="kkk">{{item.seller_name}}</text>
             </view>
             <view class="act-item ellipsis" >
-                <text style="color:red">¥ {{item.price}}</text>
+                <text style="color:red">¥ {{item.price}} {{item.product_take_score}}</text>
             </view>
               <view class="act-item ellipsis" >
                 <text style="color:#999999;font-size:25rpx">已有{{item.sale_volume}}人购买</text>
@@ -20,7 +35,7 @@
         <view class="commodity_screen" bindtap="hideModal" wx:if="{{showModalStatus}}">fsaffffff</view>
 <view animation="{{animationData}}" class="commodity_attr_box" wx:if="{{showModalStatus}}"></view> 
     </block>
-<view class="clear mt10" bindtap="getMore">点击查看更多</view>    
+<view class="clear mt10" bindtap="searchProductData" wx:if="{{is_more}}">点击查看更多</view>    
 </view>
 
 

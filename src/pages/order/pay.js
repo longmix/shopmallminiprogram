@@ -1,6 +1,8 @@
 var app = getApp();
 // pages/order/downline.js
 var userInfo = app.get_user_info();
+var util = require('../../utils/util.js');
+
 Page({
   data:{
     itemData:{},
@@ -20,10 +22,17 @@ Page({
     orderId:{},
     productid:[],
     amount:'',
-    cartId:'321'
+    cartId:'321',
+    balance_zengsong_dikou: 0,
+    balance_dikou: 0,
+    wxa_order_queren_hide_address:0
   },
   onShow: function () {
     app.getColor();
+
+
+    
+
   },
   /**
    * 
@@ -40,18 +49,60 @@ Page({
    * 
    */
   onLoad:function(options){
-    console.log("sssss");
-    console.log(options);
-    console.log("sssss");
+    //console.log(options)
+
+
     
+
+    if (options.ucid) {
+      this.setData({
+        ucid: options.ucid
+      })
+    }
+
+    if (options.productid) {
+      wx.setStorageSync("cache_options", JSON.stringify(options));
+    } else {
+      options = JSON.parse(wx.getStorageSync("cache_options"));
+    }
+
+    var last_url = null;    
+    if (options.productid) {
+      last_url = '/pages/product/detail?productid=' + options.productid;
+    }
+    app.goto_user_login(last_url, 'normal');
+
+    
+
+
+    var option_list_str = JSON.parse(wx.getStorageSync("option_list_str"));
+
+    if (options.cuxiao_type){
+      this.setData({
+        cuxiao_type: options.cuxiao_type,
+      });
+    }
+    if (options.price_type){
+      this.setData({
+        price_type: options.price_type,
+      });
+    }
+    if (options.jiantuanid){
+      this.setData({
+        jiantuanid: options.jiantuanid,
+      });
+    }
+    
+    console.log('options==',options);
+    console.log('options.productid==', options.proudctid);
+
     this.setData({
       productid: options.productid,
 
-      cuxiao_type: options.cuxiao_type,
+      
 
       //如果cuxiao_type == duorenpintuan 
-      jiantuanid:options.jiantuanid,
-      price_type: options.price_type,
+     
 
       //如果cuxiao_type == sharekanjia
       
@@ -61,7 +112,15 @@ Page({
       amount: options.amount
     });
 
+    if (option_list_str && option_list_str.wxa_order_queren_hide_address){
+      this.setData({
+        wxa_order_queren_hide_address: option_list_str.wxa_order_queren_hide_address,
+      });
+    }
+
     this.loadProductDetail();
+    wxa_order_queren_hide_addressuserList   
+
 
   },
   loadProductDetail:function(){
@@ -77,9 +136,17 @@ Page({
         checkstr: userInfo.checkstr,
         action: 'direct_buy',
         amount: that.data.amount,
-        cuxiao_type: that.data.cuxiao_type,                                            
-        sellerid: app.get_sellerid()
+        //cuxiao_type: that.data.cuxiao_type,                                            
+        sellerid: app.get_sellerid(),
       };
+
+      if (that.data.cuxiao_type){
+        data_params.cuxiao_type = that.data.cuxiao_type;
+      }
+
+      if (that.data.ucid){
+        data_params.ucid = that.data.ucid
+      }
 
       if (that.data.cuxiao_type == 'duorenpintuan'){
         data_params.jiantuanid = that.data.jiantuanid;
@@ -104,6 +171,7 @@ Page({
           wx.hideLoading();
           var code = res.data.code;
           if (code == 1) {
+            console.log('ceshiceshi',res.data.llll)
             var order_detail = res.data.address;
             console.log(order_detail);
             that.setData({
@@ -111,9 +179,19 @@ Page({
               productData: res.data.orderlist,
               all_price: res.data.all_price,
               traffic_price: res.data.traffic_price,
+              all_product_take_score: res.data.all_product_take_score,
               pay_price: res.data.pay_price,
+              pay_price_origin: res.data.pay_price,
+              balance: res.data.balance,
+              balance_zengsong: res.data.balance_zengsong,
               addemt: 0
             });
+
+            if (res.data.user_coupon_item){
+              that.setData({
+                user_coupon_item: res.data.user_coupon_item
+              })
+            }
           } else {
             wx.showToast({
               title: res.data.msg,
@@ -133,16 +211,23 @@ Page({
       console.log(22222222);
       console.log(22222222);
       console.log(that.data.productid+'ssssssss');
+
+      var data_params = {
+        // productid: that.data.productId,
+        productid: that.data.productid,
+        userid: userInfo.userid,
+        checkstr: userInfo.checkstr,
+        sellerid: app.get_sellerid(),
+      }
+
+      if(that.data.ucid){
+        data_params.ucid = that.data.ucid
+      }
+
           wx.request({
             url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=order_queren',
             method: 'post',
-            data: {
-             // productid: that.data.productId,
-              productid: that.data.productid,
-              userid: userInfo.userid,
-              checkstr: userInfo.checkstr,
-              sellerid: app.get_sellerid()
-            },
+            data: data_params,
             header: {
               'Content-Type': 'application/x-www-form-urlencoded'
             },
@@ -162,6 +247,11 @@ Page({
                     pay_price: res.data.pay_price,
                     addemt: 0
                   });
+                if (res.data.user_coupon_item) {
+                  that.setData({
+                    user_coupon_item: res.data.user_coupon_item
+                  })
+                }
               } else {
                 wx.showToast({
                   title: res.data.msg,
@@ -275,6 +365,9 @@ Page({
 
 
   createOrder:function(){
+    this.setData({
+     btnDisabled:true,
+   })
     var that = this;
     var userInfo = app.get_user_info();
     console.log(that.data.pay_price);
@@ -288,8 +381,15 @@ Page({
       traffic_price: that.data.traffic_price,
       pay_price: that.data.pay_price,
       sellerid: app.get_sellerid(),
+      all_product_take_score: that.data.all_product_take_score,
       payment: 3
     };
+
+
+    if(that.data.ucid){
+      data_orderAdd.ucid = that.data.user_coupon_item.ucid;
+      data_orderAdd.coupon_price = that.data.user_coupon_item.price;
+    }
 
     if (that.data.cuxiao_type == 'duorenpintuan') {
       data_orderAdd.cuxiao_type = 'duorenpintuan';
@@ -324,21 +424,37 @@ Page({
             //var share_kanjia_page = 'https://yanyubao.tseo.cn/'
             var share_kanjia_page = app.globalData.http_server + '?g=Home&m=ShareKanjia&a=share_detail&productid=' + that.data.productid + '&userid=' + userInfo.userid;
 
-            wx.navigateTo({
+            wx.redirectTo({
               url: '../h5browser/h5browser?url=' + encodeURIComponent(share_kanjia_page),
             });
           }
           else{
 
-            wx.navigateTo({
-              url: '../order/zhifu?orderId=' + that.data.orderid,
+            wx.redirectTo({
+              url: '../order/zhifu?orderId=' + that.data.orderid + '&balance_zengsong_dikou=' + that.data.balance_zengsong_dikou + '&balance_dikou=' + that.data.balance_dikou,
             })
           }
           
 
+        } else if (data.code == 2) {
 
+          wx.showModal({
+            title: '提示',
+            content: res.data.msg,
+            success(res) {
+              if (res.confirm) {
+                console.log('用户点击确定')
+              } else if (res.cancel) {
+                console.log('用户点击取消')
+              }
+            }
+          })
 
-
+          // wx.showToast({
+          //   title: res.data.msg,
+          //   icon: 'none',
+          //   duration: 2500
+          // });
         } else {
           wx.showToast({
             title: "下单失败!",
@@ -408,7 +524,7 @@ Page({
                 });
 
                 setTimeout(function(){
-                  wx.navigateTo({
+                  wx.redirectTo({
                     url: '../user/dingdan?currentTab=1&otype=deliver',
                   });
                 },2500);
@@ -437,5 +553,174 @@ Page({
         }
       })
   },
+
+
+
+  toCouponList:function(){
+    wx.redirectTo({
+      url: '/pages/order/coupon_list?productid=' + this.data.productid,
+    })
+  },
+
+  
+  //钱包抵扣
+  switch1Change: function (e, type = null, value = null, that = null) {
+    console.log('eeeeee', e, type, value)
+
+    if (type == null && value == null) {
+      var type = e.currentTarget.dataset.type
+      var value = e.detail.value
+      var that = this;
+    }
+
+    var pay_price = that.data.pay_price;
+    var pay_price_origin = that.data.pay_price_origin;   
+    var balance_zengsong = that.data.balance_zengsong;
+    var balance = that.data.balance;
+    var balance_zengsong_dikou = that.data.balance_zengsong_dikou;
+    var balance_dikou = that.data.balance_dikou;
+
+
+
+    if (type == 1) {
+      if (value) {
+        if (parseFloat(balance_zengsong) < parseFloat(pay_price_origin)) {
+
+          if (that.data.balance_dikou) {
+
+            that.switch1Change(null, 2, false, that)
+            pay_price = that.data.pay_price;
+            balance_zengsong = that.data.balance_zengsong;
+            balance = that.data.balance;
+            balance_zengsong_dikou = that.data.balance_zengsong_dikou;
+            balance_dikou = that.data.balance_dikou;
+
+
+            that.setData({
+              balance_zengsong:  0,
+              pay_price: util.sprintf("%6.2f", parseFloat(pay_price) - parseFloat(balance_zengsong)),
+              balance_zengsong_dikou: util.sprintf("%6.2f", parseFloat(balance_zengsong)),
+              isSwitch2: false,
+            })
+          } else {
+            that.setData({
+              balance_zengsong: 0,
+              pay_price: util.sprintf("%6.2f", parseFloat(pay_price) - parseFloat(balance_zengsong)),
+              balance_zengsong_dikou: util.sprintf("%6.2f", parseFloat(balance_zengsong))
+            })
+          }
+
+
+
+        } else {
+
+          if (that.data.balance_dikou) {
+
+            that.switch1Change(null, 2, false, that)
+            pay_price = that.data.pay_price;
+            balance_zengsong = that.data.balance_zengsong;
+            balance = that.data.balance;
+            balance_zengsong_dikou = that.data.balance_zengsong_dikou;
+            balance_dikou = that.data.balance_dikou;
+          }
+
+          that.setData({
+            balance_zengsong: util.sprintf("%6.2f", parseFloat(balance_zengsong) - parseFloat(pay_price)),
+            pay_price: 0,
+            balance_zengsong_dikou: util.sprintf("%6.2f", parseFloat(pay_price)),
+            isSwitch2: false,
+          })
+
+        }
+      } else {
+
+        that.setData({
+          balance_zengsong: util.sprintf("%6.2f", parseFloat(balance_zengsong) + parseFloat(balance_zengsong_dikou)),
+          pay_price: util.sprintf("%6.2f", parseFloat(pay_price) + parseFloat(balance_zengsong_dikou)),
+          balance_dikou: 0,
+          balance_zengsong_dikou: 0,
+        })
+      }
+
+    } else if (type == 2) {
+      if (value) {
+        if (parseFloat(balance) < parseFloat(pay_price_origin)) {
+
+          if (that.data.balance_zengsong_dikou) {
+
+            that.switch1Change(null, 1, false, that)
+            pay_price = that.data.pay_price;
+            balance_zengsong = that.data.balance_zengsong;
+            balance = that.data.balance;
+            balance_zengsong_dikou = that.data.balance_zengsong_dikou;
+            balance_dikou = that.data.balance_dikou;
+
+
+            that.setData({
+              balance: 0,
+              pay_price: util.sprintf("%6.2f", parseFloat(pay_price) - parseFloat(balance)),
+              balance_dikou: util.sprintf("%6.2f", parseFloat(balance)),
+              isSwitch1: false,
+            })
+          } else {
+            that.setData({
+              balance: 0,
+              pay_price: util.sprintf("%6.2f", parseFloat(pay_price) - parseFloat(balance)),
+              balance_dikou: util.sprintf("%6.2f", parseFloat(balance))
+            })
+          }
+
+
+
+        } else {
+
+          if (that.data.balance_zengsong_dikou) {
+
+            that.switch1Change(null, 1, false, that)
+            pay_price = that.data.pay_price;
+            balance_zengsong = that.data.balance_zengsong;
+            balance = that.data.balance;
+            balance_zengsong_dikou = that.data.balance_zengsong_dikou;
+            balance_dikou = that.data.balance_dikou;
+          }
+          that.setData({
+            balance: util.sprintf("%6.2f", parseFloat(balance) - parseFloat(pay_price)),
+            pay_price: 0,
+            balance_dikou: util.sprintf("%6.2f", parseFloat(pay_price)),
+            isSwitch1: false,
+          })
+
+        }
+      } else {
+
+        that.setData({
+          balance: util.sprintf("%6.2f", parseFloat(balance) + parseFloat(balance_dikou)),
+          pay_price: util.sprintf("%6.2f", parseFloat(pay_price) + parseFloat(balance_dikou)),
+          balance_zengsong_dikou: 0,
+          balance_dikou: 0,
+        })
+      }
+
+    }
+  },
+
+
+
+  // switch2Change:function(){
+  //   var pay_price = that.data.pay_price;
+  //   var pay_price_origin = that.data.pay_price_origin;
+  //   var balance_zengsong = that.data.balance_zengsong;
+  //   var balance = that.data.balance;
+  //   var balance_zengsong_dikou = that.data.balance_zengsong_dikou;
+  //   var balance_dikou = that.data.balance_dikou;
+
+  //   if(type == 1){
+  //     if()
+  //     if (parseFloat(balance_zengsong) < parseFloat(pay_price_origin)) {
+
+  //     }
+  //   }
+    
+  // }
 
 });

@@ -1,37 +1,60 @@
 <!--pay.wxml-->
+<view wx:if="{{wxa_order_queren_hide_address != 1}}" style="border-bottom:1px dashed #e5e5e5;">
+    <view class="p_all bg_white mt10 font_14" wx:if="{{addemt==0}}">
+          <navigator open-type='redirect' url="../address/user-address/user-address?cartId=321&amount={{amount}}&productid={{productid}}&action={{action}}" hover-class="none">
+          <view class="df">
+            <view class="df_1 c6">
+            <view style='display:flex;'>
+                <view class="l_h20" style="font-size:40rpx;margin-right:56rpx;">{{order_detail.name}}</view>
+                <view class="l_h20 " style="font-size:40rpx;">{{order_detail.mobile}}</view>
+            </view>
+            <view class="l_h20 mt5" style="font-size:22rpx;margin-top:22rpx;">{{order_detail.province_name}}{{order_detail.city_name}}{{order_detail.district_name}}
+            {{order_detail.address}}</view>
+            </view>
+            <image class="x_right mt15" src="/images/x_right.png"></image>			
+          </view>
+          </navigator>
+        </view>
+        <view class="p_all bg_white mt10 font_14" wx:else>
+          <navigator url="../address/user-address/user-address?cartId={{cartId}}" hover-class="none">
+          <view class="df">
+            添加收货地址		
+          </view>
+          </navigator>
+        </view>
+    </view>
+
 		<view class="p_all bg_white df item"  wx:for="{{productData}}" wx:key="key">
-			<view class="cp_photo">			
-				<image src="{{item.picture}}"></image>
-			</view>
-			<view class="df_1">	
-				<view class="font_14 mt5 ovh1">
-	            {{item.name}}
-		        </view>
-			<text class="gm_ovh_1h red pt10">¥{{item.price}}</text>
-			<text class="gm_ovh_1h pt10">数量：{{item.amount}}</text>
-			</view>
-		</view>		
+        <view class="photo_name">
+          <view class="cp_photo">			
+            <image src="{{item.picture}}"></image>
+          </view>
+          <view class="df_1">	
+            <view class="font_14 mt5">
+                  {{item.name}} {{item.option_name}}
+            </view>	
+          </view>
+        </view>	  
+          <view>
+              <view class="danji_shulian">
+                  <text class="gm_ovh_1h pt10">单价</text>
+                  <text class="gm_ovh_1h pt10">¥{{item.price}}</text>
+              </view>
+              <view class="danji_shulian">
+                  <text class="gm_ovh_1h pt10">数量</text>	
+                  <text class="gm_ovh_1h pt10">{{item.amount}}</text>	
+              </view> 
+              
+              <view class="danji_shulian" wx:if="{{item.product_take_score}}">
+                  <text class="gm_ovh_1h pt10">积分变动</text>	
+                  <text class="gm_ovh_1h pt10">{{item.product_take_score}}</text>	
+              </view>     
+                    
+          </view>
+        
+    </view>
 <view class="w100">
-		<view class="p_all bg_white mt10 font_14" wx:if="{{addemt==0}}">
-		   <navigator url="../address/user-address/user-address?cartId=321&amount={{amount}}&productid={{productid}}&action={{action}}" hover-class="none">
-			<view class="df">
-				<view class="df_1 c6">
-				<view class="l_h20">收货人：{{order_detail.name}}</view>
-        <view class="l_h20 mt5">手机号：{{order_detail.mobile}}</view>
-				<view class="l_h20 mt5">地址：{{order_detail.province_name}}{{order_detail.city_name}}{{order_detail.district_name}}
-        {{order_detail.address}}</view>
-				</view>
-				<image class="x_right mt15" src="/images/x_right.png"></image>			
-			</view>
-			</navigator>
-		</view>
-		<view class="p_all bg_white mt10 font_14" wx:else>
-		   <navigator url="../address/user-address/user-address?cartId={{cartId}}" hover-class="none">
-			<view class="df">
-				添加收货地址		
-			</view>
-			</navigator>
-		</view>
+		<!-- <text class="gm_ovh_1h red pt10">邮费：¥{{traffic_price}}</text> -->
 			
 <view class="xuan" wx:if="{{vou!=''}}" >
 	<view class="hui">可使用优惠券：</view>
@@ -46,13 +69,63 @@
  </label>
 </radio-group>
 
-
 </view>
+
+
+
+<view class="a-dikou" bindtap='toCouponList'>
+    <view class="b-dikou">
+      <view class='c2-dikou'>优惠券</view>
+      
+    </view> 
+    <view class="d-coupon">
+      <view class="">{{user_coupon_item.name}}</view>
+      <image class="x_right mt15" src="/images/x_right.png"></image>	
+    </view>
+  </view>
+
+
+<view class="a-dikou">
+    <view class="b-dikou">
+      <view>赠款抵扣</view>
+      <view class="c-dikou">剩余 ￥{{balance_zengsong}}</view>
+    </view>  
+    <switch class='d-dikou'  checked="{{isSwitch1}}" bindchange="switch1Change"  data-type="1"/>
+  </view>
+
+
+<view class="a-dikou">
+    <view class="b-dikou">
+      <view>余额抵扣</view>
+      <view class="c-dikou">剩余 ￥{{balance}}</view>
+    </view>  
+    <switch class='d-dikou' checked="{{isSwitch2}}" bindchange="switch1Change" data-type="2" />
+  </view>
+
+	
+
+<view class='p_all' style="padding-bottom:0;">
+    <view class="heji_con">
+        <text class="gm_ovh_1h pt10">合计</text>
+        <text class="gm_ovh_1h pt10">¥{{all_price}}</text>
+    </view>
+    <view class="heji_con">
+        <text class="gm_ovh_1h pt10">运费</text>	
+        <text class="gm_ovh_1h pt10">¥{{traffic_price}}</text>	
+    </view> 
+    <view class="heji_con">
+        <text class="gm_ovh_1h red pt10">实付</text>	
+        <text class="gm_ovh_1h red pt10">¥{{pay_price}}</text>	
+    </view> 
+          
+          
+</view>
+    <text style="font-size:28rpx;padding-left:3%;">备注</text>
 		<view class="p_all bg_white mt10 font_14">
-			<textarea class="min_60" auto-height name="remark" placeholder="备注" bindinput="remarkInput" value="{{remark}}" rows="3"/> 
+			<textarea class="min_60" auto-height name="remark" placeholder="如有备注请填写" bindinput="remarkInput" value="{{remark}}" rows="3"/> 
 		</view>	
 
-	<view class="zhifu mt10 tc">应共支付：<span class="font_20 red">¥ {{pay_price}}</span></view>
+	<!-- <view class="zhifu mt10 tc">应共支付：<span class="font_20 red">¥ {{pay_price}}</span></view> -->
 	<!-- <navigator url="##" hover-class="none" class="zhifu mt10">支付宝<image class="x_right" src="/images/x_right.png"></image></navigator> -->
 	<!-- <navigator url="##" hover-class="none" class="zhifu">银联支付<image class="x_right" src="/images/x_right.png"></image></navigator> -->
 	<!-- <navigator url="../order/downline" hover-class="none" class="zhifu">线下支付<image class="x_right" src="/images/x_right.png"></image></navigator>

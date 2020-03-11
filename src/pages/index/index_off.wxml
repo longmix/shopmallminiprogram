@@ -1,0 +1,20 @@
+<!--pages/index/index_off.wxml-->
+
+<view class="a-con">
+  <view class="a-1">
+    <image mode="widthFix" src='http://yanyubao.tseo.cn/Tpl/static/images/location.png'></image>
+  </view>
+  <view class="b-1">{{option_list.wxa_shop_operation_off_reason}}</view>
+  
+  <view wx:if="{{option_list.wxa_show_kefu_button==1}}">
+  <block wx:if="{{option_list.wxa_kefu_button_type==1}}">
+    <button class="c-1" bindtap="call_seller">联系客服</button>
+  </block>
+  <block wx:elif="{{option_list.wxa_kefu_button_type==2}}">
+    <button class="c-1" bindtap="goToOtherPage">联系客服</button>
+  </block>
+  <block wx:elif="{{option_list.wxa_kefu_button_type==3}}">
+    <button class="c-1" openType="contact">联系客服</button>
+  </block>
+</view>
+</view>

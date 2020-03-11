@@ -34,23 +34,25 @@
     </view>
   </view>
   -->
-  <view class="list_li" bindtap="useHelp">
+  <!-- <view class="list_li" bindtap="useHelp">
     <view class="li_title">使用帮助</view>
     <view class="li_info">
-       <view class="jiantou"><image src="../../images/icon-arrowdown.png"></image>
-        </view> 
+       <view class="jiantou"><image src="../../images/icon-arrowdown.png"></image></view> 
     </view>
   </view>
   <view class="list_li" bindtap="shenMing">
     <view class="li_title">隐私声明</view>
     <view class="li_info">
-
-        <view class="jiantou"><image src="../../images/icon-arrowdown.png"></image>
-        </view> 
-    
-    </view>
-    
+        <view class="jiantou"><image src="../../images/icon-arrowdown.png"></image></view>    
+    </view>    
+  </view> -->
+  <view class="list_li" bindtap="clearStorage">
+    <view class="li_title">清空缓存</view>
+    <view class="li_info">
+        <view class="jiantou"><image src="../../images/icon-arrowdown.png"></image></view>    
+    </view>    
   </view>
+
 </view>
 
 <view class="logo_box">
