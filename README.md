@@ -74,8 +74,15 @@ App({
 
 其他的配置项都是客服信息等，请根据需要替换。
 
+```
 小程序的request合法域名请填写 *cms.weiduke.com* 和 *yanyubao.tseo.cn* ，这两个域名都支持https，不需要再申请SSL证书。如果需要定位和地图服务，还需要增加合法域名：*api.map.baidu.com*
+```
 
+#### 源代码目录结构
+
+如下图，主要的功能代码在pages这个目录下。
+
+![image](https://raw.githubusercontent.com/longmix/shopmallminiprogram/master/doc/shopmall_wxa_source_code_dir_list.png)
 
 ## 商城管理员后台使用说明
 
@@ -93,6 +100,12 @@ App({
 
 ![image](https://raw.githubusercontent.com/longmix/shopmallminiprogram/master/doc/shop_mall_mini_program_01.jpg)
 ![image](https://raw.githubusercontent.com/longmix/shopmallminiprogram/master/doc/shop_mall_mini_program_02.jpg)
+
+## 模板选项和控制后台
+
+开发过程中，尽可能保留服务器端推送的控制选项，这样可以在小程序发布后通过SaaS云控制台灵活调整小程序的内容。控制台截图如下：
+
+![image](https://raw.githubusercontent.com/longmix/shopmallminiprogram/master/doc/shopmall_controller.png)
 
 
 
