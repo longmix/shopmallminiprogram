@@ -21,6 +21,11 @@
 ![image](https://raw.githubusercontent.com/longmix/shopmallminiprogram/master/doc/gh_ef882fb581e9_258.jpg)
 
 
+### 更多制作案例：
+
+![image](https://raw.githubusercontent.com/longmix/shopmallminiprogram/master/doc/qrcode_to_more_use_cases_form_shopmall_mini_program.png)
+
+
 ### 如何安装商城系统？
 
 将src目录下的内容在小程序开发工具中运行即可，要实现一键部署安装，不需要下载源代码，直接在延誉宝网站注册账号，然后进入“CMS控制台”，绑定小程序后一键部署即可。
@@ -71,6 +76,10 @@ App({
 如何设置自己的店铺？快速获取管理员后台的使用说明，访问：[http://www.abot.cn/1053.html](http://www.abot.cn/1053.html)
 
 ## 二次开发帮助文档
+
+在小程序的开发环境直接运行项目，通过调试器的网络控制台，可以随时查看即时的API请求接口和对应的参数。
+
+如果现有代码提供的API接口请求不能满足项目开发需求，还可以参考以下API文档：
 
 [http://www.abot.cn/yanyubao-api-shop](http://www.abot.cn/yanyubao-api-shop)
 
