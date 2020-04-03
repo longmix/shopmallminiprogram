@@ -28,6 +28,7 @@ Page({
     }, 2000)
     
 
+<<<<<<< HEAD
   },
   // 页面初始化 options为页面跳转所带来的参数
   onLoad: function (options) {
@@ -45,13 +46,26 @@ Page({
 
 
     
+=======
+    app.getColor();
+  },
+  // 页面初始化 options为页面跳转所带来的参数
+  onLoad: function (options) {
+    userInfo = app.get_user_info();
+    var that = this
+    var current_openid = app.get_current_openid();
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
     that.setData({
       wz_id:options.id,
       theme_color_wenku:app.getColor()
     })
+<<<<<<< HEAD
 
     console.log('colr=====', app.getColor())
     
+=======
+    console.log('colr=====', app.getColor())
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
     if (!current_openid){
       wx.showLoading({
         title: '正在加载....',
@@ -164,6 +178,7 @@ Page({
 
     //this.initArticle(options.aid)
   },
+<<<<<<< HEAD
 
 
   callback_set_option: function (that, cb_params) {
@@ -184,6 +199,8 @@ Page({
 
 
 
+=======
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
   __get_img_from_weiduke: function (imgid, that){
     //=====更新商户头条=================
     //var url = app.globalData.http_weiduke_server + '?g=Home&m=Yanyubao&a=yingxiao';//+ app.globalData.sellerid;
@@ -197,9 +214,15 @@ Page({
       id: imgid,
       openid: app.get_current_openid()
     };
+<<<<<<< HEAD
 
 
 
+=======
+
+
+
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
     var cbSuccess = function (res) {
       if (res.data.code == 1) {
         //更新首页的商户头条
@@ -212,10 +235,13 @@ Page({
           wz_title: res.data.data.title
         });
 
+<<<<<<< HEAD
         wx.setNavigationBarTitle({
           title: res.data.data.title
         })
 
+=======
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
         var is_col = that.data.wz_text.is_col;
         if (is_col == 1) {
           var isShoucang = !that.data.isShoucang;
@@ -477,6 +503,7 @@ Page({
         success: function () {
 
           wx.setStorageSync('last_url', '/cms/publish/publish?publishtype=' + that.data.publishtype);
+<<<<<<< HEAD
 
           wx.navigateTo({
             url: '/pages/login/login',
@@ -523,6 +550,54 @@ Page({
 
 
 
+=======
+
+          wx.navigateTo({
+            url: '/pages/login/login',
+          })
+        }
+      })
+    }
+
+    var that = this;
+    wx.request({
+      url: app.globalData.http_weiduke_server + 'index.php/openapi/ArticleImgApi/remark_img',
+      method: 'post',
+      data: {
+        token: app.get_current_weiduke_token,
+        openid: app.get_current_openid(),
+        action: 'del',
+        imgid: that.data.wz_id,
+        id: e.currentTarget.dataset.id
+      },
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      success: function (res) {
+        var data = res.data;
+        if (data.code == 1) {
+          wx.setStorageSync('comment_num_' + that.data.wz_id, that.data.comment_num_all-1)
+          that.get_remark_list();
+          wx.showToast({
+            title: res.data.msg,
+            duration: 2000
+          })
+        }
+      },
+      fail: function (res) {
+        wx.showToast({
+          title: '删除失败',
+          duration: 2000
+        })
+
+      }
+    })
+
+  },
+
+
+
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
   //执行文章点赞或取消:
   doArticleDianzan:function(e){
     var that = this;

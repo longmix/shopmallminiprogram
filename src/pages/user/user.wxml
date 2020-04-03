@@ -5,11 +5,19 @@
 		  	<navigator url="../userinfo/userinfo" open-type="navigate" class='flex'>
           <image wx:if="{{nick_name && headimgurl !='../../images/cry80.jpg'}}" class="userinfo-avatar "  src="{{headimgurl}}" background-size="cover"></image>         
         </navigator>
+<<<<<<< HEAD
         <view class="a_2" style="color:{{wxa_shop_nav_font_color=='#000000' ? '#333' : 'wxa_shop_nav_font_color'}}">
           <view>{{nickname}}</view>
           <view class="b_1"> 
             <view>余额 {{data.balance}}</view>
             <navigator url="/pages/recharge/recharge" class="c_1">[充值]</navigator>
+=======
+        <view class="a_2" style="color:{{wxa_shop_nav_font_color}}">
+          <view>{{nickname}}</view>
+          <view class="b_1"> 
+            <view>余额 {{data.balance}}</view>
+            <!-- <view class="c_1">[充值]</view> -->
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
           </view>
           <view wx:if="{{wxa_show_zengkuan_in_usercenter == 1}}"> 赠款 {{data.balance_zengsong}} </view>
           <view wx:if="{{wxa_show_levelname_in_usercenter == 1}}"> {{data.fenxiao_info.level_name}} </view>
@@ -21,15 +29,23 @@
         <open-data type="userAvatarUrl" class="userinfo-avatar" ></open-data>        
       </navigator>
       <view class="a_2">
+<<<<<<< HEAD
           <open-data style="color:{{wxa_shop_nav_font_color=='#000000' ? '#333' : 'wxa_shop_nav_font_color'}}" type="userNickName"></open-data>        
+=======
+          <open-data style="color:{{wxa_shop_nav_font_color}}" type="userNickName"></open-data>        
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
       </view>
   
     </view>
 
+<<<<<<< HEAD
     <view class='head-jump'>
       <image style="{{wxa_shop_nav_font_color=='#000000' ? 'filter:drop-shadow(#666 2rpx 2rpx)' : ''}}" src="/images/usercenter_goto_home.svg" bindtap='toPageIndex'></image>
       <image style="{{wxa_shop_nav_font_color=='#000000' ? 'filter:drop-shadow(#666 2rpx 2rpx)' : ''}}" src="/images/usercenter_setting.svg" bindtap='toUserInfo'></image>
     </view>
+=======
+    
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
 
 
         <!-- <navigator  url='/pages/login/login' wx:if="{{nick_name==0}}"><text class="fl_l" style='color:#fff;font-size:32rpx;text-decoration:none;font-weigh：bold；'>未登录</text></navigator>
@@ -58,7 +74,11 @@
     </view>
     <view class="sc df tc bte ">
 
+<<<<<<< HEAD
     <view class="df_1"  hover-class="none" data-currenttab='1' data-otype='1' bindtap='myDingdan'>
+=======
+    <view class="df_1"  hover-class="none" data-currenttab='0' data-otype='1' bindtap='myDingdan'>
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
         <view><image src="/images/dfk.png"></image> </view> 
         <text class="font_12">待付款<text style="color:red">({{data.status_count1}})</text></text>
       </view>
@@ -68,22 +88,35 @@
         <text class="font_12">待发货</text>      
       </navigator> -->
 
+<<<<<<< HEAD
       <view class="df_1"  hover-class="none" data-currenttab='2' data-otype='2' bindtap='myDingdan'>
+=======
+      <view class="df_1"  hover-class="none" data-currenttab='1' data-otype='2' bindtap='myDingdan'>
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
           <view><image src="/images/dpl.png"></image></view>
           <text class="font_12">待发货<text style="color:red">({{data.status_count2}})</text></text>
       </view>
 
+<<<<<<< HEAD
     <view class="df_1"  hover-class="none" data-currenttab='3' data-otype='6' bindtap='myDingdan'>
+=======
+    <view class="df_1"  hover-class="none" data-currenttab='2' data-otype='6' bindtap='myDingdan'>
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
           <view><image src="/images/dsh.png"></image></view>
           <text  class="font_12">待收货<text style="color:red">({{data.status_count3}})</text></text>
       </view>
 
     
+<<<<<<< HEAD
     <view class="df_1"  hover-class="none" data-currenttab='4' data-otype='7' bindtap='myDingdan'>
+=======
+    <view class="df_1"  hover-class="none" data-currenttab='3' data-otype='7' bindtap='myDingdan'>
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
           <view><image src="/images/tksh.png"></image></view>
           <text class="font_12">已完成<text style="color:red">({{data.status_count4}})</text></text>
        </view>
     </view>
+<<<<<<< HEAD
 
 </block>    
 
@@ -105,27 +138,173 @@
         <image src='{{item.src}}'></image>
         <view class='icon-text'><text>{{item.name}}</text></view>
     </view>
+=======
+<!--
+<view class="qbdd mt10">
+ <navigator url="../address/user-address/user-address">
+    <span class="font_14 c3">地址管理</span>
+    <span class="fl_r c9 font_12 l_h20" hover-class="none"> ></span>
+  </navigator>
+</view>
+<view class="qbdd mt10">
+ <navigator url="../rituall/rituall">
+    <span class="font_14 c3">优惠劵</span>
+    <span class="fl_r c9 font_12 l_h20" hover-class="none"> ></span>
+ </navigator>
+</view>
+<view bindtap='myChat' class="qbdd mt110" style='height:20px;'>
+    <span class="font_14 c33">联系客服</span>
+    <span class="fl_r c9 font_12 l_h20" hover-class="none"> ></span>
+</view>
+-->
+<!-- 九宫格图标 begin -->
+
+  <!-- <view class='icon-box' wx:for='{{icon_list_usercenter}}'>
+    <view bindtap='myChat' data-id='1' class='icon-list' wx:if="{{item.toPage}}">
+    <image src='../../images/icon/xianjin.png'></image>
+    <view class='icon-text'><text>{{item.name}}</text></view>
+    <view>
+    <navigator url="../cart/cart" open-type="switchTab" wx:else>
+      <view class='icon-list'>
+      <image src='../../images/icon/gouwuche.png'></image>
+      <view class='icon-text'><text>{{item.name}}</text></view>
+      </view>
+    </navigator>
+  </view> -->
+<view class='icon-box'>
+  <view wx:for='{{icon_list_usercenter}}'>
+    <view bindtap='myChat' data-string='{{item.url}}' class='icon-list' wx:if='{{item.toPage}}'>
+        <image src='{{item.src}}'></image>
+        <view class='icon-text'><text>{{item.name}}</text></view>
+    </view>
+    <navigator data-url="{{item.url}}" bindtap='mytiaozhuan' wx:else>
+        <view class='icon-list'>
+        <image src='{{item.src}}'></image>
+        <view class='icon-text'><text>{{item.name}}</text></view>
+        </view>
+    </navigator>
+
+  </view>
+
+</view>
+
+<!-- <navigator url="../share-gift/share-detail" open-type="navigate">
+  <view class='icon-list'>
+   <image src='../../images/icon/shoucang.png'></image>
+   <view class='icon-text'><text>share_detail</text></view>
+  </view>
+ </navigator> -->
+
+<!-- <view class='icon-box'>
+  <view bindtap='myChat' data-id='1' class='icon-list'>
+   <image src='../../images/icon/xianjin.png'></image>
+   <view class='icon-text'><text>我的现金</text></view>
+  </view>
+
+  <view bindtap='myChat' data-id='2' class='icon-list'>
+   <image src='../../images/icon/zengkuan.png'></image>
+   <view class='icon-text'><text>我的赠款</text></view>
+  </view>
+
+  <view bindtap='myChat' data-id='3' class='icon-list'>
+   <image src='../../images/icon/jifen.png'></image>
+   <view class='icon-text'><text>我的积分</text></view>
+  </view>
+
+
+
+  <view bindtap='myChat' data-id='4' class='icon-list'>
+   <image src='../../images/icon/tuiguang.png'></image>
+   <view class='icon-text'><text>推广联盟</text></view>
+  </view>
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
 
   </view>
   
 
+<<<<<<< HEAD
 </view>
 
    <navigator url="../about_applet/about_applet" open-type="navigate">
+=======
+  <view bindtap='myChat' data-id='6' class='icon-list'>
+   <image src='../../images/icon/shangpin.png'></image>
+   <view class='icon-text'><text>可推广商品</text></view>
+  </view>
+
+ <navigator url="../cart/cart" open-type="switchTab">
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
   <view class='icon-list'>
    <image src='../../images/icon/xiaochengxu.png'></image>
    <view class='icon-text'><text>关于小程序</text></view>
   </view>
   </navigator>
+<<<<<<< HEAD
 
     
 
    <!-- <navigator url="/cms/toy-cabinet/mytoy-cabinet" open-type="navigate">
+=======
+ <navigator url="shoucang" open-type="navigate">
+  <view class='icon-list'>
+   <image src='../../images/icon/shoucang.png'></image>
+   <view class='icon-text'><text>我的收藏</text></view>
+  </view>
+ </navigator>
+  <view bindtap='myChat' data-id='7' class='icon-list'>
+   <image src='../../images/icon/manjian.png'></image>
+   <view class='icon-text'><text>满减优惠券</text></view>
+  </view>
+
+  <view bindtap='myChat' data-id='11' class='icon-list'>
+   <image src='../../images/icon/huiyuanquan.png'></image>
+   <view class='icon-text'><text>会员优惠券</text></view>
+  </view>
+
+  <view bindtap='myChat' data-id='8' class='icon-list'>
+   <image src='../../images/icon/zhifubao.png'></image>
+   <view class='icon-text'><text>支付宝账号</text></view>
+  </view>
+
+  <view bindtap='myChat' data-id='9' class='icon-list'>
+   <image src='../../images/icon/yinhangka.png'></image>
+   <view class='icon-text'><text>银行卡账号</text></view>
+  </view>
+
+ <navigator  url="../address/user-address/user-address" open-type="navigate">
+  <view class='icon-list'>
+   <image src='../../images/icon/dizhi.png'></image>
+   <view class='icon-text'><text>收货地址</text></view>
+  </view>
+  </navigator>
+ <navigator url="../userinfo/userinfo" open-type="navigate">
+  <view class='icon-list'>
+   <image src='../../images/icon/gerenziliao.png'></image>
+   <view class='icon-text'><text>个人资料</text></view>
+  </view>
+ </navigator>
+  <view bindtap='myChat' data-id='9' class='icon-list'>
+   <image src='../../images/icon/fapiao.png'></image>
+   <view class='icon-text'><text>发票管理</text></view>
+  </view>
+
+ <navigator url="shangchengma" open-type="navigate">
+  <view class='icon-list'>
+   <image src='../../images/icon/shangcheng.png'></image>
+   <view class='icon-text'><text>切换商城</text></view>
+  </view>
+  </navigator>-->
+   <navigator url="../about_applet/about_applet" open-type="navigate">
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
   <view class='icon-list'>
    <image src='../../images/icon/xiaochengxu.png'></image>
    <view class='icon-text'><text>我的玩具柜</text></view>
   </view>
+<<<<<<< HEAD
   </navigator> -->
+=======
+  </navigator>
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
   <!--
   <view bindtap='myChat' data-id='18' class='icon-list'>
    <image src='../../images/icon/kefu.png'></image>

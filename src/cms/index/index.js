@@ -19,6 +19,11 @@ Page({
   onLoad: function (options) {
     var that = this;
 
+<<<<<<< HEAD
+=======
+    
+
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
     wx.getSystemInfo({      
       success(res) {
         console.log(res.model)
@@ -35,10 +40,13 @@ Page({
     })
 
 
+<<<<<<< HEAD
 
     app.get_shop_info_from_server(that.loadInfo);
 
 
+=======
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
     wx.request({
       url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=get_flash_ad_list',
       method: 'post',
@@ -72,8 +80,11 @@ Page({
 
     app.set_option_list_str(this, this.callback_function);
 
+<<<<<<< HEAD
     app.set_option_list_str(null, app.getColor());
 
+=======
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
   },
 
 
@@ -90,6 +101,7 @@ Page({
       return;
     }
 
+<<<<<<< HEAD
     if (option_list.wxa_show_index_swiper) {
       that.setData({
         wxa_show_index_swiper: option_list.wxa_show_index_swiper
@@ -117,6 +129,20 @@ Page({
 
   },
 
+=======
+
+    if (option_list.wxa_show_article_detail_category && (option_list.wxa_show_article_detail_category == 1)) {
+      that.setData({
+        wxa_show_article_detail_category: option_list.wxa_show_article_detail_category
+      })
+    }
+
+
+    app.getColor();
+  },
+
+
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
   showDetail: function (e) {
     var that = this;
     console.log('点击商户头条进入该详情' + e.currentTarget.dataset.id);
@@ -212,7 +238,11 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+<<<<<<< HEAD
     
+=======
+    app.getColor();
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
     if (!userInfo) {
       userInfo = app.get_user_info();
     }

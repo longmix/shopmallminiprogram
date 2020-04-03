@@ -96,8 +96,11 @@ Page({
   },
   onLoad: function (options) {
     // console.log('dddddddd888', app.get_sellerid());
+<<<<<<< HEAD
     app.set_option_list_str(null, app.getColor());
     
+=======
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
     var that = this;
 
     if (options.fromPage) {
@@ -106,10 +109,22 @@ Page({
       })
     }
 
+<<<<<<< HEAD
     app.get_shop_info_from_server(function (shop_info_list) {
       that.setData({
         shop_list: shop_info_list,
       });
+=======
+    wx.getStorage({
+      key: 'shop_list',
+      success: function (res) {
+        console.log(res);
+        that.setData({
+          shop_list: res.data,
+        });
+        console.log(that.data.shop_list);
+      }
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
     });
 
     // 页面初始化 options为页面跳转所带来的参数

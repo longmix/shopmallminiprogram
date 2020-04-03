@@ -101,6 +101,7 @@ border-radius:21px;
     line-height:40px;
     color:#FFF;
 }
+<<<<<<< HEAD
 
 .icon-jump{
   width:87rpx;
@@ -120,3 +121,5 @@ border-radius:21px;
   width: 70rpx;
   height: 70rpx;
 }
+=======
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e

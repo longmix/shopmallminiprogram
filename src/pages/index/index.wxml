@@ -50,6 +50,7 @@
    </view>
    <!--商户头条end-->
 
+<<<<<<< HEAD
    <!-- 视频start -->
    <view wx:if="{{wxa_show_video_player==1}}" class="video-con">
       <video  poster='{{wxa_video_screen_url}}' controls="true"  src="{{wxa_video_player_url}}"  ></video>
@@ -57,6 +58,8 @@
    
     <!-- 视频end -->
    
+=======
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
    <!-- 商品搜索 -->
    <view wx:if="{{wxa_show_search_input == 1}}" class="scroll-txt" bindtap="search" data-value="">
       <icon type="search" size="14" style="margin: 0px 10rpx 0 0"></icon>
@@ -74,7 +77,10 @@
    </view>   
 </view>
 
+<<<<<<< HEAD
 <block wx:if="{{wxa_hidden_product_list != 1}}">
+=======
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
     <view class="cont">
       <navigator class="pr" url="../product/detail?productid={{item.productid}}" hover-class="changestyle"
                  wx:for="{{product_list}}" wx:key="{{index}}" open-type='navigateTo'>
@@ -98,11 +104,15 @@
       </navigator>
     </view>
     <view class="clear mt10" bindtap="getMore">点击查看更多</view>
+<<<<<<< HEAD
 
 </block>
 
   </view>
 
+=======
+  </view>
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
   <view class="u-tap-btn" wx:if="{{wxa_show_kefu_button==1}}">
   <block wx:if="{{wxa_kefu_button_type==1}}">
     <button class="u-go-home2" bindtap="call_seller" style="background-color:{{wxa_kefu_bg_color}}">

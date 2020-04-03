@@ -9,7 +9,11 @@
 <view class='title'>{{wz_text.title}}</view>
 <view style='margin:32rpx;margin-top:30rpx;margin-bottom:150rpx;padding-bottom:80rpx;'>
 
+<<<<<<< HEAD
 <view class='datetime' wx:if="{{wxa_show_article_detail_category == 1}}">
+=======
+<view class='datetime'>
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
   <view class='yuanchuang'>分类：{{wz_text.classname}}</view>
   <view class='guge'>{{app_name_chat_title}}</view>
   <view class='yuanchuang' style='margin-left:15px;'>{{wz_text.uptatetime}}</view>

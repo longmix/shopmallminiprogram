@@ -16,9 +16,12 @@ Page({
   },
   onLoad:function(options){
     var that = this;
+<<<<<<< HEAD
 
     app.set_option_list_str(null, app.getColor());
     
+=======
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
     var historyKeyList = wx.getStorageSync('historyKeyList_cache');
     if (historyKeyList){
         that.setData({

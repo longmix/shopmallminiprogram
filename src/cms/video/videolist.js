@@ -18,12 +18,18 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+<<<<<<< HEAD
     app.set_option_list_str(null, app.getColor());
 
     // wx.setNavigationBarTitle({
     //   title: '视频库'
     // })
 
+=======
+    wx.setNavigationBarTitle({
+      title: '视频库'
+    })
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
     var that = this;
     wx.request({
       url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=get_flash_ad_list',
@@ -193,7 +199,11 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+<<<<<<< HEAD
     
+=======
+    app.getColor();
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
   },
 
   /**

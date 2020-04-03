@@ -112,6 +112,7 @@ Page({
 
       return;
     }
+<<<<<<< HEAD
     else if (app.globalData.is_o2o_app == 1) {
 
   
@@ -122,13 +123,19 @@ Page({
 
       return;
     }
+=======
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
 
 
 
     //请求服务器，并根据服务器返回，做不同的页面显示
     app.set_option_list_str(this, this.callback_function);
+<<<<<<< HEAD
     
     app.set_option_list_str(null, app.getColor());
+=======
+      
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
       
     },
 
@@ -153,6 +160,12 @@ Page({
     }
 
 
+<<<<<<< HEAD
+=======
+
+    app.getColor();
+
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
     if (option_list.wxa_shop_operation_status == 0) {
       wx.reLaunch({
         url: "index_off"

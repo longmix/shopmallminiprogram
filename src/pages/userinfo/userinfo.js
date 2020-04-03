@@ -36,6 +36,7 @@ Page({
         return;
       }
 
+<<<<<<< HEAD
       if (app.globalData.is_o2o_app == 1) {
 
         wx.reLaunch({
@@ -44,6 +45,8 @@ Page({
         return;
       } 
 
+=======
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
 
       wx.clearStorageSync();
       wx.switchTab({

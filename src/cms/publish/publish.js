@@ -11,7 +11,10 @@ Page({
     imgList: [],
     flag: 1,
     checked:true,
+<<<<<<< HEAD
     disable:false,
+=======
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
   },
 
   /**
@@ -24,8 +27,11 @@ Page({
       })
     }
 
+<<<<<<< HEAD
     app.set_option_list_str(null, app.getColor());
 
+=======
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
     var that = this;
     
     userInfo = app.get_user_info();
@@ -245,12 +251,16 @@ Page({
       return;
     }
 
+<<<<<<< HEAD
   that.setData({
     disable: true,
   })
 
     var last_url = wx.getStorageSync('last_url');
     var page_type = wx.getStorageSync('page_type');
+=======
+
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
 
     wx.request({
       url: app.globalData.http_server + 'index.php/openapi/FaquanData/add_faquan_text',
@@ -276,7 +286,11 @@ Page({
           if (that.data.publishtype == "image"){
           
           that.upLoadImg(0);
+<<<<<<< HEAD
          
+=======
+          
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
         }else{
             wx.showLoading({
               title: '正在上传',
@@ -312,6 +326,7 @@ Page({
                         that.setData({
                           ideaText: '',
                         })
+<<<<<<< HEAD
                         if(last_url){
                           wx.switchTab({
                             url: last_url,
@@ -324,23 +339,35 @@ Page({
                         wx.removeStorageSync('last_url');
                         wx.removeStorageSync('page_type');
                         
+=======
+                        wx.switchTab({
+                          url: '/pages/user/user2',
+                        })
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
                       }
                     })
                   } else {
                     wx.showToast({
                       title: '上传失败',
                     })
+<<<<<<< HEAD
                     that.setData({
                       disable: true,
                     })
+=======
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
 
                   }        
               } 
             },
             fail: function (res) {
+<<<<<<< HEAD
               that.setData({
                 disable: true,
               })
+=======
+              console.log('fail');
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
 
             },
           })
@@ -369,9 +396,12 @@ Page({
 
 upLoadImg:function(i){
   console.log('i=======',i)
+<<<<<<< HEAD
   var last_url = wx.getStorageSync('last_url');
   var page_type = wx.getStorageSync('page_type');
  
+=======
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
   var that = this;
   wx.showLoading({
     title: '正在上传第' + (i+1) + '张',
@@ -410,6 +440,7 @@ upLoadImg:function(i){
                 that.setData({
                   ideaText: '',
                 })
+<<<<<<< HEAD
                 if (last_url) {
                   wx.switchTab({
                     url: last_url,
@@ -421,15 +452,23 @@ upLoadImg:function(i){
                 }
                 wx.removeStorageSync('last_url');
                 wx.removeStorageSync('page_type');
+=======
+                wx.switchTab({
+                  url: '/pages/user/user2',
+                })
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
               }
             })
           } else {
             wx.showToast({
               title: '上传失败',
             })
+<<<<<<< HEAD
             that.setData({
               disable: true,
             })
+=======
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
 
           }
         }
@@ -481,6 +520,11 @@ upLoadImg:function(i){
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+<<<<<<< HEAD
+=======
+
+    app.getColor();
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
     
     userInfo = app.get_user_info();
     

@@ -20,7 +20,11 @@ Page({
       
     // },
     onLoad: function (options) {
+<<<<<<< HEAD
       app.set_option_list_str(null, app.getColor());
+=======
+      app.getColor();
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
 
       var self = this;
       console.log(decodeURIComponent(options.scene));

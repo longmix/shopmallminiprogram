@@ -118,6 +118,7 @@ contact-button{
 
 
 .c_1{
+<<<<<<< HEAD
   margin-left: 36rpx;
 }
 
@@ -125,4 +126,7 @@ contact-button{
 .head-jump image{
   width: 60rpx;
   height: 60rpx;
+=======
+  margin-left: 126rpx;
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
 }

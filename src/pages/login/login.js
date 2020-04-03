@@ -94,6 +94,10 @@ Page({
     }
   },
   onShow: function () {
+<<<<<<< HEAD
+=======
+    app.getColor();
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
     
   },
   onLoad: function (options) {
@@ -102,6 +106,17 @@ Page({
     var that = this;
     console.log('app.globalData.option_list', app.globalData.option_list)
     var option_list = app.globalData.option_list;
+<<<<<<< HEAD
+
+    if (option_list.wxa_login_only_weixin && option_list.wxa_login_only_weixin == 1){
+      that.setData({
+        show_mobile_login: 1
+      })
+    }
+
+ 
+=======
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
 
     if (option_list.wxa_login_only_weixin && option_list.wxa_login_only_weixin == 1){
       that.setData({
@@ -111,8 +126,7 @@ Page({
 
  
 
-    //countdown(that);
-
+<<<<<<< HEAD
     if(options.fromPage){
       that.setData({
         fromPage: options.fromPage
@@ -128,6 +142,15 @@ Page({
       });
 
     })
+=======
+    //countdown(that);
+
+    if(options.fromPage){
+      that.setData({
+        fromPage: options.fromPage
+      })
+    }
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
 
     // 页面初始化 options为页面跳转所带来的参数
     wx.request({
@@ -566,6 +589,7 @@ Page({
 
     });
   },
+<<<<<<< HEAD
 
 //跳转到账号密码登录页面
   toLoginByPassword: function () {
@@ -584,6 +608,18 @@ Page({
   toPageIndex:function(e){
     wx.redirectTo({
       url: '/pages/index/Liar',
+=======
+
+//跳转到账号密码登录页面
+  toLoginByPassword: function () {
+    var that = this
+    var url = 'login_by_password'
+    if (that.data.fromPage) {
+      url += '?fromPage=' + that.data.fromPage
+    }
+    wx.navigateTo({
+      url: url,
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
     })
   }
 

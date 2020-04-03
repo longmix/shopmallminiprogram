@@ -1,3 +1,10 @@
 {
+<<<<<<< HEAD
   "navigationBarTitleText": ""
+=======
+  "backgroundTextStyle": "light",
+  "navigationBarBackgroundColor": "#008842",
+  "navigationBarTitleText": "",
+  "navigationBarTextStyle": "white"
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
 }

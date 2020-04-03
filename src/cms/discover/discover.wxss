@@ -31,7 +31,11 @@
   position: relative;
   padding: 10px 0;
   width:90%;
+<<<<<<< HEAD
   margin-left:12%;
+=======
+  margin-left:10%;
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
 }
 
 .list-item::last {
@@ -166,7 +170,11 @@
   top:70rpx;
 }
 .cancel-search{
+<<<<<<< HEAD
   position:fixed;
+=======
+  position:relative;
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
   width:80rpx;
   font-size:22rpx;
   left:650rpx;
@@ -181,6 +189,7 @@
   align-items: center;
 }
 
+<<<<<<< HEAD
 .publish-idea{
   position:fixed;
   font-size:22rpx;
@@ -200,6 +209,8 @@
   height: 50rpx;
 }
 
+=======
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
 .cancel-search view{
   height: 40rpx
 }

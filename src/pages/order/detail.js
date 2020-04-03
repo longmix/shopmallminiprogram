@@ -11,16 +11,23 @@ Page({
 
   },
   onLoad:function(options){
+<<<<<<< HEAD
 
     app.set_option_list_str(null, app.getColor());
 
 
     app.set_option_list_str(this, this.callback_set_option);
+=======
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
     
     this.setData({
       orderId: options.orderId,
       balance_zengsong_dikou: options.balance_zengsong_dikou,
+<<<<<<< HEAD
       balance_dikou: options.balance_dikou,
+=======
+      balance_dikou: options.balance_dikou
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
     })
     this.loadProductDetail();
   },

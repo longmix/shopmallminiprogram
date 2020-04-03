@@ -62,6 +62,7 @@ Page({
         })
       }
     })
+<<<<<<< HEAD
 
     wx.removeStorage({
       key: 'shop_info_from_server_str_' + app.get_sellerid(),
@@ -71,6 +72,8 @@ Page({
         })
       }
     })
+=======
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
     
        
     

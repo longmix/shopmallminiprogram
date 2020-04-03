@@ -34,17 +34,30 @@
     "pages/rituall/rituall",
     "pages/shop_store/shop_store",
     "pages/account_edit/account_edit",
+<<<<<<< HEAD
+=======
+    "pages/scan_qrcode/scan_qrcode",
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
     "pages/welcome_page/welcome_page",
     "pages/share-gift/share-gift",
     "pages/share-gift/share-detail",
     "pages/order/coupon_list",
     "pages/index/index_off",
+<<<<<<< HEAD
     "pages/user/user2",
     "pages/recharge/recharge",
+=======
+    "cms/index/index",
+    "cms/library/library",
+    "cms/discover/discover",
+    "cms/library/library_list",
+    "pages/user/user2",
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
     "cms/video/video_details",
     "cms/mydiscover/my-discover",
     "cms/mycollection/my-discover-collection",
     "cms/mycollection/my-videolist-collection",
+<<<<<<< HEAD
     "cms/index/index",
     "cms/library/library",
     "cms/discover/discover",
@@ -55,6 +68,9 @@
     "o2o/index/index",
     "o2o/address/address_list",
     "o2o/address/listdetail"
+=======
+    "cms/publish/publish"
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
   ],
   "window": {
     "backgroundTextStyle": "light",

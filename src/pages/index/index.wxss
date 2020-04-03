@@ -42,6 +42,7 @@
   letter-spacing: 3rpx;
   text-overflow: ellipsis;
 }
+<<<<<<< HEAD
 .video-con{
   text-align: center;
 }
@@ -49,6 +50,9 @@
 .video-con video{
   width: 95%;
 }
+=======
+
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
 .scroll-txt{
   text-align: center;
   margin: 10rpx 20rpx;

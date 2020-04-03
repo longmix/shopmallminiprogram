@@ -43,6 +43,12 @@ Page({
 
   // 弹窗
   setModalStatus: function (e) {
+<<<<<<< HEAD
+=======
+    console.log("11111");
+    console.log(e);
+    console.log("1111111");
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
 
     var that = this;
 
@@ -128,8 +134,11 @@ Page({
     //this.initNavHeight();
 
     var that = this;
+<<<<<<< HEAD
 
     app.set_option_list_str(null, app.getColor());
+=======
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
     
 
     if (option.price_type){
@@ -183,6 +192,11 @@ Page({
         });
       }
 
+<<<<<<< HEAD
+=======
+      app.getColor();
+
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
     }, 1000);
 
   },
@@ -1031,10 +1045,17 @@ Page({
     if(e){
       spec2 = e.currentTarget.dataset.spec2;
     }
+<<<<<<< HEAD
 
     var attr_list = that.data.attr_list;
     var option_list_arr = that.data.option_list_arr;
 
+=======
+
+    var attr_list = that.data.attr_list;
+    var option_list_arr = that.data.option_list_arr;
+
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
     if (!spec_str){
       spec_str = that.data.spec1 + ' ' + spec2
 

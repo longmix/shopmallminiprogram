@@ -19,8 +19,11 @@ Page({
   onLoad: function (options) {
     var that = this
     //从本地读取
+<<<<<<< HEAD
 
     app.set_option_list_str(null, app.getColor());
+=======
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
     
 
 
@@ -52,7 +55,11 @@ Page({
       return;
     }
     
+<<<<<<< HEAD
 
+=======
+    app.getColor();
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
 
   that.setData({
     wxacode_url: 'https://yanyubao.tseo.cn/index.php/openapi/ShareGiftData/get_share_gift_wxa_img/appid/' + app.globalData.xiaochengxu_appid +'/userid/'+ userInfo.userid,

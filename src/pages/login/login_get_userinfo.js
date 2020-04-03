@@ -16,6 +16,7 @@ Page({
 
 
   onShow: function () {
+<<<<<<< HEAD
 
   },
   onLoad: function (options) {
@@ -31,6 +32,23 @@ Page({
 
     
 
+=======
+    app.getColor();
+  },
+  onLoad: function (options) {
+    var that = this;
+    wx.getStorage({
+      key: 'shop_list',
+      success: function (res) {
+        console.log(res);
+        that.setData({
+          shop_list: res.data,
+        });
+        console.log(that.data.shop_list);
+      }
+    });
+
+>>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
     wx.getSystemInfo({
       success(res) {
         that.setData({
