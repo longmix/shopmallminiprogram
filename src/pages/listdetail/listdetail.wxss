@@ -153,3 +153,49 @@ page {
   font-size: 30rpx;
   margin-top: 30rpx;
 }
+.search{
+    padding: 1% 1%;
+    padding-right:80rpx;
+}
+.searchcion{
+    width: 24px;
+    height: 24px;
+    text-align: center
+}
+.search input{
+    width: 90%;
+    border-radius: 30rpx;
+    background: #fff;
+    border: none;
+    font-size: 25rpx;
+    padding:1% 2.5%;
+    }
+.search button{
+    line-height:30px;
+    background: none;
+    text-align: center;
+    border: none;
+    padding: 3px;
+    position:absolute;
+    right:20rpx;
+    top:13rpx;
+}
+.search button::after{
+    content: none;
+}
+.w100{ 
+    width: 100%;
+    padding-bottom: 10px;
+}
+.w100 button{
+    text-align: center;
+    line-height: 20px;
+    margin: 3% 2% 0 0;
+    display: inline-table;
+    padding:5px 10px;
+    font-size: 12px;
+}
+.cont{
+     width: 94%;
+     padding: 3%;     
+}

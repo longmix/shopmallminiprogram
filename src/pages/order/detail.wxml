@@ -1,6 +1,6 @@
 <!--pages/order/detail.wxml-->
 <view class="w100">
-		<view class="p_all bg_white df item" wx:for="{{orderList}}">
+		<view class="p_all bg_white df item" wx:for="{{orderList}}" wx:key="{{index}}">
 			<view class="cp_photo">			
 				<image src="{{item.picture}}"></image>
 			</view>
@@ -18,7 +18,7 @@
 				<view class="df_1 c6">
 				<view class="l_h20">收货人：{{orderData.realname}}</view>
         <view class="l_h20 mt5"><text>{{orderData.mobile}}</text></view>
-				<view class="l_h20 mt5">地址：{{orderData.address}}</view>
+				<view class="l_h20 mt5">地址：<text wx:if="{{!wxa_order_hide_sanji_address}}">{{orderData.address01}}</text>{{orderData.address02}}</view>
 				</view>
 			</view>
 		</view>	
@@ -26,20 +26,24 @@
 		<view class="p_all bg_white mt10 c6 l_h20  font_14">
 			<view >
 			订单状态：<text class="red">{{orderData.status_str}}</text>
+      <navigator wx:if="{{orderData.status_str=='待付款'}}" url="../order/zhifu?orderId={{orderData.orderid}}&balance_zengsong_dikou={{orderData.coupon_price}}&balance_dikou={{orderData.yue_price}}" class="font_12 fl_r mr_5 btn_min">立即支付</navigator>
 			</view>
 			<view >
 			订单编号：{{orderData.orderno}}
 			</view>
 			<view class="mt10">
 			订单时间：{{orderData.createtime}}
-			</view>         
-		    </view>
+			</view>  
 
-           <view class="p_all bg_white mt10 font_14">
-			<textarea class="min_60" auto-height name="remark" disabled="{{true}}" placeholder="订单备注" value="{{orderData.buyer_memo?orderData.buyer_memo:'未备注'}}"/> 
-		</view>	
+      <view>
+			<textarea wx:if="{{orderData.buyer_memo}}" class="mt10" auto-height name="remark" disabled="{{true}}" placeholder="订单备注" value="{{orderData.buyer_memo?orderData.buyer_memo:''}}"/> 
+		  </view>	
 
-	<view class="zhifu mt10 tc">总金额：<span class="font_20 red">¥ {{orderData.price}}</span></view>
+    	<view class="mt10">总金额：<span class="font_20 red">¥ {{orderData.price}}</span></view>
+		  </view>
+
+
+
         
 
 	<view class="p_all mt10">

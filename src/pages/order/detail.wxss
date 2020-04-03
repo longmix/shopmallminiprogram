@@ -10,6 +10,17 @@
     width: 60px; 
     height: 60px;
 }
+.mt10{
+  margin-top: 10rpx;
+}
+.btn_min{
+  background-color: #1AAD19;
+  border-radius: 5px;
+  padding-left: 28rpx;
+  padding-right: 28rpx;
+  line-height: 2.3;
+  color: #FFFFFF;
+}
 .gm_ovh_2h{
     line-height:25px; 
     height: 50px; 

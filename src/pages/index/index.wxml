@@ -4,19 +4,21 @@
    </navigator>
    -->
 <view class="page">
+ <!--滚动图片start-->
  <view wx:if="{{wxa_show_index_swiper == 1}}">
   <swiper bindchange="bindchange" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" style="height:{{imgheights[current]}}rpx;">
     <block wx:for="{{imgUrls}}" wx:key="{{index}}">
       <swiper-item>
-        <image src="{{item.image}}"  data-id='{{index}}' mode="widthFix"  class="slide-image" bindload="imageLoad"/>
+        <image src="{{item.image}}"  data-id='{{index}}' mode="widthFix"  class="slide-image" bindload="imageLoad" bindtap="toProductDetail" data-url="{{item.url}}"/>
       </swiper-item>
     </block>
   </swiper>
    </view>
+  <!--5个导航图标start--> 
   <view wx:if="{{wxa_show_index_icon == 1}}">
    <view class='style1' wx:if="{{icon_list!=null||icon_list!=''}}">
-     <view class='style2' wx:for="{{icon_list}}">
-      <image class='style3'  src='{{item.src}}' bindtap='icon_url' data-index="{{index}}"></image>
+     <view class='style2' wx:for="{{icon_list}}" wx:key="{{index}}" style="width:{{100/icon_count}}%">
+      <image class='style3' mode="widthFix" src='{{item.src}}' bindtap='icon_url' data-index="{{index}}"></image>
       <view class='style4'>{{item.name}}</view>
      </view>
    </view> 
@@ -24,40 +26,97 @@
    <!--商户头条start-->
     <view wx:if="{{wxa_show_toutiao == 1}}">
    <view class="toutiao">
-     <view class="toutiao_left" bindtap="touTiaoList">
+     <view class="toutiao_left" bindtap="touTiaoList" wx:if="{{!wxa_shop_toutiao_icon}}">
      <image src="../../images/toutiao.gif"></image>
      </view>
-    <view class="toutiao_right" bindtap="touTiaoItem" data-id="{{toutiao_item_id}}">
-    <text>{{headlineItem}}</text>
+     <view class="toutiao_left" bindtap="touTiaoList" wx:if="{{wxa_shop_toutiao_icon}}">
+     <image src="{{wxa_shop_toutiao_icon}}"></image>
+     </view>
+   <swiper class="toutiao_right" vertical="true" autoplay="true" circular="true" interval="2000" wx:if="{{!wxa_shop_toutiao_flash_line||wxa_shop_toutiao_flash_line!=2}}">
+    <swiper-item wx:for="{{articlelist}}">
+    <view class="toutiao_right" bindtap="touTiaoList" data-id="{{toutiao_item_id}}">
+    <text>{{item.title}}</text>
     </view>
+    </swiper-item>
+</swiper>
+
+<swiper class="toutiao_right2" vertical="true" autoplay="true" circular="true" interval="2000" wx:if="{{wxa_shop_toutiao_flash_line==2}}">
+    <swiper-item wx:for="{{articlelist2}}" bindtap="touTiaoList">
+        <view>•  {{item[0].title}}</view>
+        <view>•  {{item[1].title}}</view>
+    </swiper-item>
+</swiper>
    </view>
    </view>
    <!--商户头条end-->
+
+   <!-- 视频start -->
+   <view wx:if="{{wxa_show_video_player==1}}" class="video-con">
+      <video  poster='{{wxa_video_screen_url}}' controls="true"  src="{{wxa_video_player_url}}"  ></video>
+   </view>
+   
+    <!-- 视频end -->
+   
+   <!-- 商品搜索 -->
+   <view wx:if="{{wxa_show_search_input == 1}}" class="scroll-txt" bindtap="search" data-value="">
+      <icon type="search" size="14" style="margin: 0px 10rpx 0 0"></icon>
+      <text class="scroll-ads">搜索</text>
+   </view>
+
+   <!-- 商品搜索 End -->
+
+<!--平铺广告图片start-->
 <view wx:if="{{wxa_show_pic_pinpu == 1}}">
    <view style='width:100%;' wx:if="{{img_list!=null||img_list!=''}}">
-     <view  wx:for="{{img_list}}">
-      <image style='width:100%;' mode="widthFix" src='{{item.image}}'></image>
+     <view  wx:for="{{img_list}}" wx:key="{{index}}">
+      <image style='width:100%;' mode="widthFix" src='{{item.image}}' bindtap="toProductDetail" data-url="{{item.url}}"></image>
      </view>
    </view>   
-</view>   
+</view>
+
+<block wx:if="{{wxa_hidden_product_list != 1}}">
     <view class="cont">
       <navigator class="pr" url="../product/detail?productid={{item.productid}}" hover-class="changestyle"
-                 wx:for="{{product_list}}" open-type='navigateTo'>
+                 wx:for="{{product_list}}" wx:key="{{index}}" open-type='navigateTo'>
         <image class="photo" src="{{item.picture}}"></image>
         <view class="title">{{item.name}}</view>
         <view style="display:flex;line-height:50rpx;padding:10rpx 0;">
-          <view class="gmxx" style="  color: red;">¥ {{item.price}}</view>
+          <view class="gmxx" style="  color: red;">¥ {{item.price}}</view>         
           <view class="gmx" wx:if="{{item.price2 > 0}}">¥ {{item.price2}}</view>
         </view>
+        <view class="gmxx" style="  color: red;">{{item.product_take_score}}</view>
         <view style="display:flex;line-height:50rpx;color:#999">
           <view class="gmxx" style="font-size:28rpx;width:30%">
             <text wx:if="{{item.is_recommend==1}}">推荐</text>
             <text wx:elif="{{item.is_hot==1}}">热销</text>
             <text wx:else>新品</text>
           </view>
+          <block wx:if="{{wxa_show_kucun_in_list == 1}}">
           <view class="ku" style="width:60%">销量：{{item.sale_volume}}</view>
+          </block>
         </view>
       </navigator>
     </view>
     <view class="clear mt10" bindtap="getMore">点击查看更多</view>
+
+</block>
+
   </view>
+
+  <view class="u-tap-btn" wx:if="{{wxa_show_kefu_button==1}}">
+  <block wx:if="{{wxa_kefu_button_type==1}}">
+    <button class="u-go-home2" bindtap="call_seller" style="background-color:{{wxa_kefu_bg_color}}">
+        <image src="{{wxa_kefu_button_icon}}" mode="widthFix"></image>
+    </button>
+  </block>
+  <block wx:elif="{{wxa_kefu_button_type==2}}">
+    <button class="u-go-home2" bindtap="goToOtherPage" style="background-color:{{wxa_kefu_bg_color}}">
+        <image src="{{wxa_kefu_button_icon}}" mode="widthFix"></image>
+    </button>
+  </block>
+  <block wx:elif="{{wxa_kefu_button_type==3}}">
+    <button class="u-go-home2" openType="contact" style="background-color:{{wxa_kefu_bg_color}}">
+        <image src="{{wxa_kefu_button_icon}}" mode="widthFix"></image>
+    </button>
+  </block>
+</view>

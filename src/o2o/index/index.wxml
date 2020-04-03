@@ -1,0 +1,342 @@
+<!--o2o/index/index.wxml-->
+<!-- index.wxml 
+   <navigator target="miniProgram" open-type="navigate" app-id="wx424d6888ee0403e9" path="/pages/index/index" version="develop">
+   打开绑定的小程序
+   </navigator>
+   -->
+<view class="page" bindtap=''> 
+  <!-- 商品搜索 -->
+  <view wx:if="{{wxa_show_search_input == 1}}" class="top-input-con"> 
+        
+    <view>
+      <image src="{{shop_list.icon}}" class="userinfo-avatar"></image>
+    </view>
+
+<navigator  url='/o2o/address/address_list' class="local-con">
+    <view  class="local-a">
+      <text>{{level03}}</text> - 
+      <text> {{address_info.level04.name}}</text>
+      <image class='local-img' src="../../images/xiala.png"></image>
+      
+    </view>
+    <view  class="local-change" >
+      <text>[ 更换地址 ]</text>
+    </view>
+</navigator>
+    <!-- <view  class="scroll-txt" bindtap="search" data-value="">   
+        <icon type="search" size="14" style="margin: 0px 10rpx 0 0"></icon>
+        <text class="scroll-ads">搜索</text>
+    </view> -->
+
+    <navigator  url='/pages/user/user'  open-type="switchTab" class="open-data">
+        <open-data type="userAvatarUrl" class="userinfo-avatar" ></open-data>        
+    </navigator>
+
+  </view>
+   <!-- 商品搜索 End -->
+
+ <!--滚动图片start-->
+ <view wx:if="{{wxa_show_index_swiper == 1}}">
+  <swiper bindchange="bindchange" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" style="height:{{imgheights[current]}}rpx;padding:0 10rpx 0rpx 10rpx;">
+    <block wx:for="{{imgUrls}}" wx:key="{{index}}">
+      <swiper-item>
+        <image src="{{item.image}}"  data-id='{{index}}' mode="widthFix"  class="slide-image" bindload="imageLoad" bindtap="toProductDetail" data-url="{{item.url}}"/>
+      </swiper-item>
+    </block>
+  </swiper>
+   </view>
+
+<!--商户头条start-->
+    <view wx:if="{{wxa_show_toutiao == 1}}">
+   <view class="toutiao">
+     <view class="toutiao_left" bindtap="touTiaoList" wx:if="{{!wxa_shop_toutiao_icon}}">
+     <image src="../../images/toutiao.gif"></image>
+     </view>
+     <view class="toutiao_left" bindtap="touTiaoList" wx:if="{{wxa_shop_toutiao_icon}}">
+     <image src="{{wxa_shop_toutiao_icon}}"></image>
+     </view>
+   <swiper class="toutiao_right" vertical="true" autoplay="true" circular="true" interval="2000" wx:if="{{!wxa_shop_toutiao_flash_line||wxa_shop_toutiao_flash_line!=2}}">
+    <swiper-item wx:for="{{articlelist}}">
+    <view class="toutiao_right" bindtap="touTiaoList" data-id="{{toutiao_item_id}}">
+    <text style="color:{{basic_set.toutiao_font_color}};font-weight:{{basic_set.toutiao_font_weight}};">{{item.title}}</text>
+    </view>
+    </swiper-item>
+</swiper>
+
+<swiper class="toutiao_right2" vertical="true" autoplay="true" circular="true" interval="2000" wx:if="{{wxa_shop_toutiao_flash_line==2}}">
+    <swiper-item wx:for="{{articlelist2}}" bindtap="touTiaoList">
+        <view style="color:{{basic_set.toutiao_font_color}};font-weight:{{basic_set.toutiao_font_weight}};">•  {{item[0].title}}</view>
+        <view style="color:{{basic_set.toutiao_font_color}};font-weight:{{basic_set.toutiao_font_weight}};">•  {{item[1].title}}</view>
+    </swiper-item>
+</swiper>
+   </view>
+   </view>
+   <!--商户头条end-->
+
+  <!--5个导航图标start--> 
+  <view class="style0" wx:if="{{wxa_show_index_icon == 1}}">
+   <view class='style1' wx:if="{{icon_list!=null||icon_list!=''}}">
+     <view class='style2' wx:for="{{icon_list}}" wx:key="{{index}}" style="width:{{100/icon_count}}%">
+      <image class='style3' mode="widthFix" src='{{item.src}}' bindtap='icon_url' data-index="{{index}}"></image>
+      <view class='style4'>{{item.name}}</view>
+     </view>
+   </view> 
+   </view>
+   
+
+   
+
+<!--平铺广告图片start-->
+<view wx:if="{{wxa_show_pic_pinpu == 1}}">
+   <view style='width:100%;' wx:if="{{img_list!=null||img_list!=''}}">
+     <view  class="pingpu" wx:for="{{img_list}}" wx:key="{{index}}">
+      <image style='width:100%;' mode="widthFix" src='{{item.image}}' bindtap="toProductDetail" data-url="{{item.url}}"></image>
+     </view>
+   </view>   
+</view>
+
+<!-- 拼团列表 -->
+
+<view >
+  <view class="pintuan-list" wx:key="key" wx:for="{{tuan_order_list}}" wx:for-item="item" wx:for-index="index" hidden='{{!is_showall_pintuan_list && index > 2}}' >
+      <scroll-view class="scroll-list" scroll-x="true">
+          <view class="scroll-user scroll-tuanzhang">
+            <image src="{{item.tuanzhang_headlogo}}"></image>
+            <text>{{item.tuanzhang_username}}</text>
+          </view>
+          <view class="scroll-user" wx:for="{{item.tuanyuan}}" wx:for-item="item2" wx:key="key">
+            <image src="{{item2.tuanyuan_headlogo}}"></image>
+            <text>{{item2.tuanyuan_username}}</text>
+          </view>          
+       </scroll-view>
+    <view class="company-name-con">
+      <view class="company-name">{{item.tuanzhang_room_name ? item.tuanzhang_room_name : ''}}</view>
+      <view class="count-down" wx:if="{{item.yi_cheng_tuan!=1 && item.tuanzhang_show_weichengtuan==0}}">{{item.countDown}}</view>
+    </view>
+    
+    <view class="pnl-right">  
+      
+      <view class="pintuan-btn" bindtap="toMenuList" data-tzorderid="{{item.tuanzhang_orderid}}" wx:if="{{item.yi_cheng_tuan==0 && item.tuanzhang_timeout>0 && item.tuanzhang_show_weichengtuan==0}}">去参团</view>
+      <view class="pintuan-btn2" wx:elif="{{item.yi_cheng_tuan!=1 && item.tuanzhang_timeout<0 && item.tuanzhang_show_weichengtuan==0}}">去参团</view>
+      <view class="pintuan-btn2" wx:elif="{{item.yi_cheng_tuan!=1 && item.tuanzhang_show_weichengtuan==1}}">未成团</view>
+      <view class="pintuan-btn" wx:else>已成团</view>
+
+      <view class="pintuan-need" wx:if="{{item.yi_cheng_tuan==0}}">差<text>{{item.cengtuan_num}}</text>人成团</view>
+    </view>
+    
+  </view>
+  <view class="pintuanxiala" bindtap='showPinTuan' wx:if="{{tuan_order_list.length > 3}}">
+      <image src="{{is_showall_pintuan_list ? '/images/arrow.png' : '/images/arrow_2.png'}}"></image>
+  </view>
+</view>
+</view>
+ 
+
+
+
+
+
+
+
+<view class="container" bindtap='' >
+ 
+<view class="cont  {{menuFixed ? 'fixed': ''}}" id="menu-list" bindtap=''>
+  <!-- 点餐start -->
+  <view class="cont-a">
+    <view>
+      <view class="guess" style="color:{{basic_set.o2o_set_diancan_title_color}};">{{basic_set.o2o_set_diancan_title}}</view> 
+    </view>
+    <scroll-view scroll-x="true" class="tab-h1" scroll-left="{{scrollLeft}}">
+          <!--  -->
+          <block >
+            <view class="tab-item1 {{currentTabWeek==idx?'tab-item1-active':''}}" wx:for="{{weeklist}}" wx:for-item="item" wx:for-index="idx" data-idx="{{idx}}" bindtap="chooseWeek" wx:key="key">
+                <view>{{item.week}}</view>
+                <view>{{item.date}}</view> 
+            </view>
+
+          </block>  
+          
+      </scroll-view>
+  </view>
+</view>
+
+ <!-- <view class="header {{scrollDown?'hidden':''}}">
+
+  <view class="header-item1">
+    <image class="header-logo" src="{{shoplist.image_list[0]}}"></image>
+    <text class="header-name">
+      <text style="display:block;color:#fff;">{{shoplist.name}}</text>
+      <text style="display:block;font-size:0.8rem;color:#fff;padding-top:1rem;">公告：欢迎光临！</text>
+    </text>
+  </view>
+
+ </view> -->
+
+<scroll-view class="{{menuFixed ? 'body-col-active': 'body-col'}}"  scroll-y="true" style="height:{{menuHeight}}px">
+    <view class="body-section {{selectOrder==m1.id?'body-section-active':''}}" wx:for="{{shanglist}}" wx:for-item="m1" data-selectorder="{{m1.id}}" data-cate='z{{m1.id}}' bindtap="clickMenu">
+      {{m1.package}}
+    </view>
+
+  </scroll-view>
+
+ <view class="body {{menuFixed ? 'body-active': ''}}">
+  
+
+
+<view class="menu-list-right" style="height:{{menuHeight}}px;">
+  
+    <scroll-view scroll-y="{{is_menu_list_scroll}}" class="body-block" bindscroll="onGoodsScroll" style="height:{{menuHeight}}px" scroll-into-view="{{toView}}"   scroll-with-animation="false">
+  
+    
+  <!--   -->
+      <view class="body-content" wx:for="{{shanglist}}" wx:for-item="m1" >
+        <view class="title" id='z{{m1.id}}' data-id="{{m1.id}}">{{m1.package}}</view>
+        <!--  -->
+          <view class="content-item" wx:for="{{m1.menu}}" wx:for-item="m2" wx:key="k"  >
+            <image src="{{m2.img}}" bindload="menuImgLoad" lazy-load="true" data-productid="{{m2.productid}}" mode='widthFix' style="width: 17rem;"></image>
+            <view class="item-txt">
+              <text bindtap="shopdetail" class="txt-a">{{m2.name}}</text>
+              <text bindtap="shopdetail" class="txt-b">{{m2.brief}}</text>
+              <view class="txt-message">
+                <view>月售{{m2.sales}}单</view>
+                <view>￥{{m2.price}}</view>
+                <view style='color:#FF6F10;text-decoration:line-through;'>￥{{m2.price2}}</view>
+              </view>
+            </view>
+              <!-- 飞入图标 -->
+            
+            <view class="addCart" bindtap="tapAddCart"  data-productid="{{m2.productid}}" data-price="{{m2.price}}" data-name="{{m2.name}}" data-pic="{{m2.img}}">
+              +
+              <!-- <image src="../../images/s.png"></image> -->
+            </view>
+          </view>
+
+      </view>
+    </scroll-view>
+  </view>
+ </view>
+
+<view class="good_box" hidden="{{hide_good_box}}"  style="left: {{bus_x}}px; top:{{bus_y}}px;"> </view>
+
+
+<!--购物车-->
+<view class="a" catchtouchmove="true">
+      <text>{{manjian_str}}</text>
+ </view>
+
+
+</view>
+
+ <view class="cart">
+  <block wx:if="{{wxa_kefu_button_type==1}}">
+    <button class="u-go-home2" bindtap="call_seller" style="background-color:{{wxa_kefu_bg_color}}">
+        <image src="{{wxa_kefu_button_icon}}" mode="widthFix"></image>
+    </button>
+  </block>
+  <view class="data">
+    <view class="icon">
+      <view class="icon-img" bindtap="showCartDetailf">
+        <image src="../../images/car.png"></image>
+      </view>
+      <view class="cart-count" style="opacity:{{cart_count != 0 ? '' : '0'}};">{{cart_count != 0 ? cart_count : ''}}</view>      
+    </view>
+    <view class="original-con">
+      <view class="">原价 ￥{{original_total}}</view>
+      <view class="">配送费 <text>￥{{o2o_set_pei_song_price}}</text></view>
+    </view>
+    
+
+  </view>
+    
+  <view class='btn-con'>
+    <view class='btn01' bindtap='bindCheckout' style='background:{{basic_set.o2o_button_left_color}}' data-flag="1">
+      <view>￥ {{total}}</view>
+      <view>普通购买</view>
+    </view>
+
+
+    <view class='btn02' bindtap='bindCheckout' style='background:{{basic_set.o2o_button_right_color}}' data-flag="2" wx:if="{{!is_pintuan}}">
+      <view>￥ {{total_pintuan}}</view>
+      <view>发起拼团</view>
+    </view>
+
+
+    <view class='btn02' bindtap='bindCheckout' style='background:{{basic_set.o2o_button_right_color}}' data-flag="3"  wx:else>
+      <view>￥ {{total_pintuan}}</view>
+      <view>参与拼团</view>
+    </view>
+
+    
+</view>
+
+  
+ </view>
+
+<!--遮罩层-->
+<view class="shade2" hidden="{{!showCartDetail}}" bindtap='showCartDetailf' catchtouchmove="true">
+</view>
+
+<view class="shade" hidden="{{!showCartDetail}}"  catchtouchmove="true">
+
+<view class="cart-detail" animation="{{animationData}}" hidden="{{!showCartDetail}}">
+    <view class="list-a">购物车</view>
+    <scroll-view class="scroll-list-a" scroll-y="true">
+      <view class="list">
+        <view class="list-item" >
+          <view class="local-item" wx:for="{{cartlist}}" wx:for-item="order" wx:for-index="bindex" >
+            <view class="item-img"><image src="{{order.picture}}" style="opacity:1;"></image></view>
+            <view class="item-info">
+              <view class="info-name">{{order.name}}</view>
+              <view class="info-price">单价：￥ {{order.price}}</view>
+              <view class="info-num">
+
+              <text style="width: 219%;color:#E85B4D;font-size:32rpx;">￥ {{order.price_total}}</text>
+                <view class="info-add">
+                  <view class="add-de" data-price="{{order.price}}" data-name="{{order.name}}" data-productid="{{order.productid}}" data-bindex='{{bindex}}' bindtap="tapReduceCart">-</view>
+                  <view class="info-num">{{order.amount}}</view>
+                  <view class="add-add" data-price="{{order.price}}" data-productid="{{order.productid}}" data-name="{{order.name}}" data-bindex='{{bindex}}' bindtap="cartAddCart">+</view>
+                </view>
+
+              </view>
+            
+            </view>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+</view>
+</view>
+
+
+
+<view class="wx-popup" hidden="{{!is_show_choose_time}}" catchtouchmove="true">
+  <view class='popup-container'>
+    <view class="wx-popup-title">
+      确认收货地址
+      <image src="../../images/delete_red.png" class="wx-popup-close" bindtap='closeChooseTime'></image>
+    </view>
+    
+    <view class="wx-popup-subtitle">将配送到:{{address_info.level01}}{{address_info.level02}}{{address_info.level03}}{{address_info.address}}{{address_info.level04.name}}{{address_info.level04.room_no}}</view>
+    <view class="wx-popup-con">
+      
+    <view class="wx-time-con" wx:if="{{basic_set.o2o_set_pei_song_time_status == 1}}">
+      <view class="time-normal {{currentTimeidx==idx ? 'time-active':''}}" data-idx="{{idx}}" bindtap='selectTime' wx:for="{{o2o_set_pei_song_time}}" wx:for-index="idx">{{item}}</view>     
+    </view>
+
+    <view class="wx-shouhuo-con">
+      <view class="wx-input-con">
+        <view>收货人</view>
+        <input type='text' bindinput='shouHuoName' placeholder='请输入收货人姓名' value="{{shouHuoInfo.shouHuoName}}"></input>
+      </view>
+      <view class="wx-input-con">
+        <view>手机号</view>
+        <input type='text' bindinput='mobileNo' placeholder='请输入手机号' value="{{shouHuoInfo.mobileNo}}"></input>
+      </view>
+    </view>
+    
+    </view>
+    <view class="wx-popup-btn">
+      <text class="btn-ok" bindtap='selectAgree'>确定</text>
+    </view>
+  </view>
+</view>

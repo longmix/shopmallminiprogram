@@ -1,23 +1,77 @@
 <!--pages/help_detail/help_detail.wxml-->
-<import src="../../wxParse/wxParse.wxml" />
-<import src="../../mars/templates/component.wxml" />
-<template is="loading" data="{{loading}}" />
-<view hidden="{{loading}}" class="weui-article">
-  <view class="weui-article__h1">{{title}}</view>
-  <view class="weui-article__section">
-    <image src="{{headlineItem_img}}" style="width:100%;" mode="{{mode}}"></image>
-     <view class="weui-article__title">
-
-       <template is="wxParse" data="{{wxParseData:content.nodes}}" /> 
-    </view> 
-    <view class="weui-article__section">
-      <template is="htmlpart" data="{{articleInfo}}" />
+ 
+    <view class='detail_top' wx:if="{{wz_keyword2}}">
+     <view class='detail_top_view' wx:for="{{wz_keyword2}}">
+      <view class='biaoqian'><image src='{{item.status==1?"../../images/shced1.png":"../../images/shced2.png"}}' bindtap="add_tj" data-text='{{item.name}}'></image><text>{{item.name}}</text></view>
+     </view>
     </view>
-  </view>
+
+<view class='title'>{{wz_text.title}}</view>
+<view style='margin:32rpx;margin-top:30rpx;margin-bottom:150rpx;padding-bottom:80rpx;'>
+
+<view class='datetime' wx:if="{{wxa_show_article_detail_category == 1}}">
+  <view class='yuanchuang'>分类：{{wz_text.classname}}</view>
+  <view class='guge'>{{app_name_chat_title}}</view>
+  <view class='yuanchuang' style='margin-left:15px;'>{{wz_text.uptatetime}}</view>
+</view>
+<view class='wenzhang_detail'>
+    <import src="../../wxParse/wxParse.wxml"/> 
+    <view class="wxParse"> 
+        <scroll-view  scroll-y='true'>
+           <template is="wxParse" data='{{wxParseData:content.nodes}}'/>
+        </scroll-view>
+    </view>
+    <view class="article_bottom">
+        <view style="color:#bfbfbf;">阅读 {{wz_text.click}}</view>
+        <view bindtap='doArticleDianzan'><image style="width:30rpx;height:30rpx;margin-right:15rpx"  src="../../images/{{isDianzan ? 'dianzan_red.png' : 'dianzan_grey.png'}}"></image><text style="color:{{isDianzan ? '#d81e06' : '#bfbfbf'}};font-size:30rpx">{{dianzanNum}}</text></view>
+    </view> 
 </view>
 
-<button class='xg_button' open-type="share" type="primary"> 分享给朋友 </button>
-<view class="returnto">
-  <button class='returnto_btn' type="primary" bindtap="returnto_toutiao">头条列表</button>
-  <button class='returnto_btn' type="primary" bindtap="returnto_index">商户主页</button>
+
+<!-- 评论 -->
+     <view class="comment_list" id="the-id">
+       <view style="border-left:6rpx solid {{theme_color_wenku}};padding-left:20rpx;margin-top:36rpx;margin-bottom:36rpx;font-size:26rpx;color:#999">热门评论</view>
+       <view class="comment_list_aa" wx:if="{{remarkList.length}}" wx:for="{{remarkList}}">
+          <image class="comment_list_user_icon" src="{{item.headimgurl}}" mode='widthFix'></image>
+          <view style="width:97%;">
+              <view class="comment_list_right" style="">
+                  <text class="comment_list_username">{{item.name}}</text>
+                  <!-- <view bindtap="doDianzan" data-tongjiid="{{item.tongjiid}}"><image class="comment_list_dianzan" src="../../images/dianzan_grey.png" style="margin-right:20rpx;"></image><text style="font-size:26rpx;">222</text></view> -->
+              </view>
+              <view class="comment_text">{{item.message}}</view>
+              <!-- <view class="comment_time">{{item.createtime}}</view> -->
+              <view class="comment_huifu" wx:if="{{item.reply}}">
+                  <text class="comment_huifu_author" style="border-left-color:{{theme_color_wenku}}">{{item.reply_name}}</text>
+                  <text class="comment_huifu_text" style="">{{item.reply}}</text>
+              </view>
+          </view>
+          <view class="comment_delete" data-id="{{item.id}}" bindtap='deleteRemark'  hidden="{{openid!=item.wecha_id}}"><image src="../../images/delete_red.png" mode="widthFix"></image></view>
+          
+       </view>
+       <view wx:if="{{!remarkList.length}}" style="text-align:center;color:#bfbfbf;font-size:30rpx;" >还没有评论,快来吐槽~</view>
+     </view>
+
+     <view class="comment_list_bottom"></view>
+
 </view>
+    <view class='detail_bottom'>
+
+     <view class="comment">
+     
+      <image class="comment_img comment_write_img" src="../../images/write.png"></image>
+        <input class="comment_input" placeholder="写评论..." value=''   bindconfirm="submitRemark" data-imgid="{{wz_text.id}}" value="{{inputValue}}"></input>
+        
+        <image class="comment_img comment_right_img" src="../../images/comment.png" bindtap='toReamrkList'></image>
+        <view class="comment_num" hidden="{{!comment_num}}">{{comment_num}}</view>
+        <image class="comment_img comment_right_img" style="{{comment_num ? 'margin-left:0':''}}" src="../../images/{{isShoucang==true? 'star_on.png': 'star_off.png'}}" bindtap='shoucang' ></image>
+        <button  class="share" open-type="share"></button>
+        <image class="comment_img comment_right_img" src="../../images/share.png" open-type="share"></image>
+        <image class="comment_img comment_right_img" bindtap="toHomePage" src="../../images/home_page.png"></image>
+        <!-- <image class="comment_img comment_right_img" src="../../images/friends.png"></image> -->
+     </view>
+
+     
+    </view>
+
+
+    

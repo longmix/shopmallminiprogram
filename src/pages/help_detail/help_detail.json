@@ -1,6 +1,3 @@
 {
-    "backgroundTextStyle":"light",
-    "navigationBarBackgroundColor": "#000000",
-    "navigationBarTitleText": "头条详情",
-    "navigationBarTextStyle":"#fff"
+    "navigationBarTitleText": "文章详情"
 }

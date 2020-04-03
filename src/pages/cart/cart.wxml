@@ -1,6 +1,6 @@
 <!--pages/cart/cart.wxml-->
 <view class="page">
-  <view class="shop df" wx:for="{{productData}}">
+  <view class="shop df" wx:for="{{productData}}" wx:key="{{index}}">
         <image class="sh_slt" src="{{item.ImgUrl}}"></image>
         <view class="df_1">            
             <view class="sp_text">
@@ -23,7 +23,7 @@
 </view>
 <view class="container carts-list">
 <!--勾-->
-     <view wx:for="{{carts}}" class="carts-item" data-title="{{item.name}}" id="{{item.productid}}" style='{{item.status==1?"":" filter:grayscale(100%);color:#666"}};'>
+     <view wx:for="{{carts}}" wx:key="{{index}}" class="carts-item" data-title="{{item.name}}" id="{{item.productid}}" style='{{item.status==1?"":" filter:grayscale(100%);color:#666"}};'>
        <view wx:if="{{item.status==1}}">
          <icon wx:if="{{item.selected}}" type="success_circle"    size="20" bindtap="bindCheckbox" data-index="{{index}}"/>
          <icon wx:else type="circle" size="20" bindtap="bindCheckbox" data-index="{{index}}"/>
@@ -42,7 +42,7 @@
      </view>
 <!--右边-->
      <view class="title">
-        <text bindtap="removeShopCard" data-cartid="{{item.productid}}" class="modal-close">x</text>
+        <text bindtap="removeShopCard" data-cartid="{{item.productid}}" data-index="{{index}}" class="modal-close">x</text>
          <view class="stepper">
        <!-- 减号 -->
              <text class="{{minusStatuses[index]}}" data-index="{{index}}" bindtap="bindMinus" data-cartid="{{item.productid}}">-</text>
@@ -67,7 +67,7 @@
         <text>全选</text>
         <text class="reds">{{total}}</text>
    </view>
-       <view class="button" bindtap='bindCheckout'>立即结算             </view>
+       <view class="button" bindtap='bindCheckout'>立即结算</view>
 </view>
 
 

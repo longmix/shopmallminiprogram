@@ -8,58 +8,67 @@ page{
 }
 
 .section1{
-    width:100%;
-    height:50px;
-    background-color:#fff;
-    margin:10px auto 0;
-    border-bottom: 1px solid #ECECEC;
+width:90%;
+height:96rpx;
+line-height:48px;
+background-color:#fff;
+margin:40rpx auto 0;
+border-bottom:1px solid #ECECEC;
+border:1px solid #17A8E2;
+border-radius:21px;
+
 }
 .section1 input{
     width:80%;
-    height:50px;
-    padding-left:20px;
+    height:80rpx;
+    padding:3px 20px;
 }
 .section2{
-    width:100%;
-    height:50px;
+    width:90%;
+    height:96rpx;
     background-color:#fff;
-    margin:10px 0 0;
+    margin:40rpx auto 0;
     position:relative;
+    border:1px solid #17A8E2;
+    border-radius:21px;
 }
 .section2 input{
-    width:60%;
-    height:50px;
-    padding-left:20px;
+    width:71%;
+    height:80rpx;
+    padding:3px 20px;
     margin:0 0 0;
 }
 .send_btn{
-    width:35%;
-    height:40px;
-    line-height:40px;
+    width:240rpx;
+    height:80rpx;
+    line-height:80rpx;
     position:absolute;
-    top:4px;
-    left:220px;
-     
+    top:8rpx;
+    left:60%;
+    font-size:28rpx;
 }
 .section3{
-    width:100%;
-    height:50px;
+    width:90%;
+    height:96rpx;
     background-color:#fff;
-    margin:10px 0 0;
+    margin:40rpx auto 0;
     position:relative;
+    border:1px solid #17A8E2;
+    border-radius:21px;
 }
 .section3 image{
-    width:120px;
-    height:40px;
-    line-height:40px;
-    padding-top:4px;
-    padding-left:20px;
-    float:left;
+    width:25%;
+    height:68rpx;
+    line-height:60rpx;
+    padding-top:13rpx;
+    margin-left:-73rpx;
+
+    
 }
 .section3 input{
-    width:50%;
-    height:50px;
-    padding-left:20px;
+    width:68%;
+    height:80rpx;
+    margin:3px 20px;
     float:left;
 }
 

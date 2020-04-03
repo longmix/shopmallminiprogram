@@ -5,11 +5,23 @@ Page({
     telephone: '021-31128716'
   },
   onShow: function () {
-    app.getColor();
+
   },
   onLoad:function(options){
+    app.set_option_list_str(null, app.getColor());
+    
     // 页面初始化 options为页面跳转所带来的参数
     var that = this
+
+    app.get_shop_info_from_server(function (shop_list) {
+      console.log('o2o/index get_shop_info_from_server 回调：');
+      console.log(shop_list);
+
+      that.setData({
+        shop_info_from_server: shop_list,
+      });
+
+    })
 
     that.setData({
       shop_name: app.globalData.shop_name,
@@ -23,10 +35,12 @@ Page({
     console.log("444444", that.data.shop_name)
 
   },
+
+  
   callTel: function () {
     var that = this;
     wx.makePhoneCall({
-      phoneNumber: that.data.telephone
+      phoneNumber: that.data.kefu_telephone
     })
   },
   useHelp: function () {
@@ -38,6 +52,28 @@ Page({
     wx.navigateTo({
       url: '../help_detail/help_detail?action=detail&id=yinsishengming'
     });
+  },
+  clearStorage:function(){
+    wx.removeStorage({
+      key: 'option_list_str',
+      success(res) {
+        wx.showToast({
+          title: '清除缓存成功',
+        })
+      }
+    })
+
+    wx.removeStorage({
+      key: 'shop_info_from_server_str_' + app.get_sellerid(),
+      success(res) {
+        wx.showToast({
+          title: '清除缓存成功',
+        })
+      }
+    })
+    
+       
+    
   },
   onReady:function(){
     // 页面渲染完成

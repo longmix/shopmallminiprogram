@@ -1,0 +1,59 @@
+/* pages/welcome_page/welcome_page.wxss */
+.list{
+  display: flex;
+}
+
+.ban{
+  width: 158rpx;
+  padding: 10rpx ;
+  border: 2rpx solid #ccc;
+  display: block;
+  margin-left:6rpx 
+}
+
+.ban image{
+  width: 100%;
+}
+
+.kkk{
+    font-size:26rpx;
+  /*font-weight: 700;*/
+  margin-left: 10rpx;
+  color: gray;
+}
+
+.commodity_screen {
+ width: 100%;
+ height: 100%;
+ position: fixed;
+ top: 0;
+ left: 0;
+ background: #000;
+ opacity: 0.2;
+ overflow: hidden;
+ z-index: 1000;
+ color: #fff;
+}
+
+.commodity_attr_box {
+ width: 100%;
+ overflow: hidden;
+ position: fixed;
+ bottom: 0;
+ left: 0;
+ z-index: 2000;
+ background: #fff;
+ padding-top: 20rpx;
+}
+
+.mt10{
+  margin: 0 auto;
+  text-align: center;
+  height: 70rpx;
+  width: 450rpx;
+  line-height: 70rpx;
+  border-radius:10rpx; 
+  border: 1px solid #999;
+  font-size: 30rpx;
+  margin-top: 30rpx;
+}

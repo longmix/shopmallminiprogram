@@ -1,6 +1,3 @@
 {
-    "backgroundTextStyle":"light",
-    "navigationBarBackgroundColor": "#000000",
-    "navigationBarTitleText": "商户头条",
-    "navigationBarTextStyle":"#fff"
+    "navigationBarTitleText": "商户头条"
 }

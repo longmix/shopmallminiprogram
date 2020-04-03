@@ -1,0 +1,96 @@
+/* pages/order/coupon_list.wxss */
+.stamp::after {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    right: 10px;
+    bottom: 10px;
+    box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.5);
+    z-index: -2;
+}
+.stamp03::before {
+    background-color: #7EAB1E;
+}
+.stamp::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 10px;
+    right: 10px;
+    z-index: -1;
+}
+
+.stamp03 {
+    background: #7EAB1E;
+    background: radial-gradient(transparent 0, transparent 5px, #7EAB1E 5px);
+    background-position-x: 0%;
+    background-position-y: 0%;
+    background-size: auto;
+    background-size: 15px 15px;
+    background-position: 9px 3px;
+    margin-bottom: 10px;
+}
+.stamp {
+    padding: 0 10px;
+    position: relative;
+    overflow: hidden;
+    color: #fff;
+    display:flex;
+}
+
+.stamp text {
+    position: absolute;
+    left: 20%;
+    top: 45px;
+    height: 190px;
+    width: 390px;
+    background-color: rgba(255,255,255,.15);
+    transform: rotate(-30deg);
+}
+.stamp .par {
+    float: left;
+    padding: 20px 0px;
+    width: 70%;
+    border-right: 2px dashed rgba(255,255,255,.3);
+    text-align: left;
+}
+
+.employ{
+  z-index:100;
+  width:182rpx;
+  height:66rpx;
+  font-size:26rpx;
+  line-height:66rpx;
+  margin-top:18rpx;
+  color:#666;
+}
+
+.copy{
+  margin-left:30rpx;
+  margin-top:10rpx;
+}
+
+.a-1{
+  display: flex;
+  align-items: center;
+}
+
+.aa-1{
+  font-size:60rpx;
+  margin-left:20rpx
+}
+
+.aaa-1{
+  font-size:28rpx;
+}
+
+.b-1{
+  font-size:28rpx;
+}
+
+.not_use{
+  filter: grayscale(1)
+}
+

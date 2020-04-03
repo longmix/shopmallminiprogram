@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/index/Liar",
     "pages/index/index",
     "pages/product/detail",
     "pages/search/search",
@@ -16,6 +17,7 @@
     "pages/help_detail/help_detail",
     "pages/login/login",
     "pages/login/login_by_password",
+    "pages/login/login_get_userinfo",
     "pages/user/tuihuo",
     "pages/order/pay",
     "pages/order/detail",
@@ -23,17 +25,46 @@
     "pages/order/zhifu",
     "pages/cart/cart",
     "pages/listdetail/listdetail",
+    "pages/listdetail/list_yushou",
     "pages/address/address",
     "pages/address/user-address/user-address",
     "pages/category/index",
+    "pages/category/index2",
     "pages/ritual/ritual",
     "pages/rituall/rituall",
-    "pages/shop_store/shop_store"
+    "pages/shop_store/shop_store",
+    "pages/account_edit/account_edit",
+    "pages/welcome_page/welcome_page",
+    "pages/share-gift/share-gift",
+    "pages/share-gift/share-detail",
+    "pages/order/coupon_list",
+    "pages/index/index_off",
+    "pages/user/user2",
+    "pages/recharge/recharge",
+    "cms/video/video_details",
+    "cms/mydiscover/my-discover",
+    "cms/mycollection/my-discover-collection",
+    "cms/mycollection/my-videolist-collection",
+    "cms/index/index",
+    "cms/library/library",
+    "cms/discover/discover",
+    "cms/library/library_list",
+    "cms/publish/publish",
+    "cms/top_showcase/my",
+    "cms/video/videolist",
+    "o2o/index/index",
+    "o2o/address/address_list",
+    "o2o/address/listdetail"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#008842",
     "navigationBarTextStyle": "white"
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "获取当前位置以匹配最近的服务"
+    }
   },
   "tabBar": {
     "color": "#858585",
@@ -66,5 +97,11 @@
         "text": "我的"
       }
     ]
-  }
+  },
+  "navigateToMiniProgramAppIdList": [
+    "wx5ade221daf329103",
+    "wx424d6888ee0403e9",
+    "wxa36bafa53080cac8"
+  ],
+  "sitemapLocation": "sitemap.json"
 }

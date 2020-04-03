@@ -1,0 +1,100 @@
+/* pages/recharge/recharge_ways.wxss */
+.bb-a {
+  border: 1px solid #17A8E2;
+  color: #17A8E2;
+  text-align:center;
+  padding:2% 0;
+  margin-left:2%;
+  margin-top:98rpx;
+  font-size:34rpx;
+  width: 96%;
+  border-radius:20px;
+}
+
+
+.bb-b {
+  border:1px solid #ddd;
+  text-align:center;
+  padding:2% 0;
+  margin-left:2%;
+  margin-top:98rpx;
+  font-size:34rpx;
+  color:#888;
+  width: 96%;
+  border-radius:20px;
+}
+
+.pay_submit{
+ background-color:#1AAD19;
+color:#fff;
+
+}
+
+.section{
+  display:flex;
+  font-size: 32rpx;
+  justify-content: center;
+  align-items: center;
+}
+.section2{
+  display:flex;
+  font-size: 32rpx;
+  flex-direction: column;
+  padding: 6%;
+}
+
+.section2 view{
+  border: 1px solid #999;
+  margin-top: 10rpx;
+  height: 100rpx;
+}
+
+
+.abb{
+    margin: 12rpx 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: #fff;
+    overflow: hidden;
+    height:27px;
+    border-bottom:3px solid  #ddd;
+    
+}
+.tctb {
+margin-left:30rpx;
+font-weight:bolder;
+font-size:30rpx;
+color:#fff;
+border:1rpx solid #17A8E2;
+border-radius:62rpx;
+width:200rpx;
+text-align:center;
+background-color:#17A8E2;
+height:26px;
+line-height:26px;
+
+} 
+
+.chongzhi{
+height:110px;
+text-align: center;
+}
+
+.chongzhi image{
+  height:176rpx;
+  width:176rpx;
+  border-radius: 100px;
+  border:1px solid #17A8E2;
+}
+
+
+
+
+
+.tishi{
+font-size:11px;
+color:#17A8E2;
+text-align:center;
+
+}

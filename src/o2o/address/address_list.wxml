@@ -1,0 +1,22 @@
+<!--o2o/address/address_list.wxml-->
+<view class="section">
+    <!-- 左侧类型  -->
+    <scroll-view scroll-y="true" class="left">
+        <view  wx:for="{{shenglist}}" wx:key="item"  data-name='{{item}}' bindtap="tapType" class="{{item == currType ? 'active' : ''}}" style="font-size:16px；">
+            {{item}}
+        </view>
+
+    </scroll-view>
+
+    <!-- 右侧数据  -->
+    <scroll-view scroll-y="true" class="right">
+        <view class="typeTree">
+            <view  class=""  wx:for="{{qvlist}}" wx:key="item"  >
+                <navigator url="/o2o/address/listdetail?shengname={{currType}}&qvname={{item}}"  class="item">
+                    <text>{{item}}</text>
+                </navigator>
+                    
+            </view>
+        </view>
+    </scroll-view>
+</view>

@@ -8,10 +8,12 @@ Page({
     loading: true,
   },
   onShow: function () {
-    app.getColor();
+
   },
   // 生命周期函数--监听页面加载
   onLoad: function (options) {
+
+    app.set_option_list_str(null, app.getColor());
 
     var that = this
 
@@ -20,6 +22,10 @@ Page({
     if (typeof (that.data.sellerid) == 'undefined') {
       that.data.sellerid = app.globalData.sellerid;
     }
+
+    wx.setNavigationBarTitle({
+      title: app.globalData.shop_name
+    })
 
     this.initArticleList(that.data.sellerid);
 
@@ -68,7 +74,9 @@ Page({
     console.log('点击商户头条进入该详情'+e.currentTarget.dataset.id);
 
     var id = e.currentTarget.dataset.id;
-    wx.redirectTo({
+    wx.setStorageSync('browser_cache_id', id);
+    
+    wx.navigateTo({
       url: '../help_detail/help_detail?id=' + id + '&sellerid=' + that.data.sellerid
       
     })

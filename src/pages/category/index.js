@@ -13,10 +13,11 @@ Page({
         typeTree: [],
     },
     onShow: function () {
-      this.onLoad();
-      app.getColor();
+      //this.onLoad();
     },
     onLoad: function (option){
+      app.set_option_list_str(null, app.getColor());
+      
         var that = this;
         wx.request({
             url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=product_cata_level2',

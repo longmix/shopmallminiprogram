@@ -8,16 +8,53 @@ Page({
     proData:[],
   },
   onShow: function () {
-    app.getColor();
+
   },
   onLoad:function(options){
+
+    app.set_option_list_str(null, app.getColor());
+
+
+    app.set_option_list_str(this, this.callback_set_option);
+    
     this.setData({
       orderId: options.orderId,
+      balance_zengsong_dikou: options.balance_zengsong_dikou,
+      balance_dikou: options.balance_dikou,
     })
     this.loadProductDetail();
   },
+
+
+  callback_set_option:function(that, cb_params){
+    console.log('getShopOptionAndRefresh+++++:::' + cb_params)
+
+    //从本地读取
+    var option_list_str = wx.getStorageSync("option_list_str");
+    if (!option_list_str) {
+      return null;
+    }
+
+    var option_list = JSON.parse(option_list_str);
+
+    if (!option_list) {
+      return;
+    }
+
+    this.setData({
+      wxa_order_hide_sanji_address: option_list.wxa_order_hide_sanji_address
+    })
+
+
+  },
+
   loadProductDetail:function(){
+    var app = getApp();
+    // pages/order/detail.js
+    var userInfo = app.get_user_info();
     var that = this;
+    console.log('userid', userInfo.userid);
+    console.log('userstr', userInfo.checkstr);
     wx.request({
       url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=order_xiangqing',
       method: 'post',

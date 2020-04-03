@@ -6,10 +6,18 @@
  <view class='vw1'><text>订单金额：</text>
   <view class='view2'>{{orderData.price}}</view>
  </view>
+ <view class='vw1'><text>运费：</text>
+  <view class='view2'>{{orderData.price3}}</view>
+ </view>
  <view class='vw1'><text>应付金额：</text>
-  <view class='view2'>{{orderData.price}}</view>
+  <view class='view2'>{{pay_price}}</view>
  </view>
 </view>
+
+
+<view style="{{pay_price != 0.00?'':'display:none'}}"> 
+
+
      <view ng-if="pay_type">
         <view style="width: 94%;height:35px;line-height:35px;font-size: 14px;color:#666;margin:30px auto 0 auto; ">
             支付方式
@@ -18,22 +26,25 @@
         <view style="width: 100%;border-bottom: 1px solid #e6e6e6;border-top: 1px solid #e6e6e6;">
             <view class="payment_box">
              <radio-group class="radio-group" bindchange="radioChange">
-              <view class="zhifu_li">
+              <view class="zhifu_li" wx:if="{{show_weixin_pay==1}}">
                 <image src="../../images/kefu.png" class="tubiao_zhifu"></image>
                 <view class="zhifu_name">微信支付</view>
 
                  <radio value='wx_pay' checked='true' style='margin-left:90%;margin-top:7px;'></radio>
               </view>
 
-              <view class="zhifu_li">
+              <view class="zhifu_li" wx:if="{{show_zhuanzhang_pay==1}}">
                 <image src="../../images/payment_zhuanzhang.png" class="tubiao_zhifu"></image>
                 <view class="zhifu_name">转账支付</view>
-                <radio value='zz_pay' style='margin-left:90%;margin-top:7px;'></radio>
+                <radio value='zz_pay'  style='margin-left:90%;margin-top:7px;'></radio>
               </view>
 
               </radio-group>
 
-               <view class="zhifu_li" wx:for-index="index" data-index='{{index}}' bindtap='zhuangzhangPay' wx:for="{{pay_list}}" style='background-color:{{key==index?"#e6e6e6":""}};display:{{zz_pay?"none":"block"}};' >
+           </view>
+
+
+               <view class="zhifu_li" wx:for-index="index" data-index='{{index}}' bindtap='zhuangzhangPay' wx:for="{{pay_list}}" wx:key="{{index001}}" style='background-color:{{key==index?"#e6e6e6":""}};display:{{zz_pay?"none":"block"}};' >
                  <view class="zhifu_name" wx:for-index="index" data-index='{{index}}' bindtap='zhuangzhangPay'>{{item.pay_name}}</view>
                </view>
                <view style="display:{{payView?'none':'block'}};font-size:15px;margin-bottom:100px;">
@@ -53,7 +64,7 @@
                   </view>
                  </view>
                  <view style='text-align:center' wx:else>
-                   <image style='width:250px;height:250px;' src='{{payList.card_num}}'></image>
+                   <image style='width:250px;' mode='widthFix' src='{{payList.card_num}}'></image>
                  </view>
                  <view>
                   <view style='margin-top: 20rpx;color: gray;'>转账后请填写以下信息，以便于与财务对账</view>
@@ -64,24 +75,32 @@
                           </view>
                           <view class="section">
                             <label class='section_view' style="line-height:50rpx">汇款方式：</label>
-                            <input type="text" name="huikuan_pingtai" placeholder="如银行转账" />
+                            <input type="text" name="huikuan_pingtai" placeholder="如工行转账、建设银行等" />
+                          </view>
+                          <view class="section">
+                            <label class='section_view'>汇款日期：</label>
+                            <!--<view class='section_view2'>{{time}}</view>-->
+                            
+                                  <picker mode="date" value="{{date}}" start="2018-09-01" end="2030-06-01" 
+                                    bindchange="bindDateChange">                 
+                                    <input placeholder="请输入日期" bindinput="dateInput"  value="{{date}}"/>
+                                  </picker>
                           </view>
                           <view class="section">
                             <label class='section_view'>汇款时间：</label>
-                            <view class='section_view2'>{{time}}</view>
-                            <!--
-                                  <picker mode="date" value="{{time}}" start="1960-09-01" end="2030-06-01" 
-                                    bindchange="bindDateChange">                 
-                                    <input placeholder="请输入日期" bindinput="dateInput"  value="{{time}}"/>
-                                  </picker>  
-                            -->
+                            <!--<view class='section_view2'>{{time}}</view>-->
+                            
+                                  <picker mode="time" value="{{time}}" start="00:01" end="23:59" 
+                                    bindchange="bindTimeChange">                 
+                                    <input placeholder="请输入时间" bindinput="timeInput"  value="{{time}}"/>
+                                  </picker>
                           </view>                          
                           <view class="section">
                             <view class='section_view'>汇款金额：</view>
                             <view class='section_view2'>{{orderData.price}}</view>      
                           </view> 
                           <view class="pay_submit">     
-                  	        <button class="pay_submit" type="default" id="Pay"  formType="submit"
+                  	        <button class="pay_submit" type="default" id="Pay"  formType="submit" data-price="{{pay_price}}"
                              bindtap="createProductOrderByZZ">确认支付</button>       
                           </view>             
                    </form>
@@ -92,9 +111,14 @@
         </view>
 </view>
 <view class="pay_submit" wx:if="{{zz_pay}}">
-			<button type="default" id="Pay" formType="submit"
+			<button type="default" id="Pay" formType="submit" data-price="{{pay_price}}"
        bindtap="{{zz_pay?'createProductOrderByWX':'createProductOrderByZZ'}}">确认支付</button>
 </view>
+<view class="pay_submit" wx:if="{{pay_price == 0.00}}">
+			<button type="default" id="Pay" formType="submit" data-price="{{pay_price}}"
+       bindtap="createProductOrderByZZ">确认支付</button>
+</view>
+
 
 
 

@@ -1,0 +1,88 @@
+<!--pages/user/user.wxml-->
+<view class="page" style='width:100%;overflow-x:hidden;'>
+    <view class="userinfo" style="background:{{wxa_shop_nav_bg_color}}">
+      <view class="a_1" wx:if="{{nick_name}}">
+		  	<navigator url="../userinfo/userinfo" open-type="navigate" class='flex'>
+          <image wx:if="{{nick_name && headimgurl !='../../images/cry80.jpg'}}" class="userinfo-avatar "  src="{{headimgurl}}" background-size="cover"></image>         
+        </navigator>
+        <view class="a_2" style="color:{{wxa_shop_nav_font_color}}">
+          <view>{{nickname}}</view>
+          <view class="b_1"> 
+            <view class="publish-idea" style='padding:10rpx;' bindtap="publishIdea">发布创意</view>
+          </view>
+          <view wx:if="{{wxa_show_zengkuan_in_usercenter == 1}}"> 赠款 {{data.balance_zengsong}} </view>
+          <view wx:if="{{wxa_show_levelname_in_usercenter == 1}}"> {{data.fenxiao_info.level_name}} </view>
+        </view>
+    </view>
+
+    <view class="a_1" wx:else>
+      <navigator  url='/pages/login/login' class="open-data">
+        <open-data type="userAvatarUrl" class="userinfo-avatar" ></open-data>        
+      </navigator>
+      <view class="a_2">
+          <open-data style="color:{{wxa_shop_nav_font_color}}" type="userNickName"></open-data>        
+      </view>
+  
+    </view>
+
+    
+
+      </view>
+    
+   
+<view class='icon-box'>
+  <view wx:for='{{icon_list_usercenter}}'>
+    <view bindtap='myChat' data-string='{{item.url}}' class='icon-list' wx:if='{{item.toPage}}'>
+        <image src='{{item.src}}'></image>
+        <view class='icon-text'><text>{{item.name}}</text></view>
+    </view>
+    <view data-url="{{item.url}}" bindtap='mytiaozhuan' wx:else>
+        <view class='icon-list'>
+        <image src='{{item.src}}'></image>
+        <view class='icon-text'><text>{{item.name}}</text></view>
+        </view>
+    </view>
+  </view>
+
+
+
+
+
+  <!-- <view data-url="/cms/mydiscover/my-discover" bindtap='mytiaozhuan' >
+        <view class='icon-list'>
+        <image src='{{item.src}}'></image>
+        <view class='icon-text'><text>我的素材</text></view>
+        </view>
+    </view>
+
+    <view data-url="/cms/mycollection/my-discover-collection" bindtap='mytiaozhuan' >
+        <view class='icon-list'>
+        <image src='{{item.src}}'></image>
+        <view class='icon-text'><text>我的收藏</text></view>
+        </view>
+    </view>
+
+    <view data-url="/cms/mycollection/my-videolist-collection" bindtap='mytiaozhuan' >
+        <view class='icon-list'>
+        <image src='{{item.src}}'></image>
+        <view class='icon-text'><text>视频收藏</text></view>
+        </view>
+    </view> -->
+
+</view>
+
+
+   <navigator url="../about_applet/about_applet" open-type="navigate">
+  <view class='icon-list'>
+   <image src='../../images/icon/xiaochengxu.png'></image>
+   <view class='icon-text'><text>关于小程序</text></view>
+  </view>
+  </navigator>
+ 
+
+<view style="display:block; height:800rpx;width:100%;"> </view>
+
+
+</view>
+
+

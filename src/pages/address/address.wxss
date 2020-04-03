@@ -5,8 +5,9 @@ page {
 /* pages/address/address.wxss */
 
 .container {
-  font-size: 12px;
+  font-size: 14px;
   background-color: white;
+  padding:10% 0;
 }
 
 .section {
@@ -23,11 +24,15 @@ page {
 }
 
 button {
-  width: 90%;
+  width:80%;
+  height:50px;
+  line-height:50px;
   position: fixed;
-  bottom: 40rpx;
+  margin-top:20%;
   color: #fff;
-  background-color: #fc0;
+  background-color: #17A8E2;
+  border-radius:30px;
+
 }
 
 .picker {
@@ -37,4 +42,5 @@ button {
 .ww{
   width: 250px;
 }
+
 

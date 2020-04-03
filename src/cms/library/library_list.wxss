@@ -1,0 +1,45 @@
+/* cms/library/library_list.wxss */
+.tupian{
+  width:44%;
+  float:left;
+  margin-left:3%;
+}
+.tupian image{
+  width:100%;
+  height:131px;
+  border:1px solid rgb(105, 102, 102);
+  border-radius:8px;
+  float:left;
+  margin:5px 6px;
+}
+
+.a-1{
+  display: flex;
+  flex-wrap:wrap;
+}
+
+.a-2{
+  width: 30%;
+  margin-left: 2.5%;
+  font-size:28rpx;
+  text-align:center;
+}
+
+.a-2 image{
+  width:160rpx;
+  height:164rpx;
+}
+
+.bottom-line{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:28rpx;
+  color:#aaa;
+  clear:both;
+}
+
+.bottom-line-a{
+  border:1px solid #eee;
+  width:30%;
+}

@@ -1,0 +1,43 @@
+<!--cms/library/library.wxml-->
+<view class='c-1'>
+  <image src="../../images/search.png"></image>
+  <input placeholder='搜索'> </input>
+</view>
+
+
+<view >
+    <scroll-view scroll-x="true" class="tab-h1" scroll-left="{{scrollLeft}}">
+      
+      <block wx:for="{{types}}" wx:for-item="item">
+        <view class="tab-item1 {{currentTab==item.cataid?'active':''}}"  data-cataid="{{item.cataid}}" bindtap="swichNav">{{item.name}}</view>
+      </block>  
+       
+    </scroll-view>
+
+
+    <scroll-view scroll-x="true" class="tab-h2" scroll-left="{{scrollLeft}}">
+      
+      <block wx:for="{{typeTree}}" wx:for-item="item">
+        <view class="tab-item {{currentTab2==item.cataid?'active2':''}}"  data-cataid="{{item.cataid}}" bindtap="swichNav2">{{item.name}}</view>
+      </block>  
+       
+    </scroll-view>
+
+
+
+
+    <scroll-view scroll-y class="a-1" scroll-left="{{scrollLeft}}" bindscrolltolower="lower" style="height: {{windowHeight-150}}px;">
+      
+      <block wx:for="{{productList}}" wx:for-item="item">
+        <view class="a-2" bindtap='toLibraryList' data-productid="{{item.productid}}">
+          <image  src='{{item.picture}}'></image>
+          <view  class="a-3"  data-cataid="{{item.cataid}}" >{{item.name}}</view>
+        </view>
+        
+      </block>  
+       
+    </scroll-view>
+
+   
+</view>
+

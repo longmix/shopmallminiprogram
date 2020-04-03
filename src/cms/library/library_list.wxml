@@ -1,0 +1,31 @@
+<!--cms/library/library_list.wxml-->
+<view style="text-align:center;margin-top:20rpx;" wx:if="{{pictureList.length == 0}}">
+  <image src="../../images/no-picture.png"></image>
+</view>
+
+<view style='margin-top:50rpx;'></view>
+<view wx:if="{{type==0}}">
+  <view wx:if="{{pictureList.length > 1}}">
+      <view class="tupian" wx:for="{{pictureList}}" wx:for-index="index">
+        <image src="{{item}}" mode="widthFix" bindtap="bigImg" data-index="{{index}}"></image>
+      </view>
+  </view>
+  <view wx:else style='padding:40rpx 5% 0 5%;'>
+      <image style='width:100%' mode="widthFix" bindtap="bigImg" data-index="0" src="{{pictureList[0]}}"></image>
+  </view>
+  
+</view>
+
+<view class="a-1" wx:if="{{type==1}}">
+ <view class="a-2"  wx:for="{{pictureList}}" data-productid="{{item.productid}}" bindtap="get_product_album_list">
+    <image src="{{item.img}}"></image>
+    <view>{{item.name}}</view>
+  </view>
+</view>
+
+
+<view class="bottom-line" wx:if="{{isShowBottomLine}}">
+    <view class='bottom-line-a'></view>
+    <view>我也是有底线的</view>
+     <view class='bottom-line-a'></view>
+</view>

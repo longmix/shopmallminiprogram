@@ -7,7 +7,8 @@ page{
 .box {
   width:100%;
   text-align: center;
-  margin: 20rpx;
+  margin: 20rpx 0rpx;
+  
 }
 .box image{
   width:180rpx;
@@ -20,28 +21,34 @@ page{
 }
 
 .section1{
-    width:100%;
-    height:80rpx;
-    background-color:#fff;
-    margin:20rpx auto 0;
-    border-bottom: 1px solid #ECECEC;
+width:90%;
+height:96rpx;
+line-height:48px;
+background-color:#fff;
+margin:40rpx auto 0;
+border-bottom:1px solid #ECECEC;
+border:1px solid #17A8E2;
+border-radius:21px;
+
 }
 .section1 input{
     width:80%;
     height:80rpx;
-    padding-left:40rpx;
+    padding:3px 20px;
 }
 .section2{
-    width:100%;
-    height:80rpx;
+    width:90%;
+    height:96rpx;
     background-color:#fff;
-    margin:20rpx 0 0;
+    margin:40rpx auto 0;
     position:relative;
+    border:1px solid #17A8E2;
+    border-radius:21px;
 }
 .section2 input{
-    width:70%;
+    width:50%;
     height:80rpx;
-    padding-left:40rpx;
+    padding:3px 20px;
     margin:0 0 0;
 }
 .send_btn{
@@ -54,24 +61,27 @@ page{
     font-size:28rpx;
 }
 .section3{
-    width:100%;
-    height:80rpx;
+    width:90%;
+    height:96rpx;
     background-color:#fff;
-    margin:20rpx 0 0;
+    margin:40rpx auto 0;
     position:relative;
+    border:1px solid #17A8E2;
+    border-radius:21px;
 }
 .section3 image{
-    width:26%;
-    height:60rpx;
+    width:30%;
+    height:68rpx;
     line-height:60rpx;
-    padding-top:8rpx;
-    margin-left:40rpx;
-    float:left;
+    padding-top:13rpx;
+    margin-left:-9rpx;
+
+    
 }
 .section3 input{
-    width:63%;
+    width:55%;
     height:80rpx;
-    margin-left:20rpx;
+    margin:3px 20px;
     float:left;
 }
 
@@ -82,4 +92,31 @@ page{
     background-color:orange;
     line-height:80rpx;
     color:#FFF;
+}
+.check_btn2{
+    margin:50px auto;
+    width:80%;
+    height:40px;
+    background-color:orange;
+    line-height:40px;
+    color:#FFF;
+}
+
+.icon-jump{
+  width:87rpx;
+  height:87rpx;
+  border:1px solid #aaa;
+  position:fixed;
+  right:40rpx;
+  bottom:260rpx;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:100px;
+  background: #00FF00;
+}
+
+.icon-jump image{
+  width: 70rpx;
+  height: 70rpx;
 }

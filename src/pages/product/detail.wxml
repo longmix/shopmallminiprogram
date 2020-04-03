@@ -1,78 +1,100 @@
-
 <!--pages/index/detail.wxml-->
 
 
 <!--内容开始-->
-<view class="cont"> 
+<view class="cont">
   <!--<image class="tp_image" src="{{itemData.photo_d}}"></image>-->
-  <swiper style="height:{{swiper_image_heights[swiper_image_current]}}rpx;" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}"  bindchange="swiper_image_change" >
+  <swiper style="height:{{swiper_image_heights[swiper_image_current]}}rpx;" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" bindchange="swiper_image_change">
     <block wx:for="{{bannerItem}}" wx:key="{{index}}">
       <swiper-item>
         <image src="{{item.picture}}" data-id='{{index}}' class="slide-image" bindload="swiper_image_load" />
       </swiper-item>
     </block>
   </swiper>
+  <view>
+    <view class="title">{{detail.name}}</view>
+    <view class="gmxx">
       <view>
-  <view class="title">{{detail.name}}</view>
-  <view class="gmxx">
-    <view><span class="jiage">¥：{{detail.price}}</span>
-       <view class="share_box" >
-        <view class="share_hide">
-            <image src="/images/fenxiang.png" ></image>
-          <button class="share" open-type="share"></button> 
+        <span class="jiage">¥{{detail.price}} {{detail.product_take_score}}</span>
+        <view class="gmx" wx:if="{{detail.product_take_score}}">¥ {{detail.price2}}</view>
+        <view class="share_box">
+          <view class="share_hide">
+            <image src="/images/fenxiang.png"></image>
+            <button class="share" open-type="share"></button>
+          </view>
         </view>
       </view>
+
+      <view class="font_14 c6" wx:if="{{wxa_show_kucun_xiaoliang == 1}}">
+        <text decode="{{true}}">销量：{{detail.sale_volume}}&emsp;&emsp;&emsp;库存：{{detail.inventory}}</text>
+      </view>
+
     </view>
-
-    <view class="font_14 c6" wx:if="{{wxa_show_kucun_xiaoliang == 1}}"><text decode="{{true}}">销量：{{detail.sale_volume}}&emsp;&emsp;&emsp;库存：{{detail.inventory}}</text></view>
-
   </view>
+  <view class="specs" wx:if="{{attr_list}}">商品选项</view>
+  <!-- 规格开始 -->
+  <view class="specs-a" style='display:flex;'>
+    <view class="{{option_list_arr[0] == item ? 'specs-e' : 'specs-d'}}" wx:for="{{attr_key_arr}}" wx:for-index="index" data-spec1="{{item}}" bindtap='changeSpec1'>
+      {{item}}
+    </view>
   </view>
+  <view class="specs-a" style="display:flex;" wx:if="attr_list_arr[spec1] != null">
+    <view class="{{option_list_arr[1] == item2 ? 'specs-e' : 'specs-d'}}" wx:for="{{attr_list_arr[spec1]}}" wx:for-index="index" data-spec2="{{item2}}" wx:for-item="item2" bindtap="changeSpec2">
+      {{item2}}
+    </view>
+  </view>
+  <!-- 规格结束 -->
 </view>
 <view class="block_ladder">
- <view class="drpt_0" style="display:{{jietijiage==1?'block':'none'}};">
+  <view class="drpt_0" style="display:{{jietijiage==1?'block':'none'}};">
     <view class="yhmc">阶梯价格</view>
-    <view class="drpt_1" wx:for="{{youhui_data}}">
+    <view class="drpt_1" wx:for="{{youhui_data}}" wx:key="{{index}}">
       <view class="yh_1">{{item.min}}件-{{item.max}}件 {{item.price/100}}元</view>
     </view>
- </view>   
+  </view>
   <view class="drpt_0" style="display:{{duorenpintuan==1?'block':'none'}};">
     <view class="yhmc">多人拼团</view>
     <view class="drpt_2">
-      <view class="yh_1">商品可多人拼团<text bindtap='cataChat' id='pintuan'>查看更多>></text></view>
+      <view class="yh_1">商品可多人拼团
+        <text bindtap='cataChat' id='pintuan'>查看更多>></text>
+      </view>
     </view>
- </view>
-   <view class="drpt_0" style="display:{{sharekanjia==1?'block':'none'}};">
+  </view>
+  <view class="drpt_0" style="display:{{sharekanjia==1?'block':'none'}};">
     <view class="yhmc">分享砍价</view>
     <view class="drpt_2">
-      <view class="yh_1">商品可分享砍价<text bindtap='cataChat' id='kanjia'>查看更多>></text></view>
+      <view class="yh_1">商品可分享砍价
+        <text bindtap='cataChat' id='kanjia'>查看更多>></text>
+      </view>
     </view>
- </view>
-    <view class="drpt_0" style="display:{{xianshimiaosha==1?'block':'none'}};">
+  </view>
+  <view class="drpt_0" style="display:{{xianshimiaosha==1?'block':'none'}};">
     <view class="yhmc">限时秒杀</view>
     <view class="drpt_2">
-      <view class="yh_1">商品可限时秒杀<text bindtap='cataChat' id='miaosha'>查看更多>></text></view>
+      <view class="yh_1">商品可限时秒杀
+        <text bindtap='cataChat' id='miaosha'>查看更多>></text>
+      </view>
     </view>
- </view>
+  </view>
 </view>
 
 <!--弹窗-->
 <view class="drawer_screen" bindtap="setModalStatus" data-status="0" wx:if="{{showModalStatus}}"></view>
 <view animation="{{animationData}}" class="drawer_attr_box" wx:if="{{showModalStatus}}">
-<view class="close_icon" bindtap="setModalStatus" data-status="0">×</view>
+  <view class="close_icon" bindtap="setModalStatus" data-status="0">×</view>
   <view class="drawer_attr_content">
     <view class="text_center">
-         <image class="drawer_image" src="{{detail.picture}}" ></image>
-         <view class="mingcheng">
-             <view>{{detail.name}}</view>
-             <view style="font-size:29rpx;color:red">¥ {{detail.price}}</view>
-             <view  style="font-size:26rpx;color:#ccc">库存：{{detail.sale_volume}}</view>
-         </view>
+      <image class="drawer_image" src="{{detail.picture}}"></image>
+      <view class="mingcheng">
+        <view>{{detail.name}}</view>
+        <view style="font-size:29rpx;color:red">¥ {{detail.price}}</view>
+        <view style="font-size:26rpx;color:#ccc">库存：{{detail.sale_volume}}</view>
+      </view>
     </view>
     <!--<view>
         <text class="cun">尺寸</text>
    </view>-->
-<!--<view class="commodity_attr_list">
+    <!--<view class="commodity_attr_list">
 
   <view class="attr_box" wx:for="{{attrValueList}}" wx:for-item="attrValueObj" wx:for-index="attrValueList">
 
@@ -85,23 +107,23 @@
     </view>
   </view>
 </view>-->
-    <view class="shu"> 
-        <text class="cun">购买数量</text>
-       <view class="dian">
+    <view class="shu">
+      <text class="cun">购买数量</text>
+      <view class="dian">
         <view class="stepper">
 
-       <!-- 减号 -->
-       <text class="{{minusStatuses[index]}}" data-alpha-beta="0" bindtap="changeNum">-</text>
-       <!-- 数值 -->
-       <view class="nownum">{{amount}}</view>
-       <!-- 加号 -->
-       <text class="normal" data-alpha-beta="1" bindtap="changeNum">+</text>
+          <!-- 减号 -->
+          <text class="{{minusStatuses[index]}}" data-alpha-beta="0" bindtap="changeNum">-</text>
+          <!-- 数值 -->
+          <view class="nownum">{{amount}}</view>
+          <!-- 加号 -->
+          <text class="normal" data-alpha-beta="1" bindtap="changeNum">+</text>
+        </view>
       </view>
-      </view>
-   </view>
-   <view class="footc" bindtap="addShopCart" data-type="buynow"  data-status="{{status}}">
-{{buys}}
-</view>
+    </view>
+    <view class="footc" bindtap="addShopCart" data-type="buynow" data-status="{{status}}">
+      {{buys}}
+    </view>
   </view>
 </view>
 
@@ -110,44 +132,35 @@
 
 <!--图文详情头部-->
 <view>
-<view class="swiper-tab">
-  <view class="bre swiper-tab-list {{currentTab==0 ? 'on' : ''}}" data-current="0" bindtap="swichNav">图文详情</view>
-  <view class="swiper-tab-list {{currentTab==1 ? 'on' : ''}}" data-current="1" bindtap="swichNav">产品参数</view>
-</view>
+  <view class="swiper-tab">
+    <view class="bre swiper-tab-list {{currentTab==0 ? 'on' : ''}}" data-current="0" bindtap="swichNav">图文详情</view>
+    <view class="swiper-tab-list {{currentTab==1 ? 'on' : ''}}" data-current="1" bindtap="swichNav">产品参数</view>
+  </view>
   <!-- 图文详情 -->
   <view style='padding-bottom:100rpx;' wx:if="{{currentTab==0}}">
-    <import src="../../wxParse/wxParse.wxml"/> 
-    <view class="wxParse"> 
-        <scroll-view  scroll-y='true'>
-           <template is="wxParse" data='{{wxParseData:content.nodes}}'/>
-        </scroll-view>
-    </view> 
-</view>
-  
+    <import src="../../wxParse/wxParse.wxml" />
+    <view class="wxParse">
+      <scroll-view scroll-y='true'>
+        <template is="wxParse" data='{{wxParseData:content.nodes}}' />
+      </scroll-view>
+    </view>
+  </view>
+
 
 
   <!-- 产品参数 -->
   <view style='padding-bottom:100rpx;' wx:else>
-        <view class="p_all">
-      <view class="canshu df">
-        <view class="name">商品名称：</view>
-        <view class="df_1 c3">{{detail.name}}</view>
+    <view class="p_all">
+
+      <view class="canshu df"  wx:for="{{detail.attribute_list}}" wx:key="{{index}}" >
+        <view class="name">{{item.name}}</view>
+        <view class="df_1 c3">{{item.value}}</view>
       </view>
-      <view class="canshu df">
-        <view class="name">商品编号：</view>
-        <view class="df_1 c3">{{detail.factoryid}}</view>
-      </view>
-      <view class="canshu df">
-        <view class="name">分类：</view>
-        <view class="df_1 c3">{{detail.cataname}}</view>
-      </view>
-      <view class="canshu df">
-        <view class="name">售后：</view>
-        <view class="df_1 c3">签收之日48小时无条件退货</view>
-      </view>
+
     </view>
- </view>
+  </view>
 </view>
+
 <!---底部开始-->
 <view class="footfixed tc">
   <view class="fl_l w40 font_12 hui03 df">
@@ -159,37 +172,37 @@
     </view>-->
 
     <view class="df_1 l_h15 pt5 bre">
-          <contact-button type="default-light" class="ke" bindtap='goto_shop_home'>
-            <image class="icon_kf" src="/images/shoo.png" style="margin-left:-20px;"></image>
-            <view class="dbtext"  style="line;margin-top:5px">进店</view>
-          </contact-button >
+      <contact-button type="default-light" class="ke" bindtap='goto_shop_home'>
+        <image class="icon_kf" src="/images/shoo.png" style="margin-left:-20px;"></image>
+        <view class="dbtext" style="line;margin-top:5px">进店</view>
+      </contact-button>
     </view>
 
     <navigator url='/pages/cart/cart' open-type='switchTab'>
-     <view class="df_1 l_h15 pt5">
-                    <image class="icon_kf" src="/images/car.png" ></image>
-                    <view class="dbtext">购物车</view>
-     </view>
-     </navigator> 
-     <view class="df_1 l_h15 pt5">
-                 <view bindtap="addFavorites">
-                    <image class="icon_kf"  src="{{colIcon}}" ></image>
-                    <view class="dbtext">{{colBtn}}</view>
-                 </view>      
-     </view>
+      <view class="df_1 l_h15 pt5">
+        <image class="icon_kf" src="/images/car.png"></image>
+        <view class="dbtext">购物车</view>
+      </view>
+    </navigator>
+    <view class="df_1 l_h15 pt5">
+      <view bindtap="addFavorites">
+        <image class="icon_kf" src="{{colIcon}}"></image>
+        <view class="dbtext">{{colBtn}}</view>
+      </view>
+    </view>
   </view>
   <view class="fl_l w60" wx:if="{{is_sharekanjia=='sharekanjia'}}">
     <view class="w50 fl_l bg_cheng white" data-type="addcart"></view>
     <view class="bg_red white w50" bindtap="setModalStatus" style='float:right;' data-status="1">参与砍价</view>
   </view>
   <view wx:else>
-  <view class="fl_l w60" wx:if="{{jiantuanid}}">
-    <view class="w50 fl_l bg_cheng white" bindtap="addShopCart" data-type="addcart">独立开团</view>
-    <view class="bg_red white w50 fl_l" bindtap="setModalStatus" data-status="1">拼这个团</view>
+    <view class="fl_l w60" wx:if="{{jiantuanid}}">
+      <view class="w50 fl_l bg_cheng white" bindtap="addShopCart" data-type="addcart">独立开团</view>
+      <view class="bg_red white w50 fl_l" bindtap="setModalStatus" data-status="1">拼这个团</view>
+    </view>
+    <view class="fl_l w60" wx:else>
+      <view class="w50 fl_l bg_cheng white" bindtap="setModalStatus" data-type="addcart" data-status="2">加入购物车</view>
+      <view class="bg_red white w50 fl_l" bindtap="setModalStatus" data-status="1">立刻购买</view>
+    </view>
   </view>
-  <view class="fl_l w60" wx:else>
-    <view class="w50 fl_l bg_cheng white" bindtap="setModalStatus" data-type="addcart" data-status="2">加入购物车</view>
-    <view class="bg_red white w50 fl_l" bindtap="setModalStatus" data-status="1">立刻购买</view>
-  </view>
-  </view>
-   </view> 
+</view>

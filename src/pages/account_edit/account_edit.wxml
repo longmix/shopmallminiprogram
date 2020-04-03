@@ -1,0 +1,32 @@
+<!--pages/account_edit/account_edit.wxml-->
+<view class="container" style='padding:0;'>
+  <!-- <view class="weui-cell">
+          <view class="weui-cell__hd"><label class="weui-label">原账号</label></view>
+          <view class="weui-cell__bd">
+              <input class="weui-input"  value="{{account}}" disabled="disabled"></input>
+          </view>
+    </view> -->
+<form bindsubmit="formSubmit">
+    <view class="weui-cell">
+          <view class="weui-cell__hd"><label class="weui-label">账号</label></view>
+          <view class="weui-cell__bd">
+              <input class="weui-input"  name="new_account" placeholder="请输入新账号" value='{{account}}'></input>
+          </view>
+    </view>
+    <view class="weui-cell">
+          <view class="weui-cell__hd"><label class="weui-label">新密码</label></view>
+          <view class="weui-cell__bd">
+              <input class="weui-input" type="password" name="new_password" placeholder="请输入新密码"></input>
+          </view>
+    </view>
+    <view class="weui-cell">
+          <view class="weui-cell__hd"><label class="weui-label">确认密码</label></view>
+          <view class="weui-cell__bd">
+              <input class="weui-input" type="password" name="new_password2" placeholder="请再次输入新密码"></input>
+          </view>
+    </view>
+    <button class="weui-btn weui-btn_primary" formType="submit">确认修改</button>
+</form>
+
+</view>
+

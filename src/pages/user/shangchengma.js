@@ -7,12 +7,14 @@ Page({
     favoriteList: [],
   },
   onLoad: function (options) {
+    app.set_option_list_str(null, app.getColor());
+    
     this.loadProductData();
   },
   onShow: function () {
     // 页面显示
     this.loadProductData();
-    app.getColor();
+
   },
   loadProductData:function(){
      

@@ -3,31 +3,58 @@ var userInfo = app.get_user_info();
 var util = require('../../utils/util.js');
 Page({
   data: {
-    time:'2016-09-01',
+    date:'2016-09-01',
     zz_pay:true,
     payView:true,
     pageBackgroundColor:''
   },
   onShow: function () {
-    app.getColor();
+    
   },
   onLoad: function (options) {
-    var time = util.formatTime(new Date());
+    console.log('options', options)
+
+    app.set_option_list_str(null, app.getColor());
+
+    var date = util.formatTime(new Date());
+    var time = util.formatTime2(new Date());
     // 再通过setData更改Page()里面的data，动态更新页面的数据
     this.setData({
+      date: date,
       time: time
     });
     showView: (options.showView == "true" ? true : false)
     this.setData({
-      orderId: options.orderId
+      orderId: options.orderId,
+      traffic_price: options.traffic_price ? options.traffic_price : 0,
     });
+
+    if (options.balance_zengsong_dikou){
+      this.setData({
+        balance_zengsong_dikou: options.balance_zengsong_dikou,
+      })
+    }
+
+    if (options.balance_dikou) {
+      this.setData({
+        balance_dikou: options.balance_dikou,
+      })
+    }
+
+    if (options.recharge){
+      this.setData({
+        recharge: options.recharge,
+      })
+    }
+
     this.loadOrderDetail();
     var that = this;
     wx.request({
       url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=payment_type_list',
       method: 'post',
       data: {
-        sellerid: app.get_sellerid()
+        sellerid: app.get_sellerid(),
+        appid: app.globalData.xiaochengxu_appid
       },
       header: {
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -37,9 +64,24 @@ Page({
         var code = res.data.code;
         if (code == 1) {
           var type_list = res.data.data;
-          console.log(type_list);
+
+
+          var show_weixin_pay = 0;
+          var show_zhuanzhang_pay = 0;
+          for(var i=0; i<type_list.length; i++){
+            if (type_list[i].payment_type == 3){
+              show_weixin_pay = 1;
+            }
+
+            if (type_list[i].payment_type == 6) {
+              show_zhuanzhang_pay = 1;
+            }
+          }
+ 
           that.setData({
             type_list: type_list,
+            show_weixin_pay: show_weixin_pay,
+            show_zhuanzhang_pay: show_zhuanzhang_pay
           });
         } else {
           wx.showToast({
@@ -130,10 +172,32 @@ Page({
         var code = res.data.code;
         if (code == 1) {
           var orderData = res.data.orderinfo;
-          console.log(orderData);
+        
+
+          var pay_price = parseFloat(orderData.order_total_price) + parseFloat(that.data.traffic_price);
+          
+
+          if(that.data.balance_zengsong_dikou){
+            pay_price = pay_price - that.data.balance_zengsong_dikou;
+          }
+
+          
+          if (that.data.balance_dikou) {
+            pay_price = pay_price - that.data.balance_dikou;
+          }
+
+          
           that.setData({
             orderData: orderData,
+            pay_price: util.sprintf("%6.2f", pay_price),
           });
+
+          if (pay_price == 0.00){
+            that.setData({
+              zz_pay:false
+            })
+          }
+
         } else {
           wx.showToast({
             title: res.data.msg,
@@ -159,6 +223,14 @@ Page({
   },
   bindDateChange: function (e) {
     var that = this;
+    that.data.date = e.detail.value;
+    console.log(e);
+    that.setData({
+      date: e.detail.value
+    })
+  },
+  bindTimeChange: function (e) {
+    var that = this;
     that.data.time = e.detail.value;
     console.log(e);
     that.setData({
@@ -174,6 +246,14 @@ Page({
     })
   },
   dateInput:function(){
+    var that = this;
+    var time = e.detail.value;
+    console.log(e);
+    that.setData({
+      date: date
+    })
+  },
+  timeInput: function () {
     var that = this;
     var time = e.detail.value;
     console.log(e);
@@ -205,24 +285,34 @@ Page({
   zzpay:function(){
     var that = this;
     var userInfo = app.get_user_info();
+
+    var data_params = {
+      orderid: that.data.orderId,
+      payment_type: 6,
+      userid: userInfo.userid,
+      checkstr: userInfo.checkstr,
+      sellerid: app.get_sellerid(),
+      money: that.data.pay_price,
+      yue_amount: that.data.balance_dikou,
+      zengkuan_amount: that.data.balance_zengsong_dikou,
+      // offlinepayid: that.data.payList.offlinepayid,
+      time: that.data.date + ' ' + that.data.time,
+      // huikuan_pingtai: that.data.adds.huikuan_pingtai,
+      // name: that.data.adds.name,
+      body: "商城支付订单",
+      subject: "商城支付订单",
+    }
+
+
+    if(that.data.pay_price != 0.00){
+      data_params.offlinepayid = that.data.balance_zengsong_dikou;
+        data_params.huikuan_pingtai = that.data.adds.huikuan_pingtai;
+     data_params.name = that.data.adds.name;
+    }
+
     wx.request({
       url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=order_buy',
-      data: {
-        orderid: that.data.orderId,
-        payment_type: 6,
-        userid: userInfo.userid,
-        checkstr: userInfo.checkstr,
-        sellerid: app.get_sellerid(),
-        money: that.data.orderData.price,
-        yue_amount: true,
-        zengkuan_amount: 0.00,
-        offlinepayid: that.data.payList.offlinepayid,
-        time:that.data.time,
-        huikuan_pingtai: that.data.adds.huikuan_pingtai,
-        name: that.data.adds.name,
-        body: "商城支付订单",
-        subject: "商城支付订单",
-      },
+      data: data_params,
       method: 'POST', 
       header: {
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -235,9 +325,15 @@ Page({
               });
 
               setTimeout(function () {
-                wx.navigateTo({
-                  url: '../user/dingdan?currentTab=1&otype=2',
-                });
+                if (that.data.recharge == 1) {
+                  wx.switchTab({
+                    url: '/pages/user/user',
+                  });
+                } else {
+                  wx.navigateTo({
+                    url: '../user/dingdan?currentTab=0&otype=',
+                  });
+                }
               }, 2500);
         } else {
           wx.showToast({
@@ -255,7 +351,8 @@ Page({
       }
     })
   },
-  wxpay: function () {
+  wxpay: function (e) {
+    console.log('eeee',e)
     var that=this;
     var userInfo = app.get_user_info();
     wx.request({
@@ -291,7 +388,46 @@ Page({
         console.log('order_buy order_buy order_buy', res);
 
         if (res.data.code == 1) {
+          if (res.data.str == 'yue') {
+            wx.showToast({
+              title: "支付成功!",
+              duration: 2000,
+            });
+
+            setTimeout(function () {
+              if(that.data.recharge == 1){
+                wx.switchTab({
+                  url: '/pages/user/user',
+                });
+              }else{
+                wx.navigateTo({
+                  url: '../user/dingdan?currentTab=2&otype=2',
+                });
+              }
+              
+            }, 2500);
+            return;
+          }
+          if (res.data.wxpay_params.errcode == 1) {
+            // wx.showToast({
+            //   title: "网络错误!",
+            //   duration: 2000,
+            //   icon: 'none',
+            // });
+
+            wx.showModal({
+              title: '提示',
+              content: '启动微信钱包失败！',
+            })
+
+
+            return;
+          }
+
           var payment_parameter_str = res.data.wxpay_params.parameters;
+
+
+          
 
           var payment_parameter = JSON.parse(payment_parameter_str);
           
@@ -310,9 +446,15 @@ Page({
               });
 
               setTimeout(function () {
-                wx.navigateTo({
-                  url: '../user/dingdan?currentTab=1&otype=deliver',
-                });
+                if (that.data.recharge == 1) {
+                  wx.switchTab({
+                    url: '/pages/user/user',
+                  });
+                } else {
+                  wx.navigateTo({
+                    url: '../user/dingdan?currentTab=2&otype=2',
+                  });
+                }
               }, 2500);
 
             },
@@ -341,5 +483,62 @@ Page({
     })
   },
 
+  // dikouzhifu: function(e) {
+  //   console.log('88888',this)
+  //   var that = this;
+  //   var userInfo = app.get_user_info();
+  //   wx.request({
+  //     url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=order_buy',
+  //     data: {
+  //       orderid: that.data.orderId,
+  //       payment_type: 6,
+  //       userid: userInfo.userid,
+  //       checkstr: userInfo.checkstr,
+  //       sellerid: app.get_sellerid(),
+  //       money: 0,
+  //       yue_amount: that.data.balance_dikou,
+  //       zengkuan_amount: that.data.balance_zengsong_dikou,
+  //       offlinepayid: that.data.payList.offlinepayid,
+  //       time: that.data.date + ' ' + that.data.time,
+  //       huikuan_pingtai: that.data.adds.huikuan_pingtai,
+  //       name: that.data.adds.name,
+  //       body: "商城支付订单",
+  //       subject: "商城支付订单",
+  //     },
+  //     method: 'POST',
+  //     header: {
+  //       'Content-Type': 'application/x-www-form-urlencoded'
+  //     }, // 设置请求的 header
+  //     success: function (res) {
+  //       if (res.data.code == 1) {
+  //         wx.showToast({
+  //           title: res.data.msg,
+  //           duration: 2000,
+  //         });
+
+  //         setTimeout(function () {
+  //           wx.navigateTo({
+  //             url: '../user/dingdan?currentTab=0&otype=',
+
+  //           });
+  //         }, 2500);
+  //       } else {
+  //         wx.showToast({
+  //           title: "支付失败",
+  //           duration: 2000
+  //         });
+  //       }
+  //     },
+  //     fail: function () {
+  //       // fail
+  //       wx.showToast({
+  //         title: '网络异常！',
+  //         duration: 2000
+  //       });
+  //     }
+  //   })
+
+
+  // },
 
 })

@@ -1,0 +1,28 @@
+<!--pages/share-detail/share-detail.wxml-->
+
+<view style="background-color:{{share_gift_detail_bg_color ? share_gift_detail_bg_color : '#ffffff'}};height:{{windowHeight}}px;">
+  <view class="parent-con">
+          <view class='flex'>
+            <image class="parent-avatar "  src="{{headimgurl}}" background-size="cover"></image>       
+          </view> 
+          <view> 
+            <view>{{nickname}}</view>
+          </view>  
+  </view>
+  <view class='event-img'>
+    <image src="{{share_gift_detail_img}}" mode="widthFix"></image>
+  </view>
+  <view style='margin:32rpx;margin-top:30rpx;margin-bottom:150rpx;padding-bottom:80rpx;'>
+
+    <view class='wenzhang_detail'>
+        <import src="../../wxParse/wxParse.wxml"/> 
+        <view class="wxParse"> 
+            <scroll-view  scroll-y='true'>
+              <template is="wxParse" data='{{wxParseData:content.nodes}}'/>
+            </scroll-view>
+        </view>
+    </view>
+  </view>
+
+  <button  class="share-button" bindtap="getInActivity" style="color:{{share_gift_detail_btn_font_color?share_gift_detail_btn_font_color:'#fff'}};background-color:{{share_gift_detail_btn_bg_color ? share_gift_detail_btn_bg_color : '#f00'}}">{{share_gift_detail_btn_font ? share_gift_detail_btn_font : '立即参与'}}</button>
+</view>

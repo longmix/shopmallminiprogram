@@ -9,7 +9,7 @@
     <!-- 右侧数据 -->
     <scroll-view scroll-y="true" class="right">
         <view class="typeTree">
-            <view  class="brand" wx:for="{{typeTree}}" wx:for-item="data">
+            <view  class="brand" wx:for="{{typeTree}}" wx:for-item="data" wx:key="{{index}}">
                 <navigator url="../listdetail/listdetail?cataid={{data.cataid}}&title={{data.name}}" wx:key="typeId" class="item">
                     <image src="{{data.icon}}"></image>
                     <text>{{data.name}}</text>

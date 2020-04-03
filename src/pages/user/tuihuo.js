@@ -1,4 +1,5 @@
 var app = getApp();
+var userInfo = app.get_user_info();
 // pages/order/downline.js
 Page({
   data:{
@@ -11,6 +12,7 @@ Page({
     this.setData({
       orderId: options.orderId,
     });
+    userInfo = app.get_user_info();
   },
   submitReturnData:function(){
     //console.log(this.data);
@@ -32,37 +34,80 @@ Page({
     //   return;
     // }
     var that = this;
+
     wx.request({
-      url: app.d.ceshiUrl + '/Api/Order/orders_edit',
-      method:'post',
+      url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=order_tuikuan',
+      method: 'post',
       data: {
-        id: that.data.orderId,
-        type:'refund',
-        back_remark:that.data.remark,
-        //imgUrl:that.data.imgUrl,
+        orderid: that.data.orderId,
+        sellerid: app.get_sellerid(),
+        checkstr: userInfo.checkstr,
+        userid: userInfo.userid,
+        sale_memo: that.data.remark
       },
       header: {
-        'Content-Type':  'application/x-www-form-urlencoded'
+        'Content-Type': 'application/x-www-form-urlencoded'
       },
       success: function (res) {
-        //--init data        
-        var status = res.data.status;
-        if(status == 1){
+        //--init data
+        var code = res.data.code;
+        if (code == 1) {
           wx.showToast({
-            title: '您的申请已提交审核！',
+            title: res.data.msg,
             duration: 2000
           });
-          // wx.navigateTo({
-          //   url: '/pages/user/dingdan?currentTab=4',
-          // });
-        }else{
+          // wx.navigateBack({
+          //   delta
+          // })
+        } else {
           wx.showToast({
-            title: res.data.err,
+            title: res.data.msg,
             duration: 2000
           });
         }
       },
+      fail: function () {
+        // fail
+        wx.showToast({
+          title: '网络异常！',
+          duration: 2000
+        });
+      }
     });
+
+
+    
+    // wx.request({
+    //   url: app.d.ceshiUrl + '/Api/Order/orders_edit',
+    //   method:'post',
+    //   data: {
+    //     id: that.data.orderId,
+    //     type:'refund',
+    //     back_remark:that.data.remark,
+    //     //imgUrl:that.data.imgUrl,
+    //   },
+    //   header: {
+    //     'Content-Type':  'application/x-www-form-urlencoded'
+    //   },
+    //   success: function (res) {
+    //     //--init data        
+    //     var status = res.data.status;
+    //     if(status == 1){
+    //       wx.showToast({
+    //         title: '您的申请已提交审核！',
+    //         duration: 2000
+    //       });
+    //       // wx.navigateTo({
+    //       //   url: '/pages/user/dingdan?currentTab=4',
+    //       // });
+    //     }else{
+    //       wx.showToast({
+    //         title: res.data.err,
+    //         duration: 2000
+    //       });
+    //     }
+    //   },
+    // });
 
   },
   reasonInput:function(e){
@@ -74,6 +119,10 @@ Page({
     this.setData({
       remark: e.detail.value,
     });
+  },
+
+  onUnload:function(){
+    
   },
   uploadImgs:function(){
 

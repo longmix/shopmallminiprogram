@@ -76,9 +76,11 @@ Page({
 
   },
   onShow: function () {
-    app.getColor();
+
   },
   onLoad: function (options) {
+    app.set_option_list_str(null, app.getColor());
+    
     // 生命周期函数--监听页面加载
     this.setData({
       shengIndex: 0,

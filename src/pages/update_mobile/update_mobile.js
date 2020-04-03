@@ -31,10 +31,12 @@ Page({
     timer001:60
   },
   onShow: function () {
-    app.getColor();
+
   },
   onLoad: function (options) {
     var that = this
+
+    app.set_option_list_str(null, app.getColor());
 
     // 页面初始化 options为页面跳转所带来的参数
     wx.request({
@@ -191,10 +193,13 @@ Page({
     
 
     wx.request({
-      url: app.globalData.http_server + '?g=Yanyubao&m=Xiaochengxu&a=sendsms',
+        url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=sendsms_change_mobile',
       data: {
         mobile: this.data.mobile,
         verifycode: this.data.img,
+        sellerid: app.get_sellerid(),
+        checkstr: userInfo.checkstr,
+        userid: userInfo.userid,
         tokenstr: app.globalData.tokenstr
       },
       header: {

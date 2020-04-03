@@ -1,0 +1,53 @@
+<!--o2o/address/listdetail.wxml-->
+<view class="section">
+    <!-- 左侧类型  -->
+    <scroll-view scroll-y="true" class="left">
+        <view  wx:for="{{loulist}}" wx:for-item="item" wx:for-index="index1" data-name='{{item}}'  class="b {{item == currType ? 'active' : ''}}" style="font-size:33rpx；">
+            <view style="line-height:60px;text-align: left;font-size: 16px;border-bottom: 1px solid #eee;"><image style='width:13px;height:13px;padding-left:15rpx;' src='../../images/map.png'></image>{{item.level03}}<text style='float:right;font-size:14px;color:#ccc;padding-right:20rpx;'>距离你{{item.dis_str}}</text></view> 
+            <view class='qingchu'>
+            <view class='a' wx:for="{{item.level04}}" wx:for-item="m2" wx:for-index="index2" wx:key="k" data-index1="{{index1}}" data-index2="{{index2}}" bindtap="chooseRoom">{{m2.name}}</view>
+            <view class='a01' ><image bindtap='addNewAddress' data-totalfloor="{{item.total_floor}}" data-bid="{{item.bid}}" class="jiahao" src='../../images/icon_jiahao.png'></image></view>
+            
+            </view>
+            <view class='hengxian'></view>
+        </view>
+        <!-- <view class='a'>啦啦啦</view> -->
+    </scroll-view>
+</view>
+
+
+<view class="wx-popup" hidden="{{!is_add_new_address}}" catchtouchmove="true">
+  <view class='popup-container'>
+    <view class="wx-popup-title">
+      添加新地址
+      <image src="../../images/delete_red.png" class="wx-popup-close" bindtap='closeAddAddress'></image>
+    </view>
+    
+    
+    <view class="wx-popup-con">
+      
+    <view class="section2">
+      <view class="section__title"></view>
+      <picker bindchange="bindPickerChangeFloor" value="{{floorIndex}}" range="{{floorList}}">
+        <view class="picker">
+          选择楼层：{{floorList[floorIndex]}}
+        </view>
+      </picker>
+    </view>
+    <view class="wx-time-con">
+      <view class="wx-input-con">
+        <view>公司名称</view>
+        <input type='text' bindinput='companyName' placeholder='请输入公司名称'></input>
+      </view>
+      <view class="wx-input-con">
+        <view>房间编号</view>
+        <input type='text' bindinput='roomNo' placeholder='请输入门牌号'></input>
+      </view>
+    </view>
+    
+    </view>
+    <view class="wx-popup-btn">
+      <text class="btn-ok" bindtap='doAddNewAddess'>确定</text>
+    </view>
+  </view>
+</view>

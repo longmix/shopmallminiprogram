@@ -4,6 +4,7 @@
   height:50px;
   margin:10px auto;
   background-color: #fff;
+  clear: both;
 }
 
 .toutiao_left{
@@ -29,10 +30,50 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
+.toutiao_right2{
+  width:85%;
+  height:50px;
+  float:left;
+  font-size:13px;
+  line-height:50rpx;
+  color:black;
+  overflow: hidden;
+  letter-spacing: 3rpx;
+  text-overflow: ellipsis;
+}
+.video-con{
+  text-align: center;
+}
+
+.video-con video{
+  width: 95%;
+}
+.scroll-txt{
+  text-align: center;
+  margin: 10rpx 20rpx;
+  border: 20rpx red;
+  padding: 12rpx 0 12rpx 0;
+  color: #333;
+  background: #e6e6e6;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  border-radius: 60rpx;
+  height:50rpx;
+}
+
+.scroll-ads{
+  text-align: center;
+  font-size: 28rpx;
+}
+
 .style1{
   width:100%;
   margin-top:30rpx;
   text-align:center;
+  display:flex;
+  flex-wrap:wrap;
 }
 .style2{
 width:20%;
@@ -183,13 +224,13 @@ margin-left:18rpx;
 }
 
 .gmx {
-text-align: left;
+  text-align: left;
   width: 50%; 
   font-size: 22rpx;
   margin-right:10rpx; 
   text-decoration:line-through;
-
-color: #999}
+  color: #999;
+  }
 .ku{
   text-align: right;
   width: 50%; font-size: 26rpx;
@@ -496,4 +537,51 @@ opacity: 0;
   display: flex;
   opacity: 0;
 }
+
+.u-tap-btn {
+  position:fixed;
+  right:20rpx;
+  bottom:150rpx;
+  border:0rpx;
+}
+
+.u-go-home2 {
+  display:flex;
+  flex-direction:row;
+  justify-content:center;
+  border-radius:80rpx;
+  width:110rpx;
+  height:110rpx;
+  border:0px solid #eee;
+  font-size:20rpx;
+  text-align:center;
+  box-shadow:0px 4rpx 8rpx rgba(0,0,0,0.35);
+  z-index:2;
+  opacity:0.8;
+  margin-bottom:20rpx;
+  background:#44b549;
+  align-items:center;
+
+}
+
+.button-hover {
+  color:rgba(0, 0, 0, 0.6);
+}
+
+.u-go-home2 .iconfont {
+  font-size:1.5rem;
+  color:#FFF;
+  align-self:center;
+  border:0px solid #eee;
+}
+
+.fa {
+  display:inline-block;
+  font:normal normal normal 14px/1 FontAwesome;
+  font-size:inherit;
+  text-rendering:auto;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
 

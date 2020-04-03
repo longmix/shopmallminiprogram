@@ -1,0 +1,3 @@
+<!--cms/top_showcase/mymytop_showcase.wxml-->
+<web-view src="{{url}}" bindload="successload" binderror="errorload"></web-view>
+<view>{{url}}</view>

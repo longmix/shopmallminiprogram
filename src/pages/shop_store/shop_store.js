@@ -67,11 +67,15 @@ Page({
   },
 //窗体加载事件  
   onShow: function () {
-    app.getColor();
+
   },
 onLoad: function (options) {
+  app.set_option_list_str(null, app.getColor());
+
   var sid = options.shopId;
+  
   console.log(sid);
+  
   var that = this;
     wx.request({
       url: app.d.ceshiUrl + '/Api/Shangchang/shop_details',

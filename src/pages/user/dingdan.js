@@ -12,7 +12,7 @@ Page({
     winHeight: 0,  
     // tab切换  
     currentTab: 0,  
-    isStatus:'1',//1待付款，2待发货，6待收货 7已完成
+    isStatus:1,//1待付款，2待发货，6待收货 7已完成
     page:1,
     refundpage:0,
     ordreList:[],
@@ -23,9 +23,19 @@ Page({
     orderList4:[],
   },  
   onShow: function () {
-    app.getColor();
+
+    this.loadOrderList();
   },
-  onLoad: function(options) {  
+  onLoad: function(options) {
+
+    app.set_option_list_str(null, app.getColor());
+
+    app.set_option_list_str(this, this.callback_set_option);
+
+    if (options.currentTab){
+       this.loadOrderList();
+    }  
+    
     this.initSystemInfo();
     this.setData({
       currentTab: parseInt(options.currentTab),
@@ -34,9 +44,36 @@ Page({
     if(this.data.currentTab == 4){
       this.loadReturnOrderList();
     }else{
+      
       this.loadOrderList();
     }
-  },  
+
+
+
+    
+  }, 
+
+  callback_set_option: function (that, cb_params) {
+    console.log('getShopOptionAndRefresh+++++:::' + cb_params)
+
+    //从本地读取
+    var option_list_str = wx.getStorageSync("option_list_str");
+    if (!option_list_str) {
+      return null;
+    }
+
+    var option_list = JSON.parse(option_list_str);
+
+    if (!option_list) {
+      return;
+    }
+
+    this.setData({
+      wxa_order_hide_daishouhuo_refund: option_list.wxa_order_hide_daishouhuo_refund
+    })
+
+
+  }, 
   getOrderStatus:function(){
     return this.data.currentTab == 0 ? 1 : this.data.currentTab == 2 ?2 :this.data.currentTab == 3 ? 3:0;
   },
@@ -138,8 +175,60 @@ recOrder:function(e){
       }
     });
   },
+
+  //申请退款
+  refundOrder: function (e) {
+    var that = this;
+    var orderId = e.currentTarget.dataset.orderId;
+    wx.showModal({
+      title: '提示',
+      content: '你确定要申请退款吗？',
+      success: function (res) {
+        res.confirm && wx.request({
+          url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=order_tuikuan_direct',
+          method: 'post',
+          data: {
+            orderid: orderId,
+            sellerid: app.get_sellerid(),
+            checkstr: userInfo.checkstr,
+            userid: userInfo.userid
+          },
+          header: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          success: function (res) {
+            //--init data
+            var code = res.data.code;
+            if (code == 1) {
+              wx.showToast({
+                title: res.data.msg,
+                duration: 2000
+              });
+              that.loadOrderList();
+            } else {
+              wx.showToast({
+                title: res.data.msg,
+                duration: 2000
+              });
+            }
+          },
+          fail: function () {
+            // fail
+            wx.showToast({
+              title: '网络异常！',
+              duration: 2000
+            });
+          }
+        });
+
+      }
+    });
+  },
+
 //点击加载更多
 onReachBottom: function () {
+  var app = getApp();
+  var userInfo = app.get_user_info();
     console.log('加载更多')
   var that = this;
   var page = that.data.page;
@@ -163,6 +252,8 @@ onReachBottom: function () {
       'Content-Type': 'application/x-www-form-urlencoded'
     },
     success: function (res) {
+
+      console.log('11111111');
       var list = res.data.orderList;
       /*
       var order_list = [];
@@ -176,6 +267,7 @@ onReachBottom: function () {
       */
       console.log(that.data.orderList0);
       if (list == null) {
+        console.log('2222222');
         that.setData({
           isHideLoadMore: true,
         });
@@ -183,6 +275,7 @@ onReachBottom: function () {
       }else{
       switch (that.data.currentTab) {
         case 0:
+          console.log('3333333');
           setTimeout(() => {
             that.setData({
               orderList: that.data.orderList.concat(list),
@@ -226,17 +319,17 @@ onReachBottom: function () {
       if (list && list != null && list.length > 5) {
         var winHeight = that.data.winHeight;
         console.log(that.data.page)
-        var Height = winHeight * 2 * (that.data.page+1);
+        var Height = winHeight * (winHeight / 370) * (that.data.page+1);
         console.log(Height);
         that.setData({
-          Height: Height
+          Height: Height*3
         });
-      } else if (list == null) {
+      } else  {
         that.setData({
-          Height: that.data.winHeight - 120,
+          Height: that.data.winHeight + 370,
           isHideLoadMore: true,
         });
-      }
+      } 
       }
     },
       //that.initProductData(data);
@@ -250,6 +343,7 @@ onReachBottom: function () {
   })
 },
   loadOrderList: function(){
+    console.log('sdfsdfsdfasadf')
     var that = this;
     var userInfo = app.get_user_info();
     wx.request({
@@ -279,12 +373,16 @@ onReachBottom: function () {
         }
         }
         */
-        console.log(list);
+        var Height = that.data.winHeight;
+        console.log('that.data.currentTab====', that.data.currentTab)
+        console.log('listlist',list);
         switch(that.data.currentTab){
           case 0:
+          console.log('ddddddd')
             that.setData({
               isHideLoadMore: false,
               orderList: list,
+              Height: Height,
               page: 1
             });
             break;
@@ -292,6 +390,7 @@ onReachBottom: function () {
             that.setData({
               isHideLoadMore: false,
               orderList0: list,
+              Height: Height,
               page:1
             });
             break;
@@ -299,6 +398,7 @@ onReachBottom: function () {
             that.setData({
               isHideLoadMore: false,
               orderList1: list,
+              Height: Height,
               page: 1
             });
             break;  
@@ -306,6 +406,7 @@ onReachBottom: function () {
             that.setData({
               isHideLoadMore: false,
               orderList2: list,
+              Height: Height,
               page: 1
             });
             break;
@@ -313,22 +414,25 @@ onReachBottom: function () {
             that.setData({
               isHideLoadMore: false,
               orderList3: list,
+              Height: Height,
               page: 1
             });
             break;
  
         }
+
+        console.log('orderlistorderlist', that.data.orderList);
         if (list && list != null && list.length>5){
           var winHeight = that.data.winHeight
           var Height = winHeight*2*that.data.page;
-          console.log(Height);
           that.setData({
             Height: Height
           });
-        } else if(list==null){
+        } else {
+
           that.setData({
-            Height: that.data.winHeight-120,
-            isHideLoadMore: true,
+            Height: that.data.winHeight+370,
+            isHideLoadMore: false,
           });
         }
       },
@@ -385,6 +489,7 @@ loadReturnOrderList:function(){
     var that = this;  
     wx.getSystemInfo( {
       success: function( res ) {  
+        console.log('地地道道的多大的',res)
         that.setData( {  
           winWidth: res.windowWidth,  
           winHeight: res.windowHeight  
@@ -396,7 +501,8 @@ loadReturnOrderList:function(){
     var that = this;  
     that.setData( { currentTab: e.detail.current });  
   },  
-  swichNav: function(e) {  
+  swichNav: function(e) { 
+    
     var that = this;  
     if( that.data.currentTab === e.target.dataset.current ) {  
       return false;  
@@ -571,6 +677,16 @@ loadReturnOrderList:function(){
       }
     })
   },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function () {
+    wx.reLaunch({
+      url: '/pages/user/user',
+    })
+  },
+  
   /**
    * 调用服务器微信统一下单接口创建一笔微信预订单
    */

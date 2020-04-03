@@ -1,0 +1,22 @@
+<view class="section">
+    <!-- 左侧类型 -->
+    <scroll-view scroll-y="true" class="left">
+        <view wx:for="{{types}}" wx:for-index="idx" wx:key="typeId" data-idx='{{idx}}' bindtap="tapType" class="{{idx == currType ? 'active' : ''}}" style="font-size:33rpx；">
+            {{item.name}}
+        </view>
+    </scroll-view>
+
+    <!-- 右侧数据 -->
+    <scroll-view scroll-y="true" class="right">
+        <view class="typeTree">
+            <view  class="brand" wx:for="{{typeTree}}" wx:for-item="data" wx:key="{{index}}">
+                <navigator url="../product/detail?productid={{data.productid}}" wx:key="typeId" class="item">
+                    <image src="{{data.picture}}"></image>
+                    <text>{{data.name}}</text>
+                    <text>￥ {{data.price}}</text>
+                </navigator>
+                    
+            </view>
+        </view>
+    </scroll-view>
+</view>

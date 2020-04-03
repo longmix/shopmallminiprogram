@@ -28,6 +28,23 @@ Page({
         }
      }
 
+
+      if (app.globalData.is_ziliaoku_app == 1) {
+        wx.reLaunch({
+          url: "/cms/index/index"
+        });
+        return;
+      }
+
+      if (app.globalData.is_o2o_app == 1) {
+
+        wx.reLaunch({
+          url: "/o2o/index/index"
+        });
+        return;
+      } 
+
+
       wx.clearStorageSync();
       wx.switchTab({
         url: '../index/index'
@@ -35,9 +52,11 @@ Page({
      
     },
     onShow: function () {
-      app.getColor();
+
     },
   	onLoad: function(){
+      app.set_option_list_str(null, app.getColor());
+      
       var that = this
       var userInfo = app.get_user_info();
       if ((!userInfo) || (!userInfo.userid)) {
@@ -59,7 +78,7 @@ Page({
               })
 */
       wx.request({
-        url: app.globalData.http_server +'g=Yanyubao&m=ShopAppWxa&a=get_user_info',
+        url: app.globalData.http_server +'?g=Yanyubao&m=ShopAppWxa&a=get_user_info',
         data: {
            sellerid: app.get_sellerid(),
            checkstr:userInfo.checkstr,

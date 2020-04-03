@@ -1,0 +1,21 @@
+<!--pages/login/login.wxml-->
+<view class="page" style='width:100%;overflow-x:hidden;height:{{windowHeight}}px;background:#fff;'>
+<view class='box'>
+ <image src='{{shop_list.icon}}' mode="widthFix"></image>
+</view>
+
+
+
+ <view class='shouquan-con'>
+  <view class='open-con'>
+    <open-data type="userAvatarUrl" class="userinfo-avatar" ></open-data>
+    <open-data type="userNickName" class="userinfo-userNickName" ></open-data>
+  </view>
+   
+  <image class="shouquan-a" mode="widthFix" src="../../images/double_arrow_right.png"></image>
+  <image class="shouquan-b" src="../../images/wxa.png"></image>
+ </view>
+
+
+<button open-type="getUserInfo" plain="true" bindgetuserinfo="btn_one_click_get_userinfo" class="check_btn2" style="background-color:#07C160; color:#ffffff;border:1px solid #fff;">授权获取头像和昵称</button>
+</view>

@@ -33,7 +33,8 @@ Page({
     disabled: false,
     timer001: 60,
     js_code: '',
-    tokenstr :''
+    tokenstr :'',
+    show_mobile_login:0
   },
 
 
@@ -71,10 +72,13 @@ Page({
     if (userinfo.detail.errMsg == 'getUserInfo:ok') {
 
       //wx.request({}) // 将用户信息、匿名识别符发送给服务器，调用成功时执行 callback(null, res)
-      var that = this
+      var that = this;
+
+      console.log('wx.login <<<==== btn_user_login');
+
       wx.login({
         success: function (res) {
-          console.log('wx.login return message');
+          console.log('btn_user_login wx.login return message');
           console.log(res);
           console.log(res.code);
           that.data.js_code = res.code;
@@ -90,25 +94,41 @@ Page({
     }
   },
   onShow: function () {
-    app.getColor();
+    
   },
   onLoad: function (options) {
+    app.set_option_list_str(null, app.getColor());
+    
     var that = this;
+    console.log('app.globalData.option_list', app.globalData.option_list)
+    var option_list = app.globalData.option_list;
+
+    if (option_list.wxa_login_only_weixin && option_list.wxa_login_only_weixin == 1){
+      that.setData({
+        show_mobile_login: 1
+      })
+    }
+
+ 
 
     //countdown(that);
 
+    if(options.fromPage){
+      that.setData({
+        fromPage: options.fromPage
+      })
+    }
 
+    app.get_shop_info_from_server(function (shop_list) {
+      console.log('o2o/index get_shop_info_from_server 回调：');
+      console.log(shop_list);
 
-    wx.getStorage({
-      key: 'shop_list',
-      success: function (res){
-        console.log(res);
-        that.setData({
-          shop_list: res.data,
-        });
-        console.log(that.data.shop_list);
-      }
-    });
+      that.setData({
+        shop_list: shop_list,
+      });
+
+    })
+
     // 页面初始化 options为页面跳转所带来的参数
     wx.request({
       url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=get_tokenstr',
@@ -127,19 +147,19 @@ Page({
       }
     })
 
-    wx.getStorage({
-      key: 'userListInfo',
-      success: function (res) {
-        if (res.data) {
-          console.log(res.data[2].content);
-          that.setData({
-            mobile: res.data[2].content,
+    // wx.getStorage({
+    //   key: 'userListInfo',
+    //   success: function (res) {
+    //     if (res.data) {
+    //       console.log(res.data[2].content);
+    //       that.setData({
+    //         mobile: res.data[2].content,
 
-          });
-        }
+    //       });
+    //     }
 
-      }
-    })
+    //   }
+    // })
 
   },
 
@@ -207,6 +227,7 @@ Page({
         mobile: that.data.mobile,
         verifycode_sms: that.data.tel,
         sellerid: app.get_sellerid(),
+        parentid: app.get_current_parentid(),
 
         formId: that.data.formId,
 
@@ -221,16 +242,23 @@ Page({
         //var res = JSON.parse(data);
         //console.log(res);
         console.log(request_res.data);
-        if (request_res.data.code == 1){
+        if (request_res.data && (request_res.data.code == 1)){
           console.log("update_mobile : check_button : ");
           console.log('登录成功返回userid:' + request_res.data.userid);
+          
           app.globalData.sellerid = app.get_sellerid();
           app.globalData.userInfo.user_openid = request_res.data.openid;
           app.globalData.userInfo.userid = request_res.data.userid;          
           app.globalData.userInfo.checkstr = request_res.data.checkstr;
+
+          //保存openid
+          app.set_current_openid(request_res.data.openid);
+
           console.log('更新缓存的用户信息:');
           console.log(app.globalData.userInfo);
+          
           app.set_user_info(app.globalData.userInfo);     
+          
           wx.showModal({
             title: '提示',
             content: request_res.data.msg,
@@ -238,6 +266,48 @@ Page({
             success: function (res) {
               //console.log("回调结果"+res.code);
               if (res.confirm) {
+
+                //=======检查登录成功之后的跳转=======
+                var last_url = wx.getStorageSync('last_url');
+
+                console.log('last_url-----', last_url)
+
+                var page_type = wx.getStorageSync('page_type');
+                if (last_url) {
+                  if (page_type && (page_type == 'switchTab')) {
+
+                    wx.switchTab({
+                      url: last_url,
+                    })
+                  }
+                  else {
+                    wx.redirectTo({
+                      url: last_url,
+                    })
+                  }
+
+                  wx.removeStorageSync('last_url');
+                  wx.removeStorageSync('page_type');
+
+                  return;
+                }
+                //===========End================
+
+                if (app.globalData.is_ziliaoku_app == 1) {
+
+                  wx.reLaunch({
+                    url: "/cms/index/index"
+                  });
+
+                  return;
+                }
+                
+                if(that.data.fromPage == 'share-detail'){
+                  wx.navigateBack({                  
+                      delta: 1                
+                  })
+                }
+
                 wx.switchTab({
                   url: '/pages/user/user'
                 })
@@ -301,10 +371,11 @@ Page({
     }
 
     wx.request({
-      url: app.globalData.http_server + '?g=Yanyubao&m=Shang&a=sendsms',
+      url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=sendsms',
       data: {
         mobile: that.data.mobile,
         verifycode: that.data.img,
+        sellerid: app.get_sellerid(),
         //verifycode_sms: that.data.second,
         tokenstr: that.data.tokenstr
       },
@@ -357,19 +428,21 @@ Page({
 
   btn_one_click_login: function (e) {
     var that = this;
-    // console.log(e.detail.errMsg)
-    // console.log(e.detail.iv)
-    // console.log(e.detail.encryptedData)
+    console.log(e.detail.errMsg)
+    console.log(e.detail.iv)
+    console.log(e.detail.encryptedData)
+
+    console.log('wx.login <<<==== btn_one_click_login');
 
     wx.login({
       success: function (res) {
-        console.log("获取到的jscode是:" + res.code);
+        console.log("btn_one_click_login 获取到的jscode是:" + res.code);
 
         //如果拒绝授权， e.detail.errMsg
         //console.log(e.detail.errMsg);return;
 
         wx.request({
-          url: app.globalData.http_server + '?g=Yanyubao&m=Xiaochengxu&a=wxa_one_click_login',
+          url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=wxa_one_click_login',
           header: {
             "Content-Type": "application/x-www-form-urlencoded"
           },
@@ -380,6 +453,8 @@ Page({
             xiaochengxu_appid: app.globalData.xiaochengxu_appid,
             iv: e.detail.iv,
             encryptedData: e.detail.encryptedData,
+            sellerid: app.get_sellerid(),
+            parentid: app.get_current_parentid(),
 
             //uwid: app.globalData.userInfo.uwid,
             //checkstr: app.globalData.userInfo.checkstr,
@@ -388,7 +463,7 @@ Page({
           success: function (res) {
             console.log(res);
 
-            if (res.data.code == 1) {
+            if (res.data && (res.data.code == 1)) {
               //更新checkstr和uwid，
               app.globalData.userInfo.userid = res.data.userid;
               //app.globalData.userInfo.checkstr = res.data.checkstr;
@@ -399,6 +474,10 @@ Page({
               app.globalData.userInfo.user_openid = res.data.openid;
               app.globalData.userInfo.userid = res.data.userid;
               app.globalData.userInfo.checkstr = res.data.checkstr;
+              app.globalData.userInfo.is_get_userinfo = res.data.is_get_userinfo;
+
+              //保存openid
+              app.set_current_openid(res.data.openid);
 
               console.log(app.globalData.userInfo);
 
@@ -408,19 +487,73 @@ Page({
               //var last_url = app.get_last_url();
               //console.log(last_url);
 
-              var last_url = '../index/index';
+
+              wx.showToast({
+                title: res.data.msg,
+                icon: 'success',
+                duration: 2000
+              })
+
+              //=======检查登录成功之后的跳转=======
+              var last_url = wx.getStorageSync('last_url');
+
+              console.log('last_url-----', last_url)
+              var page_type = wx.getStorageSync('page_type');
+              if (last_url) {
+                if (page_type && (page_type == 'switchTab')) {
+                  wx.switchTab({
+                    url: last_url,
+                  })
+                }
+                else{
+                  wx.redirectTo({
+                    url: last_url,
+                  })
+                }
+
+                wx.removeStorageSync('last_url');
+                wx.removeStorageSync('page_type');
+
+                return;
+
+              }
+
+              if (app.globalData.is_ziliaoku_app == 1) {
+
+                wx.reLaunch({
+                  url: "/cms/index/index"
+                });
+
+                return;
+              }
+              //===================End===========
+
+
+              if (that.data.fromPage == 'share-detail') {
+                wx.navigateBack({
+                  delta: 1
+                })
+              }
 
               wx.switchTab({
-                url: last_url
-              });
+                url: '/pages/user/user'
+              })
+
+              
             }
             else {
               //一键登录返回错误代码
-              wx.showToast({
-                title: res.data.msg,
-                icon: 'fail',
-                duration: 2000
-              });
+              wx.showModal({
+                title: '提示',
+                content: res.data.msg,
+                showCancel:false,
+                success(res) {
+                  if (res.confirm) {
+                    console.log('用户点击确定')
+                  }
+                }
+              })
+
 
             }
           }
@@ -432,8 +565,26 @@ Page({
       }
 
     });
+  },
+
+//跳转到账号密码登录页面
+  toLoginByPassword: function () {
+    var that = this
+    var url = 'login_by_password'
+    if (that.data.fromPage) {
+      url += '?fromPage=' + that.data.fromPage
+    }
+    wx.navigateTo({
+      url: url,
+    })
+  },
 
 
+  //跳转首页
+  toPageIndex:function(e){
+    wx.redirectTo({
+      url: '/pages/index/Liar',
+    })
   }
 
 

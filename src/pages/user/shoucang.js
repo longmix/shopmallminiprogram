@@ -1,5 +1,5 @@
 var app = getApp();
-var userInfo = app.get_user_info();
+
 // pages/user/shoucang.js
 Page({
   data:{
@@ -7,12 +7,18 @@ Page({
     favoriteList:[],
   },
   onLoad:function(options){
+
+    app.set_option_list_str(null, app.getColor());
+
+    var last_url = '/pages/user/shoucang';
+    var page_type = 'normal';
+    app.goto_user_login(last_url, page_type);
+
     this.loadProductData();
   },
   onShow:function(){
     // 页面显示
-    this.loadProductData();
-    app.getColor();
+    //this.loadProductData();
   },
   removeFavorites:function(e){
     var that = this;

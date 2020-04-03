@@ -1,0 +1,33 @@
+/* pages/index/index_off.wxss */
+
+.a-con{
+  text-align:center;
+  position:absolute;
+  top: 370rpx;
+  width: 100%
+}
+.a-1{
+  width:36%;
+  border-radius:100%;
+  background-color:#ccc;
+  margin-left:32%;
+  margin-bottom:20rpx;
+}
+
+.a-1 image{
+  width: 90%;
+  padding:5% 0;
+}
+
+.b-1{
+  color:#666;
+  margin:40rpx;
+}
+
+.c-1{
+  background-color: #07C160;
+  color: #fff;
+  margin-top: 30rpx;
+  border-radius: 100px;
+  width:60%;
+}
