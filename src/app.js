@@ -1,25 +1,5 @@
 // app.js
 App({
-  globalData:{
-	  
-   xiaochengxu_appid: 'wx00d1e2843c3b3f77', 
-   shop_name:'又一个通版商城',
-   default_sellerid: 'pQNNmSkaq', 
-   
-   force_sellerid: 0, 
-   token:'inkqzh1493969716',
-   sellerid: '',
-   version_number: "1.2.0",
-   kefu_telephone:"021-31128716",
-   kefu_qq:"537086268",
-   kefu_website:"www.abot.cn",
-   kefu_gongzhonghao:"延誉宝",
-   
-   http_weiduke_server: 'https://cms.weiduke.com/',
-   http_server: 'https://yanyubao.tseo.cn/',
-   userInfo: {}
-  },
-  
   onLaunch: function () {   
     //调用API从本地缓存中获取数据
     var logs = wx.getStorageSync('logs') || []
@@ -45,16 +25,6 @@ App({
     let extConfig = wx.getExtConfigSync ? wx.getExtConfigSync() : {}
 
     this.globalData.xiaochengxu_appid = extConfig.xiaochengxu_appid;
-    //强制设置当前的appid
-    
-    // const accountInfo = wx.getAccountInfoSync();
-    
-    // if (accountInfo && accountInfo.miniProgram && accountInfo.miniProgram.appId) {
-    //   this.globalData.xiaochengxu_appid = accountInfo.miniProgram.appId;
-    // }
-    
-    console.log('当前小程序为：' + this.globalData.xiaochengxu_appid);
-
 
     //强制设置当前的appid
     
@@ -113,7 +83,6 @@ App({
     if (extConfig.is_ziliaoku_app) {
       this.globalData.is_ziliaoku_app = extConfig.is_ziliaoku_app;
     }
-<<<<<<< HEAD
     if (extConfig.is_o2o_app) {
       this.globalData.is_o2o_app = extConfig.is_o2o_app;
     }
@@ -181,13 +150,6 @@ App({
         });
       },
     });
-=======
-
-    
-
-    //this.set_option_list_str();
-
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
   },
   set_user_info: function (user_info) {
     console.log("准备保存用户数据：");
@@ -218,12 +180,9 @@ App({
     wx.removeStorageSync("wxa_user_info");
 
   },
-<<<<<<< HEAD
   /**
    * page_type normal/switchTab
    */
-=======
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
   goto_user_login: function (last_url, page_type){
     var userInfo = this.get_user_info();
 
@@ -255,7 +214,6 @@ App({
       return;
     };
 
-<<<<<<< HEAD
   },
 
  /**
@@ -284,10 +242,6 @@ App({
 
 
 
-=======
-
-  },
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
   check_user_login: function () {
     var user_info_str = wx.getStorageSync("wxa_user_info");
     console.log("获取小程序用户数据：" + user_info_str);
@@ -362,21 +316,12 @@ App({
       //return null;
 
        wx.showToast({
-<<<<<<< HEAD
         title: '数据更新中……',
          icon:'loading'
       });
 
       //this.set_option_list_str(this, this.getColor);
 
-=======
-        title: '正在更新缓存',
-        icon:'fail'
-      });
-
-      this.set_option_list_str(this, this.getColor);
-
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
       return;
   
     }
@@ -427,11 +372,7 @@ App({
       this.globalData.option_list = option_list;
       console.log(' this.globalData.option_list===========', this.globalData.option_list)
       //刷新界面
-<<<<<<< HEAD
       typeof callback_function == "function" && callback_function(that, option_list);
-=======
-      typeof callback_function == "function" && callback_function(that, 8888);
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
 
     } else {
 
@@ -464,11 +405,7 @@ App({
           console.log('保存商城选项：' + option_list_str);
 
           //刷新界面
-<<<<<<< HEAD
           typeof callback_function == "function" && callback_function(that, option_list);
-=======
-          typeof callback_function == "function" && callback_function(that, '6666');
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
 
         },
         fail: function (e) {
@@ -479,54 +416,7 @@ App({
         },
       });
     }
-<<<<<<< HEAD
-=======
   },
-
-
-  set_current_openid: function (openid) {
-    if (!openid) {
-      return;
-    }
-
-    console.log("设置openid：" + openid);
-
-    //缓存返回数据
-    wx.setStorageSync("current_openid", openid);
-  },
-  get_current_openid: function () {
-    var openid = wx.getStorageSync("current_openid");
-    console.log("获取openid：" + openid);
-
-    if (!openid) {
-      openid = null;
-    }
-
-    return openid;
-  },
-
-  set_current_weiduke_token: function (weiduke_token) {
-    if (!weiduke_token) {
-      return;
-    }
-
-    console.log("设置weiduke_token：" + weiduke_token);
-
-    //缓存返回数据
-    wx.setStorageSync("current_weiduke_token", weiduke_token);
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
-  },
-  get_current_weiduke_token: function () {
-    var weiduke_token = wx.getStorageSync("current_weiduke_token");
-    console.log("获取weiduke_token：" + weiduke_token);
-
-    if (!weiduke_token) {
-      weiduke_token = null;
-    }
-
-    return weiduke_token;
-  },
-  
 
 
   set_current_openid: function (openid) {
@@ -640,7 +530,6 @@ App({
     });
 
   },
-<<<<<<< HEAD
 
 
   set_o2o_basic_data_option_str: function (that, callback_function) {
@@ -700,8 +589,6 @@ App({
   },
 
 
-=======
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
   
   getOrBindTelPhone:function(returnUrl){
     var user = this.globalData.userInfo;
@@ -739,7 +626,6 @@ App({
       }
     })
 
-<<<<<<< HEAD
   },
   //调用H5browser打开网页
   call_h5browser_or_other_goto_url: function (url, var_list) {
@@ -913,8 +799,6 @@ App({
    kefu_website:"www.abot.cn",
    kefu_gongzhonghao:"延誉宝"*/
    
-=======
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
   },
 
   onPullDownRefresh: function (){

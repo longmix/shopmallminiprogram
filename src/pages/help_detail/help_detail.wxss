@@ -61,11 +61,7 @@
 
 .detail_top{
   background-color: #fff;
-<<<<<<< HEAD
 
-=======
-  border-bottom: 10rpx solid;
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
   border-image: -webkit-linear-gradient(rgb(136, 136, 136),#fff) 30 30;
   border-image: -moz-linear-gradient(rgb(136, 136, 136),#fff) 30 30;
   border-image: linear-gradient(rgb(136, 136, 136),#fff) 30 30;

@@ -15,7 +15,6 @@
     <view class="title">{{detail.name}}</view>
     <view class="gmxx">
       <view>
-<<<<<<< HEAD
         <span class="jiage">¥{{detail.price}} {{detail.product_take_score}}</span>
         <view class="gmx" wx:if="{{detail.product_take_score}}">¥ {{detail.price2}}</view>
         <view class="share_box">
@@ -23,15 +22,6 @@
             <image src="/images/fenxiang.png"></image>
             <button class="share" open-type="share"></button>
           </view>
-=======
-  <view class="title">{{detail.name}}</view>
-  <view class="gmxx">
-    <view><span class="jiage">¥{{detail.price}} {{detail.product_take_score}}</span><view class="gmx" wx:if="{{detail.product_take_score}}">¥ {{detail.price2}}</view>
-       <view class="share_box" >
-        <view class="share_hide">
-            <image src="/images/fenxiang.png" ></image>
-          <button class="share" open-type="share"></button> 
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
         </view>
       </view>
 
@@ -48,26 +38,11 @@
       {{item}}
     </view>
   </view>
-<<<<<<< HEAD
   <view class="specs-a" style="display:flex;" wx:if="attr_list_arr[spec1] != null">
     <view class="{{option_list_arr[1] == item2 ? 'specs-e' : 'specs-d'}}" wx:for="{{attr_list_arr[spec1]}}" wx:for-index="index" data-spec2="{{item2}}" wx:for-item="item2" bindtap="changeSpec2">
       {{item2}}
     </view>
   </view>
-=======
-  <view class="specs" wx:if="{{attr_list}}">商品选项</view>
-  <!-- 规格开始 -->
-  <view class="specs-a" style='display:flex;'>
-    <view  class="{{option_list_arr[0] == item ? 'specs-e' : 'specs-d'}}" wx:for="{{attr_key_arr}}" wx:for-index="index" data-spec1="{{item}}" bindtap='changeSpec1'>
-      {{item}}        
-    </view>
-  </view>
-  <view class="specs-a"  style="display:flex;" wx:if="attr_list_arr[spec1] != null">
-      <view  class="{{option_list_arr[1] == item2 ? 'specs-e' : 'specs-d'}}" wx:for="{{attr_list_arr[spec1]}}" wx:for-index="index" data-spec2="{{item2}}" wx:for-item="item2" bindtap="changeSpec2">
-          {{item2}}      
-      </view>
-  </view>
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
   <!-- 规格结束 -->
 </view>
 <view class="block_ladder">

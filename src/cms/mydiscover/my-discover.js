@@ -20,11 +20,8 @@ Page({
     
     that.getFaquanList();
 
-<<<<<<< HEAD
     app.set_option_list_str(null, app.getColor());
 
-=======
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
   },
 
 
@@ -241,10 +238,6 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-<<<<<<< HEAD
-=======
-    app.getColor();
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
     if(!userInfo){
       userInfo = app.get_user_info();
     }

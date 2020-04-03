@@ -27,7 +27,6 @@ Page({
     this.loadOrderList();
   },
   onLoad: function(options) {
-<<<<<<< HEAD
 
     app.set_option_list_str(null, app.getColor());
 
@@ -36,11 +35,6 @@ Page({
     if (options.currentTab){
        this.loadOrderList();
     }  
-=======
-    // if (options.currentTab){
-    //    this.onLoad();
-    // }  
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
     
     this.initSystemInfo();
     this.setData({

@@ -51,19 +51,11 @@
                     <text class="list-des" data-id="{{item._id}}">{{item.text}}</text>
 
                     <view wx:if="{{item.type == 0}}">  
-<<<<<<< HEAD
                          <image wx:for="{{item.img_or_video_list}}" lazy-load="true"  bindtap='bigImg' mode="aspectFill" data-index="{{idx}}" data-index2="{{idx2}}" wx:for-index="idx2" wx:for-item="item2" class="list-image"  src="{{item2.url}}"  data-id="{{item._id}}"></image>                        
                     </view>
 
                     <view wx:else>
                         <video id="{{item2.imgid}}" bindtap='start_and_stop_other_videos' wx:for="{{item.img_or_video_list}}" poster='' controls="true" wx:for-item="item2" src="{{item2.url}}"   controls ></video>
-=======
-                         <image wx:for="{{item.img_or_video_list}}" bindtap='bigImg' mode="aspectFill" data-index="{{idx}}" data-index2="{{idx2}}" wx:for-index="idx2" wx:for-item="item2" class="list-image"  src="{{item2.url}}"  data-id="{{item._id}}"></image>                        
-                    </view>
-
-                    <view wx:else>
-                        <video wx:for="{{item.img_or_video_list}}" wx:for-item="item2" src="{{item2.url}}"   controls ></video>
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
                     </view>
                     
                 </view>
@@ -74,11 +66,7 @@
             </view>
           </view>
            <view wx:if="{{!is_my_discover_collection && !is_my_discover}}" class="list-address fz-10 m-t-5">
-<<<<<<< HEAD
               <view bindtap="{{disable ? '' : 'oneClickSave'}}" class='download-con' data-index='{{idx}}' data-type='{{item.type}}' >
-=======
-              <view bindtap="{{disabled ? '' : 'oneClickSave'}}" class='download-con' data-index='{{idx}}' data-type='{{item.type}}' >
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
                 <image class="download-img" src="../../images/download.png"></image>一键保存</view>
 
 
@@ -107,10 +95,7 @@
 <view class='cancel-search' wx:if="{{is_search}}" bindtap='cancelSearch'>
   <view>取消</view>
   <view>搜索</view>
-<<<<<<< HEAD
 </view>
 <view class="publish-idea" style='padding:14rpx;' bindtap="publishIdea" wx:if="{{faquan_button_status==1}}">
   <image src="/images/discover_publish.png"></image>
-=======
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
 </view>

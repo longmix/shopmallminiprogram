@@ -40,14 +40,9 @@ Page( {
   },
   onShow: function () {
     userInfo = app.get_user_info();
-<<<<<<< HEAD
     
     this.onLoad();
 
-=======
-    this.onLoad();
-    app.getColor();
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
     console.log('userinfo',userInfo)
     var option_list_str = wx.getStorageSync("option_list_str");
 
@@ -93,13 +88,10 @@ Page( {
   onLoad: function () {
       //  app.check_user_login()
       var that = this
-<<<<<<< HEAD
 
     app.set_option_list_str(null, app.getColor());
 
 
-=======
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
       //调用应用实例的方法获取全局数据
       var userInfo = app.get_user_info();
       console.log(userInfo ,'userInfo,userInfo,userInfo');

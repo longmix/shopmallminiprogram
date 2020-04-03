@@ -2,10 +2,7 @@
 var app = getApp();
 var userInfo = app.get_user_info();
 // var WxParse = require('../../wxParse/wxParse.js');
-<<<<<<< HEAD
 
-=======
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
 Page({
 
   /**
@@ -16,12 +13,8 @@ Page({
     faquanList: [],
     isShowBottomLine: 0,
     imgheights: [],
-<<<<<<< HEAD
     current: 0,
     startself:0
-=======
-    current: 0
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
   },
 
   /**
@@ -37,11 +30,8 @@ Page({
    
     that.getFaquanList();
 
-<<<<<<< HEAD
     app.set_option_list_str(null, app.getColor());
 
-=======
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
   },
 
   callback_flash_ad_list: function (that, cms_faquan_setting){
@@ -84,7 +74,6 @@ Page({
         },
       })
     }
-<<<<<<< HEAD
 
     console.log('cms_faquan_setting', cms_faquan_setting)
 
@@ -93,8 +82,6 @@ Page({
         faquan_button_status: cms_faquan_setting.faquan_button_status
       })
     }
-=======
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
     
 
   },
@@ -421,11 +408,7 @@ console.log('userInfo==',userInfo);
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-<<<<<<< HEAD
     
-=======
-    app.getColor();
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
     if(!userInfo || !userInfo.is_get_userinfo){
       console.log('userInfo========1',userInfo)
       userInfo = app.get_user_info();
@@ -520,10 +503,7 @@ console.log('userInfo==',userInfo);
       isShowBottomLine: 0
     })
     this.getFaquanList();
-<<<<<<< HEAD
     this.onShow();
-=======
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
     console.log('下拉刷新==============')
     //停止当前页面的下拉刷新
 
@@ -573,7 +553,6 @@ console.log('userInfo==',userInfo);
     })
   },
 
-<<<<<<< HEAD
   //播放点击视频并停止播放其他视频
   start_and_stop_other_videos:function(e){
     console.log(e);
@@ -660,6 +639,4 @@ console.log('userInfo==',userInfo);
   }
   
 
-=======
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
 })

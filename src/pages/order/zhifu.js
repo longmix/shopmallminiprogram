@@ -13,12 +13,9 @@ Page({
   },
   onLoad: function (options) {
     console.log('options', options)
-<<<<<<< HEAD
 
     app.set_option_list_str(null, app.getColor());
 
-=======
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
     var date = util.formatTime(new Date());
     var time = util.formatTime2(new Date());
     // 再通过setData更改Page()里面的data，动态更新页面的数据
@@ -29,12 +26,7 @@ Page({
     showView: (options.showView == "true" ? true : false)
     this.setData({
       orderId: options.orderId,
-<<<<<<< HEAD
       traffic_price: options.traffic_price ? options.traffic_price : 0,
-=======
-      balance_zengsong_dikou: options.balance_zengsong_dikou,
-      balance_dikou: options.balance_dikou,
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
     });
 
     if (options.balance_zengsong_dikou){
@@ -180,34 +172,21 @@ Page({
         var code = res.data.code;
         if (code == 1) {
           var orderData = res.data.orderinfo;
-<<<<<<< HEAD
         
 
           var pay_price = parseFloat(orderData.order_total_price) + parseFloat(that.data.traffic_price);
           
-=======
-          console.log(orderData);
-
-          var pay_price = orderData.order_total_price;
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
 
           if(that.data.balance_zengsong_dikou){
             pay_price = pay_price - that.data.balance_zengsong_dikou;
           }
 
-<<<<<<< HEAD
           
-=======
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
           if (that.data.balance_dikou) {
             pay_price = pay_price - that.data.balance_dikou;
           }
 
-<<<<<<< HEAD
           
-=======
-
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
           that.setData({
             orderData: orderData,
             pay_price: util.sprintf("%6.2f", pay_price),
@@ -333,26 +312,7 @@ Page({
 
     wx.request({
       url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=order_buy',
-<<<<<<< HEAD
       data: data_params,
-=======
-      data: {
-        orderid: that.data.orderId,
-        payment_type: 6,
-        userid: userInfo.userid,
-        checkstr: userInfo.checkstr,
-        sellerid: app.get_sellerid(),
-        money: that.data.pay_price,
-        yue_amount: that.data.balance_dikou,
-        zengkuan_amount: that.data.balance_zengsong_dikou,
-        offlinepayid: that.data.payList.offlinepayid,
-        time: that.data.date + ' ' + that.data.time,
-        huikuan_pingtai: that.data.adds.huikuan_pingtai,
-        name: that.data.adds.name,
-        body: "商城支付订单",
-        subject: "商城支付订单",
-      },
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
       method: 'POST', 
       header: {
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -428,7 +388,6 @@ Page({
         console.log('order_buy order_buy order_buy', res);
 
         if (res.data.code == 1) {
-<<<<<<< HEAD
           if (res.data.str == 'yue') {
             wx.showToast({
               title: "支付成功!",
@@ -462,14 +421,6 @@ Page({
             })
 
 
-=======
-          if (res.data.wxpay_params.errcode == 1) {
-            wx.showToast({
-              title: "网络错误!",
-              duration: 2000,
-              icon: 'none',
-            });
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
             return;
           }
 

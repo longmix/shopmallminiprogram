@@ -1,27 +1,15 @@
 <!--pay.wxml-->
-<<<<<<< HEAD
 <view wx:if="{{wxa_order_queren_hide_address != 1 && from_o2o != 1}}" style="border-bottom:1px dashed #e5e5e5;">
-=======
-<view wx:if="{{wxa_order_queren_hide_address != 1}}" style="border-bottom:1px dashed #e5e5e5;">
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
     <view class="p_all bg_white mt10 font_14" wx:if="{{addemt==0}}">
           <navigator open-type='redirect' url="../address/user-address/user-address?cartId=321&amount={{amount}}&productid={{productid}}&action={{action}}" hover-class="none">
           <view class="df">
             <view class="df_1 c6">
             <view style='display:flex;'>
-<<<<<<< HEAD
                 <view class="l_h20" style="font-size:40rpx;margin-right:56rpx;">{{order_address_detail.name}}</view>
                 <view class="l_h20 " style="font-size:40rpx;">{{order_address_detail.mobile}}</view>
             </view>
             <view class="l_h20 mt5" style="font-size:22rpx;margin-top:22rpx;">{{order_address_detail.province_name}}{{order_address_detail.city_name}}{{order_address_detail.district_name}}
             {{order_address_detail.address}}</view>
-=======
-                <view class="l_h20" style="font-size:40rpx;margin-right:56rpx;">{{order_detail.name}}</view>
-                <view class="l_h20 " style="font-size:40rpx;">{{order_detail.mobile}}</view>
-            </view>
-            <view class="l_h20 mt5" style="font-size:22rpx;margin-top:22rpx;">{{order_detail.province_name}}{{order_detail.city_name}}{{order_detail.district_name}}
-            {{order_detail.address}}</view>
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
             </view>
             <image class="x_right mt15" src="/images/x_right.png"></image>			
           </view>
@@ -30,19 +18,14 @@
         <view class="p_all bg_white mt10 font_14" wx:else>
           <navigator url="../address/user-address/user-address?cartId={{cartId}}" hover-class="none">
           <view class="df">
-<<<<<<< HEAD
             <view class="df_1 c6">添加收货地址</view>
 
             <image class="x_right mt15" src="/images/x_right.png"></image>			
-=======
-            添加收货地址		
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
           </view>
           </navigator>
         </view>
     </view>
 
-<<<<<<< HEAD
 <view wx:if="{{from_o2o == 1}}" style="border-bottom:1px dashed #e5e5e5;">
     <view class="p_all bg_white mt10 font_14" >
           <view class="df">
@@ -65,12 +48,6 @@
         <view class="photo_name">
           <view class="cp_photo">			
             <image mode='widthFix' src="{{item.picture}}"></image>
-=======
-		<view class="p_all bg_white df item"  wx:for="{{productData}}" wx:key="key">
-        <view class="photo_name">
-          <view class="cp_photo">			
-            <image src="{{item.picture}}"></image>
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
           </view>
           <view class="df_1">	
             <view class="font_14 mt5">
@@ -116,11 +93,7 @@
 
 
 
-<<<<<<< HEAD
 <view class="a-dikou" bindtap='toCouponList' hidden="{{wxa_order_hide_coupon==1}}">
-=======
-<view class="a-dikou" bindtap='toCouponList'>
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
     <view class="b-dikou">
       <view class='c2-dikou'>优惠券</view>
       
@@ -132,33 +105,19 @@
   </view>
 
 
-<<<<<<< HEAD
 <view class="a-dikou" hidden="{{wxa_order_hide_balance_zengsong==1}}">
     <view class="b-dikou">
       <view>赠款抵扣</view>
       <view class="c-dikou">剩余 ￥ {{balance_zengsong}}</view>
-=======
-<view class="a-dikou">
-    <view class="b-dikou">
-      <view>赠款抵扣</view>
-      <view class="c-dikou">剩余 ￥{{balance_zengsong}}</view>
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
     </view>  
     <switch class='d-dikou'  checked="{{isSwitch1}}" bindchange="switch1Change"  data-type="1"/>
   </view>
 
 
-<<<<<<< HEAD
 <view class="a-dikou" hidden="{{wxa_order_hide_balance==1}}">
     <view class="b-dikou">
       <view>余额抵扣</view>
       <view class="c-dikou">剩余 ￥ {{balance}}</view>
-=======
-<view class="a-dikou">
-    <view class="b-dikou">
-      <view>余额抵扣</view>
-      <view class="c-dikou">剩余 ￥{{balance}}</view>
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
     </view>  
     <switch class='d-dikou' checked="{{isSwitch2}}" bindchange="switch1Change" data-type="2" />
   </view>
@@ -168,7 +127,6 @@
 <view class='p_all' style="padding-bottom:0;">
     <view class="heji_con">
         <text class="gm_ovh_1h pt10">合计</text>
-<<<<<<< HEAD
         <text class="gm_ovh_1h pt10">¥ {{all_price}}</text>
     </view>
     <view class="heji_con">
@@ -178,17 +136,6 @@
     <view class="heji_con">
         <text class="gm_ovh_1h red pt10">实付</text>	
         <text class="gm_ovh_1h red pt10">¥ {{pay_price}}</text>	
-=======
-        <text class="gm_ovh_1h pt10">¥{{all_price}}</text>
-    </view>
-    <view class="heji_con">
-        <text class="gm_ovh_1h pt10">运费</text>	
-        <text class="gm_ovh_1h pt10">¥{{traffic_price}}</text>	
-    </view> 
-    <view class="heji_con">
-        <text class="gm_ovh_1h red pt10">实付</text>	
-        <text class="gm_ovh_1h red pt10">¥{{pay_price}}</text>	
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
     </view> 
           
           

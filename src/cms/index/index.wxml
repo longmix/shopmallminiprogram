@@ -1,10 +1,6 @@
 <!--cms/index/index.wxml-->
 <!--滚动图片start-->
-<<<<<<< HEAD
  <view wx:if="{{wxa_show_index_swiper}}">
-=======
- <view wx:if="{{wxa_show_article_detail_category}}">
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
   <swiper bindchange="bindchange" indicator-dots="true" autoplay="true" interval="5000" duration="500" style="height:{{imgheights[current]}}rpx;">
     <block wx:for="{{imgUrls}}" wx:key="{{index}}">
       <swiper-item>
@@ -12,11 +8,7 @@
       </swiper-item>
     </block>
   </swiper>
-<<<<<<< HEAD
 </view>   
-=======
-</view>
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
 <view class='c-1'>
   <image src="../../images/search.png"></image>
   <input placeholder='搜索' bindconfirm='searchArticle' > </input>

@@ -1,11 +1,7 @@
 <!--pages/login/login.wxml-->
 <view class="page" style='width:100%;overflow-x:hidden;'>
 <view class='box'>
-<<<<<<< HEAD
  <image src='{{shop_list.icon}}' mode="widthFix" style='border-radius: 50%;'></image>
-=======
- <image src='{{shop_list.icon}}' mode="widthFix"></image>
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
 </view>
  <view style='text-align:center;margin:50rpx auto;color:#666; font-size:30rpx;display:none;'>{{shop_list.name}}</view>
 
@@ -41,12 +37,9 @@
 
 
 <button open-type="getPhoneNumber" plain="true" bindgetphonenumber="btn_one_click_login" class="check_btn2" style="background-color:#E64340; color:#ffffff;">使用微信手机号一键登录</button>
-<<<<<<< HEAD
 </view>
 
 
 <view class='icon-jump'>
       <image src="/images/icons/btn-tabs_01.png" bindtap='toPageIndex'></image>      
-=======
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
 </view>

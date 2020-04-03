@@ -70,11 +70,7 @@ getMore:function(e){
         'Content-Type':  'application/x-www-form-urlencoded'
       },
       success: function (res) {  
-<<<<<<< HEAD
         console.log("aaafff",res);
-=======
-        console.log("111222",res);
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
         var prolist = res.data.product_list;
         /*
             wx.setStorage({  
@@ -186,11 +182,7 @@ getMore:function(e){
 
   onShow:function(){
     
-<<<<<<< HEAD
     
-=======
-    this.loadInfo();
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
     // this.getShopOptionAndRefresh(this, 0);
     
   },
@@ -219,7 +211,6 @@ getMore:function(e){
           wxa_shop_toutiao_icon: option_list.wxa_shop_toutiao_icon
         })
       }
-<<<<<<< HEAD
     if (option_list.wxa_show_kucun_in_list) {
       that.setData({
         wxa_show_kucun_in_list: option_list.wxa_show_kucun_in_list
@@ -279,42 +270,6 @@ getMore:function(e){
     if (option_list.wxa_hidden_product_list) {
       that.setData({
         wxa_hidden_product_list: option_list.wxa_hidden_product_list
-=======
-
-    if (option_list.wxa_show_icon_index_count){
-      that.setData({
-        icon_count: option_list.wxa_show_icon_index_count
-      });
-    }
-    if (option_list.wxa_show_index_icon) {
-      that.setData({
-        wxa_show_index_icon: option_list.wxa_show_index_icon
-      });
-    }
-    if (option_list.wxa_show_index_swiper) {
-      that.setData({
-        wxa_show_index_swiper: option_list.wxa_show_index_swiper
-      });
-    }
-    if (option_list.wxa_show_pic_pinpu) {
-      that.setData({
-        wxa_show_pic_pinpu: option_list.wxa_show_pic_pinpu
-      });
-    }
-    if (option_list.wxa_show_search_input) {
-      that.setData({
-        wxa_show_search_input: option_list.wxa_show_search_input
-      });
-    }
-    if (option_list.wxa_show_toutiao) {
-      that.setData({
-        wxa_show_toutiao: option_list.wxa_show_toutiao
-      });
-    }
-    if (option_list.wxa_shop_toutiao_flash_line) {
-      that.setData({
-        wxa_shop_toutiao_flash_line: option_list.wxa_shop_toutiao_flash_line
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
       });
     }
 
@@ -330,11 +285,7 @@ getMore:function(e){
       });
     }
 
-<<<<<<< HEAD
     if (option_list.wxa_kefu_mobile_num) {
-=======
-    if (option_list.wxa_kefu_button_icon) {
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
       that.setData({
         wxa_kefu_mobile_num: option_list.wxa_kefu_mobile_num
       });
@@ -357,19 +308,6 @@ getMore:function(e){
         wxa_kefu_bg_color: option_list.wxa_kefu_bg_color
       });
     }
-<<<<<<< HEAD
-
-
-    // that.setData({
-    //   wxa_kefu_button_type: option_list.wxa_kefu_button_type,
-    //   wxa_kefu_button_icon: option_list.wxa_kefu_button_icon,
-    //   wxa_kefu_mobile_num: option_list.wxa_kefu_mobile_num,
-    //   wxa_kefu_form_url: option_list.wxa_kefu_form_url,
-    //   wxa_show_kefu_button: option_list.wxa_show_kefu_button,
-    //   wxa_kefu_bg_color: option_list.wxa_kefu_bg_color
-    // })
-=======
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
 
 
     // that.setData({
@@ -382,20 +320,6 @@ getMore:function(e){
     // })
 
 
-
-    
-    // if (option_list.wxa_shop_nav_font_color && option_list.wxa_shop_nav_bg_color) {
-    //   wx.setNavigationBarColor({
-    //     frontColor: option_list.wxa_shop_nav_font_color,
-    //     backgroundColor: option_list.wxa_shop_nav_bg_color,
-    //     animation: {
-    //       duration: 0,
-    //       timingFunc: 'easeIn'
-    //     }
-    //   });
-    // }
-    
-    app.getColor();
 
     
     // if (option_list.wxa_shop_nav_font_color && option_list.wxa_shop_nav_bg_color) {
@@ -413,7 +337,6 @@ getMore:function(e){
 
   },
   
-<<<<<<< HEAD
   onPullDownRefresh: function () {   
     console.log('下拉刷新==============')
 
@@ -441,24 +364,6 @@ getMore:function(e){
     
   },
   onLoad: function (options) {
-=======
-  onPullDownRefresh: function () {
-    this.onLoad();
-    this.onShow();
-    console.log('下拉刷新==============')
-    // app.set_option_list_str(this, this.getShopOptionAndRefresh);
-    //停止当前页面的下拉刷新
-    wx.stopPullDownRefresh();
-  },
-  onLoad: function (options) {
-    this.loadImg();
-    this.loadIcon();
-
-    this.initArticleList();
-
-    //this.getShopOptionAndRefresh();
-
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
 
     var that = this;
 
@@ -526,12 +431,8 @@ getMore:function(e){
       
     }
 
-<<<<<<< HEAD
     if (!sellerid && options) {
       
-=======
-    if (!sellerid) {
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
       var sellerid_scene = decodeURIComponent(options.scene);
       if (sellerid_scene && sellerid_scene.indexOf('sellerid_') != -1) {
         sellerid = sellerid_scene.replace('sellerid_', '');
@@ -562,7 +463,6 @@ getMore:function(e){
     app.globalData.sellerid = sellerid
     app.set_sellerid(sellerid);
 
-<<<<<<< HEAD
     //======以上获取sellerid的逻辑必须被优先执行，以下可以执行后续的刷新界面的操作===
 
     app.get_shop_info_from_server(that.loadInfo);
@@ -578,9 +478,6 @@ getMore:function(e){
 
     this.initArticleList();
 
-=======
-    console.log('set_option_list_str:::::==>>>getShopOptionAndRefresh');
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
     app.set_option_list_str(this, this.getShopOptionAndRefresh);
 
     //console.log('当前sellerid:' + sellerid + "，来自请求" + q);
@@ -688,7 +585,6 @@ getMore:function(e){
         
       };
       var cbError2 = function (res) {
-<<<<<<< HEAD
 
       };
       app.httpPost(url2, data2, cbSuccess2, cbError2);
@@ -719,44 +615,6 @@ getMore:function(e){
     wx.setNavigationBarTitle({
       title: that.data.shop_name
     })
-=======
-
-      };
-      app.httpPost(url2, data2, cbSuccess2, cbError2);
-   
-    //========End====================
-
-    
-  }, 
-
-  loadInfo:function(){
-    var that = this;
-    wx.request({
-      url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=get_shop_info',
-      method: 'post',
-      data: {
-        sellerid: app.globalData.sellerid
-      },
-      header: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      success: function (res) {
-        if(res.data.code==1){
-        var shop_list = res.data.data;
-
-
-
-
-        console.log(shop_list);
-        that.setData({
-          shop_name: shop_list.name,
-          shop_icon: shop_list.icon,
-          shop_list: shop_list
-        });
-
-          app.globalData.shop_name = shop_list.name;
-
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
 
 
     
@@ -822,7 +680,6 @@ getMore:function(e){
   icon_url:function(e){
     console.log(e);
     var that =this;
-<<<<<<< HEAD
 
     var var_list = Object();
     if (that.data.productid) {
@@ -830,47 +687,11 @@ getMore:function(e){
     }
 
     
-=======
-    var userInfo = app.get_user_info();
-    // if ((!userInfo) || (!userInfo.userid)) {
-    //   wx.navigateTo({
-    //     url: '/pages/login/login',
-    //   })
-    //   return;
-    // }
-
-    // wx.request({
-    //   url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=one_click_login_str',
-    //   method: 'post',
-    //   data: {
-    //     sellerid: app.get_sellerid(),
-    //     checkstr: userInfo.checkstr,
-    //     userid: userInfo.userid
-    //   },
-    //   header: {
-    //     'Content-Type': 'application/x-www-form-urlencoded'
-    //   },
-    //   success: function (res) {
-    //     //--init data        
-    //     var code = res.data.code;
-    //     if (code == 1) {
-    //       var oneclicklogin = res.data.oneclicklogin;
-    //       that.setData({
-    //         oneclicklogin: res.data.oneclicklogin
-    //       });
-    //     }
-    //   },
-    //   fail: function(res){
-
-    //   }
-    //   })
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
 
 
     var index = e.currentTarget.dataset.index;
     var url = that.data.icon_list[index].url;
     if (url.indexOf("%oneclicklogin%") != -1) {
-<<<<<<< HEAD
 
       var last_url = '/pages/index/index';
       app.goto_user_login(last_url, 'switchTab');
@@ -906,93 +727,6 @@ getMore:function(e){
       });
 
       return;
-=======
-      url = url.replace('%oneclicklogin%', that.data.oneclicklogin);
-    }
-
-    if (url.indexOf("%ensellerid%") != -1) {
-      url = url.replace('%ensellerid%', app.get_sellerid());
-    }
-    
-    if (url.indexOf("%wxa_appid%") != -1) {
-      url = url.replace('%wxa_appid%', app.globalData.xiaochengxu_appid);
-    }
-
-    console.log('url',url);
-    if (url == '/pages/index/index' || url == '/pages/category/index' || url == '/pages/cart/cart' || url == '/pages/user/user' ){
-      wx.switchTab({
-        url: url,
-      })
-    } else if (url == '/pages/help_detail/help_detail'){
-      var browser_cache_id = wx.getStorageSync('browser_cache_id');
-      if (browser_cache_id){
-        wx.navigateTo({
-          url: url + '?id=' + browser_cache_id,
-        })
-      } else {
-        wx.showToast({
-          title: '无浏览记录',
-        })
-      } 
-    }
-     else if (url=='duorenpintuan'){
-      var url1 = 'https://yanyubao.tseo.cn/Home/DuorenPintuan/pintuan_list/ensellerid/' + app.get_sellerid() + '.html?click_type=Wxa';
-    wx.navigateTo({
-      url: '/pages/h5browser/h5browser?url=' + encodeURIComponent(url1),
-    })
-    } else if (url == 'fenxiangkanjia') {
-      var url1 = 'https://yanyubao.tseo.cn/Home/ShareKanjia/share_list/productid/' + that.data.productid + '.html?click_type=Wxa';
-      wx.navigateTo({
-        url: '/pages/h5browser/h5browser?url=' + encodeURIComponent(url1),
-      })
-    }
-    else if (url.indexOf('https://') == 0) {
-      wx.navigateTo({
-        url: '/pages/h5browser/h5browser?url=' + encodeURIComponent(url),
-      })
-    }
-    else if (url.indexOf('miniprogram') == 0){
-      var arr = url.split(" ");
-      if(arr.length >= 3){
-        var appid = arr[2];
-        var pagepath = arr[3];
-        var extraData = null;
-        if(arr[4]){
-          extraData = arr[4];
-        }
-
-        var extraData_obj = null;
-        if (extraData){
-          extraData_obj = JSON.parse(extraData);
-        }
-
-        //console.log('1111111111111', extraData)
-
-        wx.navigateToMiniProgram({
-          appId: appid,
-          envVersion: 'release',
-          path: pagepath,
-          extraData: extraData_obj,
-          success(res) {
-            // 打开成功
-          },
-          fail: function (res) {
-            wx.showModal({
-              title: '跳转小程序失败',
-              content: res.errMsg,
-              showCancel: false
-            })
-
-            console.log('跳转小程序失败：', res);
-          }
-        })
-      }
-    }
-     else {
-      wx.navigateTo({
-        url:url
-      })
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
     }
 
     app.call_h5browser_or_other_goto_url(url, var_list);

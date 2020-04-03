@@ -41,12 +41,9 @@
 
               </radio-group>
 
-<<<<<<< HEAD
            </view>
 
 
-=======
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
                <view class="zhifu_li" wx:for-index="index" data-index='{{index}}' bindtap='zhuangzhangPay' wx:for="{{pay_list}}" wx:key="{{index001}}" style='background-color:{{key==index?"#e6e6e6":""}};display:{{zz_pay?"none":"block"}};' >
                  <view class="zhifu_name" wx:for-index="index" data-index='{{index}}' bindtap='zhuangzhangPay'>{{item.pay_name}}</view>
                </view>

@@ -18,15 +18,11 @@ Page({
    */
   onLoad: function (o) {
     console.log('options',o);
-<<<<<<< HEAD
     
     var that = this
 
     app.set_option_list_str(null, app.getColor());
 
-=======
-    var that = this
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
     var url_current_parentid = o.parentid //= 106,
       //sellerid = o.sellerid //= 'pmyxQxkkU'
 
@@ -58,11 +54,6 @@ Page({
       return;
     }
 
-<<<<<<< HEAD
-=======
-    app.getColor();
-
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
       wx.request({
         url: app.globalData.http_server + 'openapi/ShareGiftData/get_share_gift_user_info',
         data: {

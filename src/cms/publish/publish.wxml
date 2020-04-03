@@ -33,11 +33,7 @@
 
 <view>
   <view class='pub-btn-con'>
-<<<<<<< HEAD
     <view class='pub-btn' bindtap="{{disable ? '' : 'publishIdea'}}">立即发布</view>
-=======
-    <view class='pub-btn' bindtap='publishIdea'>立即发布</view>
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
     <checkbox-group bindchange="checkBox" class="" wx:if="{{faquan_xieyi_status=='1'}}">
       <label class='pub-xieyi'>
         <checkbox value="{{checked}}"  checked="{{checked}}"/>完成立即发布表示同意 <view bindtap='readAgreement' style='float:right'>《发布许可协议》</view> 

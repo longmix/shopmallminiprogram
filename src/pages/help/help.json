@@ -1,10 +1,3 @@
 {
-<<<<<<< HEAD
     "navigationBarTitleText": "商户头条"
-=======
-    "backgroundTextStyle":"light",
-    "navigationBarBackgroundColor": "#000000",
-    "navigationBarTitleText": "商户头条",
-    "navigationBarTextStyle":"white"
->>>>>>> c45e7d5c1ec541e1dbc618c53cdc08a06400366e
 }
