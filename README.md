@@ -1,10 +1,22 @@
 # 小程序商城源代码，含完整购物车、用户中心和订单管理
 
+## 项目主页
+
+项目的设置和使用说明发布在这里：
+
+[https://yanyubao.tseo.cn/Supplier/ShopWxaMgr/index/setting_type/wxa_memo.html](https://yanyubao.tseo.cn/Supplier/ShopWxaMgr/index/setting_type/wxa_memo.html)
+
+需要注册才能查看，使用手机号码登录即可。
+
+## 关联项目
+
 延誉宝商城小程序，商城源代码支持最新的微信小程序开放接口，包括使用open-data获取微信用户的头像和昵称信息等。
 
-这个项目是小程序商城源码的下载，如果需要H5商城，请转到这个项目：[https://github.com/longmix/shopmallmobile](https://github.com/longmix/shopmallmobile)
+这个项目是小程序商城源码的下载，如果需要H5商城，请转到这个项目：
+[https://github.com/longmix/shopmallmobile](https://github.com/longmix/shopmallmobile)
 
-商城的APP版本源代码下载，包括Android和iOS两个版本，最新更新请到这个查询：[http://www.abot.cn/source-code](http://www.abot.cn/source-code)
+商城的APP版本源代码下载，包括Android和iOS两个版本，最新更新请到这个查询：
+[http://www.abot.cn/source-code](http://www.abot.cn/source-code)
 
 商城小程序源码包含完成的商城服务器API接口调用，只需要修改sellerid为自己的即可。最新版本的小程序源码，也可以GitHub上获取到。
 
