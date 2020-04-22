@@ -74,7 +74,13 @@ Page({
     var last_url = null;    
     if (options.productid) {
       last_url = '/pages/product/detail?productid=' + options.productid;
+      this.setData({
+        last_url: last_url
+      })
     }
+    this.setData({
+      last_url: last_url
+    })
     app.goto_user_login(last_url, 'normal');
 
     
@@ -229,7 +235,7 @@ Page({
         header: {
           'Content-Type': 'application/x-www-form-urlencoded'
         },
-        success: function (res) {
+        success: function (res) {        
           setTimeout(function () {
             wx.hideLoading()
           }, 2000)
@@ -253,25 +259,38 @@ Page({
             }
 
             if(that.data.from_o2o==1){
+              // 如果是来自o2o模块的订单
+
+
+              if (res.data.user_coupon_item && res.data.user_coupon_item.price) {
+                that.setData({
+                  o2o_all_price: util.sprintf("%6.2f", that.data.o2o_all_price - res.data.user_coupon_item.price)
+                })
+              }
+
               that.setData({
                 all_price: that.data.o2o_all_price,
-                pay_price: that.data.o2o_all_price
+                pay_price: that.data.o2o_all_price,
+                pay_price_origin: that.data.o2o_all_price
               })
+
+
             } else {
               that.setData({
                 all_price: res.data.all_price,
-                pay_price: res.data.pay_price
+                pay_price: res.data.pay_price,
+                pay_price_origin: res.data.pay_price,
               })
             }
 
+
+            
+
             that.setData({
               order_address_detail: order_address_detail,
-
-              productData: res.data.orderlist,
-            
+              productData: res.data.orderlist,           
               traffic_price: res.data.traffic_price,
-              all_product_take_score: res.data.all_product_take_score,
-              pay_price_origin: res.data.pay_price,
+              all_product_take_score: res.data.all_product_take_score,              
               balance: res.data.balance,
               balance_zengsong: res.data.balance_zengsong,
             });
@@ -284,7 +303,11 @@ Page({
           } else {
             wx.showToast({
               title: res.data.msg,
-              duration: 2000
+              icon: 'none',
+              duration: 2000,
+              success: function () {
+                that.logout();
+              }
             });
           }
         },
@@ -319,6 +342,8 @@ Page({
               'Content-Type': 'application/x-www-form-urlencoded'
             },
             success: function (res) {
+
+
               setTimeout(function () {
                 wx.hideLoading()
               }, 2000)
@@ -344,14 +369,24 @@ Page({
 
 
                 if (that.data.from_o2o == 1) {
+                
+                  if (res.data.user_coupon_item && res.data.user_coupon_item.price) {
+                   
+                    that.setData({
+                      o2o_all_price: util.sprintf("%6.2f", that.data.o2o_all_price - res.data.user_coupon_item.price)
+                    })
+                  }
+
                   that.setData({
                     all_price: that.data.o2o_all_price,
-                    pay_price: that.data.o2o_all_price
+                    pay_price: that.data.o2o_all_price,
+                    pay_price_origin: that.data.o2o_all_price,
                   })
                 } else {
                   that.setData({
                     all_price: res.data.all_price,
-                    pay_price: res.data.pay_price
+                    pay_price: res.data.pay_price,
+                    pay_price_origin: res.data.pay_price,
                   })
                 }
 
@@ -362,8 +397,7 @@ Page({
                   productData: res.data.orderlist,
 
                   traffic_price: res.data.traffic_price,
-                  all_product_take_score: res.data.all_product_take_score,
-                  pay_price_origin: res.data.pay_price,
+                  all_product_take_score: res.data.all_product_take_score,                 
                   balance: res.data.balance,
                   balance_zengsong: res.data.balance_zengsong,                            
                 });
@@ -376,7 +410,11 @@ Page({
               } else {
                 wx.showToast({
                   title: res.data.msg,
-                  duration: 2000
+                  icon:'none',
+                  duration: 2000,
+                  success:function(){
+                    that.logout();
+                  }
                 });
               }
             },
@@ -391,6 +429,22 @@ Page({
     }
   },
 
+
+  logout: function () {
+    app.del_user_info();
+
+    var sellerid = app.get_sellerid();
+    if (typeof (sellerid) != 'undefined') {
+      if (sellerid.length > 15) {
+        wx.clearStorageSync();
+        console.log('清空完成，sellerid：' + app.get_sellerid());
+      }
+    }
+
+      wx.clearStorageSync();
+
+      app.goto_user_login(this.data.last_url, 'normal');
+  },
   
 
   remarkInput:function(e){
@@ -579,7 +633,7 @@ Page({
 
           //o2o订单
           if(that.data.from_o2o == 1){
-            that.add_order_option_by_key_value();
+            that.order_add_new_option_by_key_value();
             
             return;
           }
@@ -764,8 +818,8 @@ Page({
 
 
   toCouponList:function(){
-    wx.redirectTo({
-      url: '/pages/order/coupon_list?productid=' + this.data.productid,
+    wx.navigateTo({
+      url: '/pages/order/coupon_list?productid=' + this.data.productid + '&pay_price=' + this.data.pay_price_origin,
     })
   },
 
@@ -852,7 +906,7 @@ Page({
     } else if (type == 2) {
       if (value) {
         if (parseFloat(balance) < parseFloat(pay_price_origin)) {
-
+     
           if (that.data.balance_zengsong_dikou) {
 
             that.switch1Change(null, 1, false, that)
@@ -913,7 +967,7 @@ Page({
 
 
   //o2o
-  add_order_option_by_key_value:function(e){
+  order_add_new_option_by_key_value:function(e){
     var that = this;
     var order_option_key_and_value = wx.getStorageSync('order_option_key_and_value');
 
@@ -921,7 +975,7 @@ Page({
     var order_option_key_and_value_str = encodeURIComponent(JSON.stringify(order_option_key_and_value));
 
     api.abotRequest({
-      url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=add_order_option_by_key_value',
+      url: app.globalData.http_server + '/openapi/O2OAddressData/order_add_new_option_by_key_value',
       data: {
         sellerid: app.get_sellerid(),
         orderid: that.data.orderid,

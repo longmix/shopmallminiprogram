@@ -68,7 +68,9 @@ bindMinus: function(e) {
 },
 onShow: function () {
   console.log('onshow',userInfo);
-  
+  wx.removeTabBarBadge({
+    index: 2
+  })
   this.onLoad();
   this.loadProductData();
   this.sum();
@@ -222,17 +224,31 @@ sum: function() {
     if (carts||carts!=null){
     // 计算总金额
     var total = 0;
+    var total_amount = 0;
     for (var i = 0; i < carts.length; i++) {
       if (carts[i].selected) {
         total += carts[i].amount * carts[i].price;
       }
+      // total_amount += carts[i].amount
     }
     total = total.toFixed(2);
     // 写回经点击修改后的数组
     this.setData({
       carts: carts,
-      total: '¥ ' + total
+      total: '¥ ' + total,
+      // total_amount: total_amount
     });
+
+      // if (total_amount){
+      //   wx.setTabBarBadge({
+      //     index: 2,
+      //     text: total_amount.toString()
+      //   })
+      // }else{
+      //   wx.removeTabBarBadge({
+      //     index: 2
+      //   })
+      // }
     }
   },
 

@@ -1,7 +1,10 @@
 // import ApiList from  '../../config/api';
 // import request from '../../utils/request.js';
+// 响应服务器端的商品超级分类这个功能模块的。
+var util = require('../../utils/util.js');
 //获取应用实例  
 var app = getApp();
+var userInfo = app.get_user_info();
 Page({
     data: {
         // types: null,
@@ -11,9 +14,10 @@ Page({
         "types": [
         ],
         typeTree: [],
+        hide_good_box: true,
     },
     onShow: function () {
-     
+      userInfo = app.get_user_info();
 
     },
     onLoad: function (option){
@@ -22,46 +26,31 @@ Page({
 
       app.set_option_list_str(null, app.getColor());
 
+      var that = this;
+      var option_list_str = wx.getStorageSync("option_list_str");
+
+      console.log("获取商城选项数据：" + option_list_str + '333333333');
+
+      if (!option_list_str) {
+        return null;
+      }
+
+      var option_list = JSON.parse(option_list_str);
+
+      if (!option_list) {
+        return;
+      }
+
+      if (option_list.wxa_product_super_list_style) {
+        that.setData({
+          wxa_product_super_list_style: option_list.wxa_product_super_list_style
+        })
+      }
 
 
-        var that = this;
-      //   wx.request({
-      //       url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=product_cata_level2',
-      //       method:'post',
-      //       data: {
-      //        // 'cataid': 'fXiNUPaWV',
-      //         sellerid: app.get_sellerid()
-      //       },
-      //       header: {
-      //           'Content-Type':  'application/x-www-form-urlencoded'
-      //       },
-      //       success: function (res) {
-      //           //--init data 
-      //           var code = res.data.code;
-      //           if(code==1) { 
-      //               var list = res.data.data;
-      //               that.setData({
-      //                   types:list,
-      //                   typeTree: list[0].sub_cata,
-      //                   currType: list[0].cataid
-      //               });
-      //           } else {
-      //               wx.showToast({
-      //                   title:res.data.err,
-      //                   duration:2000,
-      //               });
-      //           }    
-      // console.log(list)
-
-      //       },
-      //       error:function(e){
-      //           wx.showToast({
-      //               title:'网络异常！',
-      //               duration:2000,
-      //           });
-      //       },
-
-      //   });
+      this.busPos = {};
+      this.busPos['x'] = 234.375;//购物车的位置
+      this.busPos['y'] = app.globalData.hh - 32;
     },    
  
 
@@ -142,6 +131,138 @@ Page({
             });
         }
     },
+
+
+  addCart: function (e) {
+    var that = this;
+
+    if (!userInfo){
+      var last_url = '/pages/category/index2';
+      app.goto_user_login(last_url, 'switchTab');
+      return;
+    }
+
+    var productid = e.currentTarget.dataset.productid;
+
+    wx.request({
+      url: app.globalData.http_server + '?g=Yanyubao&m=ShopApp&a=cart_add',
+      method: 'post',
+
+      data: {
+        amount: 1,
+        checkstr: userInfo.checkstr,
+        productid: productid,
+        sellerid: app.get_sellerid(),
+        userid: userInfo.userid,
+      },
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      success: function (res) {
+        wx.showToast({
+          title: '添加成功',
+        });
+        
+        wx.request({
+          url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=cart_list',
+          method: 'post',
+          data: {
+            userid: userInfo.userid,
+            checkstr: userInfo.checkstr,
+            page: 1,
+            sellerid: app.get_sellerid()
+          },
+          header: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          success: function (res) {
+            //--init data
+            var carts = res.data.data;
+            var total_amount = 0;
+            if (res.data.code == 1) {           
+              for (var i = 0; i < carts.length; i++) {               
+                total_amount += carts[i].amount
+              }
+              wx.setTabBarBadge({
+              index: 2,
+              text: total_amount.toString()
+            })
+
+            } else if (res.data.code == 2) {
+             
+            }
+
+            //endInitData
+          },
+        });
+
+        that.touchOnGoods(that, e);
+      },
+      fail: function (e) {
+        wx.showToast({
+          title: '添加失败',
+        });
+      },
+    });
+  },
+
+  //调用的方法
+  touchOnGoods: function (that, e) {
+    if (!this.data.hide_good_box) return;
+    that.finger = {}; var topPoint = {};
+    that.finger['x'] = e.touches["0"].clientX;//点击的位置
+    that.finger['y'] = e.touches["0"].clientY;
+
+    if (that.finger['y'] < that.busPos['y']) {
+      topPoint['y'] = that.finger['y'] - 150;
+    } else {
+      topPoint['y'] = that.busPos['y'] - 150;
+    }
+    topPoint['x'] = Math.abs(that.finger['x'] - that.busPos['x']) / 2;
+
+    if (that.finger['x'] > that.busPos['x']) {
+      topPoint['x'] = (that.finger['x'] - that.busPos['x']) / 2 + that.busPos['x'];
+    } else {//
+      topPoint['x'] = (that.busPos['x'] - that.finger['x']) / 2 + that.finger['x'];
+    }
+    that.linePos = util.bezier([that.busPos, topPoint, that.finger], 20);
+    console.log('bezier_points', that.linePos)
+    that.startAnimation(that, e);
+  },
+
+  startAnimation: function (that, e) {
+    var index = 0,
+      bezier_points = that.linePos['bezier_points'];
+    that.setData({
+      hide_good_box: false,
+      bus_x: that.finger['x'],
+      bus_y: that.finger['y']
+    })
+    var len = bezier_points.length;
+    index = len
+    var i = index - 1;
+    that.timer = setInterval(function () {
+
+      if (i > -1) {
+        that.setData({
+          bus_x: bezier_points[i]['x'],
+          bus_y: bezier_points[i]['y']
+        })
+        i--;
+      }
+
+      if (i < 1) {
+        clearInterval(that.timer);
+        that.setData({
+          hide_good_box: true
+        })
+      }
+    }, 15);
+  },
+
+
+
+
   onPullDownRefresh: function () {
     console.log('下拉刷新==============')
     
@@ -151,4 +272,6 @@ Page({
     //停止当前页面的下拉刷新
     wx.stopPullDownRefresh();
   },
+
+  
 })

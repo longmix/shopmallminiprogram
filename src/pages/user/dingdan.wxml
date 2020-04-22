@@ -99,7 +99,7 @@
           <view>支付方式：<view class='fl_r'>{{item.payment_name}}</view></view>
         </view>
         <view  class="btn_b">
-          <navigator class="font_12 btn_min fl_r" bindtap="refundOrder" data-order-id="{{item.orderid}}">申请退款</navigator>
+          <navigator class="font_12 btn_min fl_r" bindtap="refundOrder" wx:if="{{wxa_order_hide_daishouhuo_refund == 0}}" data-order-id="{{item.orderid}}">申请退款</navigator>
           <navigator url="../order/detail?orderId={{item.orderid}}" class="font_12 btn_min fl_r mr_5">订单详情</navigator>
         </view> 
   </view>
@@ -130,7 +130,7 @@
           <view>支付方式：<view class='fl_r'>{{item.payment_name}}</view></view>
         </view>
         <view  class="btn_b">
-          <navigator wx:if="{{!wxa_order_hide_daishouhuo_refund}}" class="font_12 btn_min fl_r" url="tuihuo?orderId={{item.orderid}}">申请退款</navigator>
+          <navigator wx:if="{{wxa_order_hide_daishouhuo_refund_after == 0}}" class="font_12 btn_min fl_r" url="tuihuo?orderId={{item.orderid}}">申请退款</navigator>
           <view class="font_12 btn_min fl_r mr_5" bindtap="recOrder" data-order-id="{{item.orderid}}">确认收货</view>
           <navigator url="../order/detail?orderId={{item.orderid}}" class="font_12 btn_min fl_r mr_5">订单详情</navigator>
         </view>

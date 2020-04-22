@@ -6,7 +6,67 @@
   background-color: #fff;
   clear: both;
 }
+.brief{
+  font-size:30rpx;
+  color:red;
+  display:flex;
+  padding-left: 20rpx;
+}
+.rexiao{
+  padding-left:20rpx;
+  width:74%;
+  font-size:15px;
+  color: #999;
+}
+.wenzi{
+  font-size:28rpx;
+  color:#333;
+  line-height:20px;
+  margin:0;
+  height:40px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  padding:1% 5% 0 5%;
 
+}
+navigator{
+height:auto;
+width:auto;
+display:block;
+}
+.logo_info {
+margin-left:18rpx;
+justify-content:center;
+align-items:center;
+margin-top:6rpx;
+border-radius:18rpx;
+box-shadow:#EDEDED 2rpx 2rpx 15rpx 5rpx;
+padding:10rpx 18rpx 22rpx 20rpx;
+width:680rpx;
+background:#fff;
+margin-bottom:20rpx;
+
+}
+img {
+  width:320px;
+height:240px;
+display:inline-block;
+overflow:hidden;
+
+}
+.logo_pic{
+  width:26%;
+  float:left;
+  overflow:hidden;
+  display:flex;
+  height:200rpx;
+  justify-content:center;
+  align-items:Center;
+
+}
 .toutiao_left{
   width:15%;
   height:50px;
@@ -582,6 +642,41 @@ opacity: 0;
   text-rendering:auto;
   -webkit-font-smoothing:antialiased;
   -moz-osx-font-smoothing:grayscale;
+}
+.yueduliang2{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.yueduliang2 :nth-child(2){
+  width: 36rpx;
+  height: 36rpx;
+}
+
+.gmxx2{
+  display:flex;
+  line-height:50rpx;
+  color:#999;
+  justify-content: space-between;
+  align-items: center;
+}
+.gmxx2 :nth-child(2){
+  width: 36rpx;
+  height: 36rpx;
+}
+
+.good_box {
+  width: 30rpx;
+  height: 30rpx;
+  position: fixed;
+  border-radius: 50%;
+  overflow: hidden;
+  left: 50%;
+  top: 50%;
+  z-index: 99; 
+  background: #b02c41;
 }
 
 

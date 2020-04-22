@@ -12,9 +12,49 @@
 .typeTree .category{ flex-wrap: wrap; overflow: hidden;display: inline-block;width: 40%;margin-left: 6%}
 .typeTree .title{ padding: 10px 0; display: block; color: #333;}
 .typeTree image { width: 100px; margin: 0 auto;}
-.typeTree .brand image{ height: 100px;}
+.brand image{ height: 100px;}
 .typeTree .category image{ height: 85px;}
 .typeTree .category{ padding-bottom: 10px;}
 .item text{ padding-bottom: 5px; display: block;}
-.item :nth-child(3){ font-size: 28rpx;color: #f00;}
+.addcart-con{display: flex;justify-content: space-between;align-items: center;}
+.addcart-con text{ font-size: 28rpx;color: #f00;}
+.addcart-con image{width: 36rpx;height: 36rpx;}
+.logo_info {
+  margin-left:18rpx;
+  justify-content:center;
+  align-items:center;
+  margin-top:6rpx;
+  border-radius:18rpx;
+  box-shadow:#EDEDED 2rpx 2rpx 15rpx 5rpx;
+  padding:10rpx 18rpx 22rpx 20rpx;
+  background:#fff;
+  margin-bottom:20rpx;
+  float: left;
+  width:500rpx;
+}
+.logo_pic{
+  width:40%;
+  float:left;
+  overflow:hidden;
+  display:flex;
+  height:200rpx;
+  justify-content:center;
+  align-items:Center;
 
+}
+.brief{
+  font-size:30rpx;
+  color:red;
+  display:flex;
+}
+.good_box {
+  width: 30rpx;
+  height: 30rpx;
+  position: fixed;
+  border-radius: 50%;
+  overflow: hidden;
+  left: 50%;
+  top: 50%;
+  z-index: 99; 
+  background: #b02c41;
+}

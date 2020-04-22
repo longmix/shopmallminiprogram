@@ -8,15 +8,56 @@
 
     <!-- 右侧数据 -->
     <scroll-view scroll-y="true" class="right">
+    
         <view class="typeTree">
+        <block wx:if="{{wxa_product_super_list_style == 0}}">
             <view  class="brand" wx:for="{{typeTree}}" wx:for-item="data" wx:key="{{index}}">
                 <navigator url="../product/detail?productid={{data.productid}}" wx:key="typeId" class="item">
                     <image src="{{data.picture}}"></image>
-                    <text>{{data.name}}</text>
-                    <text>￥ {{data.price}}</text>
+                    <text>{{data.name}}</text>                  
                 </navigator>
-                    
+                <view class="addcart-con">
+                  <text>￥ {{data.price}}</text> 
+                  <image catchtap="addCart" src="../../images/car.png" data-productid="{{data.productid}}"></image>
+                </view>
+                   
             </view>
+            </block>
+
+
+      <block wx:if="{{wxa_product_super_list_style == 1}}">
+      <view class="logo_info navigator"  wx:for="{{typeTree}}" wx:key="{{index}}" open-type='navigateTo'>
+    
+      <navigator style="width:450rpx;" url="../product/detail?productid={{item.productid}}"  open-type='navigateTo'>
+      <view class="logo_pic" style="margin-top:18rpx;">
+        <image src="{{item.picture}}" style="width:100%;height:100%;"></image>
+       </view>
+       
+      <view style='float:left;height:109%;padding-top:60rpx;'>
+        <view class="titles" style='text-align: left;'><text class="wenzi">{{item.name}}</text>
         </view>
+        <view class="brief">
+        <view >
+          ￥{{item.price}}
+        </view>
+        </view>
+        <view class='yueduliang'>
+          <text class="rexiao" style="color:red;font-size:30rpx;padding-left:20rpx;">{{item.product_take_score}}</text>
+          
+        </view>
+      </view>
+      
+      <view style="float:right;"><image style="padding:0 10px;width:36rpx;height:36rpx;" bindtap="addCart" src="../../images/car.png" data-productid="{{item.productid}}"></image></view>
+      </navigator>
+      
+    </view>
+    <view style="clear:both"></view>
+</block>
+        </view>
+
+        
+
     </scroll-view>
+
+    <view class="good_box" hidden="{{hide_good_box}}"  style="left: {{bus_x}}px; top:{{bus_y}}px;"> </view>
 </view>

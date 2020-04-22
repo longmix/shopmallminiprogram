@@ -85,8 +85,10 @@ Page({
               that.setData({
                 currentTab2: that.data.typeTree[0].cataid,
                 productList: data,
-                // page: 1,
+                page: that.data.page + 1,
                 is_more: true,
+
+
               });
             },
             fail: function (e) {
@@ -290,6 +292,7 @@ Page({
         sort: 1,
         page: that.data.page,
         // cataid: cataid2
+        cataid: that.data.typeTree[0].cataid ? that.data.typeTree[0].cataid : ''
       },
       header: {
         'Content-Type': 'application/x-www-form-urlencoded'

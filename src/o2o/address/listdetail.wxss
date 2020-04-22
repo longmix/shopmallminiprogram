@@ -42,8 +42,9 @@
 
 }
 .jiahao{
-  height: 35px;
-  width: 35px;
+  height: 50rpx;
+  width: 50rpx;
+  margin-right: 10rpx;
 }
 .a01{
   width:42%;
@@ -53,7 +54,8 @@
   line-height:35px;
   border-radius:13px;
   margin:25px auto;
-
+  display: flex;
+  align-items: center;
 }
 .hengxian{
   width: 80%;
@@ -81,7 +83,7 @@
   position: absolute;
   left: 50%;
   top: 50%;
-  height: 50%;
+  height: 658rpx;
   width: 80%;
   max-width: 600rpx;
   border: 2rpx solid #ccc;
@@ -147,16 +149,101 @@
   text-align:left;
   width:90%;
   margin-left:5%;
-  padding: 10px 0px;
+  padding: 10rpx 0rpx;
+}
+
+.picker{
+  width: 65px;
+  display: inline-block;
+}
+.picker-txt1{
+  margin-left: 20rpx;
+  color: #808080;
+}
+
+.picker-txt2{
+  margin-left: 20rpx;
+  color: #000;
 }
 
 .wx-input-con{
   display:flex;
   align-items:center;
-  padding: 10px 0px;
+  padding: 10rpx 0rpx;
+}
+
+.wx-input-con view{
+  width: 65px;
+  text-align:left;
 }
 
 .wx-input-con input{
   margin-left:20rpx;
   text-align:left;
+}
+
+.scroll-txt{
+  text-align: center;
+  margin: 10rpx 20rpx;
+  border: 20rpx red;
+  padding: 12rpx 0 12rpx 0;
+  color: #333;
+  background: #e6e6e6;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  border-radius: 60rpx;
+  height:50rpx;
+}
+
+.scroll-ads{
+  text-align: center;
+  font-size: 28rpx;
+  width: 88%;
+}
+.searchTip{
+  width: 97%;
+  margin-left: 3%;
+  font-size: 34rpx;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 20rpx;
+  color: #666;
+}
+.lou-con{
+  line-height:35px;
+  text-align: left;
+  font-size: 16px;
+  border-bottom: 1px solid #eee;
+  /* display: flex;
+  align-items: center;
+  justify-content: space-between; */
+}
+.lou-address{
+  color: #777;
+  font-size: 28rpx;
+  padding-left: 20px;
+  /* white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; */
+}
+
+.lou-a{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lou-b{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  float:right;
+  font-size:28rpx;
+  color:#ccc;
+  padding-right:20rpx;
+  width:33%;
+}
+.room-address{
+  color: #777;
+  margin-left: 10rpx;
 }

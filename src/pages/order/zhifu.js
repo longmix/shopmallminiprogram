@@ -174,7 +174,7 @@ Page({
           var orderData = res.data.orderinfo;
         
 
-          var pay_price = parseFloat(orderData.order_total_price) + parseFloat(that.data.traffic_price);
+          var pay_price = parseFloat(orderData.order_total_price);
           
 
           if(that.data.balance_zengsong_dikou){
@@ -305,7 +305,7 @@ Page({
 
 
     if(that.data.pay_price != 0.00){
-      data_params.offlinepayid = that.data.balance_zengsong_dikou;
+      data_params.offlinepayid = that.data.payList.offlinepayid;
         data_params.huikuan_pingtai = that.data.adds.huikuan_pingtai;
      data_params.name = that.data.adds.name;
     }
@@ -319,22 +319,34 @@ Page({
       }, // 设置请求的 header
       success: function (res) {
         if (res.data.code == 1) {
-              wx.showToast({
-                title: res.data.msg,
-                duration: 2000,
-              });
 
-              setTimeout(function () {
-                if (that.data.recharge == 1) {
-                  wx.switchTab({
-                    url: '/pages/user/user',
-                  });
-                } else {
-                  wx.navigateTo({
-                    url: '../user/dingdan?currentTab=0&otype=',
-                  });
-                }
-              }, 2500);
+          wx.showModal({
+            title: '提示',
+            content: res.data.msg,
+            showCancel: false,
+            success(res) {
+              if (res.confirm) {
+                wx.showLoading({
+                  title: '正在跳转...',
+                })
+                setTimeout(function () {
+                  wx.hideLoading()
+                  if (that.data.recharge == 1) {
+                    wx.switchTab({
+                      url: '/pages/user/user',
+                    });
+                  } else {
+                    wx.navigateTo({
+                      url: '../user/dingdan?currentTab=0&otype=',
+                    });
+                  }
+                }, 1500);
+              } 
+            }
+          })
+        
+
+              
         } else {
           wx.showToast({
             title: "支付失败",

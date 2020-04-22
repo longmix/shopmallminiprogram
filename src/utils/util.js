@@ -27,7 +27,8 @@ function formatNumber(n) {
 module.exports = {
   formatTime: formatTime,
   formatTime2: formatTime2,
-  sprintf: sprintf
+  sprintf: sprintf,
+  bezier: bezier
 }
 
 function checkStringEmpty(data){
@@ -91,4 +92,42 @@ function sprintf() {
 
   }
   return o.join('');
+}
+
+
+//绘制购物车小球抛物线
+function bezier(points, part) {
+  let sx = points[0]['x'];
+  let sy = points[0]['y'];
+  let cx = points[1]['x'];
+  let cy = points[1]['y'];
+  let ex = points[2]['x'];
+  let ey = points[2]['y'];
+  var bezier_points = [];
+  // 起始点到控制点的x和y每次的增量
+  var changeX1 = (cx - sx) / part;
+  var changeY1 = (cy - sy) / part;
+  // 控制点到结束点的x和y每次的增量
+  var changeX2 = (ex - cx) / part;
+  var changeY2 = (ey - cy) / part;
+  //循环计算
+  for (var i = 0; i <= part; i++) {
+    // 计算两个动点的坐标
+    var qx1 = sx + changeX1 * i;
+    var qy1 = sy + changeY1 * i;
+    var qx2 = cx + changeX2 * i;
+    var qy2 = cy + changeY2 * i;
+    // 计算得到此时的一个贝塞尔曲线上的点
+    var lastX = qx1 + (qx2 - qx1) * i / part;
+    var lastY = qy1 + (qy2 - qy1) * i / part;
+    // 保存点坐标
+    var point = {};
+    point['x'] = lastX;
+    point['y'] = lastY;
+    bezier_points.push(point);
+  }
+  //console.log(bezier_points)
+  return {
+    'bezier_points': bezier_points
+  };
 }

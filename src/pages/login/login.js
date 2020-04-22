@@ -58,7 +58,7 @@ Page({
         icon: 'fail',
         duration: 2000
       })
-      return;
+      return; 
     }
     if (!this.data.tel) {
       wx.showToast({
@@ -107,6 +107,14 @@ Page({
       that.setData({
         show_mobile_login: 1
       })
+    }
+
+    if (option_list.wxa_shop_nav_bg_color){
+      that.setData({
+        icon_jump_bg_color: option_list.wxa_shop_nav_bg_color,
+        wxa_shop_nav_font_color: option_list.wxa_shop_nav_font_color,
+        
+      });
     }
 
  

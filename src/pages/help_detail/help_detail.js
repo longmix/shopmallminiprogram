@@ -235,8 +235,9 @@ Page({
   onShareAppMessage: function () {
     var that = this;
     return {
-      title: ''+that.data.title,
+      title: '' + that.data.wz_text.title,
       path: 'pages/help_detail/help_detail?id='+that.data.id,
+      imageUrl:that.data.wz_text.pic,
       success: function(res) {
         // 分享成功
         wx.showToast({

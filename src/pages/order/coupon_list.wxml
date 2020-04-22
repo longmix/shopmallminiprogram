@@ -1,4 +1,5 @@
 <!--pages/order/coupon_list.wxml-->
+<view style="height:20rpx;"></view>
 <view class="stamp stamp03 {{item.can_use == 1? '' : 'not_use'}}" style="" wx:for="{{coupon_list}}" wx:for-item="item">
       <view class="par" style="width:55%;">
         <view class="b-1">{{item.name}}</view>
@@ -15,7 +16,9 @@
             <view>{{item.starttime}}</view> 
             <view>{{item.endtime}}</view>
         </view>
-      <button class="employ" bindtap='toOrderQueren'  data-ucid="{{item.ucid}}" style="">立即使用</button>						
+      <button class="employ" bindtap='toOrderQueren' disabled="{{item.can_use != 1? true : false}}" data-ucid="{{item.ucid}}" style="">立即使用</button>						
       </view>
       <text></text>
 </view>
+
+<view class="donuse" bindtap='doNotUse'>不使用优惠券</view>

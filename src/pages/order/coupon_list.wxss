@@ -31,6 +31,8 @@
     background-size: 15px 15px;
     background-position: 9px 3px;
     margin-bottom: 10px;
+    margin-left: 30rpx;
+    margin-right: 30rpx;
 }
 .stamp {
     padding: 0 10px;
@@ -51,7 +53,7 @@
 }
 .stamp .par {
     float: left;
-    padding: 20px 0px;
+    padding: 20rpx 0px;
     width: 70%;
     border-right: 2px dashed rgba(255,255,255,.3);
     text-align: left;
@@ -92,5 +94,16 @@
 
 .not_use{
   filter: grayscale(1)
+}
+.donuse{
+  text-align: center;
+  color: #fff;
+  background: #1AAD19;
+  width: 90%;
+  margin-left: 5%;
+  height: 74rpx;
+  line-height: 74rpx;
+  border-radius: 4px;
+  margin-top: 56rpx;
 }
 

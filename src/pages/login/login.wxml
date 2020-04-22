@@ -40,6 +40,8 @@
 </view>
 
 
-<view class='icon-jump'>
-      <image src="/images/icons/btn-tabs_01.png" bindtap='toPageIndex'></image>      
+<view class='icon-jump' style="background: {{icon_jump_bg_color}};">
+      <image src="/images/usercenter_goto_home.svg" bindtap='toPageIndex' wx:if="{{wxa_shop_nav_font_color != '#000000'}}"></image>
+      <image src="/images/usercenter_goto_home2.svg" bindtap='toPageIndex' wx:if="{{wxa_shop_nav_font_color=='#000000'}}"></image>
+      <view style="color:{{wxa_shop_nav_font_color}}">返回首页</view>     
 </view>

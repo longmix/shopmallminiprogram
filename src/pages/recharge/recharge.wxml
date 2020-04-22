@@ -2,9 +2,9 @@
  
 
 <view>
-  <view class="abb">
-      <view class="tctb" >余额充值</view>
-  </view>
+  <view class="abb" style="background:{{wxa_shop_nav_bg_color}}">
+        <view class="tctb" style="color:{{wxa_shop_nav_font_color}}">充值中心</view>
+    </view>
   
   
   <view class="chongzhi" data-paytype="weixin_online_pay_app" data-currenttap="0" bindtap='chooseRecharge'>
@@ -16,7 +16,7 @@
 
   <form bindsubmit="formSubmit">
   <view class="section">
-        <label style='font-size:40rpx'>充值：</label>
+        <label style='font-size:28rpx'>充值：</label>
         <input bindinput="moneyInput" disabled="{{all_price ? true : false}}" placeholder='请输入充值金额' value='{{all_price}}' style="border-bottom:1px solid #17A8E2;height:31px;"/>元
   </view>
   <view class="section2">

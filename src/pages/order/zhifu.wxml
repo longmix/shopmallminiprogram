@@ -97,7 +97,7 @@
                           </view>                          
                           <view class="section">
                             <view class='section_view'>汇款金额：</view>
-                            <view class='section_view2'>{{orderData.price}}</view>      
+                            <view class='section_view2'>{{pay_price}}</view>      
                           </view> 
                           <view class="pay_submit">     
                   	        <button class="pay_submit" type="default" id="Pay"  formType="submit" data-price="{{pay_price}}"

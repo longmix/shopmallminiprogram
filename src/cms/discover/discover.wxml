@@ -48,7 +48,7 @@
 
                     </view>
                     <view class="list-name" data-id="{{item._id}}">{{item.username}}</view>               
-                    <text class="list-des" data-id="{{item._id}}">{{item.text}}</text>
+                    <text class="list-des" bindtap="copyText" data-text="{{item.text}}" data-id="{{item._id}}">{{item.text}}</text>
 
                     <view wx:if="{{item.type == 0}}">  
                          <image wx:for="{{item.img_or_video_list}}" lazy-load="true"  bindtap='bigImg' mode="aspectFill" data-index="{{idx}}" data-index2="{{idx2}}" wx:for-index="idx2" wx:for-item="item2" class="list-image"  src="{{item2.url}}"  data-id="{{item._id}}"></image>                        

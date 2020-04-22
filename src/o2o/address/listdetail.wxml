@@ -1,12 +1,30 @@
 <!--o2o/address/listdetail.wxml-->
-<view class="section">
+<!-- 搜索 -->
+   <view  class="scroll-txt" bindtap="search" data-value="">
+      <icon type="search" size="14" style="margin: 0px 10rpx 0 0"></icon>
+      <input class="scroll-ads" placeholder="请输入楼盘或公司名称" bindinput="searchinput" bindblur="blurinput"></input>
+   </view>
+<view class="section" wx:if="{{showloulist}}">
     <!-- 左侧类型  -->
     <scroll-view scroll-y="true" class="left">
         <view  wx:for="{{loulist}}" wx:for-item="item" wx:for-index="index1" data-name='{{item}}'  class="b {{item == currType ? 'active' : ''}}" style="font-size:33rpx；">
-            <view style="line-height:60px;text-align: left;font-size: 16px;border-bottom: 1px solid #eee;"><image style='width:13px;height:13px;padding-left:15rpx;' src='../../images/map.png'></image>{{item.level03}}<text style='float:right;font-size:14px;color:#ccc;padding-right:20rpx;'>距离你{{item.dis_str}}</text></view> 
+            <view class="lou-con" style="">
+              <view class="lou-a">
+                <image style='width:13px;height:13px;padding-left:15rpx;' src='../../images/map.png'></image>{{item.level03}}           
+              </view>
+              <text class="lou-address">{{item.address}}</text>           
+              <text class="lou-b" style=''>距离你{{item.dis_str}}</text>
+            </view> 
             <view class='qingchu'>
-            <view class='a' wx:for="{{item.level04}}" wx:for-item="m2" wx:for-index="index2" wx:key="k" data-index1="{{index1}}" data-index2="{{index2}}" bindtap="chooseRoom">{{m2.name}}</view>
-            <view class='a01' ><image bindtap='addNewAddress' data-totalfloor="{{item.total_floor}}" data-bid="{{item.bid}}" class="jiahao" src='../../images/icon_jiahao.png'></image></view>
+            <view class='a' wx:for="{{item.level04}}" wx:for-item="m2" wx:for-index="index2" wx:key="k" data-index1="{{index1}}" data-index2="{{index2}}" bindtap="chooseRoom">
+                {{m2.name}}
+                <text class="room-address">{{m2.floor_num}}层</text>
+                <text class="room-address">{{m2.room_no}}</text>
+            </view>
+            <view class='a01' bindtap='addNewAddress'>
+              <image  data-totalfloor="{{item.total_floor}}" data-bid="{{item.bid}}" class="jiahao" src='../../images/icon_jiahao.png'></image>
+              <view>申请添加新公司</view>
+            </view>
             
             </view>
             <view class='hengxian'></view>
@@ -15,11 +33,16 @@
     </scroll-view>
 </view>
 
+<view wx:else>
+  <view class="searchTip" bindtap="goToDetail" wx:for-index="index" data-index="{{index}}" wx:for="{{building_list}}">{{item.level03}}</view>   
+  <view class="searchTip" bindtap="chooseRoom" wx:for-index="index" data-index="{{index}}" wx:for="{{room_list}}">{{item.name}}</view>
+</view>
+
 
 <view class="wx-popup" hidden="{{!is_add_new_address}}" catchtouchmove="true">
   <view class='popup-container'>
     <view class="wx-popup-title">
-      添加新地址
+      添加公司信息
       <image src="../../images/delete_red.png" class="wx-popup-close" bindtap='closeAddAddress'></image>
     </view>
     
@@ -30,8 +53,9 @@
       <view class="section__title"></view>
       <picker bindchange="bindPickerChangeFloor" value="{{floorIndex}}" range="{{floorList}}">
         <view class="picker">
-          选择楼层：{{floorList[floorIndex]}}
+          选择楼层 
         </view>
+        <text class="{{selectFloor ? 'picker-txt2' : 'picker-txt1'}}">{{floorList[floorIndex]}}</text>
       </picker>
     </view>
     <view class="wx-time-con">
@@ -42,6 +66,14 @@
       <view class="wx-input-con">
         <view>房间编号</view>
         <input type='text' bindinput='roomNo' placeholder='请输入门牌号'></input>
+      </view>
+      <view class="wx-input-con">
+        <view>姓名</view>
+        <input type='text' bindinput='userName' placeholder='请输入姓名'></input>
+      </view>
+      <view class="wx-input-con">
+        <view>手机号</view>
+        <input type='text' bindinput='mobileNo' placeholder='请输入手机号'></input>
       </view>
     </view>
     

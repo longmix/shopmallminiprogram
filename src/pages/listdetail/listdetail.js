@@ -97,8 +97,17 @@ hideModal: function () {
 //     })
 // },
 onLoad: function (options) {
+  var that = this;
   app.set_option_list_str(null, app.getColor());
-  
+  var option_list_str = wx.getStorageSync("option_list_str");
+  console.log('1114444',option_list_str);
+  var option_list = JSON.parse(option_list_str);
+  console.log('1114444', option_list);
+  if (option_list.wxa_product_list_style) {
+    that.setData({
+      wxa_product_list_style: option_list.wxa_product_list_style
+    })
+  }
   var that = this;
   var objectId = options.title;
   //更改头部标题
@@ -259,6 +268,7 @@ onLoad: function (options) {
     }
   },
   searchProductData: function () {
+
     var that = this;
     console.log('66666666666', that.data.cataid)
     wx.request({
@@ -329,6 +339,9 @@ onLoad: function (options) {
     // 页面渲染完成
   },
   onShow: function () {
+    var option_list_str = wx.getStorageSync("option_list_str");
+
+    console.log("获取商城选项数据：" + option_list_str + '333333333');
   },
   onHide: function () {
     // 页面隐藏

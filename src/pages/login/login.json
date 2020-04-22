@@ -1,6 +1,5 @@
 {
     "backgroundTextStyle":"light",
-    "navigationBarBackgroundColor": "#000000",
-    "navigationBarTitleText": "手机号登录",
+    "navigationBarTitleText": "手机号码登录",
     "navigationBarTextStyle":"white"
 }

@@ -15,6 +15,8 @@ Page({
     companyName:'',
     roomNo:'',
     is_add_new_address:false,
+    showloulist:true,
+    selectFloor:0
   },
 
   /**
@@ -29,15 +31,26 @@ Page({
         level01: shengname,
         level02: name,
       });
+    if(options.bid){
+      that.setData({
+        search_bid:options.bid
+      })
+    }
+    
+    var data_params = {
+      sellerid: app.get_sellerid(),
+      level01: shengname,
+      level02: name,
+    }
+
+    if (that.data.search_bid){
+      data_params.bid = that.data.search_bid
+    }
 
     wx.request({
       url: app.globalData.http_server + 'openapi/O2OAddressData/get_level03_jingwei_list',
       method: 'post',
-      data: {
-        sellerid: app.get_sellerid(),
-        level01: shengname,
-        level02: name,
-      },
+      data: data_params,
       header: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
@@ -137,7 +150,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    userInfo = app.get_user_info();
   },
 
   /**
@@ -199,14 +212,19 @@ Page({
     //添加新地址
   addNewAddress:function(e){
     var that = this;
-    console.log('ddddddssssssss',e)
+
+    var last_url = '/o2o/address/listdetail?shengname=' + that.data.level01 + '&qvname=' + that.data.level02;
+    app.goto_user_login(last_url, 'normal');
+
     var totalfloor = e.currentTarget.dataset.totalfloor;
     var bid = e.currentTarget.dataset.bid;
 
-    var floorList = [];
-    for(var i=0; i<totalfloor; i++){
-      floorList[i] = i+1;
+    var floorList = ['请选择楼层'];
+
+    for(var i=1; i<=totalfloor; i++){
+      floorList[i] = i;
     }
+    console.log('floorList=', floorList)
 
     that.setData({
       is_add_new_address: true,
@@ -226,6 +244,15 @@ Page({
   //选择楼层
   bindPickerChangeFloor:function(e){
     var index = e.detail.value;
+    if(index !=0){
+      this.setData({
+        selectFloor:1
+      })
+    }else{
+      this.setData({
+        selectFloor: 0
+      })
+    }
     this.setData({
       floorIndex: index,
     })
@@ -242,25 +269,76 @@ Page({
       roomNo: roomNo,
     })
   },
+  userName: function (e) {
+    var userName = e.detail.value;
+    this.setData({
+      userName: userName,
+    })
+  },
+  mobileNo: function (e) {
+    var mobileNo = e.detail.value;
+    this.setData({
+      mobileNo: mobileNo,
+    })
+  },
 
   //确认添加地址
   doAddNewAddess:function(e){
+    var that = this 
     var roomNo = this.data.roomNo;
     var companyName = this.data.companyName;
-    console.log('123456789', companyName);
+    var userName = this.data.userName;
+    var mobileNo = this.data.mobileNo;
     if (companyName == ''){
       wx.showToast({
-        title: '公司名称不能为空'
+        title: '公司名称不能为空',
+        icon:'none'
       })
       return false
     }
     if (roomNo == '') {
       wx.showToast({
-        title: '房间编号不能为空'
+        title: '房间编号不能为空',
+        icon: 'none'
       })
       return false
     }
-    var that = this 
+
+    if (that.data.floorIndex == 0){
+      wx.showToast({
+        title: '请选择楼层',
+        icon: 'none'
+      })
+      return false
+    }
+
+
+    if (userName == '') {
+      wx.showToast({
+        title: '姓名不能为空',
+        icon: 'none'
+      })
+      return false
+    }
+
+    if (!that.data.mobileNo) {
+      wx.showToast({
+        title: '请输入手机号',
+        icon: 'none'
+      })
+      return;
+    }
+
+
+    if (!(/^1[345789]\d{9}$/.test(that.data.mobileNo)) || that.data.mobileNo.length > 11) {
+      wx.showToast({
+        title: '手机号码有误',
+        icon: 'success',
+        duration: 2000
+      })
+      return;
+    }
+    
     wx.request({
       url: app.globalData.http_server + 'openapi/O2OAddressData/add_company_by_bid',
       method: 'post',
@@ -269,7 +347,10 @@ Page({
         bid: that.data.bid,
         name: that.data.companyName,
         room_no: that.data.roomNo,
-        floor_num: that.data.floorList[that.data.floorIndex]
+        floor_num: that.data.floorList[that.data.floorIndex],
+        userid: userInfo.userid,
+        apply_name: that.data.userName,
+        apply_mobile: that.data.mobileNo
       },
       header: {
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -278,6 +359,10 @@ Page({
         console.log('565656565', res);
 
         if (res.data.code == 1) {
+          wx.showToast({
+            title: '添加成功，等待审核',
+            icon: 'none'
+          })
           that.getLoutList();
           that.setData({
             is_add_new_address: false,
@@ -329,6 +414,97 @@ Page({
         console.log('88888', loulist);
       }
     })
-  }
+  },
+
+  //搜索
+  search: function () {
+    var that = this;
+    that.setData({
+      showloulist: false
+    })
+  },
+
+  //搜索提示
+  searchinput: function (e) {
+    var that = this;
+    var keywords = e.detail.value;
+    that.setData({
+      keywords: keywords
+    })
+
+    if (!keywords) {
+      that.setData({
+        showloulist: true,
+      })
+      return;
+    }
+
+    wx.request({
+      url: app.globalData.http_server + '/openapi/O2OAddressData/search_by_keywords',
+      method: 'post',
+      data: {
+        sellerid: app.get_sellerid(),
+        keywords: keywords,
+      },
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      success: function (res) {
+        var data = res.data.data;
+        if (res.data.code == 1) {
+          that.setData({
+            building_list: data.building_list,
+            room_list: data.room_list,
+            showloulist:false
+          })
+        }
+
+      },
+      fail: function (e) {
+        wx.showToast({
+          title: '网络异常！',
+          duration: 2000
+        });
+      },
+    })
+  },
+  blurinput: function (e) {
+    console.log('this.data.keywords', this.data.keywords)
+    console.log('this.data.keywords2', !this.data.keywords)
+    if (!this.data.keywords) {
+      this.setData({
+        showloulist: true,
+        building_list: [],
+        room_list: []
+      })
+      return;
+    }
+  },
+  goToDetail: function (e) {
+    var index = e.currentTarget.dataset.index;
+    var buildItem = this.data.building_list[index];
+
+    wx.navigateTo({
+      url: '/o2o/address/listdetail?shengname=' + buildItem.level01 + '&qvname=' + buildItem.level02 + '&bid=' + buildItem.bid,
+    })
+  },
+  chooseRoom2: function (e) {
+    var index = e.currentTarget.dataset.index;
+    var roomItem = this.data.room_list[index];
+
+    var address_info = {
+      address: roomItem.building_detail.address,
+      level01: roomItem.building_detail.level01,
+      level02: roomItem.building_detail.level02,
+      level03: roomItem.building_detail.level03,
+      level04: roomItem,
+    }
+    var address_info_str = JSON.stringify(address_info);
+    wx.setStorageSync('address_info_str', address_info_str)
+
+    wx.reLaunch({
+      url: '/o2o/index/index',
+    })
+  },
 
 })

@@ -103,17 +103,17 @@ border-radius:21px;
 }
 
 .icon-jump{
-  width:87rpx;
-  height:87rpx;
-  border:1px solid #aaa;
-  position:fixed;
-  right:40rpx;
-  bottom:260rpx;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:100px;
+  width: 152rpx;
+  height: 152rpx;
+  position: fixed;
+  right: 40rpx;
+  bottom: 260rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100px;
   background: #00FF00;
+  flex-direction: column;
 }
 
 .icon-jump image{

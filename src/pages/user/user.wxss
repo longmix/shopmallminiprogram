@@ -126,3 +126,23 @@ contact-button{
   width: 60rpx;
   height: 60rpx;
 }
+
+.icon-jump{
+  width: 152rpx;
+  height: 152rpx;
+  position: fixed;
+  right: 40rpx;
+  bottom: 100rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100px;
+  background: #00FF00;
+  flex-direction: column;
+  font-size: 28rpx;
+}
+
+.icon-jump image{
+  width: 70rpx;
+  height: 70rpx;
+}

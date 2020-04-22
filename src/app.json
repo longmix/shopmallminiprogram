@@ -54,7 +54,8 @@
     "cms/video/videolist",
     "o2o/index/index",
     "o2o/address/address_list",
-    "o2o/address/listdetail"
+    "o2o/address/listdetail",
+    "pages/order_chongzhi/chongzhi"
   ],
   "window": {
     "backgroundTextStyle": "light",

@@ -23,7 +23,7 @@ Page({
     orderList4:[],
   },  
   onShow: function () {
-
+    userInfo = app.get_user_info();
     this.loadOrderList();
   },
   onLoad: function(options) {
@@ -67,10 +67,14 @@ Page({
     if (!option_list) {
       return;
     }
+    
 
     this.setData({
-      wxa_order_hide_daishouhuo_refund: option_list.wxa_order_hide_daishouhuo_refund
+      wxa_order_hide_daishouhuo_refund: option_list.wxa_order_hide_daishouhuo_refund,
+      wxa_order_hide_daishouhuo_refund_after: option_list.wxa_order_hide_daishouhuo_refund_after
     })
+
+    console.log('wxa_order_hide_daishouhuo_refund_after==', this.data.wxa_order_hide_daishouhuo_refund_after)
 
 
   }, 

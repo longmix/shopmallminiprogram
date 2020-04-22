@@ -1,0 +1,28 @@
+<!--pages/order_chongzhi/chongzhi.wxml-->
+        <view class="abb" style="background:{{wxa_shop_nav_bg_color}}">
+        <view class="tctb" style="color:{{wxa_shop_nav_font_color}}">充值送优惠</view>
+        </view>
+
+<scroll-view  style="height:100%;"  >
+  
+    <!-- <view class="score-list {{dqhuiyuan < item.level_id  ? ' ':'score-list-display'}}  {{currentid == item.id?'score-list-a-hover':''}}" bindtap="{{dqhuiyuan < item.level_id  ?'radioCheckedChange':' '}}" data-sum_price="{{item.sum_price}}" data-all_price="{{item.all_price}}" data-currentid="{{item.id}}" wx:for="{{huiyuan_list}}" wx:if="{{item.not_show == 0}}"> -->
+    <!-- <view class="score-list   {{currentid == item.id?'score-list-a-hover':''}}" bindtap="radioCheckedChange" data-sum_price="{{item.sum_price}}" data-all_price="{{item.all_price}}" data-currentid="{{item.id}}"  >
+      <view class="score-list-a"  >
+        <view>{{item.name}}冲1</view>
+      </view>
+      <view class="score-list-b">{{item.sum_price}}1000</view> 
+      <view hidden="true">{{item.all_price}}50</view>
+    </view> -->
+
+<view class="score-list   {{currentid == idx?'score-list-a-hover':''}}" bindtap="radioCheckedChange" wx:for="{{taocan}}" wx:for-index="idx" data-all_price="{{item.chong}}" data-currentid="{{idx}}"  >
+      <view class="score-list-a"  >
+        <view>{{item.chong_str}}</view>
+      </view>
+      <view class="score-list-b">{{item.rule_str}}</view> 
+      
+</view>
+
+</scroll-view>
+
+<button class='btn' bindtap="toRecharge" type=""> 立即充值 </button>
+

@@ -17,3 +17,30 @@
 .typeTree .category image{ height: 85px;}
 .typeTree .category{ padding-bottom: 10px;}
 /* .item text{ padding-bottom: 10px; display: block;} */
+.scroll-txt{
+  text-align: center;
+  margin: 10rpx 20rpx;
+  border: 20rpx red;
+  padding: 12rpx 0 12rpx 0;
+  color: #333;
+  background: #e6e6e6;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  border-radius: 60rpx;
+  height:50rpx;
+}
+
+.scroll-ads{
+  text-align: center;
+  font-size: 28rpx;
+  width: 88%;
+}
+.searchTip{
+  width: 97%;
+  margin-left: 3%;
+  font-size: 34rpx;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 20rpx;
+  color: #666;
+}

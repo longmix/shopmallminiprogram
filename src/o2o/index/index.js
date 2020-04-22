@@ -1213,7 +1213,7 @@ Page({
       topPoint['x'] = (that.busPos['x'] - that.finger['x']) / 2 + that.finger['x'];
     }
 
-    that.linePos = that.bezier([that.busPos, topPoint, that.finger], 20);
+    that.linePos = util.bezier([that.busPos, topPoint, that.finger], 20);
     that.startAnimation(that, e);
   },
 
@@ -1247,42 +1247,6 @@ Page({
     }, 15);
   },
 
-
-  bezier: function (points, part) {
-    let sx = points[0]['x'];
-    let sy = points[0]['y'];
-    let cx = points[1]['x'];
-    let cy = points[1]['y'];
-    let ex = points[2]['x'];
-    let ey = points[2]['y'];
-    var bezier_points = [];
-    // 起始点到控制点的x和y每次的增量
-    var changeX1 = (cx - sx) / part;
-    var changeY1 = (cy - sy) / part;
-    // 控制点到结束点的x和y每次的增量
-    var changeX2 = (ex - cx) / part;
-    var changeY2 = (ey - cy) / part;
-    //循环计算
-    for (var i = 0; i <= part; i++) {
-      // 计算两个动点的坐标
-      var qx1 = sx + changeX1 * i;
-      var qy1 = sy + changeY1 * i;
-      var qx2 = cx + changeX2 * i;
-      var qy2 = cy + changeY2 * i;
-      // 计算得到此时的一个贝塞尔曲线上的点
-      var lastX = qx1 + (qx2 - qx1) * i / part;
-      var lastY = qy1 + (qy2 - qy1) * i / part;
-      // 保存点坐标
-      var point = {};
-      point['x'] = lastX;
-      point['y'] = lastY;
-      bezier_points.push(point);
-    }
-    //console.log(bezier_points)
-    return {
-      'bezier_points': bezier_points
-    };
-  },
 
 
   //点击加入购物车
@@ -1332,7 +1296,6 @@ Page({
           total += cartlist[i].amount * cartlist[i].price;
           cartlist[i].price_total = util.sprintf("%6.2f", cartlist[i].amount * cartlist[i].price);       
       }
-      console.log('aaaaaaaaatoatl',total)
 
       console.log('that.data.manjian', that.data.manjian)
       var original_total = total
@@ -1920,24 +1883,36 @@ Page({
     //   // console.log('ssssssssssaaaaaa', '#z' + that.data.shanglist[i].id)
     //   var query = wx.createSelectorQuery()//创建节点查询器 query
     //   query.select('#z' + that.data.shanglist[i].id).boundingClientRect()//这段代码的意思是选择Id= the - id的节点，获取节点位置信息的查询请求
-    //   var j = i;
+      
     //   query.exec(function (res) {
-    //     console.log('ssssssssssssssssss', res)
-    //     console.log('!that.data.selectTop', (res[0].top < 0) && !that.data.selectTop, res[0].dataset.id)
-    //     if ((res[0].top <= 0) && (res[0].top >= that.data.selectTop)) {
+    //     //console.log('ssssssssssssssssss', res)
+    //    console.log('!that.data.selectTop', res[0].top)
+    //     console.log('!that.data.selectTop_now', that.data.selectTop)
+
+    //     if(that.data.selectOrder == res[0].dataset.id){
+    //       if ((res[0].top >= 50)){
+    //         that.setData({
+    //           selectOrder: that.data.lastselectOrder
+    //         })
+         
+    //       }
+    //     }
+
+    //     if ((res[0].top <= 60) && (res[0].top >= that.data.selectTop-10) && that.data.selectTop) {
     //       console.log('aaaaaaaaaaaaa')
     //       // console.log('ssssssssssss' + i, res[0].id)
     //       that.setData({
+    //         lastselectOrder: that.data.selectOrder,
     //         selectOrder: res[0].dataset.id,
     //         selectTop: res[0].top
     //       })
-    //       console.log('aaaaasssa',that.data.selectOrder)
-    //     } else if ((res[0].top < 0) && !that.data.selectTop){
-    //       cosnole.log('6666666666')
+    //       console.log('55555555', that.data.selectTop)
+    //     } else if ((res[0].top <= 50) && !that.data.selectTop){
     //       that.setData({
     //         selectOrder: res[0].dataset.id,
     //         selectTop: res[0].top
     //       })
+    //       console.log('66666666', that.data.selectTop)
     //     }
 
     //   })

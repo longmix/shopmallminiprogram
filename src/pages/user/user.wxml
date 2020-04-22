@@ -9,7 +9,7 @@
           <view>{{nickname}}</view>
           <view class="b_1"> 
             <view>余额 {{data.balance}}</view>
-            <navigator url="/pages/recharge/recharge" class="c_1">[充值]</navigator>
+            <navigator url="/pages/recharge/recharge" class="c_1" wx:if="{{wxa_show_recharge_button_in_usercenter == 1}}">[充值]</navigator>
           </view>
           <view wx:if="{{wxa_show_zengkuan_in_usercenter == 1}}"> 赠款 {{data.balance_zengsong}} </view>
           <view wx:if="{{wxa_show_levelname_in_usercenter == 1}}"> {{data.fenxiao_info.level_name}} </view>
@@ -21,14 +21,18 @@
         <open-data type="userAvatarUrl" class="userinfo-avatar" ></open-data>        
       </navigator>
       <view class="a_2">
-          <open-data style="color:{{wxa_shop_nav_font_color=='#000000' ? '#333' : 'wxa_shop_nav_font_color'}}" type="userNickName"></open-data>        
+          <open-data style="color:{{wxa_shop_nav_font_color=='#000000' ? '#000000' : 'wxa_shop_nav_font_color'}}" type="userNickName"></open-data>        
       </view>
   
     </view>
 
     <view class='head-jump'>
-      <image style="{{wxa_shop_nav_font_color=='#000000' ? 'filter:drop-shadow(#666 2rpx 2rpx)' : ''}}" src="/images/usercenter_goto_home.svg" bindtap='toPageIndex'></image>
-      <image style="{{wxa_shop_nav_font_color=='#000000' ? 'filter:drop-shadow(#666 2rpx 2rpx)' : ''}}" src="/images/usercenter_setting.svg" bindtap='toUserInfo'></image>
+      <image wx:if="{{wxa_shop_nav_font_color!='#000000'}}" src="/images/usercenter_goto_home.svg" bindtap='toPageIndex'></image>
+      <image wx:if="{{wxa_shop_nav_font_color!='#000000'}}" src="/images/usercenter_setting.svg" bindtap='toUserInfo'></image>
+
+      <image wx:if="{{wxa_shop_nav_font_color=='#000000'}}" src="/images/usercenter_goto_home2.svg" bindtap='toPageIndex'></image>
+      <image wx:if="{{wxa_shop_nav_font_color=='#000000'}}" src="/images/usercenter_setting2.svg" bindtap='toUserInfo'></image>
+
     </view>
 
 
@@ -88,6 +92,11 @@
 </block>    
 
 <view class='icon-box'>
+<!-- <view bindtap='mytiaozhuan' data-url='/pages/order_chongzhi/chongzhi' class='icon-list'>
+        <image src='{{item.src}}'></image>
+        <view class='icon-text'><text>充值</text></view>
+</view> -->
+
   <view wx:for='{{icon_list_usercenter}}'>
   <!--
     <view bindtap='myChat' data-string='{{item.url}}' class='icon-list' wx:if='{{item.toPage}}'>
@@ -100,24 +109,48 @@
         <view class='icon-text'><text>{{item.name}}</text></view>
         </view>
     </navigator>
--->
+--><block wx:if="{{wxa_usercenter_function_list == 1}}">
+    <view style="width:100%;padding:5px 20px;line-height:40px;" bindtap='mytiaozhuan' data-url='{{item.url}}' class=''>
+    <view style="float:left;">
+      <image style="width:35px;height:35px;margin-right:30px;" src="{{item.src}}"></image>
+    </view>
+      <view style="float:left;">
+        <text style="color:#333;font-size:35rpx;">{{item.name}}</text>
+      </view>
+      <view style="clear:both;"></view>
+    </view>
+  </block>
+  
+<block wx:if="{{wxa_usercenter_function_list != 1}}">
     <view bindtap='mytiaozhuan' data-url='{{item.url}}' class='icon-list'>
         <image src='{{item.src}}'></image>
         <view class='icon-text'><text>{{item.name}}</text></view>
     </view>
-
+</block>
   </view>
   
 
 </view>
+<block wx:if="{{wxa_usercenter_function_list == 1}}">
+     <navigator style="padding:5px 20px;" url="../about_applet/about_applet" open-type="navigate">
+    <view style="float:left;">
+      <image style="width:35px;height:35px;margin-right:30px;" src="../../images/icon/xiaochengxu.png"></image>
+    </view>
+      <view style="float:left;">
+        <text style="color:#333;font-size:35rpx;">关于小程序</text>
+      </view>
+      <view style="clear:both;"></view>
+     </navigator>
+  </block>
 
+  <block wx:if="{{wxa_usercenter_function_list != 1}}">
    <navigator url="../about_applet/about_applet" open-type="navigate">
   <view class='icon-list'>
    <image src='../../images/icon/xiaochengxu.png'></image>
    <view class='icon-text'><text>关于小程序</text></view>
   </view>
   </navigator>
-
+</block>
     
 
    <!-- <navigator url="/cms/toy-cabinet/mytoy-cabinet" open-type="navigate">
@@ -140,3 +173,8 @@
 </view>
 
 
+<view class='icon-jump' style="background: {{icon_jump_bg_color}};" wx:if="{{wxa_show_return_to_index_in_usercenter == 1}}">
+      <image src="/images/usercenter_goto_home.svg" bindtap='toPageIndex' wx:if="{{wxa_shop_nav_font_color!='#000000'}}"></image>
+      <image src="/images/usercenter_goto_home2.svg" bindtap='toPageIndex' wx:if="{{wxa_shop_nav_font_color=='#000000'}}"></image>
+      <view style="color:{{wxa_shop_nav_font_color}}">返回首页</view>     
+</view>

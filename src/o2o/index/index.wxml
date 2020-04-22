@@ -117,7 +117,7 @@
     <view class="pnl-right">  
       
       <view class="pintuan-btn" bindtap="toMenuList" data-tzorderid="{{item.tuanzhang_orderid}}" wx:if="{{item.yi_cheng_tuan==0 && item.tuanzhang_timeout>0 && item.tuanzhang_show_weichengtuan==0}}">去参团</view>
-      <view class="pintuan-btn2" wx:elif="{{item.yi_cheng_tuan!=1 && item.tuanzhang_timeout<0 && item.tuanzhang_show_weichengtuan==0}}">去参团</view>
+      <view class="pintuan-btn2" wx:elif="{{item.yi_cheng_tuan!=1 && item.tuanzhang_timeout<0 && item.tuanzhang_show_weichengtuan==0}}">未成团</view>
       <view class="pintuan-btn2" wx:elif="{{item.yi_cheng_tuan!=1 && item.tuanzhang_show_weichengtuan==1}}">未成团</view>
       <view class="pintuan-btn" wx:else>已成团</view>
 
@@ -203,8 +203,7 @@
                 <view style='color:#FF6F10;text-decoration:line-through;'>￥{{m2.price2}}</view>
               </view>
             </view>
-              <!-- 飞入图标 -->
-            
+                       
             <view class="addCart" bindtap="tapAddCart"  data-productid="{{m2.productid}}" data-price="{{m2.price}}" data-name="{{m2.name}}" data-pic="{{m2.img}}">
               +
               <!-- <image src="../../images/s.png"></image> -->
@@ -215,7 +214,7 @@
     </scroll-view>
   </view>
  </view>
-
+<!-- 飞入图标 -->
 <view class="good_box" hidden="{{hide_good_box}}"  style="left: {{bus_x}}px; top:{{bus_y}}px;"> </view>
 
 
@@ -316,7 +315,10 @@
       <image src="../../images/delete_red.png" class="wx-popup-close" bindtap='closeChooseTime'></image>
     </view>
     
-    <view class="wx-popup-subtitle">将配送到:{{address_info.level01}}{{address_info.level02}}{{address_info.level03}}{{address_info.address}}{{address_info.level04.name}}{{address_info.level04.room_no}}</view>
+
+    <view class="wx-popup-subtitle">将配送到:{{address_info.level01}} {{address_info.level02}} {{address_info.address}}
+    {{address_info.level03}} {{address_info.level04.floor_num}}层 {{address_info.level04.room_no}} {{address_info.level04.name}}</view>
+
     <view class="wx-popup-con">
       
     <view class="wx-time-con" wx:if="{{basic_set.o2o_set_pei_song_time_status == 1}}">
@@ -331,6 +333,10 @@
       <view class="wx-input-con">
         <view>手机号</view>
         <input type='text' bindinput='mobileNo' placeholder='请输入手机号' value="{{shouHuoInfo.mobileNo}}"></input>
+      </view>
+      <view class="wx-input-con wx-input-tips">
+        * 拼团活动不支持退款，有需要请联系客服。
+        
       </view>
     </view>
     

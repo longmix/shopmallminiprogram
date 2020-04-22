@@ -49,6 +49,36 @@ Page( {
     //调用应用实例的方法获取全局数据
     var userInfo = app.get_user_info();
 
+
+    var option_list = app.globalData.option_list;
+
+    if (option_list.wxa_login_only_weixin && option_list.wxa_login_only_weixin == 1) {
+      that.setData({
+        show_mobile_login: 1
+      })
+    }
+
+    if (option_list.wxa_show_return_to_index_in_usercenter){
+      that.setData({
+        wxa_show_return_to_index_in_usercenter: option_list.wxa_show_return_to_index_in_usercenter
+      })
+    }
+
+    if (option_list.wxa_show_recharge_button_in_usercenter) {
+      that.setData({
+        wxa_show_recharge_button_in_usercenter: option_list.wxa_show_recharge_button_in_usercenter
+      })
+    }
+   
+
+    if (option_list.wxa_shop_nav_bg_color) {
+      that.setData({
+        icon_jump_bg_color: option_list.wxa_shop_nav_bg_color,
+        wxa_shop_nav_font_color: option_list.wxa_shop_nav_font_color,
+
+      });
+    }
+
     if(app.globalData.is_o2o_app == 1){
        wx.hideTabBar({
         success: function (e) {
@@ -152,7 +182,11 @@ Page( {
         wxa_shop_nav_font_color: option_list.wxa_shop_nav_font_color,
       });
     }
-
+    if (option_list.wxa_usercenter_function_list) {
+      this.setData({
+        wxa_usercenter_function_list: option_list.wxa_usercenter_function_list,
+      });
+    }
     if (option_list.wxa_show_zengkuan_in_usercenter) {
       this.setData({
         wxa_show_zengkuan_in_usercenter: option_list.wxa_show_zengkuan_in_usercenter,

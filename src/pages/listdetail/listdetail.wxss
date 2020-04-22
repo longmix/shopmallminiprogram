@@ -8,7 +8,15 @@ page {
   box-sizing: border-box;
   padding: 5px 10px;
 }
-
+.logo_pic{
+width:26%;
+float:left;
+overflow:hidden;
+display:flex;
+height:200rpx;
+justify-content:center;
+align-items:Center;
+}
 .list-tab ul {
   display: flex;
   height: 72rpx;

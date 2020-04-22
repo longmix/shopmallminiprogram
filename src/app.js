@@ -1,6 +1,7 @@
 // app.js
 App({
   onLaunch: function () {   
+    var that = this;
     //调用API从本地缓存中获取数据
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
@@ -16,6 +17,11 @@ App({
         console.log(res.language)
         console.log(res.version)
         console.log(res.platform)
+        wx.setStorageSync('systemInfo', res)
+        var ww = res.windowWidth;
+        var hh = res.windowHeight;
+        that.globalData.ww = ww;
+        that.globalData.hh = hh;
       }
     })
 
@@ -96,6 +102,9 @@ App({
 
 
   },
+
+  
+
   get_shop_info_from_server: function (callback_function) {
     var that = this;
 
@@ -765,7 +774,7 @@ App({
   //通版商城，
   xiaochengxu_appid: 'wx00d1e2843c3b3f77', //，，需要这个参数的地方：get_session_key
   default_sellerid: 'pQNNmSkaq', //大卖家服务市场
-   
+  // default_sellerid: 'pmyxQxkkU',
   shop_name:'通版商城小程序',
 
   //开心拼享购

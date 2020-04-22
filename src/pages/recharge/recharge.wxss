@@ -31,16 +31,19 @@ color:#fff;
 }
 
 .section{
-  display:flex;
-  font-size: 32rpx;
-  justify-content: center;
+  display: flex;
+  font-size: 28rpx;
   align-items: center;
+  margin-left: 60rpx;
 }
 .section2{
-  display:flex;
-  font-size: 32rpx;
-  flex-direction: column;
-  padding: 6%;
+display: block;
+font-size: 28rpx;
+margin-left: 40rpx;
+margin-top: 40rpx;
+padding-right: 32rpx;
+margin-bottom: 60rpx;
+
 }
 
 .section2 view{
@@ -51,30 +54,27 @@ color:#fff;
 
 
 .abb{
-    margin: 12rpx 0;
     display: flex;
     flex-direction: row;
     align-items: center;
     background-color: #fff;
     overflow: hidden;
-    height:27px;
-    border-bottom:3px solid  #ddd;
-    
+    height: 120px;
+    border-bottom: 3px solid #EFEFEF;
+    margin-bottom: 44rpx;
+
 }
 .tctb {
 margin-left:30rpx;
 font-weight:bolder;
-font-size:30rpx;
+font-size:34rpx;
 color:#fff;
-border:1rpx solid #17A8E2;
 border-radius:62rpx;
-width:200rpx;
+width:216rpx;
 text-align:center;
-background-color:#17A8E2;
-height:26px;
-line-height:26px;
+height:57rpx;
 
-} 
+}
 
 .chongzhi{
 height:110px;

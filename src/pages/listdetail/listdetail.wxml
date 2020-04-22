@@ -14,7 +14,51 @@
 </view>
 
 <view class="list">
-    <block wx:for="{{shopList}}" wx:key="*this" data-productid="{{item.productid}}">
+
+
+
+
+
+
+<block wx:if="{{wxa_product_list_style == 1}}">
+    <view class="">
+    
+      <navigator  class="logo_info navigator" url="../product/detail?productid={{item.productid}}" wx:for="{{shopList}}" wx:key="*this"  data-productid="{{item.productid}}" style="margin:10px;">
+      <view class="logo_pic" style="margin-top:18rpx;">
+        <image src="{{item.picture}}" style="width:100%;height:100%;"></image>
+       </view>
+       
+
+
+      <view style='width:70%;float:right;height:109%'>
+        <view class="titles" style='text-align: left;'><text class="wenzi" style="font-weight:700;font-size:18px;overflow: hidden;white-space: nowrap;text-overflow:ellipsis;">{{item.name}}</text>
+        </view>
+        <view class="brief">
+        <view style="color:gray;font-size:26rpx;">
+          {{item.seller_name}}
+        </view>
+        
+        <view wx:if="{{item.price2 > 0}}" style="color:red;">¥ {{item.price}} {{item.product_take_score}}</view>
+        </view>
+        <view class='yueduliang'>
+          <text class="rexiao" style="color:gray;font-size:30rpx;">已有{{item.sale_volume}}人购买</text>
+          
+        </view>
+        
+      </view>
+      <view style="clear:both"></view>
+      </navigator>
+      
+    </view>
+    
+</block>
+
+
+
+
+
+
+    <block  wx:if="{{wxa_product_list_style != 1}}" wx:for="{{shopList}}" wx:key="*this"  data-productid="{{item.productid}}">
         <view class="ban">
             <navigator url="../product/detail?productid={{item.productid}}" class="cover flex-wrp">
                 <image class="banner" src="{{item.picture}}" mode="widthFix"></image>

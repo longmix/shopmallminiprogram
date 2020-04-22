@@ -1,5 +1,7 @@
+var util = require('../../utils/util.js');
 var app = getApp();
 var next_page = 1;
+var userInfo = app.get_user_info();
 
 Page({ 
   data: {
@@ -25,7 +27,8 @@ Page({
     //图片宽度 
     imgwidth: 750,
     //默认  
-    current: 0
+    current: 0,
+    hide_good_box: true,
   },
 //跳转商品列表页   
 listdetail:function(e){
@@ -180,9 +183,8 @@ getMore:function(e){
     })
   },
 
-  onShow:function(){
-    
-    
+  onShow:function(){ 
+    // userInfo = app.get_user_info();
     // this.getShopOptionAndRefresh(this, 0);
     
   },
@@ -206,11 +208,16 @@ getMore:function(e){
       return;
     }
 
-    if (option_list.wxa_shop_toutiao_icon) {
+    if (option_list.wxa_product_list_style) {
         that.setData({
-          wxa_shop_toutiao_icon: option_list.wxa_shop_toutiao_icon
+          wxa_product_list_style: option_list.wxa_product_list_style
         })
       }
+    if (option_list.wxa_shop_toutiao_icon) {
+      that.setData({
+        wxa_shop_toutiao_icon: option_list.wxa_shop_toutiao_icon
+      })
+    }
     if (option_list.wxa_show_kucun_in_list) {
       that.setData({
         wxa_show_kucun_in_list: option_list.wxa_show_kucun_in_list
@@ -591,6 +598,9 @@ getMore:function(e){
    
     //========End====================
 
+    this.busPos = {};
+    this.busPos['x'] = 234.375;//购物车的位置
+    this.busPos['y'] = app.globalData.hh - 32;
     
   }, 
 
@@ -872,6 +882,133 @@ goToOtherPage:function(){
     url: '../h5browser/h5browser?url=' + encodeURIComponent(url),
   });
   return;
-}  
+},
+
+  addCart: function (e) {
+    var that = this;
+
+    if (!userInfo) {
+      var last_url = '/pages/index/index';
+      app.goto_user_login(last_url, 'switchTab');
+      return;
+    }
+
+    var productid = e.currentTarget.dataset.productid;
+
+    wx.request({
+      url: app.globalData.http_server + '?g=Yanyubao&m=ShopApp&a=cart_add',
+      method: 'post',
+
+      data: {
+        amount: 1,
+        checkstr: userInfo.checkstr,
+        productid: productid,
+        sellerid: app.get_sellerid(),
+        userid: userInfo.userid,
+      },
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      success: function (res) {
+        wx.showToast({
+          title: '添加成功',
+        });
+
+        wx.request({
+          url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=cart_list',
+          method: 'post',
+          data: {
+            userid: userInfo.userid,
+            checkstr: userInfo.checkstr,
+            page: 1,
+            sellerid: app.get_sellerid()
+          },
+          header: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          success: function (res) {
+            //--init data
+            var carts = res.data.data;
+            var total_amount = 0;
+            if (res.data.code == 1) {
+              for (var i = 0; i < carts.length; i++) {
+                total_amount += carts[i].amount
+              }
+              wx.setTabBarBadge({
+                index: 2,
+                text: total_amount.toString()
+              })
+
+            } else if (res.data.code == 2) {
+
+            }
+
+            //endInitData
+          },
+        });
+
+        that.touchOnGoods(that, e);
+      },
+      fail: function (e) {
+        wx.showToast({
+          title: '添加失败',
+        });
+      },
+    });
+  },
+
+  //调用的方法
+  touchOnGoods: function (that, e) {
+    if (!this.data.hide_good_box) return;
+    that.finger = {}; var topPoint = {};
+    that.finger['x'] = e.touches["0"].clientX;//点击的位置
+    that.finger['y'] = e.touches["0"].clientY;
+
+    if (that.finger['y'] < that.busPos['y']) {
+      topPoint['y'] = that.finger['y'] - 150;
+    } else {
+      topPoint['y'] = that.busPos['y'] - 150;
+    }
+    topPoint['x'] = Math.abs(that.finger['x'] - that.busPos['x']) / 2;
+
+    if (that.finger['x'] > that.busPos['x']) {
+      topPoint['x'] = (that.finger['x'] - that.busPos['x']) / 2 + that.busPos['x'];
+    } else {//
+      topPoint['x'] = (that.busPos['x'] - that.finger['x']) / 2 + that.finger['x'];
+    }
+    that.linePos = util.bezier([that.busPos, topPoint, that.finger], 20);
+    console.log('bezier_points', that.linePos)
+    that.startAnimation(that, e);
+  },
+
+  startAnimation: function (that, e) {
+    var index = 0,
+      bezier_points = that.linePos['bezier_points'];
+    that.setData({
+      hide_good_box: false,
+      bus_x: that.finger['x'],
+      bus_y: that.finger['y']
+    })
+    var len = bezier_points.length;
+    index = len
+    var i = index - 1;
+    that.timer = setInterval(function () {
+
+      if (i > -1) {
+        that.setData({
+          bus_x: bezier_points[i]['x'],
+          bus_y: bezier_points[i]['y']
+        })
+        i--;
+      }
+
+      if (i < 1) {
+        clearInterval(that.timer);
+        that.setData({
+          hide_good_box: true
+        })
+      }
+    }, 15);
+  },
 
 });

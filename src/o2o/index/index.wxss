@@ -1481,6 +1481,10 @@ font-size:24px;
   padding: 10rpx 0px;
 }
 
+.wx-input-tips{
+  font-size: 22rpx;
+  color:#F7CF68;
+}
 .wx-input-con input{
   margin-left:20rpx;
   text-align:left;

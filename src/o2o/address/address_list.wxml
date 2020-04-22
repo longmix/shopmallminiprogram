@@ -1,5 +1,10 @@
 <!--o2o/address/address_list.wxml-->
-<view class="section">
+<!-- 搜索 -->
+   <view  class="scroll-txt" bindtap="search" data-value="">
+      <icon type="search" size="14" style="margin: 0px 10rpx 0 0"></icon>
+      <input class="scroll-ads" placeholder="请输入楼盘或公司名称" bindinput="searchinput" bindblur="blurinput"></input>
+   </view>
+<view class="section" wx:if="{{showshenglist}}">
     <!-- 左侧类型  -->
     <scroll-view scroll-y="true" class="left">
         <view  wx:for="{{shenglist}}" wx:key="item"  data-name='{{item}}' bindtap="tapType" class="{{item == currType ? 'active' : ''}}" style="font-size:16px；">
@@ -19,4 +24,8 @@
             </view>
         </view>
     </scroll-view>
+</view>
+<view wx:else>
+  <view class="searchTip" bindtap="goToDetail" wx:for-index="index" data-index="{{index}}" wx:for="{{building_list}}">{{item.level03}}</view>   
+  <view class="searchTip" bindtap="chooseRoom" wx:for-index="index" data-index="{{index}}" wx:for="{{room_list}}">{{item.name}}</view>
 </view>

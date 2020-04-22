@@ -30,6 +30,12 @@ Page({
       })
     }
 
+    if (options.pay_price) {
+      that.setData({
+        all_price: options.pay_price
+      })
+    }
+
     
 
   },
@@ -49,7 +55,8 @@ Page({
         userid: userInfo.userid,
         checkstr: userInfo.checkstr,
         sellerid: app.get_sellerid(),
-        productid: that.data.productid
+        productid: that.data.productid,
+        all_price: that.data.all_price
       },
       header: {
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -83,8 +90,14 @@ Page({
   toOrderQueren:function(e){
     console.log('e=====',e)
     var ucid = e.currentTarget.dataset.ucid;
-    wx.navigateTo({
+    wx.redirectTo({
       url: '/pages/order/pay?ucid=' + ucid,
+    })
+  },
+
+  doNotUse:function(e){
+    wx.redirectTo({
+      url: '/pages/order/pay',
     })
   }
 
