@@ -1,5 +1,5 @@
 <!--pages/user/user.wxml-->
-<view class="page" style='width:100%;overflow-x:hidden;'>
+<view class="page" style='width:100%;overflow-x:hidden;margin-bottom: 60rpx;padding-bottom: 60rpx;'>
     <view class="userinfo" style="background:{{wxa_shop_nav_bg_color}}">
       <view class="a_1" wx:if="{{nick_name}}">
 		  	<navigator url="../userinfo/userinfo" open-type="navigate" class='flex'>
@@ -57,7 +57,7 @@
     <!--订单详情-->
 <block wx:if="{{wxa_hidden_order_index_in_usercenter != 1}}">    
     <view class="qbdd mt10">
-    <span class="font_14 c3">全部订单</span>
+    <span class="font_14 c3">我的订单</span>
     <view class="fl_r c9 font_12 l_h20"  hover-class="none" data-currenttab='0' data-otype='' bindtap='myDingdan'>查看全部订单 ></view>
     </view>
     <view class="sc df tc bte ">
@@ -173,8 +173,8 @@
 </view>
 
 
-<view class='icon-jump' style="background: {{icon_jump_bg_color}};" wx:if="{{wxa_show_return_to_index_in_usercenter == 1}}">
-      <image src="/images/usercenter_goto_home.svg" bindtap='toPageIndex' wx:if="{{wxa_shop_nav_font_color!='#000000'}}"></image>
-      <image src="/images/usercenter_goto_home2.svg" bindtap='toPageIndex' wx:if="{{wxa_shop_nav_font_color=='#000000'}}"></image>
-      <view style="color:{{wxa_shop_nav_font_color}}">返回首页</view>     
+<view class='icon-jump' bindtap='toPageIndex' style="background: {{icon_jump_bg_color}};" wx:if="{{wxa_show_return_to_index_in_usercenter == 1}}">
+      <image src="/images/usercenter_goto_home.svg"  wx:if="{{wxa_shop_nav_font_color!='#000000'}}"></image>
+      <image src="/images/usercenter_goto_home2.svg"  wx:if="{{wxa_shop_nav_font_color=='#000000'}}"></image>
+      <view style="color:{{wxa_shop_nav_font_color}}">首页</view>     
 </view>

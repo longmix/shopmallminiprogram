@@ -196,3 +196,7 @@
 .borb{
   margin-bottom: 10rpx;
 }
+
+.orderno{
+  font-size: 30rpx;
+}

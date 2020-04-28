@@ -117,6 +117,11 @@ Page({
       });
     }
 
+
+    if(options.last_url){
+      wx.setStorageSync('last_url', options.last_url);
+    }
+
  
 
     //countdown(that);

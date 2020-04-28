@@ -9,7 +9,7 @@
   <view wx:if="{{wxa_show_search_input == 1}}" class="top-input-con"> 
         
     <view>
-      <image src="{{shop_list.icon}}" class="userinfo-avatar"></image>
+      <image src="/images/map_gps.svg" class="userinfo-map-gps"></image>
     </view>
 
 <navigator  url='/o2o/address/address_list' class="local-con">
@@ -19,9 +19,7 @@
       <image class='local-img' src="../../images/xiala.png"></image>
       
     </view>
-    <view  class="local-change" >
-      <text>[ 更换地址 ]</text>
-    </view>
+    
 </navigator>
     <!-- <view  class="scroll-txt" bindtap="search" data-value="">   
         <icon type="search" size="14" style="margin: 0px 10rpx 0 0"></icon>
@@ -200,11 +198,11 @@
               <view class="txt-message">
                 <view>月售{{m2.sales}}单</view>
                 <view>￥{{m2.price}}</view>
-                <view style='color:#FF6F10;text-decoration:line-through;'>￥{{m2.price2}}</view>
+                <view style='color:#666;text-decoration:line-through;'>￥{{m2.price2}}</view>
               </view>
             </view>
                        
-            <view class="addCart" bindtap="tapAddCart"  data-productid="{{m2.productid}}" data-price="{{m2.price}}" data-name="{{m2.name}}" data-pic="{{m2.img}}">
+            <view class="addCart" bindtap="tapAddCart"  data-productid="{{m2.productid}}" data-price="{{m2.price}}" data-name="{{m2.name}}" data-pic="{{m2.img}}" style="background:{{basic_set.o2o_set_cart_bg_color}}">
               +
               <!-- <image src="../../images/s.png"></image> -->
             </view>
@@ -220,7 +218,7 @@
 
 <!--购物车-->
 <view class="a" catchtouchmove="true">
-      <text>{{manjian_str}}</text>
+      <text wx:if="{{manjian.length>0}}">{{manjian_str}}</text>
  </view>
 
 
@@ -232,10 +230,20 @@
         <image src="{{wxa_kefu_button_icon}}" mode="widthFix"></image>
     </button>
   </block>
+  <block wx:elif="{{wxa_kefu_button_type==2}}">
+    <button class="u-go-home2" bindtap="goToOtherPage" style="background-color:{{wxa_kefu_bg_color}}">
+        <image src="{{wxa_kefu_button_icon}}" mode="widthFix"></image>
+    </button>
+  </block>
+  <block wx:elif="{{wxa_kefu_button_type==3}}">
+    <button class="u-go-home2" openType="contact" style="background-color:{{wxa_kefu_bg_color}}">
+        <image src="{{wxa_kefu_button_icon}}" mode="widthFix"></image>
+    </button>
+  </block>
   <view class="data">
     <view class="icon">
-      <view class="icon-img" bindtap="showCartDetailf">
-        <image src="../../images/car.png"></image>
+      <view class="icon-img" bindtap="showCartDetailf" style="background:{{basic_set.o2o_set_cart_bg_color}}">
+        <image src="../../images/cart.svg"></image>
       </view>
       <view class="cart-count" style="opacity:{{cart_count != 0 ? '' : '0'}};">{{cart_count != 0 ? cart_count : ''}}</view>      
     </view>
@@ -278,7 +286,7 @@
 <view class="shade" hidden="{{!showCartDetail}}"  catchtouchmove="true">
 
 <view class="cart-detail" animation="{{animationData}}" hidden="{{!showCartDetail}}">
-    <view class="list-a">购物车</view>
+    <view class="list-a" style="background:{{basic_set.o2o_set_cart_bg_color}}">购物车</view>
     <scroll-view class="scroll-list-a" scroll-y="true">
       <view class="list">
         <view class="list-item" >
@@ -293,7 +301,7 @@
                 <view class="info-add">
                   <view class="add-de" data-price="{{order.price}}" data-name="{{order.name}}" data-productid="{{order.productid}}" data-bindex='{{bindex}}' bindtap="tapReduceCart">-</view>
                   <view class="info-num">{{order.amount}}</view>
-                  <view class="add-add" data-price="{{order.price}}" data-productid="{{order.productid}}" data-name="{{order.name}}" data-bindex='{{bindex}}' bindtap="cartAddCart">+</view>
+                  <view class="add-add" data-price="{{order.price}}" data-productid="{{order.productid}}" data-name="{{order.name}}" data-bindex='{{bindex}}' bindtap="cartAddCart" style="background:{{basic_set.o2o_set_cart_bg_color}};border:2px solid {{basic_set.o2o_set_cart_bg_color}};">+</view>
                 </view>
 
               </view>
@@ -316,7 +324,7 @@
     </view>
     
 
-    <view class="wx-popup-subtitle">将配送到:{{address_info.level01}} {{address_info.level02}} {{address_info.address}}
+    <view class="wx-popup-subtitle">将配送到:{{address_info.address}}
     {{address_info.level03}} {{address_info.level04.floor_num}}层 {{address_info.level04.room_no}} {{address_info.level04.name}}</view>
 
     <view class="wx-popup-con">
@@ -336,6 +344,10 @@
       </view>
       <view class="wx-input-con wx-input-tips">
         * 拼团活动不支持退款，有需要请联系客服。
+        
+      </view>
+      <view class="wx-input-con wx-input-tips">
+        * 请确认地址无误，如有误请于首页地址栏变更。
         
       </view>
     </view>

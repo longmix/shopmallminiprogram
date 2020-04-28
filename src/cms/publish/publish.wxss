@@ -51,19 +51,19 @@
   justify-content: center;
   align-items: center;
   display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
   padding:60rpx 0 30rpx 0;
-  background:#eee;
 }
 
 .pub-btn{
-  font-size:32rpx;
-  background:#6798E9;
-  color:#fff;
-  padding:8rpx 50rpx;
-  border-radius:50px;
+  font-size: 32rpx;
+  background: #6798E9;
+  color: #fff;
+  padding: 8rpx 50rpx;
+  border-radius: 4px;
+  width: 80%;
+  text-align: center;
+  height: 56rpx;
+  line-height: 56rpx;
 }
 
 .pub-xieyi{
@@ -142,4 +142,64 @@
   background:#6798E9;
   color:#fff;
   font-size:28rpx;
+}
+
+.abb{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: #fff;
+    overflow: hidden;
+    height: 146rpx;
+}
+.tctb {
+  margin-left:30rpx;
+  font-size:32rpx;
+  color:#fff;
+  border-radius:62rpx;
+  text-align:center;
+  height:57rpx;
+}
+
+.tab-info{
+  margin-top: 30rpx;
+}
+
+.tab-con{
+  width: 90%;
+  margin-left: 5%;
+}
+
+.tab-con view{
+  float: left;
+  border: 1px solid #f00;
+  margin-left: 20rpx;
+  border-radius: 4px;
+  font-size: 30rpx;
+  padding: 10rpx 20rpx;
+}
+
+.add-tab-con{
+  float:left;
+  width: 90%;
+  margin-left: 5%;
+  margin-top: 30rpx;
+  font-size: 30rpx;
+  line-height: 70rpx;
+  display: flex;
+  align-items: center;
+  padding-left: 20rpx;
+}
+
+.add-tab-con :nth-child(1){
+  font-size: 30rpx;
+  margin-right: 20rpx;
+  float: left;
+}
+.add-tab-con input{
+  border: 1px solid #000;
+  border-radius: 4px;
+  width: 468rpx;
+  padding-left: 14rpx;
+  padding-right: 14rpx;
 }

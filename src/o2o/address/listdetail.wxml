@@ -21,8 +21,8 @@
                 <text class="room-address">{{m2.floor_num}}层</text>
                 <text class="room-address">{{m2.room_no}}</text>
             </view>
-            <view class='a01' bindtap='addNewAddress'>
-              <image  data-totalfloor="{{item.total_floor}}" data-bid="{{item.bid}}" class="jiahao" src='../../images/icon_jiahao.png'></image>
+            <view class='a01' bindtap='addNewAddress' data-totalfloor="{{item.total_floor}}" data-bid="{{item.bid}}">
+              <image class="jiahao" src='../../images/icon_jiahao.png'></image>
               <view>申请添加新公司</view>
             </view>
             

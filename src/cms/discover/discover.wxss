@@ -192,12 +192,11 @@
   display:flex;
   flex-direction: column;
   align-items: center;
-  border: 1px solid #fe4e01;
 }
 
 .publish-idea image{
-  width: 50rpx;
-  height: 50rpx;
+  width: 100rpx;
+  height: 100rpx;
 }
 
 .cancel-search view{
@@ -282,4 +281,43 @@ align-items:center;
   color: #666;
   font-size: 26rpx;
   margin-top:10rpx;
+}
+
+.tab-info{
+  margin-top: 30rpx;
+}
+
+.tab-con{
+  width: 90%;
+  margin-left: 5%;
+}
+
+.tab-con view{
+  float: left;
+  border: 1px solid#1E90FF;
+  color: 	#1E90FF;
+  margin-left: 20rpx;
+  border-radius: 4px;
+  font-size: 30rpx;
+  padding: 10rpx 20rpx;
+}
+
+.tab-con-each{
+  width: 90%;
+  margin-left: 5%;
+}
+
+.tab-con-each view{
+  float: left;
+  border: 1px solid#1E90FF;
+  color: #1E90FF;
+  margin-left: 20rpx;
+  border-radius: 4px;
+  font-size: 26rpx;
+  padding: 6rpx 16rpx;
+}
+
+.select-tab{
+  color:#fff !important;
+  background: #1E90FF;
 }

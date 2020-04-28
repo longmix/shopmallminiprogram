@@ -138,4 +138,33 @@
   font-size: 12px;
   color: #999;
 }
+.abb{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: #fff;
+    overflow: hidden;
+    height: 146rpx;
+    border-bottom: 3px solid #EFEFEF;
+}
+.tctb {
+  margin-left:30rpx;
+  font-size:32rpx;
+  color:#fff;
+  border-radius:62rpx;
+  text-align:center;
+  height:57rpx;
+}
 
+.borderb{
+  border-bottom: 1px solid #f1f1f1;
+  margin-bottom: 5px;
+  padding-bottom: 7px;
+}
+.bordert{
+  border-top: 1px solid #f1f1f1;
+  margin-top: 5px;
+  padding-top: 5px;
+  display:block;
+  width:100%;
+}

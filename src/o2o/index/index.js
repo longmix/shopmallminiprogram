@@ -614,6 +614,11 @@ Page({
 
     console.log('sellerid 06：' + sellerid);
 
+
+    //强制设置为o2o模板
+    app.globalData.is_o2o_app = 1;
+
+
     app.globalData.sellerid = sellerid
     app.set_sellerid(sellerid);
 
@@ -1006,7 +1011,7 @@ Page({
 
       var last_url = '/pages/index/index';
       app.goto_user_login(last_url, 'normal');
-      app.goto_get_userinfo(last_url, 'normal');
+      //app.goto_get_userinfo(last_url, 'normal');
 
       var userInfo = app.get_user_info();
 
@@ -1029,7 +1034,7 @@ Page({
 
             url = url.replace('%oneclicklogin%', oneclicklogin);
 
-            app.call_h5browser_or_other_goto_url(url, var_list);
+            app.call_h5browser_or_other_goto_url(url, var_list, 'o2o_index');
           }
         },
         fail: function (res) {
@@ -1042,7 +1047,7 @@ Page({
     }
 
 
-    app.call_h5browser_or_other_goto_url(url, var_list);
+    app.call_h5browser_or_other_goto_url(url, var_list, 'o2o_index');
 
 
 
@@ -2232,8 +2237,9 @@ Page({
     mm = mm > 9 ? mm : `0${mm}`;
     hh = hh > 9 ? hh : `0${hh}`;
     return { ss, mm, hh };
-  }
+  },
 
+  
   
 
 

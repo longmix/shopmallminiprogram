@@ -14,7 +14,8 @@ Page({
     isShowBottomLine: 0,
     imgheights: [],
     current: 0,
-    startself:0
+    startself:0,
+    selectTabArr: [],
   },
 
   /**
@@ -37,6 +38,13 @@ Page({
   callback_flash_ad_list: function (that, cms_faquan_setting){
     if (!cms_faquan_setting){
       return;
+    }
+
+
+    if (cms_faquan_setting.faquan_tag_status) {
+      that.setData({
+        faquan_tag_status: cms_faquan_setting.faquan_tag_status
+      })
     }
 
     var type = cms_faquan_setting.faquan_flash_ad_type;
@@ -122,6 +130,7 @@ Page({
         userid: userInfo ? userInfo.userid : '',
         page: 1,
         keyword: that.data.keyword ? that.data.keyword : '',
+        
       },
       header: {
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -134,6 +143,7 @@ Page({
           that.setData({
             faquanList: faquanList,
             page: that.data.page + 1,
+            hot_tag: res.data.hot_tag
           })  
         }
         // WxParse.wxParse('content', 'html', faquanList, that, 15);
@@ -446,6 +456,7 @@ console.log('userInfo==',userInfo);
         userid: userInfo ? userInfo.userid : '',
         page: that.data.page,
         keyword: that.data.keyword ? that.data.keyword : '',
+        tag: that.data.selectTabStr
       },
       header: {
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -652,6 +663,84 @@ console.log('userInfo==',userInfo);
       }
     })
   },
+
+  //选择标签
+  selectTab:function(e){
+    var that = this;
+    var index = e.currentTarget.dataset.index;
+
+    var hot_tag = that.data.hot_tag
+
+    hot_tag[index]['select'] = !hot_tag[index]['select']; 
+
+    var selectTabArr = that.data.selectTabArr;
+
+    if (hot_tag[index]['select']){
+      selectTabArr.push(hot_tag[index].name)
+    }else{
+
+      for (var i = 0; i < selectTabArr.length; i++) {
+        if (selectTabArr[i] == hot_tag[index].name) {
+          selectTabArr.splice(i, 1);
+          break;
+        }
+      }
+    }
+
+   
+
+    var selectTabStr = selectTabArr.join(',')
+
+    console.log('selectTabStr', selectTabStr)
+
+    that.setData({
+      hot_tag: hot_tag,
+      selectTabStr: selectTabStr
+    })
+
+    wx.request({
+      url: app.globalData.http_server + 'index.php/openapi/FaquanData/get_faquan_list',
+      method: 'post',
+      data: {
+        appid: app.globalData.xiaochengxu_appid,
+        sellerid: app.get_sellerid(),
+        userid: userInfo ? userInfo.userid : '',
+        page: 1,
+        keyword: that.data.keyword ? that.data.keyword : '',
+        tag: that.data.selectTabStr
+      },
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      success: function (res) {
+        var faquanList = res.data.data;
+
+        console.log('faquanList', faquanList)
+        if (res.data.code == 1) {
+          that.setData({
+            faquanList: faquanList,
+            page: 1,
+
+          })
+        }else{
+          that.setData({
+            faquanList: [],
+            page: 1,
+
+          })
+        }
+        // WxParse.wxParse('content', 'html', faquanList, that, 15);
+
+      },
+      fail: function (e) {
+        wx.showToast({
+          title: '网络异常！',
+          duration: 2000
+        });
+      },
+    })
+  },
+ 
   
 
 })

@@ -1,8 +1,9 @@
 
 //获取应用实例 
 var app = getApp();
+
 //var userInfo = app.get_user_info();
-//console.log(userInfo);
+
 
 //引入这个插件，使html内容自动转换成wxml内容
 var WxParse = require('../../wxParse/wxParse.js');
@@ -47,13 +48,15 @@ Page({
     var that = this;
 
     var userInfo = app.get_user_info();
+
+    
     if ((!userInfo) || (!userInfo.userid)) {
       
       var last_url = null;
       var page_type = 'normal';
 
       if (that.data.productid) {
-        last_url = '/pages/product/detail?productid=' + that.data.productid;
+        last_url = '/pages/product/detail?' + that.data.options_str;
       }
       app.goto_user_login(last_url, page_type);
 
@@ -73,12 +76,18 @@ Page({
       animationData: animation.export()
     })
 
+    var action_type = '';
+    if(e.currentTarget.dataset.type){
+      action_type = e.currentTarget.dataset.type;
+    }
+
     if (e.currentTarget.dataset.status == 1) {
       this.setData(
         {
           showModalStatus: true,
           buys: '立即购买',
-          status: '1'
+          status: '1',
+          action_type : action_type
         }
       );
     }else {
@@ -86,7 +95,8 @@ Page({
         {
           showModalStatus: true,
           buys: '加入购物车',
-          status: '2'
+          status: '2',
+          action_type: action_type
         }
       );
     }
@@ -124,44 +134,69 @@ Page({
   },
   // 传值
   onLoad: function (option) {  
+
+    
     console.log(option);   
     //this.initNavHeight();
 
     var that = this;
 
     app.set_option_list_str(null, app.getColor());
+
+
+    var options_str = '';
+
+    //如果当前访问者没有登录或者注册，那么分析转发过来的链接是否带有推荐者信息
+    if(option.userid){
+      var userInfo = app.get_user_info();
+
+      if ((!userInfo) || (!userInfo.userid)) {
+        app.set_current_parentid(options.userid);
+      }
+    }
+
+
+    if (option.productid) {
+      that.setData({
+        productid: option.productid,
+      });
+
+      options_str += 'productid=' + option.productid + '&';
+    }
     
 
     if (option.price_type){
       that.setData({
         price_type: option.price_type,
       });
+
+      options_str += 'price_type=' + option.price_type+'&';
     }
     if (option.sharekanjia){
       that.setData({
         is_sharekanjia: option.sharekanjia,
       });
+
+      options_str += 'sharekanjia=' + option.sharekanjia + '&';
     }
-    if (option.productid){
-      that.setData({
-        productid: option.productid,
-      });
-    }
+    
     if (option.jiantuanid){
       that.setData({
         jiantuanid: option.jiantuanid,
       });
+
+      options_str += 'jiantuanid=' + option.jiantuanid + '&';
     }
-      // that.setData({
-      //   price_type: option.price_type,
-      //   is_sharekanjia: option.sharekanjia,
-      //   productid: option.productid,
-      //   jiantuanid: option.jiantuanid
-      // });
-    
-    
-    console.log(that.data.is_sharekanjia);
+
+    options_str = options_str.substr(0, options_str.length -1);
+
+    console.log('options_str', options_str);
+
+    that.setData({ options_str: options_str});
+
+
     that.loadProductDetail();
+
     that.loadCataXiangqing();
 
 
@@ -195,6 +230,7 @@ Page({
     var that = this;
 
     var userInfo = app.get_user_info();
+
     if ((!userInfo) || (!userInfo.userid)) {
 
 
@@ -234,7 +270,9 @@ Page({
   loadProductDetail:function(){
     var that = this;
     var product_list = wx.getStorageSync('product_list');
+
     var userInfo = app.get_user_info();
+   
     if ((!userInfo) || (!userInfo.userid)) {
       that.setData({
         colIcon: "/images/shc.png",
@@ -345,6 +383,7 @@ Page({
         });
       },
     });
+
     if (userInfo){
     wx.request({
       url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=product_favorite',
@@ -455,6 +494,8 @@ Page({
     var that = this;
 
     var userInfo = app.get_user_info();
+
+    
     if ((!userInfo) || (!userInfo.userid)) {
       var last_url = null;
       var page_type = 'normal';
@@ -504,6 +545,7 @@ Page({
   },
 // 属性选择
   onShow: function () {
+    var userInfo = app.get_user_info();
 
     this.setData({
       includeGroup: this.data.commodityAttr
@@ -723,6 +765,7 @@ Page({
     var that = this;
 
     var userInfo = app.get_user_info();
+
     if ((!userInfo) || (!userInfo.userid)) {
 
       var last_url = null;
@@ -777,23 +820,27 @@ Page({
 
     var that = this;
 
-    
     var userInfo = app.get_user_info();
+
+
     if ((!userInfo) || (!userInfo.userid)) {
+      console.log('没有登录，跳转到登录界面');
 
       var last_url = null;
       var page_type = 'normal';
 
       if (that.data.productid){
-        last_url = '/pages/product/detail?productid=' + that.data.productid;
+        last_url = '/pages/product/detail?' + that.data.options_str;
       }
+
+    
       app.goto_user_login(last_url, page_type);
 
       return;
     } 
 
     // 弹窗
-      var userInfo = app.get_user_info();
+
       var animation = wx.createAnimation({
         duration: 200,
         timingFunction: "linear",
@@ -834,43 +881,39 @@ Page({
 
 
     
-    if (e.currentTarget.dataset.status == 1) {
+   
+
+
+    if (e.currentTarget.dataset.status == 1){
+
+      var new_url = '../order/pay?amount=' + that.data.amount + "&productid=" + that.data.productid + "&action=direct_buy";
+
+
+      if (that.data.jiantuanid) {
+        //看是否独立开团
+        console.log('是否独立开团：', that.data.action_type);
+
+        if(that.data.action_type == 'dulikaituan'){
+          that.data.jiantuanid = 0;
+        }
+
+        new_url = '../order/pay?amount=' + that.data.amount + "&productid=" + that.data.productid + "&action=direct_buy" + "&cuxiao_type=duorenpintuan" + '&jiantuanid=' + that.data.jiantuanid + '&price_type=' + that.data.price_type;
+
+      } 
+      else if (that.data.is_sharekanjia == 'sharekanjia') {
+        new_url = '../order/pay?amount=' + that.data.amount + "&productid=" + that.data.productid + "&cuxiao_type=sharekanjia" + "&action=direct_buy";
+      }
+
 
       wx.navigateTo({
         //url: '../order/pay?productid=' + "%5B%222895%22%5D",
-        url: '../order/pay?amount=' + that.data.amount + "&productid=" + that.data.productid + "&action=direct_buy",
+        url: new_url,
       })
-      return;
+
     }
+    else if (e.currentTarget.dataset.status == 2){
+      //加入购物车
 
-    console.log(e.currentTarget.dataset.type);
-    console.log('不不不不不1',e)
-
-    if(e.currentTarget.status == 1){
-
-      var ptype = e.currentTarget.dataset.type;
-      if (ptype == 'buynow') {
-        if (that.data.jiantuanid) {
-          wx.navigateTo({
-            url: '../order/pay?amount=' + that.data.amount + "&productid=" + that.data.productid + "&action=direct_buy" + "&cuxiao_type=duorenpintuan" + '&jiantuanid=' + that.data.jiantuanid + '&price_type=' + that.data.price_type,
-          });
-          return;
-        } else if (that.data.is_sharekanjia == 'sharekanjia') {
-          wx.navigateTo({
-            url: '../order/pay?amount=' + that.data.amount + "&productid=" + that.data.productid + "&cuxiao_type=sharekanjia" + "&action=direct_buy",
-          });
-          return;
-        } else {
-          wx.navigateTo({
-            url: '../order/pay?amount=' + that.data.amount + "&productid=" + that.data.productid + "&action=direct_buy",
-          });
-          return;
-        }
-      }
-    }else{
-      console.log(666666667777)
-      console.log(that.data)
-      console.log(userInfo)
       wx.request({
         url: app.globalData.http_server + '?g=Yanyubao&m=ShopApp&a=cart_add',
         method: 'post',
@@ -968,11 +1011,17 @@ Page({
       share_title = share_title.substr(0, 20) + '...';
     }
 
+    var share_path = '/pages/product/detail?productid=' + that.data.productid + '&sellerid' + app.get_sellerid();
 
+    var userInfo = app.get_user_info();
+
+    if (userInfo && userInfo.userid) {
+      share_path += '&userid='+userInfo.userid;
+    }
 
     return {
       title: share_title + ' ￥' + that.data.detail.price,
-      path: '/pages/product/detail?productid=' + that.data.productid + '&sellerid' + app.get_sellerid(),
+      path: share_path,
       success: function (res) {
         // 分享成功
       },

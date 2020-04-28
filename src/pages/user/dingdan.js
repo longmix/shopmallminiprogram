@@ -24,7 +24,7 @@ Page({
   },  
   onShow: function () {
     userInfo = app.get_user_info();
-    this.loadOrderList();
+    // this.loadOrderList();
   },
   onLoad: function(options) {
 
@@ -32,22 +32,17 @@ Page({
 
     app.set_option_list_str(this, this.callback_set_option);
 
-    if (options.currentTab){
-       this.loadOrderList();
-    }  
+    
     
     this.initSystemInfo();
     this.setData({
       currentTab: parseInt(options.currentTab),
       isStatus:options.otype
     });
-    if(this.data.currentTab == 4){
-      this.loadReturnOrderList();
-    }else{
-      
+  
+    if (options.currentTab) {
       this.loadOrderList();
-    }
-
+    }  
 
 
     
@@ -71,7 +66,8 @@ Page({
 
     this.setData({
       wxa_order_hide_daishouhuo_refund: option_list.wxa_order_hide_daishouhuo_refund,
-      wxa_order_hide_daishouhuo_refund_after: option_list.wxa_order_hide_daishouhuo_refund_after
+      wxa_order_hide_daishouhuo_refund_after: option_list.wxa_order_hide_daishouhuo_refund_after,
+      wxa_order_info_page_no_link_to_product: option_list.wxa_order_info_page_no_link_to_product
     })
 
     console.log('wxa_order_hide_daishouhuo_refund_after==', this.data.wxa_order_hide_daishouhuo_refund_after)
@@ -502,11 +498,27 @@ loadReturnOrderList:function(){
     });
   },
   bindChange: function(e) {  
-    var that = this;  
-    that.setData( { currentTab: e.detail.current });  
-  },  
+    var that = this; 
+    var currentTab = e.detail.current
+    var isStatus = "";
+
+    switch (currentTab){
+      case 1: isStatus = 1;
+              break;
+      case 2: isStatus = 2;
+        break;
+      case 3: isStatus = 6;
+        break;
+      case 4: isStatus = 7;
+        break;
+    }
+
+    that.setData({ currentTab: currentTab, isStatus: isStatus});    
+    that.loadOrderList();
+  },
+
+
   swichNav: function(e) { 
-    
     var that = this;  
     if( that.data.currentTab === e.target.dataset.current ) {  
       return false;  
@@ -517,29 +529,14 @@ loadReturnOrderList:function(){
         isStatus: e.target.dataset.otype,
       });
       that.loadOrderList();
-      //没有数据就进行加载
-/*
-      switch(that.data.currentTab){
-          case 0:
-            !that.data.orderList0.length && that.loadOrderList();
-            break;
-          case 1:
-            !that.data.orderList1.length && that.loadOrderList();
-            break;  
-          case 2:
-            !that.data.orderList2.length && that.loadOrderList();
-            break;
-          case 3:
-            !that.data.orderList3.length && that.loadOrderList();
-            break;
-          case 4:
-            that.data.orderList4.length = 0;
-            that.loadReturnOrderList();
-            break;
-        }
-        */
     };
   },
+
+  // bindTransition:function(e){
+  //   console.log('e1==',e)
+  // },
+
+  
   /**
    * 微信支付订单
    */
@@ -686,7 +683,7 @@ loadReturnOrderList:function(){
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-    wx.reLaunch({
+    wx.switchTab({      
       url: '/pages/user/user',
     })
   },

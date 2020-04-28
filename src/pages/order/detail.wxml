@@ -1,4 +1,7 @@
 <!--pages/order/detail.wxml-->
+ <view class="abb" style="background:{{wxa_shop_nav_bg_color}}">
+        <view class="tctb" style="color:{{wxa_shop_nav_font_color}}">订单编号：{{orderData.orderno}}</view>
+    </view>
 <view class="w100">
 		<view class="p_all bg_white df item" wx:for="{{orderList}}" wx:key="{{index}}">
 			<view class="cp_photo">			
@@ -28,9 +31,7 @@
 			订单状态：<text class="red">{{orderData.status_str}}</text>
       <navigator wx:if="{{orderData.status_str=='待付款'}}" url="../order/zhifu?orderId={{orderData.orderid}}&balance_zengsong_dikou={{orderData.coupon_price}}&balance_dikou={{orderData.yue_price}}" class="font_12 fl_r mr_5 btn_min">立即支付</navigator>
 			</view>
-			<view >
-			订单编号：{{orderData.orderno}}
-			</view>
+			
 			<view class="mt10">
 			订单时间：{{orderData.createtime}}
 			</view>  
@@ -39,7 +40,17 @@
 			<textarea wx:if="{{orderData.buyer_memo}}" class="mt10" auto-height name="remark" disabled="{{true}}" placeholder="订单备注" value="{{orderData.buyer_memo?orderData.buyer_memo:''}}"/> 
 		  </view>	
 
-    	<view class="mt10">总金额：<span class="font_20 red">¥ {{orderData.price}}</span></view>
+
+      <view class="borderb bordert font_14">
+          <view>共计{{orderData.total_num}}商品<view class='fl_r'></view></view>
+          <view>商品金额：<view class='fl_r'>￥{{orderData.price}}</view></view>
+          <view>快递费：<view class='fl_r'>￥{{orderData.price3}}</view></view>
+          <view>订单金额：<view class='fl_r'>￥{{orderData.order_total_price}}</view></view>
+          <view>余额支付：<view class='fl_r'>￥{{orderData.yue_price}}</view></view>
+          <view>赠款支付：<view class='fl_r'>￥{{orderData.coupon_price}}</view></view>        
+          <view wx:if='{{orderData.pay_price}}'>实际支付：<view class='fl_r'>￥{{orderData.pay_price}}</view></view>
+          <!-- <view>支付方式：<view class='fl_r'>{{item.payment_name}}</view></view> -->
+        </view>
 		  </view>
 
 

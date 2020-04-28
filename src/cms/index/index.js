@@ -36,6 +36,11 @@ Page({
 
 
 
+    //强制设置为资料库模板
+    app.globalData.is_ziliaoku_app = 1;
+
+
+
     app.get_shop_info_from_server(that.loadInfo);
 
 

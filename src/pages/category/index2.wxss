@@ -20,17 +20,17 @@
 .addcart-con text{ font-size: 28rpx;color: #f00;}
 .addcart-con image{width: 36rpx;height: 36rpx;}
 .logo_info {
-  margin-left:18rpx;
-  justify-content:center;
-  align-items:center;
-  margin-top:6rpx;
-  border-radius:18rpx;
-  box-shadow:#EDEDED 2rpx 2rpx 15rpx 5rpx;
-  padding:10rpx 18rpx 22rpx 20rpx;
-  background:#fff;
-  margin-bottom:20rpx;
+  margin-left: 18rpx;
+  justify-content: center;
+  align-items: center;
+  margin-top: 4rpx;
+  border-radius: 18rpx;
+  box-shadow: #EDEDED 2rpx 2rpx 15rpx 5rpx;
+  padding: 0rpx 18rpx 0rpx 20rpx;
+  background: #fff;
+  margin-bottom: 16rpx;
   float: left;
-  width:500rpx;
+  width: 500rpx
 }
 .logo_pic{
   width:40%;

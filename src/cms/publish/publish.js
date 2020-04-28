@@ -12,6 +12,7 @@ Page({
     flag: 1,
     checked:true,
     disable:false,
+    selectTabArr:[]
   },
 
   /**
@@ -103,7 +104,7 @@ Page({
 
     app.getFaquanSetting(that, this.callback_xieyi_content);
 
-
+    app.set_option_list_str(this, this.callback_set_option);
 
   },
 
@@ -116,6 +117,49 @@ Page({
     }
 
 
+    if (cms_faquan_setting.faquan_page_title){
+      wx.setNavigationBarTitle({
+        title: cms_faquan_setting.faquan_page_title
+      })
+      that.setData({
+        faquan_page_title: cms_faquan_setting.faquan_page_title
+      })
+    }
+
+
+    if (cms_faquan_setting.faquan_tag_status) {
+      that.setData({
+        faquan_tag_status: cms_faquan_setting.faquan_tag_status
+      })
+    }
+
+    if (cms_faquan_setting.faquan_zidingyi_tag_status) {
+      that.setData({
+        faquan_zidingyi_tag_status: cms_faquan_setting.faquan_tag_status
+      })
+    }
+
+
+    if (cms_faquan_setting.faquan_hot_tag_words) {
+      that.setData({
+        faquan_hot_tag_words: cms_faquan_setting.faquan_hot_tag_words
+      })
+    }
+    
+
+    if (cms_faquan_setting.faquan_tag_color) {
+      that.setData({
+        faquan_tag_color: cms_faquan_setting.faquan_tag_color
+      })
+    }
+
+    if (cms_faquan_setting.faquan_tag_all_num) {
+      that.setData({
+        faquan_tag_all_num: cms_faquan_setting.faquan_tag_all_num
+      })
+    }
+    
+    
     if (cms_faquan_setting.faquan_xieyi_status){
       that.setData({
         faquan_xieyi_status: cms_faquan_setting.faquan_xieyi_status
@@ -136,6 +180,38 @@ Page({
       })
     }
 
+
+  },
+
+  callback_set_option: function (that, cb_params) {
+    console.log('getShopOptionAndRefresh+++++:::' + cb_params)
+
+    //从本地读取
+    var option_list_str = wx.getStorageSync("option_list_str");
+    if (!option_list_str) {
+      return null;
+    }
+
+    var option_list = JSON.parse(option_list_str);
+
+    console.log('option_list===', option_list)
+
+    if (!option_list) {
+      return;
+    }
+
+
+    if (option_list.wxa_shop_nav_bg_color) {
+      that.setData({
+        wxa_shop_nav_bg_color: option_list.wxa_shop_nav_bg_color
+      });
+    }
+
+    if (option_list.wxa_shop_nav_font_color) {
+      that.setData({
+        wxa_shop_nav_font_color: option_list.wxa_shop_nav_font_color
+      });
+    }
 
   },
 
@@ -245,6 +321,45 @@ Page({
       return;
     }
 
+
+    var selectTabArr = that.data.selectTabArr
+    var selectTabArr_length = selectTabArr.length;
+
+
+    if (that.data.tab_content) {
+      ++selectTabArr_length;
+    }
+
+    if (selectTabArr_length > that.data.faquan_tag_all_num){
+      wx.showModal({
+        title: '提示',
+        content: '标签最多为' + that.data.faquan_tag_all_num + '个',
+        showCancel: false
+      })
+      return;
+    }
+
+
+    for (var i = 0; i < selectTabArr.length; i++) {
+      if (selectTabArr[i] == that.data.tab_content) {
+        wx.showModal({
+          title: '提示',
+          content: '标签重复',
+          showCancel: false
+        })
+        return;
+      }
+    }
+
+    var selectTabStr = selectTabArr.join(',')
+
+    if(that.data.tab_content){
+      selectTabStr += ',' + that.data.tab_content;
+    }
+
+    
+    
+
   that.setData({
     disable: true,
   })
@@ -260,6 +375,7 @@ Page({
             appid: app.globalData.xiaochengxu_appid,
             userid: userInfo ? userInfo.userid : '',
             text: that.data.ideaText,
+            tag: selectTabStr,
             // cata: that.data.cataValue,
           },
           header: {
@@ -465,7 +581,51 @@ upLoadImg:function(i){
   },
 
 
-  
+
+  //选择标签
+  selectTab: function (e) {
+    var that = this;
+    var index = e.currentTarget.dataset.index;
+
+    var faquan_hot_tag_words = that.data.faquan_hot_tag_words
+
+    faquan_hot_tag_words[index]['select'] = !faquan_hot_tag_words[index]['select'];
+
+    console.log('faquan_hot_tag_words', faquan_hot_tag_words)
+
+    var selectTabArr = that.data.selectTabArr;
+
+    if (faquan_hot_tag_words[index]['select']) {
+      selectTabArr.push(faquan_hot_tag_words[index].name)
+    } else {
+
+      for (var i = 0; i < selectTabArr.length; i++) {
+        if (selectTabArr[i] == faquan_hot_tag_words[index].name) {
+          selectTabArr.splice(i, 1);
+          break;
+        }
+      }
+    }
+
+    console.log('selectTabArr', selectTabArr)
+
+    that.setData({
+      faquan_hot_tag_words: faquan_hot_tag_words,
+      selectTabArr: selectTabArr,
+    })
+  },
+
+
+
+  addTab:function(e){
+
+    var tab_content = e.detail.value;
+    this.setData({
+      tab_content: tab_content
+    })
+
+    console.log('tab_content', tab_content)
+  },
   
 
 

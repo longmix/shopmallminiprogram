@@ -637,7 +637,7 @@ App({
 
   },
   //调用H5browser打开网页
-  call_h5browser_or_other_goto_url: function (url, var_list) {
+  call_h5browser_or_other_goto_url: function (url, var_list, ret_page='') {
     console.log('call_h5browser_or_other_goto_url : url && var_list :'+url);
     console.log(var_list);
 
@@ -668,7 +668,7 @@ App({
     else if (url == 'duorenpintuan') {
       var url1 = 'https://yanyubao.tseo.cn/Home/DuorenPintuan/pintuan_list/ensellerid/' + this.get_sellerid() + '.html?click_type=Wxa';
       wx.navigateTo({
-        url: '/pages/h5browser/h5browser?url=' + encodeURIComponent(url1),
+        url: '/pages/h5browser/h5browser?url=' + encodeURIComponent(url1) + '&ret_page=' + ret_page,
       })
     } else if (url == 'fenxiangkanjia') {
       var productid = 0;
@@ -676,7 +676,7 @@ App({
 
         var url1 = 'https://yanyubao.tseo.cn/Home/ShareKanjia/share_list/productid/' + var_list.productid + '.html?click_type=Wxa';
         wx.navigateTo({
-          url: '/pages/h5browser/h5browser?url=' + encodeURIComponent(url1),
+          url: '/pages/h5browser/h5browser?url=' + encodeURIComponent(url1) + '&ret_page=' + ret_page,
         })
 
       }
@@ -684,7 +684,7 @@ App({
     }
     else if (url.indexOf('https://') == 0) {
       wx.navigateTo({
-        url: '/pages/h5browser/h5browser?url=' + encodeURIComponent(url),
+        url: '/pages/h5browser/h5browser?url=' + encodeURIComponent(url) + '&ret_page=' + ret_page,
       })
     }
     else if (url.indexOf('miniprogram') == 0) {
@@ -766,20 +766,23 @@ App({
 
  globalData:{
    http_weiduke_server: 'https://cms.weiduke.com/',
-  //  http_server:'http://192.168.0.205/yanyubao_server/',
+  // http_server:'http://192.168.0.205/yanyubao_server/',
     http_server: 'https://yanyubao.tseo.cn/',
-  // http_server: 'http://192.168.0.87/yanyubao_server/',
+   //http_server: 'http://192.168.0.87/yanyubao_server/',
    userInfo: {},
 
   //通版商城，
   xiaochengxu_appid: 'wx00d1e2843c3b3f77', //，，需要这个参数的地方：get_session_key
   default_sellerid: 'pQNNmSkaq', //大卖家服务市场
-  // default_sellerid: 'pmyxQxkkU',
+  
   shop_name:'通版商城小程序',
 
-  //开心拼享购
+  //============以下为开发过程中使用=======
+  //default_sellerid: 'pmyxQxkkU',  // 13112341234
+  
+  
   //xiaochengxu_appid: 'wx93c05a83c11904b5',
-  //default_sellerid: 'fmJyUPkWj', //  连云港顺鸿欣远
+  //default_sellerid: 'fmJyUPkWj', //  连云港顺鸿欣远 //开心拼享购
   
   // shopListdefault_sellerid: 'fNzJUPqgq',//韩品购
    //default_sellerid: 'fzyzUPgjP',//敦煌丝路

@@ -41,6 +41,19 @@ Page({
       return;
     }
 
+
+    if (option_list.wxa_shop_nav_bg_color) {
+      that.setData({
+        wxa_shop_nav_bg_color: option_list.wxa_shop_nav_bg_color
+      });
+    }
+
+    if (option_list.wxa_shop_nav_font_color) {
+      that.setData({
+        wxa_shop_nav_font_color: option_list.wxa_shop_nav_font_color
+      });
+    }
+
     this.setData({
       wxa_order_hide_sanji_address: option_list.wxa_order_hide_sanji_address
     })

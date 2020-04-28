@@ -11,17 +11,17 @@
 </view>
 <view class="c_t60"></view>
 <view>
-<swiper current="{{currentTab}}" class="swiper-box"  style='height:{{Height}}px;' duration="300" bindchange="bindChange">
+<swiper  current="{{currentTab}}" class="swiper-box" style='height:{{Height}}px;' duration="300" bindchange="bindChange">
 
   <!-- 全部 -->
-  <swiper-item>
+  <swiper-item >
     <view class="search_no" wx:if="{{!orderList.length}}">
         <view class="font_14"><image class="scimg" src="/images/search_no.png"></image></view>
         <text>没有可用订单/(ㄒoㄒ)/~~</text>
     </view>
     <view class="shop df bordermax" wx:for="{{orderList}}" wx:key="{{index}}" style='display: block;'>
-        <navigator url="../order/detail?orderId={{item.orderid}}" class="borderb font_14">订单编号：{{item.orderno}}</navigator> 
-        <navigator url="../product/detail?productid={{product_item.productid}}" class="df_1 borb" style='display:flex;' wx:for="{{item.orderProduct}}" wx:key="{{index}}" wx:for-item="product_item">
+        <navigator url="../order/detail?orderId={{item.orderid}}" class="borderb font_14 orderno">订单编号：{{item.orderno}}<view style="float:right;color: #666;font-size: 26rpx;">{{item.status_str}}</view></navigator> 
+        <navigator open-type="{{wxa_order_info_page_no_link_to_product == 1 ? '' : 'navigate'}}" url="../product/detail?productid={{product_item.productid}}"  class="df_1 borb" style='display:flex;' wx:for="{{item.orderProduct}}" wx:key="{{index}}" wx:for-item="product_item">
             <image class="sh_slt" src="{{product_item.picture}}"></image>             
             <view class="sp_text">
                 <view class="sp_tit ovh1">{{product_item.name}}</view>
@@ -30,12 +30,14 @@
             </view>
         </navigator>
         <view class="borderb bordert font_14">
-          <view>共计{{item.total_num}}商品，订单金额：<view class='fl_r'>￥{{item.all_price}}</view></view>
-          <view>余额支付：<view class='fl_r'>￥{{item.yue_price}}</view></view>
-          <view>赠款支付：<view class='fl_r'>￥{{item.coupon_price}}</view></view>
+          <view>共计{{item.total_num}}商品<view class='fl_r'></view></view>
+          <view>商品金额：<view class='fl_r'>￥{{item.price}}</view></view>
           <view>快递费：<view class='fl_r'>￥{{item.price3}}</view></view>
+          <view>订单金额：<view class='fl_r'>￥{{item.all_price}}</view></view>
+          <view>余额支付：<view class='fl_r'>￥{{item.yue_price}}</view></view>
+          <view>赠款支付：<view class='fl_r'>￥{{item.coupon_price}}</view></view>        
           <view>实际支付：<view class='fl_r'>￥{{item.pay_price}}</view></view>
-          <view>支付方式：<view class='fl_r'>{{item.payment_name}}</view></view>
+          <!-- <view>支付方式：<view class='fl_r'>{{item.payment_name}}</view></view> -->
         </view>
         <view  class="btn_b">
           <navigator url="../order/detail?orderId={{item.orderid}}" class="font_12 btn_min fl_r mr_5">订单详情</navigator>
@@ -44,7 +46,7 @@
   </swiper-item>
 
   <!-- 待付款 -->
-  <swiper-item> 
+  <swiper-item > 
     <view class="search_no" wx:if="{{!orderList0.length}}">
         <view class="font_14"><image class="scimg" src="/images/search_no.png"></image></view>  
         <text>还没有订单/(ㄒoㄒ)/~~</text>
@@ -52,7 +54,7 @@
 
     <view class="shop df bordermax" wx:for="{{orderList0}}" wx:key="{{index}}" style='display: block;'>
         <navigator url="../order/detail?orderId={{item.orderid}}" class="borderb font_14">订单编号：{{item.orderno}}</navigator>
-        <navigator url="../product/detail?productid={{product_item.productid}}" class="df_1 borb" style='display:flex;' wx:for="{{item.orderProduct}}" wx:for-item="product_item" wx:key="{{index}}">    
+        <navigator open-type="{{wxa_order_info_page_no_link_to_product == 1 ? '' : 'navigate'}}" url="../product/detail?productid={{product_item.productid}}" class="df_1 borb" style='display:flex;' wx:for="{{item.orderProduct}}" wx:for-item="product_item" wx:key="{{index}}">    
             <image class="sh_slt" src="{{product_item.picture}}"></image>         
             <view class="sp_text">
                 <view class="sp_tit ovh1">{{product_item.name}}</view>
@@ -61,12 +63,14 @@
             </view>
         </navigator>
         <view class="borderb bordert font_14">
-          <view>共计{{item.total_num}}商品，订单金额：<view class='fl_r'>￥{{item.all_price}}</view></view>
-          <view>余额支付：<view class='fl_r'>￥{{item.yue_price}}</view></view>
-          <view>赠款支付：<view class='fl_r'>￥{{item.coupon_price}}</view></view>
+           <view>共计{{item.total_num}}商品<view class='fl_r'></view></view>
+          <view>商品金额：<view class='fl_r'>￥{{item.price}}</view></view>
           <view>快递费：<view class='fl_r'>￥{{item.price3}}</view></view>
+          <view>订单金额：<view class='fl_r'>￥{{item.all_price}}</view></view>
+          <view>余额支付：<view class='fl_r'>￥{{item.yue_price}}</view></view>
+          <view>赠款支付：<view class='fl_r'>￥{{item.coupon_price}}</view></view>        
           <view>实际支付：<view class='fl_r'>￥{{item.pay_price}}</view></view>
-          <view>支付方式：<view class='fl_r'>{{item.payment_name}}</view></view>
+          <!-- <view>支付方式：<view class='fl_r'>{{item.payment_name}}</view></view> -->
         </view>
         <view class="btn_b">
           <navigator url="../order/zhifu?orderId={{item.orderid}}&balance_zengsong_dikou={{item.coupon_price}}&balance_dikou={{item.yue_price}}" class="font_12 fl_r mr_5 btn_min">支付订单</navigator>
@@ -82,7 +86,7 @@
     </view>
     <view class="shop df bordermax" wx:for="{{orderList1}}" wx:key="{{index}}" style='display: block;'>
         <navigator url="../order/detail?orderId={{item.orderid}}" class="borderb font_14">订单编号：{{item.orderno}}</navigator> 
-        <navigator url="../product/detail?productid={{product_item.productid}}" class="df_1 borb" style='display:flex;' wx:for="{{item.orderProduct}}" wx:for-item="product_item" wx:key="{{index}}">
+        <navigator open-type="{{wxa_order_info_page_no_link_to_product == 1 ? '' : 'navigate'}}" url="../product/detail?productid={{product_item.productid}}" class="df_1 borb" style='display:flex;' wx:for="{{item.orderProduct}}" wx:for-item="product_item" wx:key="{{index}}">
             <image class="sh_slt" src="{{product_item.picture}}"></image>             
             <view class="sp_text">
                 <view class="sp_tit ovh1">{{product_item.name}}</view>
@@ -91,12 +95,14 @@
             </view>
         </navigator>
         <view class="borderb bordert font_14">
-          <view>共计{{item.total_num}}商品，订单金额：<view class='fl_r'>￥{{item.all_price}}</view></view>
-          <view>余额支付：<view class='fl_r'>￥{{item.yue_price}}</view></view>
-          <view>赠款支付：<view class='fl_r'>￥{{item.coupon_price}}</view></view>
+          <view>共计{{item.total_num}}商品<view class='fl_r'></view></view>
+          <view>商品金额：<view class='fl_r'>￥{{item.price}}</view></view>
           <view>快递费：<view class='fl_r'>￥{{item.price3}}</view></view>
+          <view>订单金额：<view class='fl_r'>￥{{item.all_price}}</view></view>
+          <view>余额支付：<view class='fl_r'>￥{{item.yue_price}}</view></view>
+          <view>赠款支付：<view class='fl_r'>￥{{item.coupon_price}}</view></view>        
           <view>实际支付：<view class='fl_r'>￥{{item.pay_price}}</view></view>
-          <view>支付方式：<view class='fl_r'>{{item.payment_name}}</view></view>
+          <!-- <view>支付方式：<view class='fl_r'>{{item.payment_name}}</view></view> -->
         </view>
         <view  class="btn_b">
           <navigator class="font_12 btn_min fl_r" bindtap="refundOrder" wx:if="{{wxa_order_hide_daishouhuo_refund == 0}}" data-order-id="{{item.orderid}}">申请退款</navigator>
@@ -112,7 +118,7 @@
         </view>
       <view class="shop df bordermax" wx:for="{{orderList2}}" wx:key="{{index}}" style='display: block;'>
         <navigator url="../order/detail?orderId={{item.orderid}}" class="borderb font_14">订单编号：{{item.orderno}}</navigator>      
-        <navigator url="../product/detail?productid={{product_item.productid}}" class="df_1 borb" style='display:flex;' wx:for="{{item.orderProduct}}" wx:for-item="product_item" wx:key="{{index}}"> 
+        <navigator open-type="{{wxa_order_info_page_no_link_to_product == 1 ? '' : 'navigate'}}" url="../product/detail?productid={{product_item.productid}}" class="df_1 borb" style='display:flex;' wx:for="{{item.orderProduct}}" wx:for-item="product_item" wx:key="{{index}}"> 
             <image class="sh_slt" src="{{product_item.picture}}"></image>           
             <view class="sp_text">
                 <view class="sp_tit ovh1">{{product_item.name}}</view>
@@ -122,12 +128,14 @@
             </view>
         </navigator>
         <view class="borderb bordert font_14">
-          <view>共计{{item.total_num}}商品，订单金额：<view class='fl_r'>￥{{item.all_price}}</view></view>
-          <view>余额支付：<view class='fl_r'>￥{{item.yue_price}}</view></view>
-          <view>赠款支付：<view class='fl_r'>￥{{item.coupon_price}}</view></view>
+          <view>共计{{item.total_num}}商品<view class='fl_r'></view></view>
+          <view>商品金额：<view class='fl_r'>￥{{item.price}}</view></view>
           <view>快递费：<view class='fl_r'>￥{{item.price3}}</view></view>
+          <view>订单金额：<view class='fl_r'>￥{{item.all_price}}</view></view>
+          <view>余额支付：<view class='fl_r'>￥{{item.yue_price}}</view></view>
+          <view>赠款支付：<view class='fl_r'>￥{{item.coupon_price}}</view></view>        
           <view>实际支付：<view class='fl_r'>￥{{item.pay_price}}</view></view>
-          <view>支付方式：<view class='fl_r'>{{item.payment_name}}</view></view>
+          <!-- <view>支付方式：<view class='fl_r'>{{item.payment_name}}</view></view> -->
         </view>
         <view  class="btn_b">
           <navigator wx:if="{{wxa_order_hide_daishouhuo_refund_after == 0}}" class="font_12 btn_min fl_r" url="tuihuo?orderId={{item.orderid}}">申请退款</navigator>
@@ -144,7 +152,7 @@
     </view>
     <view class="shop df bordermax" wx:for="{{orderList3}}" wx:key="{{index}}" style='display: block;'>        
         <navigator url="../order/detail?orderId={{item.orderid}}" class="borderb font_14">订单编号：{{item.orderno}}</navigator>
-        <navigator url="../product/detail?productid={{product_item.productid}}" class="df_1 borb" style='display:flex;' wx:for="{{item.orderProduct}}" wx:for-item="product_item" wx:key="{{index}}">
+        <navigator open-type="{{wxa_order_info_page_no_link_to_product == 1 ? '' : 'navigate'}}" url="../product/detail?productid={{product_item.productid}}" class="df_1 borb" style='display:flex;' wx:for="{{item.orderProduct}}" wx:for-item="product_item" wx:key="{{index}}">
             <image class="sh_slt" src="{{product_item.picture}}"></image>            
             <view class="sp_text">
                 <view class="sp_tit ovh1">{{product_item.name}}</view>
@@ -153,12 +161,14 @@
             </view>
         </navigator>
         <view class="borderb bordert font_14">
-          <view>共计{{item.total_num}}商品，订单金额：<view class='fl_r'>￥{{item.all_price}}</view></view>
-          <view>余额支付：<view class='fl_r'>￥{{item.yue_price}}</view></view>
-          <view>赠款支付：<view class='fl_r'>￥{{item.coupon_price}}</view></view>
+           <view>共计{{item.total_num}}商品<view class='fl_r'></view></view>
+          <view>商品金额：<view class='fl_r'>￥{{item.price}}</view></view>
           <view>快递费：<view class='fl_r'>￥{{item.price3}}</view></view>
+          <view>订单金额：<view class='fl_r'>￥{{item.all_price}}</view></view>
+          <view>余额支付：<view class='fl_r'>￥{{item.yue_price}}</view></view>
+          <view>赠款支付：<view class='fl_r'>￥{{item.coupon_price}}</view></view>        
           <view>实际支付：<view class='fl_r'>￥{{item.pay_price}}</view></view>
-          <view>支付方式：<view class='fl_r'>{{item.payment_name}}</view></view>
+          <!-- <view>支付方式：<view class='fl_r'>{{item.payment_name}}</view></view> -->
         </view>
         <view  class="btn_b">
           <navigator url="../order/detail?orderId={{item.orderid}}&balance_zengsong_dikou={{item.coupon_price}}&balance_dikou={{item.yue_price}}" class="font_12 btn_min fl_r mr_5">订单详情</navigator>

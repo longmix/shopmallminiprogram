@@ -99,39 +99,7 @@ Page( {
       }
     }) 
     */
-    wx.request({
-      url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=get_shop_icon_usercenter',
-      method: 'post',
-      data: {
-        sellerid: app.get_sellerid()
-      },
-      header: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      success: function (res) {
-        var icon_list_usercenter = res.data;
-        console.log('icon_list_usercenter====', icon_list_usercenter);
-        if (res.data.code == 1) {
-          for (var i = 0; i < icon_list_usercenter.data.length; i++) {
-            if (icon_list_usercenter.data[i].url.slice(0, 4) == 'http') {
-              icon_list_usercenter.data[i]['toPage'] = 1
-            } else {
-              icon_list_usercenter.data[i]['toPage'] = 0
-            }
-          }
-          console.log('icon_list_usercenter2====', icon_list_usercenter);
-          that.setData({
-            icon_list_usercenter: icon_list_usercenter.data
-          });
-        }
-      },
-      fail: function (e) {
-        wx.showToast({
-          title: '网络异常！',
-          duration: 2000
-        });
-      },
-    });
+    
 
     if (userInfo == null) {
       that.setData({
@@ -144,7 +112,12 @@ Page( {
     }
     
 
-    
+    wx.removeStorage({
+      key: 'icon_list_usercenter_' + app.get_sellerid(),
+      success(res) {
+        
+      }
+    })
 
 
   },
@@ -205,17 +178,77 @@ Page( {
       });
     }
 
+    //加载用户中心图标
+    var that = this;
+
+    var icon_list_usercenter = wx.getStorageSync("icon_list_usercenter_" + app.get_sellerid());
+
+    if (icon_list_usercenter){
+
+      that.setData({
+        icon_list_usercenter: icon_list_usercenter
+      });
+
+      return;
+    }
+
+    wx.request({
+      url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=get_shop_icon_usercenter',
+      method: 'post',
+      data: {
+        sellerid: app.get_sellerid()
+      },
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      success: function (res) {
+        var icon_list_usercenter = res.data;
+        console.log('icon_list_usercenter====', icon_list_usercenter);
+        if (res.data.code == 1) {
+          for (var i = 0; i < icon_list_usercenter.data.length; i++) {
+            if (icon_list_usercenter.data[i].url.slice(0, 4) == 'http') {
+              icon_list_usercenter.data[i]['toPage'] = 1
+            } else {
+              icon_list_usercenter.data[i]['toPage'] = 0
+            }
+          }
+
+          console.log('icon_list_usercenter2====', icon_list_usercenter);
+
+          that.setData({
+            icon_list_usercenter: icon_list_usercenter.data
+          });
+
+
+          wx.setStorage({
+            key: "icon_list_usercenter_" + app.get_sellerid(),
+            data: icon_list_usercenter.data,
+            success: function (res) {
+              console.log('icon_list_usercenter 异步保存成功')
+            }});
+        }
+      },
+      fail: function (e) {
+        wx.showToast({
+          title: '网络异常！',
+          duration: 2000
+        });
+      },
+    });
+
   },
   
   get_user_info_from_server:function(){
     var that = this;
-    
+    console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
     var userInfo = app.get_user_info();
     if(!userInfo){
       // var last_url = '/pages/user/user';
       // app.goto_user_login(last_url, 'switchTab');
       // app.goto_get_userinfo(last_url, 'switchTab');
-
+      that.setData({
+        nick_name: ''
+      })
       return;
     }
 
@@ -280,7 +313,7 @@ Page( {
 
     var last_url = '/pages/user/user';
     app.goto_user_login(last_url, 'switchTab');
-    app.goto_get_userinfo(last_url, 'switchTab');
+    //app.goto_get_userinfo(last_url, 'switchTab');
 
     var that = this;
 
@@ -297,6 +330,13 @@ Page( {
     if (url.indexOf("%oneclicklogin%") != -1) {
 
       var userInfo = app.get_user_info();
+
+      if (!userInfo) {
+        var last_url = '/pages/user/user';
+        app.goto_user_login(last_url, 'switchTab');
+
+        return;
+      }
 
       wx.request({
         url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=one_click_login_str',
@@ -326,7 +366,7 @@ Page( {
               url = url.replace('%ensellerid%', app.get_sellerid());
             }
 
-            app.call_h5browser_or_other_goto_url(url, var_list);
+            app.call_h5browser_or_other_goto_url(url, var_list, 'user_index');
 
             return;
 
@@ -349,90 +389,10 @@ Page( {
 
     };
 
-    app.call_h5browser_or_other_goto_url(url, var_list);
+    app.call_h5browser_or_other_goto_url(url, var_list, 'user_index');
 
 
   },
-
-
-
-  // myChat: function (e) {
-  //   var last_url = '/pages/user/user';
-  //   app.goto_user_login(last_url, 'switchTab');
-
-  //   var that = this;
-
-
-  //   var var_list = Object();
-  //   if (that.data.productid) {
-  //     var_list.productid = that.data.productid;
-  //   }
-    
-  //   var url = e.currentTarget.dataset.string;
-  //   console.log('user myChat准备跳转：'+url);
-
-
-  //   if (url.indexOf("%oneclicklogin%") != -1) {
-
-  //     var userInfo = app.get_user_info();
-
-  //     wx.request({
-  //       url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=one_click_login_str',
-  //       method: 'post',
-  //       data: {
-  //         sellerid: app.get_sellerid(),
-  //         checkstr: userInfo.checkstr,
-  //         userid: userInfo.userid
-  //       },
-  //       header: {
-  //         'Content-Type': 'application/x-www-form-urlencoded'
-  //       },
-  //       success: function (res) {
-  //         //--init data        
-  //         var code = res.data.code;
-  //         if (code == 1) {
-  //           var oneclicklogin = res.data.oneclicklogin;
-
-  //           console.log('ddddd+++++', oneclicklogin);
-
-  //           that.setData({
-  //             oneclicklogin: oneclicklogin
-  //           })
-  //           url = url.replace('%oneclicklogin%', that.data.oneclicklogin);
-
-  //           if (url.indexOf("%ensellerid%") != -1) {
-  //             url = url.replace('%ensellerid%', app.get_sellerid());
-  //           }
-
-  //           app.call_h5browser_or_other_goto_url(url, var_list);
-
-  //           return;
-
-  //         } else {
-  //           wx.showToast({
-  //             title: '非法操作.',
-  //             duration: 2000
-  //           });
-  //         }
-  //       },
-  //       error: function (e) {
-  //         wx.showToast({
-  //           title: '网络异常！',
-  //           duration: 2000
-  //         });
-  //       }
-  //     });
-
-  //     return;
-
-  //   };
-
-  //   app.call_h5browser_or_other_goto_url(url, var_list);
-
-  // },
-
-
-
 
   loadOrderStatus:function(){
     //获取用户订单数据

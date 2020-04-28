@@ -10,6 +10,8 @@ Page({
         url: null,
         title: "",
 
+        ret_page:''
+
     },
 
     /**
@@ -22,9 +24,15 @@ Page({
     onLoad: function (options) {
       app.set_option_list_str(null, app.getColor());
 
+      if(options.ret_page){
+        this.setData({ ret_page: options.ret_page});
+      }
+
       var self = this;
-      console.log(decodeURIComponent(options.scene));
-      console.log(options);
+
+      //console.log(decodeURIComponent(options.scene));
+      console.log('options====1111',options);
+
       if (options.scene != null) {
         var url_value = decodeURIComponent(options.scene);
 
@@ -40,6 +48,9 @@ Page({
             url: '../index/index'
           })
         }
+
+
+
 
         var url = 'https://www.abot.cn';
         if (url_data[1] == 'weiduke_home') {
@@ -106,6 +117,43 @@ Page({
 
       }
       else if (options.url != null) {
+
+       
+        var extra_option_str = '';
+
+
+        //判断分享转发的特殊参数
+        Object.keys(options).forEach(function (key) {
+
+          //console.log(key, obj[key]);
+          if (key != 'url'){
+            extra_option_str += key+'='+options[key]+'&';
+          }
+        });
+
+        if(extra_option_str.length > 2){
+          extra_option_str = extra_option_str.substr(0, extra_option_str.length - 1);
+
+          this.setData({
+            share_path_extra_option : extra_option_str
+          });
+        }
+
+        if(options.share_title){
+          this.setData({
+            share_title: options.share_title
+          });
+        }
+
+        if (options.share_image) {
+          this.setData({
+            share_image: options.share_image
+          });
+        }
+
+
+
+
         self.setData({
           url: decodeURIComponent(options.url)
         });
@@ -127,23 +175,83 @@ Page({
             url = url.replace("?", "*");
         }
         */
-          //url = 'pages/h5browser/h5browser?scene=' + url;
-      // var url1 = 'http://192.168.0.205/yanyubao_server/index.php?m=ShareKanjia&a=share_detail&productid=318&sharekanjia=sharekanjia&userid=';
-      //url = 'pages/webpage/webpage?url=' + url1;
-       // url = '/pages/h5browser/h5browser?url=' + url1;
-       // url = 'pages/h5browser/h5browser?url=' + url1;
+       
         console.log(options.webViewUrl);
-        return {
-            //title: self.data.title + '分享自' + config.getWebsiteName,
-            title: app.globalData.shop_name,
-            path: 'pages/h5browser/h5browser?url=' + encodeURIComponent(url1),
-            success: function (res) {
-                // 转发成功
-                console.log(url);
-            },
-            fail: function (res) {
-                // 转发失败
-            }
+
+      //设置分享转发的内容
+      var share_title = app.globalData.shop_name;
+
+      var share_image = null;
+
+      var share_path = 'pages/h5browser/h5browser?url=' + encodeURIComponent(url1);
+
+      if (this.data.share_title) {
+        share_title = this.data.share_title;
+      }
+      if (this.data.share_image) {
+        share_image = this.data.share_image;
+      }
+
+      if(this.data.share_path_extra_option){
+        share_path += '&' + this.data.share_path_extra_option;
+      }
+
+      console.log("share_path==", share_path)
+
+
+      var share_data = { 
+        title: share_title,
+        path: share_path,
+
+        success: function (res) {
+          // 转发成功
+          
+        },
+        fail: function (res) {
+          // 转发失败
         }
-    }
+      }
+
+      if(share_image){
+        share_data.imageUrl = share_image
+      }
+
+
+      return share_data;
+
+
+        
+    },
+
+  
+    /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function () {
+
+    // wx.showToast({
+    //   title: '33333333',
+    // })
+  
+
+    // wx.reLaunch({
+    //   url: '/pages/user/user',
+    // })
+
+    // wx.switchTab({
+    //   url: '/pages/user/user',
+    // })
+
+
+    // wx.navigateBack({
+    //   delta: 2000
+    // })
+    // var ret_page = this.data.ret_page
+    // if (ret_page && ret_page != '') {
+    //   if (ret_page = 'user_index') {
+        
+    //   }
+    // }   
+  },
+ 
 })

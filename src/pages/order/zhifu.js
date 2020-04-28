@@ -33,17 +33,32 @@ Page({
       this.setData({
         balance_zengsong_dikou: options.balance_zengsong_dikou,
       })
+    } else {
+      this.setData({
+        balance_zengsong_dikou: util.sprintf("%6.2f", 0),
+      })
     }
 
     if (options.balance_dikou) {
       this.setData({
         balance_dikou: options.balance_dikou,
       })
+    }else{
+      this.setData({
+        balance_dikou: util.sprintf("%6.2f", 0),
+      })
     }
 
     if (options.recharge){
       this.setData({
         recharge: options.recharge,
+      })
+    }
+
+    var huikuan_info = wx.getStorageSync('huikuan_info');
+    if (huikuan_info){
+      this.setData({
+        adds: huikuan_info
       })
     }
 
@@ -177,13 +192,17 @@ Page({
           var pay_price = parseFloat(orderData.order_total_price);
           
 
-          if(that.data.balance_zengsong_dikou){
+          if(that.data.balance_zengsong_dikou < pay_price){
             pay_price = pay_price - that.data.balance_zengsong_dikou;
+          }else{
+            pay_price = 0
           }
 
           
-          if (that.data.balance_dikou) {
+          if (that.data.balance_dikou < pay_price) {
             pay_price = pay_price - that.data.balance_dikou;
+          } else {
+            pay_price = 0
           }
 
           
@@ -240,10 +259,12 @@ Page({
   formSubmit: function (e) {
     var that = this;
     var adds = e.detail.value;
-    console.log(e);
+    
+    wx.setStorageSync('huikuan_info', adds)
     that.setData({
       adds:adds
     })
+
   },
   dateInput:function(){
     var that = this;
@@ -413,14 +434,16 @@ Page({
                 });
               }else{
                 wx.navigateTo({
-                  url: '../user/dingdan?currentTab=2&otype=2',
+                  url: '../user/dingdan?currentTab=0&otype=',
                 });
               }
               
-            }, 2500);
+            }, 500);
             return;
           }
-          if (res.data.wxpay_params.errcode == 1) {
+         
+
+          if (res.data.wxpay_params && res.data.wxpay_params.errcode == 1) {
             // wx.showToast({
             //   title: "网络错误!",
             //   duration: 2000,
@@ -464,7 +487,7 @@ Page({
                   });
                 } else {
                   wx.navigateTo({
-                    url: '../user/dingdan?currentTab=2&otype=2',
+                    url: '../user/dingdan?currentTab=0&otype=',
                   });
                 }
               }, 2500);

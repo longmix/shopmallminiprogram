@@ -3,11 +3,20 @@
  <view class='vw1'><text>订单编号：</text>
   <view class='view2'>{{orderData.orderno}}</view>
  </view>
- <view class='vw1'><text>订单金额：</text>
+ <view class='vw1'><text>商品金额：</text>
   <view class='view2'>{{orderData.price}}</view>
  </view>
- <view class='vw1'><text>运费：</text>
+ <view class='vw1'><text>快递费：</text>
   <view class='view2'>{{orderData.price3}}</view>
+ </view>
+ <view class='vw1'><text>订单合计：</text>
+  <view class='view2'>{{orderData.order_total_price}}</view>
+ </view>
+ <view class='vw1'><text>余额支付：</text>
+  <view class='view2'>-{{balance_dikou}}</view>
+ </view>
+ <view class='vw1'><text>赠款支付：</text>
+  <view class='view2'>-{{balance_zengsong_dikou}}</view>
  </view>
  <view class='vw1'><text>应付金额：</text>
   <view class='view2'>{{pay_price}}</view>
@@ -71,11 +80,11 @@
                    <form bindsubmit="formSubmit" bindreset="formReset">
                           <view class="section">
                                 <label class='section_view' style="line-height:50rpx">汇款人：</label>
-                                <input type="text" name="name" placeholder="请填写汇款人" />
+                                <input type="text" name="name" placeholder="请填写汇款人" value="{{adds.name}}"/>
                           </view>
                           <view class="section">
                             <label class='section_view' style="line-height:50rpx">汇款方式：</label>
-                            <input type="text" name="huikuan_pingtai" placeholder="如工行转账、建设银行等" />
+                            <input type="text" name="huikuan_pingtai" placeholder="如工行转账、建设银行等" value="{{adds.huikuan_pingtai}}"/>
                           </view>
                           <view class="section">
                             <label class='section_view'>汇款日期：</label>

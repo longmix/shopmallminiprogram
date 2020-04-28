@@ -16,6 +16,20 @@
   <input placeholder='搜索' bindconfirm='searchFaquan'> </input>
 </view>
 
+<!-- 标签start -->
+
+
+  <view class="tab-con" wx:if="{{faquan_tag_status == 1}}">
+    <view class="{{item.select==true ? 'select-tab' : ''}}" bindtap="selectTab"  wx:for='{{hot_tag}}' wx:for-index="index" data-index="{{index}}">{{item.name}}</view>
+  
+  </view>
+  <view style="clear:both;"></view>
+
+
+
+
+<!-- 标签end -->
+
 <!-- 总共收藏数 -->
 <view class='col-con' wx:if="{{is_my_discover_collection || is_my_discover}}">
   <view >总共</view><view style="color:#E0B351;margin-left:10rpx;font-weight:normal;">{{count}}</view>
@@ -65,6 +79,11 @@
              </view>
             </view>
           </view>
+        <view class="tab-con-each" wx:if="{{faquan_tag_status == 1}}">
+          <view class=""  wx:for='{{item.tag}}' wx:for-index="index" wx:for-item="item3" data-index="{{index}}">{{item3}}             </view>         
+        </view>
+          <view style="clear:both;"></view>
+
            <view wx:if="{{!is_my_discover_collection && !is_my_discover}}" class="list-address fz-10 m-t-5">
               <view bindtap="{{disable ? '' : 'oneClickSave'}}" class='download-con' data-index='{{idx}}' data-type='{{item.type}}' >
                 <image class="download-img" src="../../images/download.png"></image>一键保存</view>
@@ -96,6 +115,6 @@
   <view>取消</view>
   <view>搜索</view>
 </view>
-<view class="publish-idea" style='padding:14rpx;' bindtap="publishIdea" wx:if="{{faquan_button_status==1}}">
-  <image src="/images/discover_publish.png"></image>
+<view class="publish-idea" style=''  wx:if="{{faquan_button_status==1}}">
+  <image src="/images/discover_publish_add.png" bindtap="publishIdea"></image>
 </view>

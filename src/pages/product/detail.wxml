@@ -121,7 +121,7 @@
         </view>
       </view>
     </view>
-    <view class="footc" bindtap="addShopCart" data-type="buynow" data-status="{{status}}">
+    <view class="footc" bindtap="addShopCart" data-status="{{status}}">
       {{buys}}
     </view>
   </view>
@@ -192,12 +192,12 @@
     </view>
   </view>
   <view class="fl_l w60" wx:if="{{is_sharekanjia=='sharekanjia'}}">
-    <view class="w50 fl_l bg_cheng white" data-type="addcart"></view>
+    <!--<view class="w50 fl_l bg_cheng white" data-type="addcart"></view>-->
     <view class="bg_red white w50" bindtap="setModalStatus" style='float:right;' data-status="1">参与砍价</view>
   </view>
   <view wx:else>
     <view class="fl_l w60" wx:if="{{jiantuanid}}">
-      <view class="w50 fl_l bg_cheng white" bindtap="addShopCart" data-type="addcart">独立开团</view>
+      <view class="w50 fl_l bg_cheng white" bindtap="setModalStatus" data-type="dulikaituan">独立开团</view>
       <view class="bg_red white w50 fl_l" bindtap="setModalStatus" data-status="1">拼这个团</view>
     </view>
     <view class="fl_l w60" wx:else>

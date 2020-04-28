@@ -9,6 +9,9 @@
     </picker>
   </view>
 </view> -->
+<view class="abb" style="background:{{wxa_shop_nav_bg_color}}">
+        <view class="tctb" style="color:{{wxa_shop_nav_font_color}}">发布创意</view>
+    </view>
 <view class="a-con-textarea">
   <textarea bindinput='inputContent' class="a-textarea" value='{{ideaText}}'  placeholder="素材文案" />
 </view>
@@ -29,6 +32,19 @@
       <image src="../../images/camera.png"></image>
       <view>上传视频</view>
   </view>
+</view>
+
+<view class="tab-info">
+  <view class="tab-con" wx:if="{{faquan_tag_status == 1}}">
+    <view wx:for='{{faquan_hot_tag_words}}' style="color:{{item.select==true ? '#fff' : faquan_tag_color}};background:{{item.select==true ? faquan_tag_color : ''}};border:1px solid {{faquan_tag_color}}" bindtap="selectTab"  wx:for-index="index" data-index="{{index}}" >{{item.name}}</view>
+   
+  </view>
+
+  <view class="add-tab-con" wx:if="{{(faquan_tag_status == 1) && (faquan_zidingyi_tag_status == 1)}}">
+    <view>添加标签</view>
+    <input bindinput="addTab"></input>
+  </view>
+  <view style="clear:both;"></view>
 </view>
 
 <view>

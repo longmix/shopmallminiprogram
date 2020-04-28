@@ -68,6 +68,7 @@ getMore:function(e){
         sellerid: app.get_sellerid(), 
         page: next_page,
         userid: userInfo ? userInfo.userid : 0,
+        is_hot: 1
         },
       header: {
         'Content-Type':  'application/x-www-form-urlencoded'
@@ -475,7 +476,7 @@ getMore:function(e){
     app.get_shop_info_from_server(that.loadInfo);
 
     app.set_option_list_str(null, app.getColor());
-
+    
     wx.setNavigationBarTitle({
       title: app.globalData.shop_name
     })
@@ -728,7 +729,7 @@ getMore:function(e){
             
             url = url.replace('%oneclicklogin%', that.data.oneclicklogin);
 
-            app.call_h5browser_or_other_goto_url(url, var_list);
+            app.call_h5browser_or_other_goto_url(url, var_list, 'pages_index');
           }
         },
         fail: function (res) {
@@ -739,7 +740,7 @@ getMore:function(e){
       return;
     }
 
-    app.call_h5browser_or_other_goto_url(url, var_list);
+    app.call_h5browser_or_other_goto_url(url, var_list, 'pages_index');
   },
   touTiaoList: function (e) {
     console.log('点击商户头条进入列表');
@@ -1011,4 +1012,10 @@ goToOtherPage:function(){
     }, 15);
   },
 
+
+  onReachBottom: function (e) {
+    var that = this;
+    that.getMore();
+  },
+  
 });

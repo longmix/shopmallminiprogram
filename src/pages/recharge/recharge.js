@@ -73,7 +73,7 @@ Page({
       });
     }
 
-    if (option_list.wxa_shop_nav_bg_color) {
+    if (option_list.wxa_shop_nav_font_color) {
       that.setData({
         wxa_shop_nav_font_color: option_list.wxa_shop_nav_font_color
       });
