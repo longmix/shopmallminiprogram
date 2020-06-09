@@ -1,0 +1,62 @@
+/* pages/h5browser/h5share.wxss */
+.overall{
+  /* border: 1rpx solid blue; */
+  width: 100%;
+  /* height: 100%; */
+}
+
+
+.small_icon{
+  /* border: 1rpx solid #000000; */
+  width: 30%;
+  /* height: 20%; */
+  margin-top: 3%;
+  margin-left: 35%;
+
+}
+
+.small_name{
+  width: 100%;
+  font-size: 26rpx;
+  margin-top: 10rpx;
+  margin-bottom: 5%;
+  text-align: center;
+  display: block;
+  /* border: 1rpx solid cyan; */
+}
+.small_shop_img{
+  margin-left: 15%;
+  width: 70%;
+  /* border: 1rpx solid orange; */
+}
+.small_shop_name{
+  width: 100%;
+  color: red;
+  font-size: 36rpx;
+  display: block;
+  /* border: 1rpx solid #2bf666; */
+}
+.small_shop_brief{
+  width: 80%;
+  margin-left: 10%;
+
+  font-size: 24rpx;
+  /* border: 1rpx solid #aaa; */
+}
+.small_btn_share{
+  width: 80%;
+  /* height: 15%; */
+  color: #fff;
+  font-size: 32rpx;
+  background:green;
+  border-radius: 50rpx;
+  
+  /* position: relative; */
+  /* left: 3%; */
+}
+.small_icon,.small_shop_brief,.small_shop_img,.small_shop_name,.small_btn_share{
+  margin-top: 8%;
+  /* margin-bottom: 5%; */
+  text-align: center;
+
+}

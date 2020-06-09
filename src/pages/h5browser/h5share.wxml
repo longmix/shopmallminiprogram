@@ -1,0 +1,12 @@
+<!--pages/h5browser/h5share.wxml-->
+<!-- <text>pages/h5browser/h5share.wxml</text> -->
+<!-- <view>123</view> -->
+
+<view class="overall" style="height:{{height_overall}}px;" >
+  <view class="small_icon"><image class="scimg" src="{{detail.seller_icon}}" mode="widthFix"></image></view>
+  <text class="small_name">{{detail.seller_name}}</text>
+  <view class="small_shop_img"><image class="scimg" src="{{detail.picture}}" mode="widthFix"></image></view>
+  <text class="small_shop_name">{{detail.name}}</text>
+  <view class="small_shop_brief">{{detail.brief}}</view>
+  <button class="small_btn_share" open-type="share">立即分享</button>
+</view>

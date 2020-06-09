@@ -274,6 +274,10 @@ Page( {
             url = url.replace('%ensellerid%', app.get_sellerid()); 
           }
 
+          if (url.indexOf("%wxa_openid%") != -1) {
+            url = url.replace('%wxa_openid%', app.get_current_openid());
+          }
+
           if (url.indexOf("%wxa_appid%") != -1) {
             url = url.replace('%wxa_appid%', app.globalData.xiaochengxu_appid);
           }

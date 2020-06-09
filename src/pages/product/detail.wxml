@@ -178,12 +178,13 @@
       </contact-button>
     </view>
 
-    <navigator url='/pages/cart/cart' open-type='switchTab'>
+    <!--<navigator url='/pages/cart/cart' open-type='switchTab'>-->
+    <view bindtap="goto_cart" >
       <view class="df_1 l_h15 pt5">
         <image class="icon_kf" src="/images/car.png"></image>
         <view class="dbtext">购物车</view>
       </view>
-    </navigator>
+    </view>
     <view class="df_1 l_h15 pt5">
       <view bindtap="addFavorites">
         <image class="icon_kf" src="{{colIcon}}"></image>

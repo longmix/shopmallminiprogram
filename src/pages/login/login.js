@@ -97,6 +97,9 @@ Page({
     
   },
   onLoad: function (options) {
+
+
+    
     app.set_option_list_str(null, app.getColor());
     
     var that = this;
@@ -117,12 +120,13 @@ Page({
       });
     }
 
+    console.log('options======',options);
 
     if(options.last_url){
-      wx.setStorageSync('last_url', options.last_url);
+      wx.setStorageSync('last_url', decodeURIComponent(options.last_url));
     }
 
- 
+
 
     //countdown(that);
 
@@ -251,11 +255,14 @@ Page({
       success: function (request_res) {
         console.log(4444444444444444444);
         console.log(request_res);
+
         var data = request_res.data;
         //var res = JSON.parse(data);
         //console.log(res);
         console.log(request_res.data);
+
         if (request_res.data && (request_res.data.code == 1)){
+
           console.log("update_mobile : check_button : ");
           console.log('登录成功返回userid:' + request_res.data.userid);
           
@@ -281,11 +288,19 @@ Page({
               if (res.confirm) {
 
                 //=======检查登录成功之后的跳转=======
+                
+                if (that.data.retpage) {
+                  console.log('retpage333333333333333', that.data.retpage);
+                  app.call_h5browser_or_other_goto_url(that.data.retpage)
+                  return;
+                }
+
                 var last_url = wx.getStorageSync('last_url');
 
                 console.log('last_url-----', last_url)
 
                 var page_type = wx.getStorageSync('page_type');
+                console.log('page_type-----', page_type)
                 if (last_url) {
                   if (page_type && (page_type == 'switchTab')) {
 
@@ -329,12 +344,21 @@ Page({
           });
         }
         else {
-          console.log(request_res);
-          wx.showToast({
+          console.log("登录失败:", request_res);
+
+          // wx.showToast({
+          //   title: '登录失败',
+          //   icon: 'fail',
+          //   duration: 2000
+          // });
+
+          wx.showModal({
             title: '登录失败',
-            icon: 'fail',
-            duration: 2000
-          });
+            content: request_res.data.msg,
+            showCancel: false,
+          })
+
+          return;
         }
         
         console.log("延誉宝服务器解析jscode并返回以下内容：");
@@ -475,7 +499,8 @@ Page({
           },
           success: function (res) {
             console.log(res);
-
+            console.log('retpage0000000000000000000000000000000000000');
+            console.log('retpage666666666666666666666666666666666666666666666666666666', that.data.retpage);
             if (res.data && (res.data.code == 1)) {
               //更新checkstr和uwid，
               app.globalData.userInfo.userid = res.data.userid;
@@ -509,6 +534,14 @@ Page({
 
               //=======检查登录成功之后的跳转=======
               var last_url = wx.getStorageSync('last_url');
+
+
+              
+              if (that.data.retpage) {
+                
+                app.call_h5browser_or_other_goto_url(that.data.retpage)
+                return;
+              }
 
               console.log('last_url-----', last_url)
               var page_type = wx.getStorageSync('page_type');

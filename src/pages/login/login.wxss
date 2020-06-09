@@ -86,19 +86,11 @@ border-radius:21px;
 }
 
 .check_btn{
-    margin:20rpx auto;
+    margin:30rpx auto;
     width:85%;
     height:80rpx;
     background-color:orange;
     line-height:80rpx;
-    color:#FFF;
-}
-.check_btn2{
-    margin:50px auto;
-    width:80%;
-    height:40px;
-    background-color:orange;
-    line-height:40px;
     color:#FFF;
 }
 

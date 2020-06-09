@@ -39,6 +39,8 @@
           <view>实际支付：<view class='fl_r'>￥{{item.pay_price}}</view></view>
           <!-- <view>支付方式：<view class='fl_r'>{{item.payment_name}}</view></view> -->
         </view>
+        <view wx:if="{{from_o2o==1 && item.order_option.o2o_room_tuan_yuding}}">预订日期：{{item.order_option.o2o_room_tuan_yuding}}</view>
+        <view wx:if="{{item.buyer_memo != ''}}">备注：{{item.buyer_memo}}</view>
         <view  class="btn_b">
           <navigator url="../order/detail?orderId={{item.orderid}}" class="font_12 btn_min fl_r mr_5">订单详情</navigator>
         </view> 
@@ -72,6 +74,8 @@
           <view>实际支付：<view class='fl_r'>￥{{item.pay_price}}</view></view>
           <!-- <view>支付方式：<view class='fl_r'>{{item.payment_name}}</view></view> -->
         </view>
+        <view wx:if="{{from_o2o==1 && item.order_option.o2o_room_tuan_yuding}}">预订日期：{{item.order_option.o2o_room_tuan_yuding}}</view>
+        <view wx:if="{{item.buyer_memo != ''}}">备注：{{item.buyer_memo}}</view>
         <view class="btn_b">
           <navigator url="../order/zhifu?orderId={{item.orderid}}&balance_zengsong_dikou={{item.coupon_price}}&balance_dikou={{item.yue_price}}" class="font_12 fl_r mr_5 btn_min">支付订单</navigator>
           <view class="font_12 fl_r mr_5 btn_min" bindtap="removeOrder" data-order-id="{{item.orderid}}">取消订单</view>
@@ -104,6 +108,8 @@
           <view>实际支付：<view class='fl_r'>￥{{item.pay_price}}</view></view>
           <!-- <view>支付方式：<view class='fl_r'>{{item.payment_name}}</view></view> -->
         </view>
+        <view wx:if="{{from_o2o==1 && item.order_option.o2o_room_tuan_yuding}}">预订日期：{{item.order_option.o2o_room_tuan_yuding}}</view>
+        <view wx:if="{{item.buyer_memo != ''}}">备注：{{item.buyer_memo}}</view>
         <view  class="btn_b">
           <navigator class="font_12 btn_min fl_r" bindtap="refundOrder" wx:if="{{wxa_order_hide_daishouhuo_refund == 0}}" data-order-id="{{item.orderid}}">申请退款</navigator>
           <navigator url="../order/detail?orderId={{item.orderid}}" class="font_12 btn_min fl_r mr_5">订单详情</navigator>
@@ -137,6 +143,8 @@
           <view>实际支付：<view class='fl_r'>￥{{item.pay_price}}</view></view>
           <!-- <view>支付方式：<view class='fl_r'>{{item.payment_name}}</view></view> -->
         </view>
+        <view wx:if="{{from_o2o==1 && item.order_option.o2o_room_tuan_yuding}}">预订日期：{{item.order_option.o2o_room_tuan_yuding}}</view>
+        <view wx:if="{{item.buyer_memo != ''}}">备注：{{item.buyer_memo}}</view>
         <view  class="btn_b">
           <navigator wx:if="{{wxa_order_hide_daishouhuo_refund_after == 0}}" class="font_12 btn_min fl_r" url="tuihuo?orderId={{item.orderid}}">申请退款</navigator>
           <view class="font_12 btn_min fl_r mr_5" bindtap="recOrder" data-order-id="{{item.orderid}}">确认收货</view>
@@ -170,6 +178,8 @@
           <view>实际支付：<view class='fl_r'>￥{{item.pay_price}}</view></view>
           <!-- <view>支付方式：<view class='fl_r'>{{item.payment_name}}</view></view> -->
         </view>
+        <view wx:if="{{from_o2o==1 && item.order_option.o2o_room_tuan_yuding}}">预订日期：{{item.order_option.o2o_room_tuan_yuding}}</view>
+        <view wx:if="{{item.buyer_memo != ''}}">备注：{{item.buyer_memo}}</view>
         <view  class="btn_b">
           <navigator url="../order/detail?orderId={{item.orderid}}&balance_zengsong_dikou={{item.coupon_price}}&balance_dikou={{item.yue_price}}" class="font_12 btn_min fl_r mr_5">订单详情</navigator>
         </view>

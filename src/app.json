@@ -34,13 +34,18 @@
     "pages/rituall/rituall",
     "pages/shop_store/shop_store",
     "pages/account_edit/account_edit",
+    "pages/scan_qrcode/scan_qrcode",
     "pages/welcome_page/welcome_page",
     "pages/share-gift/share-gift",
     "pages/share-gift/share-detail",
+    "pages/scan_qrcode/scan_bind_mobile",
+    "pages/scan_qrcode/scan_change_mobile",
     "pages/order/coupon_list",
     "pages/index/index_off",
     "pages/user/user2",
     "pages/recharge/recharge",
+    "pages/order_chongzhi/chongzhi",
+    "pages/h5browser/h5share",
     "cms/video/video_details",
     "cms/mydiscover/my-discover",
     "cms/mycollection/my-discover-collection",
@@ -55,7 +60,8 @@
     "o2o/index/index",
     "o2o/address/address_list",
     "o2o/address/listdetail",
-    "pages/order_chongzhi/chongzhi"
+    "o2o/order/pay",
+    "pages/h5browser/h5hub"
   ],
   "window": {
     "backgroundTextStyle": "light",

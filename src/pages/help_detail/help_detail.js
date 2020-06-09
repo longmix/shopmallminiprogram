@@ -2,7 +2,9 @@
 var app = getApp();
 //var mars = require('../../mars/modules/mars')
 var WxParse = require('../../wxParse/wxParse.js');
-var userInfo = app.get_user_info();
+
+//var userInfo = app.get_user_info();
+var userInfo = null;
 
 Page({
   data: {
@@ -212,9 +214,9 @@ Page({
           wz_title: res.data.data.title
         });
 
-        wx.setNavigationBarTitle({
-          title: res.data.data.title
-        })
+        // wx.setNavigationBarTitle({
+        //   title: res.data.data.title
+        // })
 
         var is_col = that.data.wz_text.is_col;
         if (is_col == 1) {

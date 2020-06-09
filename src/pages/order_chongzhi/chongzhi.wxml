@@ -26,3 +26,4 @@
 
 <button class='btn' bindtap="toRecharge" type=""> 立即充值 </button>
 
+<view class="rule-explain" wx:if="{{order_rule_explain}}">{{order_rule_explain}}</view>

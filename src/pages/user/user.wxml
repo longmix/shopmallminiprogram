@@ -58,7 +58,7 @@
 <block wx:if="{{wxa_hidden_order_index_in_usercenter != 1}}">    
     <view class="qbdd mt10">
     <span class="font_14 c3">我的订单</span>
-    <view class="fl_r c9 font_12 l_h20"  hover-class="none" data-currenttab='0' data-otype='' bindtap='myDingdan'>查看全部订单 ></view>
+    <view class="fl_r c9 font_14 l_h20"  hover-class="none" data-currenttab='0' data-otype='' bindtap='myDingdan'>查看全部订单 ></view>
     </view>
     <view class="sc df tc bte ">
 

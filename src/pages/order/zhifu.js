@@ -23,7 +23,9 @@ Page({
       date: date,
       time: time
     });
+
     showView: (options.showView == "true" ? true : false)
+
     this.setData({
       orderId: options.orderId,
       traffic_price: options.traffic_price ? options.traffic_price : 0,
@@ -33,21 +35,21 @@ Page({
       this.setData({
         balance_zengsong_dikou: options.balance_zengsong_dikou,
       })
-    } else {
+    }/* else {
       this.setData({
         balance_zengsong_dikou: util.sprintf("%6.2f", 0),
       })
-    }
+    }*/
 
     if (options.balance_dikou) {
       this.setData({
         balance_dikou: options.balance_dikou,
       })
-    }else{
+    }/*else{
       this.setData({
         balance_dikou: util.sprintf("%6.2f", 0),
       })
-    }
+    }*/
 
     if (options.recharge){
       this.setData({
@@ -238,7 +240,7 @@ Page({
     this.setData({
       paytype: 'weixin',
     });
-    this.wxpay();
+    this.weixin_pay();
   },
   bindDateChange: function (e) {
     var that = this;
@@ -301,9 +303,9 @@ Page({
     this.setData({
       paytype: 'zhuanzhang',
     });
-    this.zzpay();
+    this.zhuanzhang_pay();
   },
-  zzpay:function(){
+  zhuanzhang_pay:function(){
     var that = this;
     var userInfo = app.get_user_info();
 
@@ -352,6 +354,19 @@ Page({
                 })
                 setTimeout(function () {
                   wx.hideLoading()
+
+                  var paysuccess_url = wx.getStorageSync('paysuccess_url');
+                  console.log('paysuccess_url===', paysuccess_url)
+                  if (paysuccess_url) {
+                    paysuccess_url = paysuccess_url.replace('%orderid%', that.data.orderId);
+
+                    app.call_h5browser_or_other_goto_url(paysuccess_url);
+                    wx.removeStorageSync('paysuccess_url');
+
+                    return;
+                  }
+
+
                   if (that.data.recharge == 1) {
                     wx.switchTab({
                       url: '/pages/user/user',
@@ -369,10 +384,24 @@ Page({
 
               
         } else {
-          wx.showToast({
-            title: "支付失败",
-            duration: 2000
+          // wx.showToast({
+          //   title: "支付失败",
+          //   duration: 2000
+          // });
+
+          wx.showModal({
+            title: '提示',
+            content: '支付失败',
+            showCancel: false,
+            success(res) {
+              wx.navigateTo({
+                url: '../user/dingdan?currentTab=0&otype=',
+              });
+            }
           });
+
+
+
         }
       },
       fail: function () {
@@ -384,7 +413,7 @@ Page({
       }
     })
   },
-  wxpay: function (e) {
+  weixin_pay: function (e) {
     console.log('eeee',e)
     var that=this;
     var userInfo = app.get_user_info();
@@ -428,6 +457,20 @@ Page({
             });
 
             setTimeout(function () {
+
+              var paysuccess_url = wx.getStorageSync('paysuccess_url');
+
+              console.log('paysuccess_url===', paysuccess_url)
+
+              if (paysuccess_url) {
+                paysuccess_url = paysuccess_url.replace('%orderid%', that.data.orderId);
+
+                app.call_h5browser_or_other_goto_url(paysuccess_url);
+                wx.removeStorageSync('paysuccess_url');
+
+                return;
+              }
+
               if(that.data.recharge == 1){
                 wx.switchTab({
                   url: '/pages/user/user',
@@ -481,6 +524,19 @@ Page({
               });
 
               setTimeout(function () {
+
+                var paysuccess_url = wx.getStorageSync('paysuccess_url');
+
+                console.log('paysuccess_url===', paysuccess_url)
+                if (paysuccess_url){
+                  paysuccess_url = paysuccess_url.replace('%orderid%', that.data.orderId);
+
+                  app.call_h5browser_or_other_goto_url(paysuccess_url);
+                  wx.removeStorageSync('paysuccess_url');
+
+                  return;
+                }
+
                 if (that.data.recharge == 1) {
                   wx.switchTab({
                     url: '/pages/user/user',
@@ -494,10 +550,20 @@ Page({
 
             },
             fail: function (res) {
-              wx.showToast({
-                title: '支付失败',
-                duration: 3000
-              })
+              // wx.showToast({
+              //   title: '支付失败',
+              //   duration: 3000
+              // })
+              wx.showModal({
+                title: '提示',
+                content: '支付失败',
+                showCancel: false,
+                success(res) {
+                  wx.navigateTo({
+                    url: '../user/dingdan?currentTab=0&otype=',
+                  });
+                }
+              });
             }
           })
         } else {

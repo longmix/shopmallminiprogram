@@ -202,3 +202,12 @@ align-items:center;
     color: #333;
     font-size: 26rpx;
 }
+
+.rule-explain{
+  width: 90%;
+  margin-left: 5%;
+  color: #666;
+  white-space: pre-line;
+  font-size: 30rpx;
+  margin-bottom: 40rpx;
+}

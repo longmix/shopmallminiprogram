@@ -53,54 +53,36 @@ Page({
     app.set_option_list_str(null, app.getColor());
 
     
-    wx.showLoading({
-      title: '加载中...',
-    })
-
+    
   
 
 
     if (options.ucid) {
       this.setData({
-        ucid: options.ucid
+        ucid: options.ucid,
+        user_coupon_item: wx.getStorageSync("cache_coupon")
       })
-    }
-
-    if (options.productid) {
-      wx.setStorageSync("cache_options", JSON.stringify(options));
-    } else {
       options = JSON.parse(wx.getStorageSync("cache_options"));
+
+
+    } else {
+      wx.setStorageSync("cache_options", JSON.stringify(options));
     }
 
-    var last_url = '';
 
-    var arr = Object.keys(options);
-    var options_len = arr.length;
-
-    if (options_len > 0){
-      var params_str = '';
-
-      for(var key in options){
-        params_str += key+'='+options[key]+'&';
-      }
-      params_str = params_str.substr(0, params_str.length - 1);
-
-      last_url = '/pages/order/pay?'+params_str;
-    }
-
-    if (!last_url && options.productid) {
+    var last_url = null;    
+    if (options.productid) {
       last_url = '/pages/product/detail?productid=' + options.productid;
       this.setData({
         last_url: last_url
       })
     }
+    this.setData({
+      last_url: last_url
+    })
+    app.goto_user_login(last_url, 'normal');
 
-    if(last_url){
-      this.setData({
-        last_url: last_url
-      })
-      app.goto_user_login(last_url, 'normal');
-    }
+    
 
 
     var option_list_str = JSON.parse(wx.getStorageSync("option_list_str"));
@@ -119,12 +101,6 @@ Page({
       this.setData({
         jiantuanid: options.jiantuanid,
       });
-    }
-
-    if (options.order_option_key_and_value_str){
-      this.setData({
-        order_option_key_and_value_str: options.order_option_key_and_value_str
-      })
     }
 
 
@@ -183,11 +159,25 @@ Page({
       }
 
       if(options.all_price){
+        var all_price = options.all_price;
+        if(this.data.ucid){
+          all_price = all_price - this.data.user_coupon_item.price;
+          all_price < 0 ? 0 : all_price;
+          all_price = util.sprintf("%6.2f", parseFloat(all_price))
+        }
+
         this.setData({
-          o2o_all_price: options.all_price 
+          all_price: all_price ,
+          pay_price: all_price,
+          pay_price_origin: all_price,
         })
       }
 
+      if(options.flag){
+        this.setData({
+          flag: options.flag
+        })
+      }
 
       var weekItem = wx.getStorageSync('weekItem');
           
@@ -200,16 +190,6 @@ Page({
     }
 
 
-    if (options.paysuccess_url){
-      wx.setStorageSync('paysuccess_url', decodeURIComponent(options.paysuccess_url));
-      console.log('wx.getStorageSync paysuccess_url==>>>', wx.getStorageSync('paysuccess_url'));
-    }
-
-    if (options.buyer_memo){
-      this.setData({
-        buyer_memo: options.buyer_memo
-      })
-    }
 
 
 
@@ -238,310 +218,50 @@ Page({
 
 
 
+    var cart_list = wx.getStorageSync('cart_list');
+
+    this.setData({
+      cartlist: cart_list
+    })
 
 
+    console.log('cartlist=========', cart_list)
 
-
-
-
-    if (that.data.action == "direct_buy") {
-
-      var data_params = {
-        productid: that.data.productid,
-        userid: userInfo.userid,
-        checkstr: userInfo.checkstr,
-        action: 'direct_buy',
-        amount: that.data.amount,
-        //cuxiao_type: that.data.cuxiao_type,                                            
-        sellerid: app.get_sellerid(),
-      };
-
-      if (that.data.cuxiao_type){
-        data_params.cuxiao_type = that.data.cuxiao_type;
-      }
-
-      if (that.data.ucid){
-        data_params.ucid = that.data.ucid
-      }
-
-      if (that.data.cuxiao_type == 'duorenpintuan'){
-        data_params.jiantuanid = that.data.jiantuanid;
-        data_params.price_type = that.data.price_type;
-      }
-      else if (that.data.cuxiao_type == 'sharekanjia') {
-      }
-      else if (that.data.cuxiao_type == 'aaaaaaaa') {
-      }
-
-      
-
+    if (userInfo) {
       wx.request({
-        url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=order_queren',
-        method: 'post',
-        data: data_params,
-        header: {
-          'Content-Type': 'application/x-www-form-urlencoded'
+        url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=get_user_info',
+        data: {
+          sellerid: app.get_sellerid(),
+          checkstr: userInfo.checkstr,
+          userid: userInfo.userid
         },
-        success: function (res) {        
-          setTimeout(function () {
-            wx.hideLoading()
-          }, 2000)
-          var code = res.data.code;
-          if(code == 2) {
-            wx.showToast({
-              title: res.data.msg,
-              icon: 'none',
-              duration: 2000,
-              
-            });
-          }
-          else if (code == 1) {
-           
-            var order_address_detail = res.data.address;
-
-            console.log(order_address_detail);
-
-            if (!order_address_detail) {
-              that.setData({
-                addemt: 1
-              });
-            }
-            else {
-              that.setData({
-                order_address_detail: order_address_detail,
-                addemt: 0
-              });
-            }
-
-            if(that.data.from_o2o==1){
-              // 如果是来自o2o模块的订单
-
-              that.setData({
-                pay_price: res.data.pay_price
-              })
-
-
-              if (res.data.user_coupon_item && res.data.user_coupon_item.price) {            
-
-                if (that.data.o2o_all_price) {
-                  var o2o_all_price = that.data.o2o_all_price - res.data.user_coupon_item.price
-
-                  if (o2o_all_price < 0) {
-                    o2o_all_price = 0
-                  }
-                  that.setData({
-                    o2o_all_price: util.sprintf("%6.2f", o2o_all_price)
-                  })
-                }else{
-                  if (that.data.cuxiao_type == "duorenpintuan" || that.data.cuxiao_type == "sharekanjia") {
-                    var pay_price = that.data.pay_price - res.data.user_coupon_item.price
-                    if (pay_price < 0) {
-                      pay_price = 0
-                    }
-                    that.setData({
-                      pay_price: util.sprintf("%6.2f", pay_price)
-                    })
-                  }
-                }
-               
-              }
-           
-              
-              if(that.data.o2o_all_price){
-                that.setData({
-                  all_price: that.data.o2o_all_price,
-                  pay_price: that.data.o2o_all_price,
-                  pay_price_origin: that.data.o2o_all_price
-                })
-              }else{
-                if (that.data.cuxiao_type == "duorenpintuan" || that.data.cuxiao_type == "sharekanjia") {
-                  that.setData({
-                    all_price: res.data.all_price,
-                    pay_price: that.data.pay_price,
-                    pay_price_origin: that.data.pay_price
-                  })
-                }
-              }        
-
-            } else {
-              that.setData({
-                all_price: res.data.all_price,
-                pay_price: res.data.pay_price,
-                pay_price_origin: res.data.pay_price,
-              })
-            }      
+        header: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        method: "POST",
+        success: function (res) {
+          console.log('ddd', res);
+          // console.log('ddd', res.data.code);
+          if (res.data.code == "-1") {
+            wx.navigateTo({
+              url: '/pages/login/login',
+            })
+          } else {
+            var data = res.data
+            var data2 = data.data
 
             that.setData({
-              order_address_detail: order_address_detail,
-              productData: res.data.orderlist,           
-              traffic_price: res.data.traffic_price,
-              all_product_take_score: res.data.all_product_take_score,              
-              balance: res.data.balance,
-              balance_zengsong: res.data.balance_zengsong,
+              balance: data2.balance,
+              balance_zengsong: data2.balance_zengsong
             });
-
-            if (res.data.user_coupon_item){
-              that.setData({
-                user_coupon_item: res.data.user_coupon_item
-              })
-            }
-          } 
-          else {
-            wx.showModal({
-              title: '提示',
-              content: res.data.msg,
-              showCancel: 'false'
-            })            
           }
-        },
-        fail: function () {
-          // fail
-          wx.showToast({
-            title: '网络异常！',
-            duration: 2000
-          });
+
         }
-      });
-    }else{
-
-
-      var data_params = {
-        // productid: that.data.productId,
-        productid: that.data.productid,
-        userid: userInfo.userid,
-        checkstr: userInfo.checkstr,
-        sellerid: app.get_sellerid(),
-      }
-
-      if(that.data.ucid){
-        data_params.ucid = that.data.ucid
-      }
-
-          wx.request({
-            url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=order_queren',
-            method: 'post',
-            data: data_params,
-            header: {
-              'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            success: function (res) {
-
-
-              setTimeout(function () {
-                wx.hideLoading()
-              }, 2000)
-              var code = res.data.code;
-              console.log(res.data);
-
-              if (code == 1) {
-                var order_address_detail=res.data.address;
-                
-                if (!order_address_detail){
-                  that.setData({
-                    addemt: 1
-                  });
-                }
-                else { 
-                  that.setData({
-                    order_address_detail: order_address_detail,
-                    addemt: 0
-                  });
-                }
-
-
-
-
-                if (that.data.from_o2o == 1) {
-                
-                  that.setData({
-                    pay_price: res.data.pay_price
-                  })
-
-
-                  if (res.data.user_coupon_item && res.data.user_coupon_item.price) {
-
-                    if (that.data.o2o_all_price) {
-                      var o2o_all_price = that.data.o2o_all_price - res.data.user_coupon_item.price
-
-                      if (o2o_all_price < 0) {
-                        o2o_all_price = 0
-                      }
-                      that.setData({
-                        o2o_all_price: util.sprintf("%6.2f", o2o_all_price)
-                      })
-                    } else {
-                      if (that.data.cuxiao_type == "duorenpintuan" || that.data.cuxiao_type == "sharekanjia") {
-                        var pay_price = that.data.pay_price - res.data.user_coupon_item.price
-                        if (pay_price < 0) {
-                          pay_price = 0
-                        }
-                        that.setData({
-                          pay_price: util.sprintf("%6.2f", pay_price)
-                        })
-                      }
-                    }
-
-                  }
-
-
-                  if (that.data.o2o_all_price) {
-                    that.setData({
-                      all_price: that.data.o2o_all_price,
-                      pay_price: that.data.o2o_all_price,
-                      pay_price_origin: that.data.o2o_all_price
-                    })
-                  } else {
-                    if (that.data.cuxiao_type == "duorenpintuan" || that.data.cuxiao_type == "sharekanjia") {
-                      that.setData({
-                        all_price: res.data.all_price,
-                        pay_price: that.data.pay_price,
-                        pay_price_origin: that.data.pay_price
-                      })
-                    }
-                  } 
-
-                } else {
-                  that.setData({
-                    all_price: res.data.all_price,
-                    pay_price: res.data.pay_price,
-                    pay_price_origin: res.data.pay_price,
-                  })
-                }
-
-
-                that.setData({
-                  order_address_detail: order_address_detail,
-
-                  productData: res.data.orderlist,
-
-                  traffic_price: res.data.traffic_price,
-                  all_product_take_score: res.data.all_product_take_score,                 
-                  balance: res.data.balance,
-                  balance_zengsong: res.data.balance_zengsong,                            
-                });
-
-                if (res.data.user_coupon_item) {
-                  that.setData({
-                    user_coupon_item: res.data.user_coupon_item
-                  })
-                }
-              } else {
-                wx.showModal({
-                  title: '提示',
-                  content: res.data.msg,
-                  showCancel: 'false'
-                }) 
-              }
-            },
-            fail: function () {
-              // fail
-              wx.showToast({
-                title: '网络异常！',
-                duration: 2000
-              });
-            }
-          });
+      })
     }
+      
+
+     
   },
 
 
@@ -638,9 +358,37 @@ Page({
     console.log(that.data.pay_price);
     console.log(that.data.all_price);
 
+    var cart_list = that.data.cartlist
+
+    console.log('cart_list==', cart_list)
+
+    var order_product_list = [];
+    var weeklist = wx.getStorageSync('weeklist');
+       
+      for(var i = 0; i< weeklist.length; i++){
+        var obj = {
+          "o2o_room_tuan_yuding": weeklist[i].str,
+           "product_list": [],
+        }
+        var price_total = 0;
+        for (var j = 0; j < cart_list.length; j++) {    
+            if (cart_list[j].weekItem.str == weeklist[i].str){            
+              price_total += parseFloat(cart_list[j].price_total);
+              obj.product_list.push({ "productid": cart_list[j].productid, "amount": cart_list[j].count});
+            }                   
+        }
+        obj.price_total = price_total
+        if (obj.product_list.length > 0) {
+          order_product_list.push(obj);
+        }
+      }
+
+    // console.log('order_product_list', order_product_list);
+    // return;
+
 
     var data_orderAdd = {
-
+      order_product_list: encodeURIComponent(JSON.stringify(order_product_list)),
       buyer_memo: that.data.remark,
       all_price: that.data.all_price,
       userid: userInfo.userid,
@@ -648,11 +396,22 @@ Page({
       traffic_price: that.data.traffic_price,
       pay_price: that.data.pay_price,
       sellerid: app.get_sellerid(),
-      payment: 3
+      payment: 3,
+      o2o_room_tuan_roomid: that.data.address_info.level04.roomid,
+      o2o_room_tuan_bid: that.data.address_info.level04.bid,      
     };
 
-    if (wx.getStorageSync('from_chouheji')==1){
-      data_orderAdd.buyer_memo = that.data.buyer_memo;
+    if(that.data.flag==1){
+      data_orderAdd.buynow_direct = 1
+    }
+
+    if (that.data.flag == 2) {
+      data_orderAdd.o2o_room_tuan_001 = 1
+    }
+
+    if (that.data.flag == 3) {
+      var tuanzhang_orderid = wx.getStorageSync('tzorderid_cache');//团长orderid
+      data_orderAdd.o2o_room_tuan_002 = tuanzhang_orderid
     }
 
     if (that.data.all_price == 'undefined'){
@@ -691,7 +450,7 @@ Page({
     else if (that.data.cuxiao_type == 'aaaaaaaa') {
     }
     wx.request({
-      url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=order_add',
+      url: app.globalData.http_server + 'openapi/O2OAddressData/o2o_order_add',
       method: 'post',
       data: data_orderAdd,
       header: {
@@ -709,10 +468,10 @@ Page({
           });
 
           //o2o订单
-          if (that.data.order_option_key_and_value_str){
-
-            that.order_add_new_option_by_key_value();
+          if(that.data.from_o2o == 1){
+            that.wxpay_after_option_key_value();
             
+            return;
           }
 
 
@@ -809,9 +568,15 @@ Page({
               duration: 2000,
             });
 
+
+            wx.removeStorage({
+              key: 'cart_list'
+            })
+
+            
             setTimeout(function () {
               wx.navigateTo({
-                url: '../user/dingdan?currentTab=2&otype=2',
+                url: '/pages/user/dingdan?currentTab=2&otype=2',
               });
             }, 2500);
             return;
@@ -851,9 +616,13 @@ Page({
                 duration: 2000,
               });
 
+              wx.removeStorage({
+                key: 'cart_list'
+              })
+
               setTimeout(function () {
                 wx.navigateTo({
-                  url: '../user/dingdan?currentTab=2&otype=2',
+                  url: '/pages/user/dingdan?currentTab=2&otype=2',
                 });
               }, 2500);
 
@@ -898,7 +667,7 @@ Page({
 
   toCouponList:function(){
     wx.navigateTo({
-      url: '/pages/order/coupon_list?productid=' + this.data.productid + '&pay_price=' + this.data.pay_price_origin,
+      url: '/pages/order/coupon_list?productid=' + this.data.productid + '&pay_price=' + this.data.pay_price_origin + '&from_o2o=' + this.data.from_o2o,
     })
   },
 
@@ -1045,33 +814,7 @@ Page({
   },
 
 
-  //添加order_option
-  order_add_new_option_by_key_value:function(e){
-    var that = this;
-    
-    api.abotRequest({
-      url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=order_add_new_option_by_key_value',
-      data: {
-        userid: userInfo.userid,
-        checkstr: userInfo.checkstr,
-        sellerid: app.get_sellerid(),
-        orderid: that.data.orderid,
-        order_option_key_and_value_str: that.data.order_option_key_and_value_str
-      },
-      header: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      method: "POST",
-      success: function (res) {
-        
-        
-      },
-      fail: function (res) {
-        
-      }
-    })
-
-    
-  },
+  
+  
 
 });

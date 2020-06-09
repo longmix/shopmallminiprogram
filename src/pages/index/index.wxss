@@ -196,6 +196,7 @@ margin-bottom:30rpx;
   width: 100%;
   background: #fff;
   padding-top: 10rpx;
+  padding-bottom: 80rpx;
 }
 .co {
   width: 100%;

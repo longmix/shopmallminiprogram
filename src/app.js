@@ -637,7 +637,7 @@ App({
 
   },
   //调用H5browser打开网页
-  call_h5browser_or_other_goto_url: function (url, var_list, ret_page='') {
+  call_h5browser_or_other_goto_url: function (url, var_list=null, ret_page='') {
     console.log('call_h5browser_or_other_goto_url : url && var_list :'+url);
     console.log(var_list);
 
@@ -649,7 +649,30 @@ App({
       url = url.replace('%wxa_appid%', this.globalData.xiaochengxu_appid);
     }
 
-    if (url == '/pages/index/index' || url == '/pages/category/index' || url == '/pages/cart/cart' || url == '/pages/user/user') {
+    if (url.indexOf("%wxa_openid%") != -1) {
+      url = url.replace('%wxa_openid%', this.get_current_openid());
+    }
+
+    //判断各种跳转条件
+    if (url.indexOf('switchTab') == 0) {
+      var arr = url.split(" ");
+      if (arr.length >= 2) {
+        var new_url = arr[1];
+        wx.switchTab({
+          url: new_url,
+        })
+      }
+    }
+    else if (url.indexOf('navigateTo') == 0) {
+      var arr = url.split(" ");
+      if (arr.length >= 2) {
+        var new_url = arr[1];
+        wx.navigateTo({
+          url: new_url
+        })
+      }
+    }
+    else if (url == '/pages/index/index' || url == '/pages/category/index' || url == '/pages/cart/cart' || url == '/pages/user/user') {
       wx.switchTab({
         url: url,
       })
@@ -681,6 +704,10 @@ App({
 
       }
 
+    } else if (url.indexOf('http://') == 0) {
+      wx.navigateTo({
+        url: '/pages/h5browser/h5browser?url=' + encodeURIComponent(url) + '&ret_page=' + ret_page,
+      })
     }
     else if (url.indexOf('https://') == 0) {
       wx.navigateTo({
@@ -724,17 +751,6 @@ App({
         })
       }
     }
-    else if (url.indexOf('switchTab') == 0) {
-      var arr = url.split(" ");
-      if (arr.length >= 2) {
-        var new_url = arr[1];
-        wx.switchTab({
-          url: new_url,
-        })
-      }
-
-      
-    }
     else {
       wx.navigateTo({
         url: url
@@ -766,9 +782,9 @@ App({
 
  globalData:{
    http_weiduke_server: 'https://cms.weiduke.com/',
-  // http_server:'http://192.168.0.205/yanyubao_server/',
+
     http_server: 'https://yanyubao.tseo.cn/',
-   //http_server: 'http://192.168.0.87/yanyubao_server/',
+
    userInfo: {},
 
   //通版商城，
@@ -777,39 +793,8 @@ App({
   
   shop_name:'通版商城小程序',
 
-  //============以下为开发过程中使用=======
-  //default_sellerid: 'pmyxQxkkU',  // 13112341234
-  
-  
-  //xiaochengxu_appid: 'wx93c05a83c11904b5',
-  //default_sellerid: 'fmJyUPkWj', //  连云港顺鸿欣远 //开心拼享购
-  
-  // shopListdefault_sellerid: 'fNzJUPqgq',//韩品购
-   //default_sellerid: 'fzyzUPgjP',//敦煌丝路
 
-  // default_sellerid: 'fQSzUPggU', //乐相邻
-
-  // default_sellerid: 'fXiNUPaWV',//说彩商城
-
-   //default_sellerid: 'fzXJUPWqa', //慕斯兰
-
-  //  default_sellerid:'fyXiUPUUg', //趣抽盒
-
-  //  default_sellerid: 'fmJyUPkWj',
- 
-  //  default_sellerid: 'fxiyUPgee',
-
-  //default_sellerid: 'pQNNmSkaq', //http://192.168.0.205/yanyubao_server/
-
-   
    force_sellerid: 0, 
-   /*token:'inkqzh1493969716',
-   sellerid: '',
-   version_number: "1.2.0",
-   kefu_telephone:"021-31128716",
-   kefu_qq:"537086268",
-   kefu_website:"www.abot.cn",
-   kefu_gongzhonghao:"延誉宝"*/
    
   },
 

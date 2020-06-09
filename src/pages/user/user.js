@@ -123,7 +123,15 @@ Page( {
   },
 
   onShow: function () {
-    var userInfo = app.get_user_info();
+    // var userInfo = app.get_user_info();
+
+    // if (!userInfo) {
+    //   var last_url = '/pages/user/user';
+    //   app.goto_user_login(last_url, 'switchTab');
+
+    //   return;
+    // }
+
 
     this.get_user_info_from_server();
 
@@ -364,6 +372,10 @@ Page( {
 
             if (url.indexOf("%ensellerid%") != -1) {
               url = url.replace('%ensellerid%', app.get_sellerid());
+            }
+
+            if (url.indexOf("%wxa_openid%") != -1) {
+              url = url.replace('%wxa_openid%', app.get_current_openid());
             }
 
             app.call_h5browser_or_other_goto_url(url, var_list, 'user_index');

@@ -40,20 +40,19 @@ Page({
       }
     })
 
+    console.log('options', options)
+
+    if(options.retpage){
+      //var url = 'http://192.168.0.87:8080/chouheji/pages/chouheji/chouheji_index?sellerid=%ensellerid%&openid=%wxa_openid%';
+      that.setData({
+        retpage: '/pages/h5browser/h5browser?url=' + options.retpage
+      })
+    }
+
   },
 
 
-  
 
-
-
-  
-
-
-
-
-
- 
 
   btn_one_click_get_userinfo: function (e) {
     var that = this;
@@ -108,6 +107,19 @@ Page({
 
               console.log('last_url-----', last_url)
               var page_type = wx.getStorageSync('page_type');
+
+              if(that.data.retpage){
+                last_url = that.data.retpage
+                console.log('last_url===================1111', last_url)
+                app.call_h5browser_or_other_goto_url(last_url);
+                return;
+
+                // wx.navigateTo({
+                //   url: last_url,
+                // })
+              }
+
+
               if (last_url) {
                 if (page_type == 'switchTab') {
 

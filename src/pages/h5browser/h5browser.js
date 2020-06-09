@@ -22,6 +22,10 @@ Page({
       
     // },
     onLoad: function (options) {
+
+      
+
+
       app.set_option_list_str(null, app.getColor());
 
       if(options.ret_page){

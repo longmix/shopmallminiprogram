@@ -25,13 +25,13 @@
     
       <navigator  class="logo_info navigator" url="../product/detail?productid={{item.productid}}" wx:for="{{shopList}}" wx:key="*this"  data-productid="{{item.productid}}" style="margin:10px;">
       <view class="logo_pic" style="margin-top:18rpx;">
-        <image src="{{item.picture}}" style="width:100%;height:100%;"></image>
+        <image src="{{item.picture}}" style="width:180rpx;height:180rpx;"></image>
        </view>
        
 
 
-      <view style='width:70%;float:right;height:109%'>
-        <view class="titles" style='text-align: left;'><text class="wenzi" style="font-weight:700;font-size:18px;overflow: hidden;white-space: nowrap;text-overflow:ellipsis;">{{item.name}}</text>
+      <view style="width:70%;float:right;height:220rpx;padding-top: 30rpx;">
+        <view class="titles wenzi" style="text-align: left;font-weight:400;font-size:18px;overflow: hidden;white-space: nowrap;text-overflow:ellipsis;">{{item.name}}
         </view>
         <view class="brief">
         <view style="color:gray;font-size:26rpx;">

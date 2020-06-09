@@ -955,15 +955,27 @@ text-align:center;
 line-height:34rpx;
 color:#fff;
 font-size:24px;
-
-
 }
-/* .addCart image{
- pointer-events: none;
- padding: 0.5rem;
-	width: 24rpx;
-	height: 24rpx;
-} */
+.chooseSpecs{
+width: 100rpx;
+height: 40rpx;
+margin-top: -24px;
+position: absolute;
+right: 31px;
+background: #feb70f;
+border-radius: 100px;
+text-align: center;
+line-height: 40rpx;
+color: #fff;
+font-size: 24rpx;
+}
+
+
+.select-specs{
+  border:1px solid #F8D786 !important;
+  background: #FEFBF2;
+  color: #F3B33E !important;
+}
 
 /*购物车*/
 .cart{
@@ -1146,7 +1158,7 @@ font-size:24px;
 .info-name{
   font-size: 34rpx;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-  margin-bottom:26rpx;
+  margin-bottom:12rpx;
   color:#32312E;
 }
 .info-price{
@@ -1226,6 +1238,19 @@ font-size:24px;
   position: fixed;  
   z-index:2;
   }   
+
+/* 遮罩层阴影 */
+.shade3{   
+  width:100%;   
+  height:100%;   
+  bottom:0; 
+  background:rgba(0,0,0,0);   
+  overflow: hidden;   
+  /*要显示在wrap的上面 */   
+  /* z-index: 1;    */
+  position: fixed;  
+  z-index:2;
+  } 
 
 
 
@@ -1498,6 +1523,94 @@ font-size:24px;
 .wx-input-con input{
   margin-left:20rpx;
   text-align:left;
+}
+
+.wx-popup-title-specs {
+  padding: 20rpx;
+  text-align: center;
+  font-size: 28rpx;
+}
+
+.wx-popup-subtitle-specs{
+  font-size: 32rpx;
+  color: #000;
+  margin-top: 10rpx;
+  text-align: left;
+  padding: 0 5%;
+  font-weight: bold;
+}
+
+.wx-input-con-specs{
+  display:flex;
+  align-items:center;
+  padding: 10rpx 0px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.wx-input-con-specs view{
+  width: 24%;
+  border: 1px solid #eee;
+  padding: 10rpx;
+  font-size: 24rpx;
+  border-radius: 4px;
+  color:#333;
+  margin-bottom: 20rpx;
+}
+.wx-specs-type{
+  text-align: left;
+  color: #666;
+  font-size: 26rpx;
+  margin-bottom: 4rpx;
+}
+.wx-input-tips-specs{
+  background: #eee;
+  padding: 16rpx 5%;
+  font-size: 22rpx;
+}
+
+.wx-input-tips-specs :nth-child(1){
+  color:#666;
+}
+.wx-input-tips-specs :nth-child(2){
+  color:#333;
+}
+.wx-popup-btn-specs{
+  display: flex;
+  padding: 10rpx 5%;
+  margin-bottom: 30rpx;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.wx-specs-total{
+  display: flex;
+  width: 50%;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+
+
+.wx-specs-zongjia{
+   width: 100rpx;
+  font-size: 28rpx
+}
+
+.wx-specs-total-price{
+  display: flex;
+  width: 100%;
+  align-items: flex-end;
+}
+.wx-specs-total-price text{
+  color:#E85B4D;
+  width: auto;
+  font-size: 28rpx;
+}
+
+.specs-btn-ok{
+  background: #F6C657;
+  padding: 10rpx 20rpx;
+  border-radius: 30px;
 }
 
 .time-normal{

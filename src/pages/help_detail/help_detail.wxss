@@ -61,7 +61,6 @@
 
 .detail_top{
   background-color: #fff;
-
   border-image: -webkit-linear-gradient(rgb(136, 136, 136),#fff) 30 30;
   border-image: -moz-linear-gradient(rgb(136, 136, 136),#fff) 30 30;
   border-image: linear-gradient(rgb(136, 136, 136),#fff) 30 30;
@@ -71,6 +70,7 @@
   top:0;
   text-align: left;
   z-index: 1;
+  height: 80rpx;
 }
 .detail_top_view{
   margin-top: 10rpx;
@@ -103,10 +103,10 @@
   margin-bottom: 10rpx;
 }
 .title{
-  font-size: 40rpx;
-  font-weight:bolder;
+  font-size: 34rpx;
   padding:32rpx;
   box-shadow:#EDEDED 2rpx 2rpx 15rpx 6rpx;
+  margin-top: 70rpx;
 }
 .datetime{
   margin-left:10rpx;

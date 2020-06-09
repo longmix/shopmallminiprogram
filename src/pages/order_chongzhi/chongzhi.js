@@ -40,7 +40,8 @@ Page({
         var data = res.data;
         if(data.code == 1){
           that.setData({
-            taocan: data.data
+            taocan: data.data,
+            order_rule_explain: data.order_rule_explain
           })
         }
         

@@ -23,12 +23,12 @@
   <button type="primary" disabled="{{disabled}}" bindtap="send_btn" class="send_btn">{{second}}</button>
 </view>
 <view>
-<button type="primary" open-type="getUserInfo"   bindgetuserinfo="btn_user_login"  formType="submit" class="check_btn" >登录</button>
+<button type="primary" open-type="getUserInfo"   bindgetuserinfo="btn_user_login"  formType="submit" class="check_btn" >登    录</button>
 </view>
 </form>
-<view style='font-size:15px;color:#666;margin-left:65%;'>
+<view style='font-size:15px;color:#666;margin-top: 50rpx;text-align: right;padding-right: 50rpx;'>
 <view bindtap='toLoginByPassword'>
-<text>账号密码登录</text>
+<text>使用账号密码登录</text>
 </view>
 </view>
 
@@ -36,7 +36,7 @@
 
 
 
-<button open-type="getPhoneNumber" plain="true" bindgetphonenumber="btn_one_click_login" class="check_btn2" style="background-color:#E64340; color:#ffffff;">使用微信手机号一键登录</button>
+<button open-type="getPhoneNumber" plain="true" bindgetphonenumber="btn_one_click_login" class="check_btn" style="color:#555;margin:80rpx auto;">使用微信一键登录</button>
 </view>
 
 

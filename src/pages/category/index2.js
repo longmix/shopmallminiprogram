@@ -21,6 +21,9 @@ Page({
 
     },
     onLoad: function (option){
+      wx.setNavigationBarTitle({
+        title: app.globalData.shop_name
+      })
 
       app.set_option_list_str(that, this.call_back_set_option);
 

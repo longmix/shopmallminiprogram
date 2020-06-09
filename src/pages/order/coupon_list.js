@@ -36,7 +36,12 @@ Page({
       })
     }
 
-    
+
+    if (options.from_o2o) {
+      that.setData({
+        from_o2o: options.from_o2o
+      })
+    }
 
   },
 
@@ -90,15 +95,34 @@ Page({
   toOrderQueren:function(e){
     console.log('e=====',e)
     var ucid = e.currentTarget.dataset.ucid;
-    wx.redirectTo({
-      url: '/pages/order/pay?ucid=' + ucid,
-    })
+    var index = e.currentTarget.dataset.index;
+
+    if (this.data.from_o2o == 1){
+      wx.setStorageSync('cache_coupon', this.data.coupon_list[index])
+      wx.redirectTo({
+        url: '/o2o/order/pay?ucid=' + ucid,
+      })
+    } else {
+      wx.redirectTo({
+        url: '/pages/order/pay?ucid=' + ucid,
+      })
+    }
+    
   },
 
   doNotUse:function(e){
-    wx.redirectTo({
-      url: '/pages/order/pay',
-    })
+
+    if (this.data.from_o2o == 1) {
+      wx.removeStorageSync('cache_coupon');
+      wx.redirectTo({
+        url: '/o2o/order/pay',
+      })
+    }else{
+      wx.redirectTo({
+        url: '/pages/order/pay',
+      })
+    }
+    
   }
 
 

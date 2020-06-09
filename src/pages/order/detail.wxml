@@ -11,12 +11,12 @@
 				<view class="font_14 mt5 ovh1">
 		           {{item.name}}
 		        </view>
-			<text class="gm_ovh_1h red pt10"><text style='color:#666;font-size:15px;'>单价¥：</text>{{item.price}}</text>
+			<text class="gm_ovh_1h red pt10"><text style='font-size:15px;'>单价：</text>¥{{item.price}}</text>
 			<text class="gm_ovh_1h pt10">数量：{{item.amount}}</text>
 			</view>
 		</view>		
 		
-		<view class="p_all bg_white mt10 font_14">
+		<view class="p_all bg_white mt10 font_14" wx:if="{{orderData.realname}}">
 			<view class="df">
 				<view class="df_1 c6">
 				<view class="l_h20">收货人：{{orderData.realname}}</view>
@@ -36,20 +36,26 @@
 			订单时间：{{orderData.createtime}}
 			</view>  
 
-      <view>
-			<textarea wx:if="{{orderData.buyer_memo}}" class="mt10" auto-height name="remark" disabled="{{true}}" placeholder="订单备注" value="{{orderData.buyer_memo?orderData.buyer_memo:''}}"/> 
+      <view class="mt10" wx:if="{{orderData.buyer_memo}}">
+			留言备注：<view style="font-size:24rpx; color:#666;">
+			  {{orderData.buyer_memo?orderData.buyer_memo:''}} 
 		  </view>	
+			</view> 
+
+      
 
 
       <view class="borderb bordert font_14">
           <view>共计{{orderData.total_num}}商品<view class='fl_r'></view></view>
+
           <view>商品金额：<view class='fl_r'>￥{{orderData.price}}</view></view>
           <view>快递费：<view class='fl_r'>￥{{orderData.price3}}</view></view>
           <view>订单金额：<view class='fl_r'>￥{{orderData.order_total_price}}</view></view>
           <view>余额支付：<view class='fl_r'>￥{{orderData.yue_price}}</view></view>
           <view>赠款支付：<view class='fl_r'>￥{{orderData.coupon_price}}</view></view>        
+          
           <view wx:if='{{orderData.pay_price}}'>实际支付：<view class='fl_r'>￥{{orderData.pay_price}}</view></view>
-          <!-- <view>支付方式：<view class='fl_r'>{{item.payment_name}}</view></view> -->
+          <view>支付方式：<view class='fl_r'>{{orderData.payment_name}}</view></view>
         </view>
 		  </view>
 

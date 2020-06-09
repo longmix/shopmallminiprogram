@@ -58,7 +58,8 @@ Page({
       key: 'option_list_str',
       success(res) {
         wx.showToast({
-          title: '清除商城小程序选项列表缓存成功',
+          icon: 'none',
+          title: '清除成功',
         })
       }
     })
@@ -67,7 +68,8 @@ Page({
       key: 'shop_info_from_server_str_' + app.get_sellerid(),
       success(res) {
         wx.showToast({
-          title: '清除商城小程序基础信息缓存成功',
+          icon: 'none',
+          title: '清除成功',
         })
       }
     })
@@ -76,7 +78,8 @@ Page({
       key: 'icon_list_usercenter_' + app.get_sellerid(),
       success(res) {
         wx.showToast({
-          title: '清除用户中心图标缓存成功',
+          icon: 'none',
+          title: '清除成功',
         })
       }
     })

@@ -116,7 +116,7 @@ align-items:Center;
 }
 .type{
   font-size:30rpx;
-  font-weight: 700;
+  font-weight: 400;
   margin-left: 10rpx;
 }
  .kkk{

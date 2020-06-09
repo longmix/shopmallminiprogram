@@ -32,7 +32,14 @@ Page({
 
     app.set_option_list_str(this, this.callback_set_option);
 
-    
+    var from_o2o = wx.getStorageSync('from_o2o');
+
+    if (from_o2o){
+      this.setData({
+        from_o2o: from_o2o
+      })
+    }
+
     
     this.initSystemInfo();
     this.setData({
@@ -232,7 +239,7 @@ onReachBottom: function () {
     console.log('加载更多')
   var that = this;
   var page = that.data.page;
-  next_page++;
+  // next_page++;
   wx.showToast({ 
     title: '加载中',
     icon: 'loading',
@@ -246,7 +253,7 @@ onReachBottom: function () {
       sellerid: app.get_sellerid(),
       checkstr: userInfo.checkstr,
       userid: userInfo.userid,
-      page: next_page
+      page: page + 1
     },
     header: {
       'Content-Type': 'application/x-www-form-urlencoded'
@@ -512,23 +519,26 @@ loadReturnOrderList:function(){
       case 4: isStatus = 7;
         break;
     }
-
+    that.setData({page: 1});
     that.setData({ currentTab: currentTab, isStatus: isStatus});    
     that.loadOrderList();
+
   },
 
 
   swichNav: function(e) { 
+
     var that = this;  
-    if( that.data.currentTab === e.target.dataset.current ) {  
+    if( that.data.currentTab == e.target.dataset.current ) {  
       return false;  
     } else { 
       var current = e.target.dataset.current;
       that.setData({
         currentTab: parseInt(current),
         isStatus: e.target.dataset.otype,
+        page: 1,
       });
-      that.loadOrderList();
+      // that.loadOrderList();
     };
   },
 

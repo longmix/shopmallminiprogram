@@ -1,6 +1,5 @@
 var util = require('../../utils/util.js');
 var app = getApp();
-var next_page = 1;
 var userInfo = app.get_user_info();
 
 Page({ 
@@ -55,9 +54,11 @@ suo:function(e){
 
 //点击加载更多
 getMore:function(e){
+  if (this.data.wxa_hidden_product_list == 1){
+    return;
+  }
+  
   var that = this;
-  var page = that.data.page;
-  next_page++;
 
   var userInfo = app.get_user_info();
 
@@ -66,7 +67,7 @@ getMore:function(e){
       method:'post',
       data: { 
         sellerid: app.get_sellerid(), 
-        page: next_page,
+        page: that.data.page,
         userid: userInfo ? userInfo.userid : 0,
         is_hot: 1
         },
@@ -84,18 +85,25 @@ getMore:function(e){
            */
         if(prolist==''){
           wx.showToast({
-            title: '我也是有底线的！',
+            title: '我也有底线~',
             duration: 2000
           });
+
+          that.setData({
+            show_click_to_get_more: 'none'
+          });
+
           return false;
-        }
-        //that.initProductData(data);
-        console.log("555666",that.data.product_list);
-        that.setData({
-          page: page+1,
-          product_list: that.data.product_list.concat(prolist)
-        });
+        }else{
+          //that.initProductData(data);
+          console.log("555666", that.data.product_list);
+          that.setData({
+            page: that.data.page + 1,
+            product_list: that.data.product_list.concat(prolist)
+          });
         //endInitData
+        }
+        
       },
       fail:function(e){
         console.log("22222");
@@ -349,6 +357,10 @@ getMore:function(e){
     console.log('下拉刷新==============')
 
     var that = this;
+    that.setData({
+      page: 1,
+      product_list: []
+    })
 
     try {
       wx.removeStorageSync('option_list_str')
@@ -372,6 +384,11 @@ getMore:function(e){
     
   },
   onLoad: function (options) {
+   
+    
+
+
+
 
     var that = this;
 
@@ -510,6 +527,7 @@ getMore:function(e){
     //更新数据
     that.setData({
       userInfo: userInfo,
+      show_click_to_get_more:'block'
     });
 
 
@@ -517,7 +535,7 @@ getMore:function(e){
       url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=product_list',
       method:'post',
       data: {
-        page: 1,
+        page: that.data.page,
         is_hot:1,
         userid: userInfo ? userInfo.userid: 0,
         sellerid: app.get_sellerid()
@@ -531,6 +549,7 @@ getMore:function(e){
           console.log(product_list);
           //that.initProductData(data);
           that.setData({
+            page: that.data.page + 1,
             product_list: product_list,
           });
         }  
@@ -579,6 +598,7 @@ getMore:function(e){
       var url2 = app.globalData.http_weiduke_server + '?g=Home&m=Yanyubao&a=get_yingxiao_latest_img&sellerid=' +         app.globalData.sellerid;
       var data2 = {};
       var cbSuccess2 = function (res) {
+        //返回值：1 有文章列表， 2 没有文章列表
         var shanghu_img_list = res.data.showpic
         if (res.data.code == 1) {
           //更新首页的商户头条
@@ -587,9 +607,9 @@ getMore:function(e){
             headlineItem: res.data.data[0].title,
             toutiao_item_id: res.data.data[0].id,
           });
-        }
 
-        app.set_current_weiduke_token(res.data.data[0].token);
+          app.set_current_weiduke_token(res.data.data[0].token);
+        }
         
       };
       var cbError2 = function (res) {

@@ -221,10 +221,37 @@ Page({
     }, 1000);
 
   },
-  addCart:function(){
-    wx.navigateTo({
-      url: '/pages/cart/cart',
-    })
+  goto_cart:function(){
+    console.log('准备跳转到购物车');
+    
+    var option_list_str = wx.getStorageSync("option_list_str");
+
+    console.log("获取商城选项数据：" + option_list_str + '44444444444444');
+
+    if (!option_list_str) {
+      return null;
+    }
+
+    var option_list = JSON.parse(option_list_str);
+
+    if (option_list && option_list.wxa_cart_in_product_detail 
+      && (option_list.wxa_cart_in_product_detail == 1)) {
+
+      wx.navigateTo({
+        url: '/pages/cart/cart',
+      })
+
+      
+    }
+    else{
+      wx.switchTab({
+        url: '/pages/cart/cart',
+      })
+
+    }
+
+    //app.call_h5browser_or_other_goto_url('/pages/cart/cart');
+
   },
   myChat: function () {
     var that = this;

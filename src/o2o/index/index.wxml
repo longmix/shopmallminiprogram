@@ -4,6 +4,7 @@
    打开绑定的小程序
    </navigator>
    -->
+<view class="{{is_touch? '' : 'shade3'}}">
 <view class="page" bindtap=''> 
   <!-- 商品搜索 -->
   <view wx:if="{{wxa_show_search_input == 1}}" class="top-input-con"> 
@@ -114,7 +115,7 @@
     
     <view class="pnl-right">  
       
-      <view class="pintuan-btn" bindtap="toMenuList" data-tzorderid="{{item.tuanzhang_orderid}}" wx:if="{{item.yi_cheng_tuan==0 && item.tuanzhang_timeout>0 && item.tuanzhang_show_weichengtuan==0}}">去参团</view>
+      <view class="pintuan-btn" bindtap="toMenuList" data-tzorderid="{{item.tuanzhang_orderid}}" data-index="{{index}}" wx:if="{{item.yi_cheng_tuan==0 && item.tuanzhang_timeout>0 && item.tuanzhang_show_weichengtuan==0}}">去参团</view>
       <view class="pintuan-btn2" wx:elif="{{item.yi_cheng_tuan!=1 && item.tuanzhang_timeout<0 && item.tuanzhang_show_weichengtuan==0}}">未成团</view>
       <view class="pintuan-btn2" wx:elif="{{item.yi_cheng_tuan!=1 && item.tuanzhang_show_weichengtuan==1}}">未成团</view>
       <view class="pintuan-btn" wx:else>已成团</view>
@@ -187,11 +188,11 @@
   
     
   <!--   -->
-      <view class="body-content" wx:for="{{shanglist}}" wx:for-item="m1" >
+      <view class="body-content" wx:for="{{shanglist}}" wx:for-item="m1" wx:for-index="idx1">
         <view class="title" id='z{{m1.id}}' data-id="{{m1.id}}">{{m1.package}}</view>
         <!--  -->
-          <view class="content-item" wx:for="{{m1.menu}}" wx:for-item="m2" wx:key="k"  >
-            <image src="{{m2.img}}" bindload="menuImgLoad" lazy-load="true" data-productid="{{m2.productid}}" mode='widthFix' style="width: 17rem;"></image>
+          <view class="content-item" wx:for="{{m1.menu}}" wx:for-item="m2" wx:key="k"  wx:for-index="idx2">
+            <image src="{{m2.img}}" bindload="menuImgLoad"  data-productid="{{m2.productid}}" mode='widthFix' style="width: 17rem;"></image>
             <view class="item-txt">
               <text bindtap="shopdetail" class="txt-a">{{m2.name}}</text>
               <text bindtap="shopdetail" class="txt-b">{{m2.brief}}</text>
@@ -201,11 +202,15 @@
                 <view style='color:#666;text-decoration:line-through;'>￥{{m2.price2}}</view>
               </view>
             </view>
-                       
-            <view class="addCart" bindtap="tapAddCart"  data-productid="{{m2.productid}}" data-price="{{m2.price}}" data-name="{{m2.name}}" data-pic="{{m2.img}}" style="background:{{basic_set.o2o_set_cart_bg_color}}">
-              +
-              <!-- <image src="../../images/s.png"></image> -->
+
+
+             <view wx:if="{{m2.sku_list.length}}"  class="chooseSpecs" bindtap="chooseSpecs" data-idx1="{{idx1}}" data-idx2="{{idx2}}" data-productid="{{m2.productid}}" data-price="{{m2.price}}" data-name="{{m2.name}}" data-pic="{{m2.img}}" style="background:{{basic_set.o2o_set_cart_bg_color}}">
+              选规格       
+            </view>          
+            <view wx:else class="addCart" bindtap="tapAddCart"  data-idx1="{{idx1}}" data-idx2="{{idx2}}" data-productid="{{m2.productid}}" data-price="{{m2.price}}" data-name="{{m2.name}}" data-pic="{{m2.img}}" style="background:{{basic_set.o2o_set_cart_bg_color}}">
+              +         
             </view>
+            
           </view>
 
       </view>
@@ -283,6 +288,40 @@
 <view class="shade2" hidden="{{!showCartDetail}}" bindtap='showCartDetailf' catchtouchmove="true">
 </view>
 
+
+<view class="wx-popup" hidden="{{!is_show_choose_specs}}" catchtouchmove="true">
+  <view class='popup-container'>
+    <view class="wx-popup-title-specs">
+      <image src="../../images/delete_red.png" class="wx-popup-close" bindtap='closeChooseSpecs'></image>
+    </view>
+    
+
+    <view class="wx-popup-subtitle-specs">{{sku_product.name}}</view>
+
+    <view class="wx-popup-con">
+        
+      <view class="wx-shouhuo-con">
+        <view class="wx-specs-type">规格：</view>
+        <view class="wx-input-con-specs">
+          <view wx:for="{{sku_list}}" class="{{currentSpecsIdx == idx? 'select-specs' : ''}}" wx:for-item="item" wx:for-index="idx" bindtap="doChooseSpecs" data-idx="{{idx}}">{{item.option_name}}</view>
+        </view>  
+      </view>   
+    </view>
+    <view class="wx-input-con wx-input-tips-specs">
+          <view>已选规格：</view>
+          <view>{{sku_product.option_name}}</view>       
+    </view>
+    <view class="wx-popup-btn-specs">
+      <view class="wx-specs-total">
+        <view class="wx-specs-zongjia">总价</view>
+        <view class="wx-specs-total-price"><text>￥</text><text style="font-size:36rpx;">{{sku_product.price}}</text></view>
+      </view>
+      <text class="specs-btn-ok" bindtap="tapAddCart"  data-productid="{{sku_product.productid}}" data-price="{{sku_product.price}}" data-name="{{sku_product.option_name}}">+ 加入购物车</text>
+    </view>
+  </view>
+</view>
+
+
 <view class="shade" hidden="{{!showCartDetail}}"  catchtouchmove="true">
 
 <view class="cart-detail" animation="{{animationData}}" hidden="{{!showCartDetail}}">
@@ -291,16 +330,16 @@
       <view class="list">
         <view class="list-item" >
           <view class="local-item" wx:for="{{cartlist}}" wx:for-item="order" wx:for-index="bindex" >
-            <view class="item-img"><image src="{{order.picture}}" style="opacity:1;"></image></view>
+            <view class="item-img"><image src="{{order.img}}" style="opacity:1;"></image></view>
             <view class="item-info">
-              <view class="info-name">{{order.name}}</view>
+              <view class="info-name">{{order.name}}<view style="color:#666;font-size:28rpx;">日期：{{order.weekItem.date}}</view></view>
               <view class="info-price">单价：￥ {{order.price}}</view>
               <view class="info-num">
 
               <text style="width: 219%;color:#E85B4D;font-size:32rpx;">￥ {{order.price_total}}</text>
                 <view class="info-add">
                   <view class="add-de" data-price="{{order.price}}" data-name="{{order.name}}" data-productid="{{order.productid}}" data-bindex='{{bindex}}' bindtap="tapReduceCart">-</view>
-                  <view class="info-num">{{order.amount}}</view>
+                  <view class="info-num">{{order.count}}</view>
                   <view class="add-add" data-price="{{order.price}}" data-productid="{{order.productid}}" data-name="{{order.name}}" data-bindex='{{bindex}}' bindtap="cartAddCart" style="background:{{basic_set.o2o_set_cart_bg_color}};border:2px solid {{basic_set.o2o_set_cart_bg_color}};">+</view>
                 </view>
 
@@ -357,4 +396,5 @@
       <text class="btn-ok" bindtap='selectAgree'>确定</text>
     </view>
   </view>
+</view>
 </view>
