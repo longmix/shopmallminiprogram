@@ -16,11 +16,12 @@
   z-index:100;
   text-align: center;
   width:100%;
-  font-size:16px;
-  border-top:1px solid #eee;
-  line-height:50px;
+  font-size:32rpx;
+  border-top:2rpx solid #eee;
+  line-height:100rpx;
   font-weight: 700;
   color: #fff;
+  margin-bottom: 60rpx;
 }
 .view1{
   font-family: "微软雅黑";

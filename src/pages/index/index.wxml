@@ -52,13 +52,19 @@
 
    <!-- 视频start -->
    <view wx:if="{{wxa_show_video_player==1}}" class="video-con">
-      <video  poster='{{wxa_video_screen_url}}' controls="true"  src="{{wxa_video_player_url}}"  ></video>
+      <video
+    bindtap='start_and_stop_other_videos' 
+    src="{{wxa_video_player_url}}"  poster='{{wxa_video_screen_url}}'
+    controls="true"
+    autoplay="{{wxa_show_video_autoplay}}"
+    bindloadedmetadata="videometa"
+    style="width:{{videometa_width_height[0]}}rpx; height:{{videometa_width_height[1]}}rpx;"></video>
    </view>
    
     <!-- 视频end -->
    
    <!-- 商品搜索 -->
-   <view wx:if="{{wxa_show_search_input == 1}}" class="scroll-txt" bindtap="search" data-value="">
+   <view wx:if="{{wxa_show_search_input == 1}}" class="scroll-txt" bindtap="goto_search" data-value="">
       <icon type="search" size="14" style="margin: 0px 10rpx 0 0"></icon>
       <text class="scroll-ads">搜索</text>
    </view>
@@ -68,16 +74,105 @@
 <!--平铺广告图片start-->
 <view wx:if="{{wxa_show_pic_pinpu == 1}}">
    <view style='width:100%;' wx:if="{{img_list!=null||img_list!=''}}">
-     <view  wx:for="{{img_list}}" wx:key="{{index}}">
-      <image style='width:100%;' mode="widthFix" src='{{item.image}}' bindtap="toProductDetail" data-url="{{item.url}}"></image>
-     </view>
+     <block  wx:for="{{img_list}}" wx:key="{{index}}">
+      <image style='width:100%;vertical-align: middle;' mode="widthFix" src='{{item.image}}' bindtap="toProductDetail" data-url="{{item.url}}"></image>
+     </block>
    </view>   
 </view>
+<!--平铺广告图片end-->
+
+<!-- 秒杀start -->
+  <view class="seckill"  wx:if="{{zhengdian_miaosha_status == 1}}">
+  <view class="seckill-a {{miaoshaFixed ? 'fixed': ''}}" id="zhengdianmiaosha">
+    <view class="hand-seckill-con">
+      <view class="hand-seckill" >{{zhengdian_miaosha_title}}</view> 
+    </view>
+   
+    <scroll-view scroll-x="true" class="tab-h1" scroll-left="{{scrollLeft}}">
+          <!--  -->
+          <block >
+            <view class="tab-item1 {{zhengdianmaoshao_currentTabTime==idx?'tab-item1-active':''}}" wx:for="{{zhengdian_miaosha_list}}" wx:for-item="item" wx:for-index="idx" data-idx="{{idx}}" bindtap="zhengdian_miaosha_choosetime" wx:key="idx" data-isbegin="{{item.is_begin}}">
+                <view>{{item.date}}</view>
+                <view>{{item.is_begin==1?'正在进行':'即将开始'}}</view>
+                <view wx:if="{{zhengdianmaoshao_currentTabTime==idx}}"  class="tab-active-foot"></view>
+            </view>
+
+          </block>  
+          
+      </scroll-view>
+  </view>
+
+  <view class="seckill-count-down">
+    <view>{{zhengdian_miaosha_is_begin==1?'疯狂抢购中':'秒杀预告'}}</view>
+    <view>{{zhengdian_miaosha_list[zhengdianmaoshao_currentTabTime].zhengdian_timeout_format}}</view>
+    <view>{{zhengdian_miaosha_is_begin==1?'距结束':'距开始'}}</view>  
+  </view>
+ 
+      <view class="">
+      
+        <navigator  class="logo_info navigator" url="../product/detail?productid={{item.productid}}" wx:for="{{zhengdian_miaosha_list[zhengdianmaoshao_currentTabTime].product_list}}" wx:for-index="idx" wx:key="{{idx}}" open-type='navigateTo'>
+        <view class="logo_pic" style="margin-top:18rpx;">
+          <image src="{{item.picture_list[0].picture}}" style="width:180rpx;height:180rpx;"></image>
+        </view>
+        
+        <view style='width:70%;float:right;height:109%'>
+          <view class="titles" style='text-align: left;'><text class="wenzi">{{item.name}} </text>
+          </view>
+          <view class="brief">
+          <view >
+            ￥{{item.price}}
+          </view>
+          
+          <view  style="color:#999;padding-left:30rpx;text-decoration:line-through;">￥{{item.price_yuanjia}}</view>
+
+          </view>
+          <view class='yueduliang'>
+            <text class="rexiao" style="color:red;font-size:30rpx;padding-left:20rpx;">{{item.product_take_score}}</text>
+            
+          </view>
+          <view class='qianggou-con'>
+
+
+              <wxs module="filters">
+
+                var filters = {
+                      toFix: function (value) {
+                          return parseInt(value)
+                      }
+                  }
+                  module.exports = {
+                      toFix: filters.toFix
+                  }
+
+              </wxs>
+
+            <view wx:if="{{zhengdian_miaosha_is_begin==1}}" class="sale-percent-con">
+                <view>已售:{{filters.toFix(item.sale_volume/(filters.toFix(item.sale_volume) + filters.toFix(item.inventory))*100)}}%</view>
+                <view class="sale-percent">
+                  <view class="sale-percent-a" style="width:{{item.sale_volume/(filters.toFix(item.sale_volume) + filters.toFix(item.inventory))*150}}rpx;"></view>
+                </view>
+            </view>        
+
+            <text wx:else class="kaiqiang">{{zhengdian_miaosha_list[zhengdianmaoshao_currentTabTime].shijian}}准时开抢</text>
+            <view class="qianggou" wx:if="{{zhengdian_miaosha_is_begin==1}}">去抢购</view>
+            <view class="tixing" wx:else catchtap="{{item.is_yuyue_tixing==1 ? '' : 'zhengdian_miaosha_yuyue_tixing'}}" data-productid="{{item.productid}}" data-idx="{{idx}}" style="opacity:{{item.is_yuyue_tixing==1 ? '0.5' : ''}};">{{item.is_yuyue_tixing==1 ? '已预约' : '提醒我'}}</view>
+          </view>
+        </view>
+        <view style="clear:both"></view>
+        </navigator>
+      </view>
+      
+
+</view>
+
+<!-- 秒杀end -->
+
+
 <block wx:if="{{wxa_hidden_product_list!=1}}">
   <block wx:if="{{wxa_product_list_style == 1}}">
       <view class="">
       
-        <navigator  class="logo_info navigator" url="../product/detail?productid={{item.productid}}" wx:for="{{product_list}}" wx:key="{{index}}" open-type='navigateTo'>
+        <navigator  class="logo_info navigator" url="../product/detail?productid={{item.productid}}" wx:for="{{product_list}}" wx:key="index" open-type='navigateTo'>
         <view class="logo_pic" style="margin-top:18rpx;">
           <image src="{{item.picture}}" style="width:180rpx;height:180rpx;"></image>
         </view>
@@ -113,7 +208,7 @@
       <view class="cont">
       
         <navigator class="pr" url="../product/detail?productid={{item.productid}}" hover-class="changestyle"
-                  wx:for="{{product_list}}" wx:key="{{index}}" open-type='navigateTo'>
+                  wx:for="{{product_list}}" wx:key="productid" open-type='navigateTo'>
           <image class="photo" src="{{item.picture}}"></image>
           <view class="title">{{item.name}}</view>
           <view style="display:flex;line-height:50rpx;padding:10rpx 0;">
@@ -147,7 +242,7 @@
   <view class="u-tap-btn" wx:if="{{wxa_show_kefu_button==1}}">
   <block wx:if="{{wxa_kefu_button_type==1}}">
     <button class="u-go-home2" bindtap="call_seller" style="background-color:{{wxa_kefu_bg_color}}">
-        <image src="{{wxa_kefu_button_icon}}" mode="widthFix"></image>
+        <image src="{{wxa_kefu_button_icon}}" mode="widthFix"></image> 
     </button>
   </block>
   <block wx:elif="{{wxa_kefu_button_type==2}}">

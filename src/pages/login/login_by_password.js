@@ -250,6 +250,67 @@ Page({
             success: function (res) {
               //console.log("回调结果"+res.code);
               if (res.confirm) {
+                //=======检查登录成功之后的跳转=======
+
+                // if (that.data.retpage) {
+                //   console.log('retpage333333333333333', that.data.retpage);
+                //   app.call_h5browser_or_other_goto_url(that.data.retpage)
+                //   return;
+                // }
+
+                var last_url = wx.getStorageSync('get_userinfo_last_url');
+
+                console.log('last_url-----', last_url)
+
+                var page_type = wx.getStorageSync('get_userinfo_page_type');
+                console.log('page_type-----', page_type)
+
+
+                var retpage = last_url.toString().split("?")[1];//截取url中？后的字符串
+
+                if (retpage) {
+                  retpage = decodeURIComponent(retpage);
+                  retpage = retpage.replace('retpage=', '');
+
+                  console.log('retpage===', retpage)
+
+                  app.call_h5browser_or_other_goto_url(retpage)
+
+                  wx.removeStorageSync('get_userinfo_last_url');
+                  wx.removeStorageSync('get_userinfo_page_type');
+                  return;
+                }
+
+                if (last_url) {
+                  if (page_type && (page_type == 'switchTab')) {
+
+                    wx.switchTab({
+                      url: last_url,
+                    })
+                  }
+                  else {
+                    wx.redirectTo({
+                      url: last_url,
+                    })
+                  }
+
+                  wx.removeStorageSync('get_userinfo_last_url');
+                  wx.removeStorageSync('get_userinfo_page_type');
+
+                  return;
+                }
+                //===========End================
+
+                if (app.globalData.is_ziliaoku_app == 1) {
+
+                  wx.reLaunch({
+                    url: "/cms/index/index"
+                  });
+
+                  return;
+                }
+
+
                 if (that.data.fromPage == 'share-detail') {
                   wx.navigateBack({
                     delta: 1

@@ -1,0 +1,54 @@
+<!--pages/scan-qrcode/scan-qrcode.wxml-->
+<!-- <view class="map_container"> 
+  <map class="map" id="map" longitude="{{longitude}}" latitude="{{latitude}}" scale="14" show-location="true" markers="{{markers}}" bindmarkertap="makertap"></map> 
+</view> 
+<view class="rgc_info"> 
+  <text>{{rgcData.address}}</text> 
+  <text>{{rgcData.desc}}</text> 
+  <text>{{rgcData.business}}</text> 
+</view> -->
+
+
+
+
+ <view  wx:if="{{showCon}}" class="modal-mask" bindtap="changeModalCancel">
+    <view class="modal-dialog">
+      <view class="modal-title">温馨提示</view>
+      <view class="modal-content">
+        来自上海的，安全熊定位以及反光童装提醒您：这件衣服上的二维码不是骗子，如果您点击了确定，这位儿童或者老人的家人，将会知道他们的大概位置，对您没有任何影响，您的确定，对老人和儿童很重要，谢谢！！
+      </view>
+      <view class="modal-footer">
+        <!-- <view class="btn-cancel" catchtap="changeModalCancel">取消</view> -->
+        <button open-type="openSetting" class="btn-confirm button-on-view" style="padding:0rpx;" catchtap="changeModalCancel">设置</button>
+      </view>
+    </view>
+  </view>
+
+
+
+
+<view class="bg" bindtap='hideview' style='display:{{display}}'></view>
+<view class="show" bindtap='hideview' style='display:{{display}}'>
+<view class='txt'>
+<!--
+<button class="bt-a" bindtap="change_mobile_num">
+  <view>1、如果您想更换绑定的手机号码，请点击这里</view>
+</button>
+-->
+<button class="bt-a" bindtap="go_to_set_weixin_notify">
+  <view>1、短信通知是收费的。微信通知的方式是永久免费的，需要您关注微信公众号，请点击这里</view>
+</button>
+
+
+<button class="bt-b" bindtap="scan_location">
+  <view>2、如果您想微信扫码定位，请点击这里</view>
+</button>
+<button class="bt-c" bindtap="scan_remove_mobile">
+  <view>3、如果您想一键解除绑定，请点击这里</view>
+</button>
+<button class="bt-d" bindtap="scan_set_e_profile">
+  <view>4、视频和广告资料上传入口，任何微信扫码者可以看见。视频+定位。适合T恤，广告衫，服装鞋帽，玩具等行业。同时适合老人，小学生，幼儿园小朋友的的保护</view>
+</button>
+
+</view>
+</view>

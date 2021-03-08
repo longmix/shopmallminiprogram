@@ -27,7 +27,7 @@ Page({
 
     setTimeout(function () {
       wx.hideLoading()
-    }, 2000)
+    }, 1000)
     
 
   },
@@ -71,7 +71,7 @@ Page({
           }
 
           wx.request({
-            url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=wxa_one_click_login',
+            url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=wxa_get_openid_using_js_code',
             header: {
               "Content-Type": "application/x-www-form-urlencoded"
             },
@@ -96,16 +96,17 @@ Page({
               }
               else{
                 wx.showModal({
-                  title: '确认',
-                  content: '小程序服务器异常',
+                  title: '遇到错误',
+                  content: res.data.msg,
+                  showCancel:false,
+                  success(res){
+                    //返回上一页
+                    wx.navigateBack({
+                      delta: 1
+                    })
+                  }
                 });
-
-
-
-                //返回上一页
-                wx.navigateBack({
-                  delta: 2
-                })
+                
                 
               }
             },
@@ -258,6 +259,19 @@ Page({
       }
     }
   },
+  onShareTimeline: function () {
+    var that = this;
+
+    return {
+      title: '' + that.data.wz_text.title,
+      query: 'id='+that.data.id, 
+      imageUrl:that.data.wz_text.pic
+    }
+  },
+  onAddToFavorites: function () {
+    return this.onShareTimeline();
+  },
+
   onReady: function () {
     // 页面渲染完成
   },
@@ -286,7 +300,7 @@ Page({
   },
   returnto_index: function () {
     var that = this;
-    var wxa_hidden_shop = JSON.parse(wx.getStorageSync("option_list_str")).wxa_hidden_shop;
+    var wxa_hidden_shop = JSON.parse(wx.getStorageSync('shop_option_list_str_' + app.get_sellerid())).wxa_hidden_shop;
     if (wxa_hidden_shop==1){
       wx.navigateTo({
         url: '../index/Liar',
@@ -479,7 +493,7 @@ Page({
         duration: 1000,
         success: function () {
 
-          wx.setStorageSync('last_url', '/cms/publish/publish?publishtype=' + that.data.publishtype);
+          wx.setStorageSync('get_userinfo_last_url', '/cms/publish/publish?publishtype=' + that.data.publishtype);
 
           wx.navigateTo({
             url: '/pages/login/login',

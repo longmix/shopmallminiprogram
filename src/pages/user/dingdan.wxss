@@ -93,18 +93,22 @@
     width: 100%;
     overflow: hidden;
     font-size: 28rpx;
+    line-height: 60rpx;
 }
 .sp_neb{
     width: 100%;
     overflow: hidden;
-    font-size: 12px;
+    font-size: 24rpx;
     color: #999;
+    line-height: 50rpx;
+
 }
 .sp_jg{
     width: 100%;
     overflow: hidden;
     font-size: 28rpx;
     color: #fc0628;
+    line-height: 70rpx;
 }
 .dle{
     color: #999;
@@ -177,6 +181,27 @@
   display:block;
   width:100%;
 }
+
+.bordert_a{
+  border-top: 0 !important;
+  color: #808080;
+}
+
+.fl_n{
+  font-weight: normal;
+  display: inline-block;
+  margin-left: 10rpx;
+}
+.l_h20{
+  display: inline-block;
+  margin-left: 24rpx;
+  background: #1AAD19;
+  color: #fff;
+  padding: 0 18rpx;
+  border-radius: 5px;
+  font-size: 24rpx;
+}
+
 .bordermax{
   border-bottom: 8px solid #f2f2f2;
   padding-bottom: 20px;

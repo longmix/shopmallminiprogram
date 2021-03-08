@@ -23,7 +23,7 @@ Page({
       userInfo = app.get_user_info();
     }
     wx.request({
-      url: app.globalData.http_server + '?g=Yanyubao&m=ShopApp&a=get_user_info',
+      url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=get_user_info',
       data: {
         checkstr: userInfo.checkstr,
         userid: userInfo.userid,
@@ -81,7 +81,7 @@ Page({
     }
     
     wx.request({
-      url: app.globalData.http_server + '?g=Yanyubao&m=ShopApp&a=set_user_password',
+      url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=set_user_password',
       data: {
         checkstr: userInfo.checkstr,
         userid: userInfo.userid,
@@ -97,20 +97,33 @@ Page({
         // success
         var code = res.data.code;
         if (code == 1) {
-          wx.showToast({
-            title: '修改成功！',
-            duration: 2000
-          });
+          wx.showModal({
+            title: '修改成功',
+            content: res.data.msg,
+            showCancel:false,
+            success(res) {
+              if (res.confirm) {
+                console.log('用户点击确定')
+              } else if (res.cancel) {
+                console.log('用户点击取消')
+              }
+
+              app.del_user_info();
+
+              wx.reLaunch({
+                url: '/pages/user/user',
+              })
+            }
+
+          })
+
         } else {
           wx.showToast({
             title: '修改失败！',
             duration: 2000
           });
           return;
-        }
-        wx.navigateBack({
-          delta: 1
-        })
+        }        
       },
       fail: function () {
         // fail

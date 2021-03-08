@@ -10,7 +10,10 @@ Page({
         url: null,
         title: "",
 
-        ret_page:''
+        ret_page:'',
+
+        current_params_str:'',
+        current_shop_list:null
 
     },
 
@@ -26,7 +29,35 @@ Page({
       
 
 
-      app.set_option_list_str(null, app.getColor());
+      app.set_option_list_str(this, function(that, option_list){
+        app.getColor();
+
+        that.setData({
+          current_shop_list:option_list
+        });
+
+      });
+
+
+      //=====分析参数=====
+      var arr = Object.keys(options);
+      var options_len = arr.length;
+
+      if (options_len > 0){
+        var params_str = '';
+
+        for(var key in options){
+          params_str += key+'='+options[key]+'&';
+        }
+        params_str = params_str.substr(0, params_str.length - 1);
+
+        this.setData({
+          current_params_str:params_str
+        });
+      }
+      //===== End ======
+
+      
 
       if(options.ret_page){
         this.setData({ ret_page: options.ret_page});
@@ -51,6 +82,7 @@ Page({
           wx.switchTab({
             url: '../index/index'
           })
+          return;
         }
 
 
@@ -86,9 +118,28 @@ Page({
             wx.hideLoading();
 
             if (res.data.code == 1) {
-              self.setData({
+              //判断网址是否为http开头的，如果不是按照路径跳转
+
+              /*self.setData({
                 url: res.data.longurl
-              });
+              });*/
+
+              if (res.data.longurl.indexOf('https://') == 0){
+                self.setData({
+                  url: res.data.longurl
+                });
+              }
+              else{
+                console.log('====>>>>>>h5browser内部跳转：' + res.data.longurl);
+
+                wx.navigateTo({
+                  url: res.data.longurl,
+                });
+                return;
+              }
+
+
+
             }
             else {
               wx.showModal({
@@ -156,6 +207,9 @@ Page({
         }
 
 
+        console.log('url decode=====>>>' + decodeURIComponent(options.url));
+
+
 
 
         self.setData({
@@ -183,9 +237,9 @@ Page({
         console.log(options.webViewUrl);
 
       //设置分享转发的内容
-      var share_title = app.globalData.shop_name;
+      var share_title = this.data.current_shop_list.name;
 
-      var share_image = null;
+      var share_image = this.data.current_shop_list.icon;
 
       var share_path = 'pages/h5browser/h5browser?url=' + encodeURIComponent(url1);
 
@@ -226,6 +280,65 @@ Page({
 
         
     },
+    onShareTimeline: function () {
+      var that = this;
+
+      //设置分享转发的内容
+      var share_title = this.data.current_shop_list.name;
+      var share_image = this.data.current_shop_list.icon;
+
+      if (this.data.share_title) {
+        share_title = this.data.share_title;
+      }
+      if (this.data.share_image) {
+        share_image = this.data.share_image;
+      }
+
+
+      return {
+        title: share_title,
+        query: that.data.current_params_str, 
+        imageUrl: share_image
+      }
+    },
+    onAddToFavorites: function () {
+      return this.onShareTimeline();
+    },
+
+
+
+
+
+  bindmessage:function(e){
+    var userInfo = app.get_user_info();
+    console.log('bindmessage==',e)
+    var data = e.detail.data;
+    var length = e.detail.data.length;
+    var value = data[length-1];
+    var type = data[0];
+    console.log('value==', value)
+
+    if(type.type == 'chouheji'){
+      wx.request({
+        url: app.globalData.http_server + 'openapi/ChouhejiData/cancel_queue',
+        method: 'POST',
+        header: { 'Content-type': 'application/x-www-form-urlencoded' },
+        data: {
+          'openid': userInfo.user_openid,
+          'big_box_id': value.big_box_id,
+          'sellerid': app.get_sellerid()
+        },
+
+        success: function (res) {
+          console.log('cancelQueue====3', res)
+
+        },
+      })
+    }
+   
+
+
+  },
 
   
     /**

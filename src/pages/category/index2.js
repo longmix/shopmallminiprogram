@@ -30,9 +30,7 @@ Page({
       app.set_option_list_str(null, app.getColor());
 
       var that = this;
-      var option_list_str = wx.getStorageSync("option_list_str");
-
-      console.log("获取商城选项数据：" + option_list_str + '333333333');
+      var option_list_str = wx.getStorageSync('shop_option_list_str_' + app.get_sellerid());
 
       if (!option_list_str) {
         return null;
@@ -49,6 +47,11 @@ Page({
           wxa_product_super_list_style: option_list.wxa_product_super_list_style
         })
       }
+      else{
+        that.setData({
+          wxa_product_super_list_style: 0
+        })
+      }    
 
 
       this.busPos = {};
@@ -69,6 +72,11 @@ Page({
         wxa_order_super_cata_parentid: option_list.wxa_order_super_cata_parentid
       })
     }
+    else {
+      that.setData({
+        wxa_order_super_cata_parentid: 0
+      })
+    }
 
 
     wx.request({
@@ -76,7 +84,8 @@ Page({
       method: 'post',
       data: {        
         sellerid: app.get_sellerid(),
-        cataid: that.data.wxa_order_super_cata_parentid
+        cataid: that.data.wxa_order_super_cata_parentid,
+        show_type : 'supercata'
       },
       header: {
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -88,6 +97,7 @@ Page({
           that.setData({
             types: data.data.sub_cata_list,
             typeTree: data.data.sub_cata_list[0].product_list,
+            typeTree_icon: data.data.sub_cata_list[0].icon,
             currType: 0
           });
         }
@@ -115,6 +125,7 @@ Page({
         that.setData({
             currType: currType,
           typeTree: that.data.types[currType].product_list ? that.data.types[currType].product_list : [],
+          typeTree_icon: that.data.types[currType].icon,
         });
         
     },
@@ -128,7 +139,8 @@ Page({
                 success: function (res) {
                     _data.typeTree[currType] = res.data.data;
                     me.setData({
-                        typeTree: _data.typeTree
+                        typeTree: _data.typeTree,
+                        typeTree_icon: null,
                     });
                 }
             });
@@ -139,9 +151,16 @@ Page({
   addCart: function (e) {
     var that = this;
 
+    var last_url = 'switchTab /pages/category/index2';
+
+    if(app.goto_user_login(last_url)){
+      return;
+    }
+
+    var userInfo = app.get_user_info();
+
     if (!userInfo){
-      var last_url = '/pages/category/index2';
-      app.goto_user_login(last_url, 'switchTab');
+      
       return;
     }
 
@@ -275,6 +294,14 @@ Page({
     //停止当前页面的下拉刷新
     wx.stopPullDownRefresh();
   },
+
+  goto_search:function(view){
+    var welfareId = view.currentTarget.dataset.value;
+    var url = "../listdetail/listdetail?name=" + welfareId;
+    wx.navigateTo({
+      url: url
+    });
+  }
 
   
 })

@@ -1,5 +1,6 @@
 // pages/check_login/check_login.js
 var app = getApp();
+var util = require('../../utils/util.js');
 
 function countdown(that) {
   var timer001 = that.data.timer001;
@@ -34,7 +35,11 @@ Page({
     timer001: 60,
     js_code: '',
     tokenstr :'',
-    show_mobile_login:0
+    show_mobile_login:0,
+    btn_one_click_login_text:'使用微信一键登录',
+    show_shop_logo:1,
+    show_shop_name:0,
+    show_memo_text:0
   },
 
 
@@ -100,30 +105,63 @@ Page({
 
 
     
-    app.set_option_list_str(null, app.getColor());
+    app.set_option_list_str(this, function (that, option_list){
+      app.getColor();
+
+      //console.log('app.globalData.option_list', app.globalData.option_list)
+      //var option_list = app.globalData.option_list;
+
+      if (option_list.wxa_login_only_weixin && option_list.wxa_login_only_weixin == 1) {
+        that.setData({
+          show_mobile_login: 1
+        })
+      }
+
+      if (option_list.wxa_shop_nav_bg_color) {
+        that.setData({
+          icon_jump_bg_color: option_list.wxa_shop_nav_bg_color,
+          wxa_shop_nav_font_color: option_list.wxa_shop_nav_font_color,
+
+        });
+      }
+
+      if (option_list.wxa_login_only_weixin_btn_txt) {
+        that.setData({
+          btn_one_click_login_text: option_list.wxa_login_only_weixin_btn_txt
+        });
+      }
+
+      if (option_list.wxa_login_hide_shop_logo && (option_list.wxa_login_hide_shop_logo == 1)) {
+        that.setData({
+          show_shop_logo: 0
+        });
+      }
+
+      if (option_list.wxa_login_show_shop_name && (option_list.wxa_login_show_shop_name == 1)) {
+        that.setData({
+          show_shop_name: 1
+        });
+      }
+
+      if (option_list.wxa_login_show_memo_text && (option_list.wxa_login_show_memo_text == 1)) {
+        that.setData({
+          show_memo_text: 1,
+          memo_text_content: option_list.wxa_login_memo_text
+        });
+      }
+
+      
+
+
+
+    });
     
     var that = this;
-    console.log('app.globalData.option_list', app.globalData.option_list)
-    var option_list = app.globalData.option_list;
-
-    if (option_list.wxa_login_only_weixin && option_list.wxa_login_only_weixin == 1){
-      that.setData({
-        show_mobile_login: 1
-      })
-    }
-
-    if (option_list.wxa_shop_nav_bg_color){
-      that.setData({
-        icon_jump_bg_color: option_list.wxa_shop_nav_bg_color,
-        wxa_shop_nav_font_color: option_list.wxa_shop_nav_font_color,
-        
-      });
-    }
-
+    
     console.log('options======',options);
 
     if(options.last_url){
-      wx.setStorageSync('last_url', decodeURIComponent(options.last_url));
+      wx.setStorageSync('get_userinfo_last_url', decodeURIComponent(options.last_url));
     }
 
 
@@ -289,18 +327,35 @@ Page({
 
                 //=======检查登录成功之后的跳转=======
                 
-                if (that.data.retpage) {
-                  console.log('retpage333333333333333', that.data.retpage);
-                  app.call_h5browser_or_other_goto_url(that.data.retpage)
-                  return;
-                }
+                // if (that.data.retpage) {
+                //   console.log('retpage333333333333333', that.data.retpage);
+                //   app.call_h5browser_or_other_goto_url(that.data.retpage)
+                //   return;
+                // }
 
-                var last_url = wx.getStorageSync('last_url');
+                var last_url = wx.getStorageSync('get_userinfo_last_url');
 
                 console.log('last_url-----', last_url)
 
-                var page_type = wx.getStorageSync('page_type');
+                var page_type = wx.getStorageSync('get_userinfo_page_type');
                 console.log('page_type-----', page_type)
+
+                
+                var retpage = last_url.toString().split("?")[1];//截取url中？后的字符串
+
+                if (retpage) {
+                  retpage = decodeURIComponent(retpage);
+                  retpage = retpage.replace('retpage=', '');
+
+                  console.log('retpage===', retpage)
+
+                  app.call_h5browser_or_other_goto_url(retpage)
+
+                  wx.removeStorageSync('get_userinfo_last_url');
+                  wx.removeStorageSync('get_userinfo_page_type');
+                  return;
+                }
+
                 if (last_url) {
                   if (page_type && (page_type == 'switchTab')) {
 
@@ -314,8 +369,8 @@ Page({
                     })
                   }
 
-                  wx.removeStorageSync('last_url');
-                  wx.removeStorageSync('page_type');
+                  wx.removeStorageSync('get_userinfo_last_url');
+                  wx.removeStorageSync('get_userinfo_page_type');
 
                   return;
                 }
@@ -499,8 +554,7 @@ Page({
           },
           success: function (res) {
             console.log(res);
-            console.log('retpage0000000000000000000000000000000000000');
-            console.log('retpage666666666666666666666666666666666666666666666666666666', that.data.retpage);
+
             if (res.data && (res.data.code == 1)) {
               //更新checkstr和uwid，
               app.globalData.userInfo.userid = res.data.userid;
@@ -533,20 +587,21 @@ Page({
               })
 
               //=======检查登录成功之后的跳转=======
-              var last_url = wx.getStorageSync('last_url');
+              var last_url = wx.getStorageSync('login_last_url');
 
 
-              
-              if (that.data.retpage) {
-                
-                app.call_h5browser_or_other_goto_url(that.data.retpage)
-                return;
-              }
-
-              console.log('last_url-----', last_url)
-              var page_type = wx.getStorageSync('page_type');
               if (last_url) {
-                if (page_type && (page_type == 'switchTab')) {
+                var var_list = wx.getStorageSync('login_var_list');
+                var ret_page = wx.getStorageSync('login_ret_page');
+
+                wx.removeStorageSync('login_last_url');
+                wx.removeStorageSync('login_var_list');
+                wx.removeStorageSync('login_ret_page');
+
+
+                app.call_h5browser_or_other_goto_url(last_url, var_list, ret_page);
+
+                /*if (page_type && (page_type == 'switchTab')) {
                   wx.switchTab({
                     url: last_url,
                   })
@@ -555,17 +610,15 @@ Page({
                   wx.redirectTo({
                     url: last_url,
                   })
-                }
+                }*/
 
-                wx.removeStorageSync('last_url');
-                wx.removeStorageSync('page_type');
+                
 
                 return;
 
               }
 
               if (app.globalData.is_ziliaoku_app == 1) {
-
                 wx.reLaunch({
                   url: "/cms/index/index"
                 });
@@ -574,18 +627,16 @@ Page({
               }
               //===================End===========
 
-
               if (that.data.fromPage == 'share-detail') {
                 wx.navigateBack({
                   delta: 1
                 })
+                return;
               }
-
               wx.switchTab({
                 url: '/pages/user/user'
               })
 
-              
             }
             else {
               //一键登录返回错误代码

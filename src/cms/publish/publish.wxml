@@ -10,15 +10,16 @@
   </view>
 </view> -->
 <view class="abb" style="background:{{wxa_shop_nav_bg_color}}">
-        <view class="tctb" style="color:{{wxa_shop_nav_font_color}}">发布创意</view>
+        <view class="tctb" style="color:{{wxa_shop_nav_font_color}}">{{faquan_page_title}}</view>
     </view>
 <view class="a-con-textarea">
-  <textarea bindinput='inputContent' class="a-textarea" value='{{ideaText}}'  placeholder="素材文案" />
+  <textarea bindinput='inputContent' class="a-textarea" value='{{ideaText}}'  placeholder="文案内容" />
 </view>
 
-<view style='padding:20rpx;display:flex;flex-wrap:wrap;'>
-  <view class='camera-a' bindtap='' wx:for="{{imgList}}">
-        <image style="width:190rpx;height:190rpx;" src="{{item}}"></image>
+<view style='padding:30rpx;display:flex;flex-wrap:wrap;'>
+  <view class='camera-a' bindtap='' wx:for="{{imgList}}" wx:key="*this" >
+        <image style="width:{{swiper_image_heights[index][0]}}rpx;rpx;height:{{swiper_image_heights[index][1]}}rpx;" 
+          data-id='{{index}}' src="{{item}}" bindload="swiper_image_load"></image>
   </view>
   <view class='camera-a' bindtap='chooseImg' wx:if="{{publishtype=='image'}}">
       <image src="../../images/camera.png"></image>
@@ -30,13 +31,15 @@
   </view>
   <view class='camera-a' bindtap='chooseVideo' wx:if="{{publishtype=='video'}}">
       <image src="../../images/camera.png"></image>
-      <view>上传视频</view>
+      <view>{{text_upload_video}}</view>
   </view>
 </view>
 
 <view class="tab-info">
   <view class="tab-con" wx:if="{{faquan_tag_status == 1}}">
-    <view wx:for='{{faquan_hot_tag_words}}' style="color:{{item.select==true ? '#fff' : faquan_tag_color}};background:{{item.select==true ? faquan_tag_color : ''}};border:1px solid {{faquan_tag_color}}" bindtap="selectTab"  wx:for-index="index" data-index="{{index}}" >{{item.name}}</view>
+    <view wx:for='{{faquan_hot_tag_words}}'  wx:key="*this"
+      wx:for-index="index" data-index="{{index}}" 
+      style="color:{{item.select==true ? '#fff' : faquan_tag_color}};background:{{item.select==true ? faquan_tag_color : ''}};border:1px solid {{faquan_tag_color}}" bindtap="selectTab" >{{item.name}}</view>
    
   </view>
 
@@ -49,29 +52,44 @@
 
 <view>
   <view class='pub-btn-con'>
-    <view class='pub-btn' bindtap="{{disable ? '' : 'publishIdea'}}">立即发布</view>
-    <checkbox-group bindchange="checkBox" class="" wx:if="{{faquan_xieyi_status=='1'}}">
-      <label class='pub-xieyi'>
-        <checkbox value="{{checked}}"  checked="{{checked}}"/>完成立即发布表示同意 <view bindtap='readAgreement' style='float:right'>《发布许可协议》</view> 
+    <view class='pub-btn' style="background-color:{{wxa_shop_nav_bg_color}}" bindtap="{{disable ? '' : 'publishIdea'}}">提交</view>
+    <checkbox-group bindchange="checkBox" class="" style="margin: 30rpx auto;" wx:if="{{faquan_xieyi_status=='1'}}">
+      <label class='pub-xieyi' wx:if="{{faquan_xieyi_show_directly == 1}}">
+        <checkbox value="{{checked}}"  checked="{{checked}}"/>我已阅读并同意以下协议
+      </label>
+      <label class='pub-xieyi' wx:else>
+        <checkbox value="{{checked}}"  checked="{{checked}}"/>我已阅读并同意 <view bindtap='readAgreement' style='float:right'>《发布许可协议》</view> 
       </label>
     </checkbox-group >
   </view>
 </view>
 
-<view class="wx-popup" hidden="{{flag}}">
-  <view class='popup-container'>
-    <view class="wx-popup-title">发布许可协议</view>
-    <view class="wx-popup-subtitle">{{faquan_xieyi_title}}</view>
+<view class='' wx:if="{{faquan_xieyi_show_directly == 1 && (faquan_xieyi_status == 1)}}">
+    <view class="wx-popup-title">{{faquan_xieyi_title}}</view>
+    <view class="wx-popup-subtitle" style="display:none;"></view>
     <view class="wx-popup-con">
       
     <scroll-view scroll-y class="a-1" scroll-left="{{scrollLeft}}" bindscrolltolower="lower" style="height: 600rpx;">     
-     {{faquan_xieyi_content}}      
+     <text>{{faquan_xieyi_content}}</text>
+    </scroll-view>  
+    </view>
+
+</view>
+
+<view class="wx-popup" hidden="{{flag}}">
+  <view class='popup-container'>
+    <view class="wx-popup-title">{{faquan_xieyi_title}}</view>
+    <view class="wx-popup-subtitle" style="display:none;"></view>
+    <view class="wx-popup-con">
+      
+    <scroll-view scroll-y class="a-1" scroll-left="{{scrollLeft}}" bindscrolltolower="lower" style="height: 600rpx;">     
+     <text>{{faquan_xieyi_content}}</text>
     </scroll-view>  
 
 
     </view>
     <view class="wx-popup-btn">
-      <text class="btn-ok" bindtap='selectAgree'>同意协议</text>
+      <text class="btn-ok" bindtap='selectAgree'>我已阅读</text>
     </view>
   </view>
 </view>

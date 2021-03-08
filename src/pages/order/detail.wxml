@@ -3,7 +3,9 @@
         <view class="tctb" style="color:{{wxa_shop_nav_font_color}}">订单编号：{{orderData.orderno}}</view>
     </view>
 <view class="w100">
-		<view class="p_all bg_white df item" wx:for="{{orderList}}" wx:key="{{index}}">
+		
+    <navigator open-type="{{wxa_order_info_page_no_link_to_product == 1 ? '' : 'navigate'}}" url="../product/detail?productid={{item.productid}}"  class="p_all bg_white df item" wx:for="{{orderList}}" wx:key="productid">
+
 			<view class="cp_photo">			
 				<image src="{{item.picture}}"></image>
 			</view>
@@ -11,17 +13,18 @@
 				<view class="font_14 mt5 ovh1">
 		           {{item.name}}
 		        </view>
-			<text class="gm_ovh_1h red pt10"><text style='font-size:15px;'>单价：</text>¥{{item.price}}</text>
-			<text class="gm_ovh_1h pt10">数量：{{item.amount}}</text>
+			<text class="gm_ovh_1h pt10" >数量：{{item.amount}} 单价：¥{{item.price}}</text>
+			<text class="gm_ovh_1h pt10" style="font-weight:bold;color: #333;">¥{{item.price2}}</text>
 			</view>
-		</view>		
+    </navigator>
+
+
 		
 		<view class="p_all bg_white mt10 font_14" wx:if="{{orderData.realname}}">
 			<view class="df">
 				<view class="df_1 c6">
-				<view class="l_h20">收货人：{{orderData.realname}}</view>
-        <view class="l_h20 mt5"><text>{{orderData.mobile}}</text></view>
-				<view class="l_h20 mt5">地址：<text wx:if="{{!wxa_order_hide_sanji_address}}">{{orderData.address01}}</text>{{orderData.address02}}</view>
+				<view class="l_h20" style="font-weight: bold;color: #333;">{{orderData.realname}}   <text>{{orderData.mobile}}</text> </view>
+				<view class="l_h20 mt5" style="font-size: 25rpx;">地址：<text wx:if="{{!wxa_order_hide_sanji_address}}">{{orderData.address01}}</text>{{orderData.address02}}</view>
 				</view>
 			</view>
 		</view>	
@@ -33,7 +36,7 @@
 			</view>
 			
 			<view class="mt10">
-			订单时间：{{orderData.createtime}}
+			订单时间：<text style="color:#333; font-weight:bold;">{{orderData.createtime}}</text>
 			</view>  
 
       <view class="mt10" wx:if="{{orderData.buyer_memo}}">
@@ -45,21 +48,35 @@
       
 
 
-      <view class="borderb bordert font_14">
-          <view>共计{{orderData.total_num}}商品<view class='fl_r'></view></view>
-
-          <view>商品金额：<view class='fl_r'>￥{{orderData.price}}</view></view>
-          <view>快递费：<view class='fl_r'>￥{{orderData.price3}}</view></view>
-          <view>订单金额：<view class='fl_r'>￥{{orderData.order_total_price}}</view></view>
-          <view>余额支付：<view class='fl_r'>￥{{orderData.yue_price}}</view></view>
-          <view>赠款支付：<view class='fl_r'>￥{{orderData.coupon_price}}</view></view>        
+      <view class="bordert font_14">
+          <view>商品数量<view class='fl_r'>x {{orderData.total_num}}</view></view>
+          <view>商品金额<view class='fl_r'>￥{{orderData.price}}</view></view>
           
-          <view wx:if='{{orderData.pay_price}}'>实际支付：<view class='fl_r'>￥{{orderData.pay_price}}</view></view>
-          <view>支付方式：<view class='fl_r'>{{orderData.payment_name}}</view></view>
+      </view>
+
+      <view class="bordert font_14">
+          <view>快递费<view class='fl_r'>￥{{orderData.price3}}</view></view>
+      </view>
+      <view class="bordert font_14">
+          <view>订单金额<view class='fl_r'>￥{{orderData.order_total_price}}</view></view>
+          <view>余额支付<view class='fl_r'>￥{{orderData.yue_price}}</view></view>
+          <view>赠款支付<view class='fl_r'>￥{{orderData.coupon_price}}</view></view>   
+      </view>
+
+      <view class="borderb bordert font_14">
+          <view wx:if='{{orderData.pay_price}}'>实际支付<view class='fl_r'>￥{{orderData.pay_price}}</view></view>
+          <view>支付方式<view class='fl_r'>{{orderData.payment_name}}</view></view>
         </view>
 		  </view>
 
-
+			 <view class="borderb bordert bordert_a font_14" wx:if="{{orderData.delivery_no}}">
+          <view>物流公司：<view class='fl_n'>{{orderData.delivery_company}}</view></view>
+          <view>
+            物流编号：<view class='fl_n'>{{orderData.delivery_no}}</view>
+            <view class="copy_v" bindtap='copyText' data-text="{{orderData.delivery_no}}" style="">复制</view>
+          </view>
+          <view>发货时间：<view class='fl_n'>{{orderData.delivery_time}}</view></view>
+        </view>
 
         
 

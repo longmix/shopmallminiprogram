@@ -1,0 +1,65 @@
+<!--pages/user/user.wxml-->
+<view class="page" style='width:100%;overflow-x:hidden;margin-bottom: 60rpx;padding-bottom: 60rpx;'>
+
+
+
+<view class='icon-box'>
+
+  <view wx:for='{{icon_list_usercenter}}'>
+    <block wx:if="{{wxa_usercenter_function_list == 1}}">
+      <view style="width:100%;padding:5px 20px;line-height:40px;" bindtap='mytiaozhuan' data-url='{{item.url}}' class=''>
+      <view style="float:left;">
+        <image style="width:35px;height:35px;margin-right:30px;" src="{{item.src}}"></image>
+      </view>
+        <view style="float:left;">
+          <text style="color:#333;font-size:35rpx;">{{item.name}}</text>
+        </view>
+        <view style="clear:both;"></view>
+      </view>
+    </block>
+  
+    <block wx:if="{{wxa_usercenter_function_list != 1}}">
+      <view bindtap='mytiaozhuan' data-url='{{item.url}}' class='icon-list'>
+          <image src='{{item.src}}'></image>
+          <view class='icon-text'><text>{{item.name}}</text></view>
+      </view>
+    </block>
+  </view>
+  
+
+</view>
+<block wx:if="{{wxa_usercenter_function_list == 1}}">
+     <navigator style="padding:5px 20px;" url="../about_applet/about_applet" open-type="navigate">
+    <view style="float:left;">
+      <image style="width:35px;height:35px;margin-right:30px;" src="../../images/wxa.png"></image>
+    </view>
+      <view style="float:left;">
+        <text style="color:#333;font-size:35rpx;">关于小程序</text>
+      </view>
+      <view style="clear:both;"></view>
+     </navigator>
+  </block>
+
+  <block wx:if="{{wxa_usercenter_function_list != 1}}">
+    <navigator url="../about_applet/about_applet" open-type="navigate">
+      <view class='icon-list'>
+        <image src='../../images/wxa.png'></image>
+        <view class='icon-text'><text>关于小程序</text></view>
+      </view>
+    </navigator>
+  </block>
+    
+
+<!-- 九宫格图标 end -->
+
+  <view style="display:block; height:800rpx;width:100%;"> </view>
+
+
+</view>
+
+
+<view class='icon-jump' bindtap='toPageIndex' style="background: {{icon_jump_bg_color}};" wx:if="{{wxa_show_return_to_index_in_usercenter == 1}}">
+      <image src="/images/usercenter_goto_home.svg"  wx:if="{{wxa_shop_nav_font_color!='#000000'}}"></image>
+      <image src="/images/usercenter_goto_home2.svg"  wx:if="{{wxa_shop_nav_font_color=='#000000'}}"></image>
+      <view style="color:{{wxa_shop_nav_font_color}}">首页</view>     
+</view>

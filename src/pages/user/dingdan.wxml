@@ -25,19 +25,22 @@
             <image class="sh_slt" src="{{product_item.picture}}"></image>             
             <view class="sp_text">
                 <view class="sp_tit ovh1">{{product_item.name}}</view>
-                <view class="sp_neb">¥{{product_item.price}}×{{product_item.amount}}</view>
-                <view class="sp_jg">¥：{{product_item.price2}}</view>   
+                <view class="sp_neb">{{product_item.price}}×{{product_item.amount}}</view>
+                <view class="sp_jg">¥{{product_item.price2}}</view>   
             </view>
         </navigator>
-        <view class="borderb bordert font_14">
-          <view>共计{{item.total_num}}商品<view class='fl_r'></view></view>
-          <view>商品金额：<view class='fl_r'>￥{{item.price}}</view></view>
-          <view>快递费：<view class='fl_r'>￥{{item.price3}}</view></view>
-          <view>订单金额：<view class='fl_r'>￥{{item.all_price}}</view></view>
-          <view>余额支付：<view class='fl_r'>￥{{item.yue_price}}</view></view>
-          <view>赠款支付：<view class='fl_r'>￥{{item.coupon_price}}</view></view>        
-          <view>实际支付：<view class='fl_r'>￥{{item.pay_price}}</view></view>
+        <view class="borderb bordert font_14">          
+          <view>商品数量<view class='fl_r'>x {{item.total_num}}</view></view>
+          <view>订单金额<view class='fl_r'>￥{{item.all_price}}</view></view>
           <!-- <view>支付方式：<view class='fl_r'>{{item.payment_name}}</view></view> -->
+        </view>
+        <view class="borderb bordert bordert_a font_14" wx:if="{{item.delivery_no}}">
+          <view>物流公司：<view class='fl_n'>{{item.delivery_company}}</view></view>
+          <view>
+            物流编号：<view class='fl_n'>{{item.delivery_no}}</view>
+            <view class="l_h20" bindtap='copyText' data-text="{{item.delivery_no}}" style="">复制</view>
+          </view>
+          <view>发货时间：<view class='fl_n'>{{item.delivery_time}}</view></view>
         </view>
         <view wx:if="{{from_o2o==1 && item.order_option.o2o_room_tuan_yuding}}">预订日期：{{item.order_option.o2o_room_tuan_yuding}}</view>
         <view wx:if="{{item.buyer_memo != ''}}">备注：{{item.buyer_memo}}</view>
@@ -143,6 +146,14 @@
           <view>实际支付：<view class='fl_r'>￥{{item.pay_price}}</view></view>
           <!-- <view>支付方式：<view class='fl_r'>{{item.payment_name}}</view></view> -->
         </view>
+         <view class="borderb bordert bordert_a font_14" wx:if="{{item.delivery_no}}">
+          <view>物流公司：<view class='fl_n'>{{item.delivery_company}}</view></view>
+          <view>
+            物流编号：<view class='fl_n'>{{item.delivery_no}}</view>
+            <view class="l_h20" bindtap='copyText' data-text="{{item.delivery_no}}" style="">复制</view>
+          </view>
+          <view>发货时间：<view class='fl_n'>{{item.delivery_time}}</view></view>
+        </view>
         <view wx:if="{{from_o2o==1 && item.order_option.o2o_room_tuan_yuding}}">预订日期：{{item.order_option.o2o_room_tuan_yuding}}</view>
         <view wx:if="{{item.buyer_memo != ''}}">备注：{{item.buyer_memo}}</view>
         <view  class="btn_b">
@@ -177,6 +188,14 @@
           <view>赠款支付：<view class='fl_r'>￥{{item.coupon_price}}</view></view>        
           <view>实际支付：<view class='fl_r'>￥{{item.pay_price}}</view></view>
           <!-- <view>支付方式：<view class='fl_r'>{{item.payment_name}}</view></view> -->
+        </view>
+        <view class="borderb bordert bordert_a font_14" wx:if="{{item.delivery_no}}">
+          <view>物流公司：<view class='fl_n'>{{item.delivery_company}}</view></view>
+          <view>
+            物流编号：<view class='fl_n'>{{item.delivery_no}}</view>
+            <view class="l_h20" bindtap='copyText' data-text="{{item.delivery_no}}" style="">复制</view>
+          </view>
+          <view>发货时间：<view class='fl_n'>{{item.delivery_time}}</view></view>
         </view>
         <view wx:if="{{from_o2o==1 && item.order_option.o2o_room_tuan_yuding}}">预订日期：{{item.order_option.o2o_room_tuan_yuding}}</view>
         <view wx:if="{{item.buyer_memo != ''}}">备注：{{item.buyer_memo}}</view>

@@ -1,0 +1,23 @@
+<view class="live_list">
+			<view wx:for="{{live_list}}" wx:for-item="item" wx:for-index="index" wx:key="{{index}}" bindtap="toLiveStudio" data-index="{{index}}"  data- class="live_list_li">
+				<view class="live_list_status" wx:if="{{item.live_status == 101}}">直播中</view>
+				<view class="live_list_status" wx:elif="{{item.live_status == 102}}">未开始</view>
+				<view class="live_list_status" wx:elif="{{item.live_status == 103}}">已结束</view>
+				<view class="live_list_status" wx:elif="{{item.live_status == 104}}">禁播</view>
+				<view class="live_list_status" wx:elif="{{item.live_status == 105}}">暂停</view>
+				<view class="live_list_status" wx:elif="{{item.live_status == 106}}">异常</view>
+				<view class="live_list_status" wx:elif="{{item.live_status == 107}}">已过期</view>
+				<view class="live_list_li_ve">
+					
+					<image src="{{item.share_img}}" mode="aspectFill"></image>
+					<view class="live_list_li_ve_title">
+						<view class="live_list_li_ve_title_l">
+							<view>{{item.anchor_name}}</view>
+						</view>
+						<view class="live_list_li_ve_title_r" >
+							<view style="background:{{wxa_shop_nav_bg_color}};">{{item.name}}</view>
+						</view>
+					</view>
+				</view>
+			</view>
+		</view>

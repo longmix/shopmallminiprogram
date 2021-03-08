@@ -121,10 +121,12 @@
 </view>
 <view class="pay_submit" wx:if="{{zz_pay}}">
 			<button type="default" id="Pay" formType="submit" data-price="{{pay_price}}"
+      style="background:{{wxa_shop_nav_bg_color}};color:{{wxa_shop_nav_font_color=='#000000' ? '#333' : 'wxa_shop_nav_font_color'}};" 
        bindtap="{{zz_pay?'createProductOrderByWX':'createProductOrderByZZ'}}">确认支付</button>
 </view>
 <view class="pay_submit" wx:if="{{pay_price == 0.00}}">
 			<button type="default" id="Pay" formType="submit" data-price="{{pay_price}}"
+        style="background:{{wxa_shop_nav_bg_color}};color:{{wxa_shop_nav_font_color=='#000000' ? '#333' : 'wxa_shop_nav_font_color'}};" 
        bindtap="createProductOrderByZZ">确认支付</button>
 </view>
 

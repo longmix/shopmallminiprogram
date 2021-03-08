@@ -99,7 +99,7 @@ page{
 
 /*浮动*/
 .fl_l{ float: left;}
-.fl_r{ float: right;}
+.fl_r{ float: right;font-weight: bold;}
 
 .w10{ width: 10%;}
 .w20{ width: 20%;}

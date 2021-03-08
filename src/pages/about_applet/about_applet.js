@@ -1,29 +1,19 @@
 // pages/about_applet/about_applet.js
 var app = getApp();
+
 Page({
   data:{
-    telephone: '021-31128716'
+    telephone: '021-31128716',
+    button_bg_color:'#179b16',
+    button_font_color:'rgba(255,255,255, 0.6)'
   },
   onShow: function () {
 
   },
   onLoad:function(options){
-    app.set_option_list_str(null, app.getColor());
-    
-    // 页面初始化 options为页面跳转所带来的参数
-    var that = this
+    var _self = this;
 
-    app.get_shop_info_from_server(function (shop_list) {
-      console.log('o2o/index get_shop_info_from_server 回调：');
-      console.log(shop_list);
-
-      that.setData({
-        shop_info_from_server: shop_list,
-      });
-
-    })
-
-    that.setData({
+    _self.setData({
       shop_name: app.globalData.shop_name,
       version_number: app.globalData.version_number,
       kefu_telephone: app.globalData.kefu_telephone,
@@ -32,7 +22,56 @@ Page({
       kefu_gongzhonghao: app.globalData.kefu_gongzhonghao
     });
 
-    console.log("444444", that.data.shop_name)
+    console.log("444444", _self.data.shop_name)
+
+    app.set_option_list_str(this, function(that, option_list){
+      app.getColor();
+
+      console.log('option_list=======>>>>', option_list);
+
+      that.setData({
+        button_bg_color:option_list.wxa_shop_nav_bg_color,
+        button_font_color:option_list.wxa_shop_nav_font_color,
+      });
+
+      if(option_list.kefu_telephone){
+        that.setData({
+          kefu_telephone: option_list.kefu_telephone
+        });
+      }
+      if(option_list.kefu_qq){
+        that.setData({
+          kefu_qq: option_list.kefu_qq
+        });
+      }
+      if(option_list.kefu_website){
+        that.setData({
+          kefu_website: option_list.kefu_website
+        });
+      }
+      if(option_list.kefu_gongzhonghao){
+        that.setData({
+          kefu_gongzhonghao: option_list.kefu_gongzhonghao
+        });
+
+      }
+
+      
+    });
+    
+    // 页面初始化 options为页面跳转所带来的参数
+
+    app.get_shop_info_from_server(function (shop_list) {
+      console.log('o2o/index get_shop_info_from_server 回调：');
+      console.log(shop_list);
+
+      _self.setData({
+        shop_info_from_server: shop_list,
+      });
+
+    })
+
+    
 
   },
 
@@ -55,7 +94,7 @@ Page({
   },
   clearStorage:function(){
     wx.removeStorage({
-      key: 'option_list_str',
+      key: 'shop_option_list_str_' + app.get_sellerid(),
       success(res) {
         wx.showToast({
           icon: 'none',

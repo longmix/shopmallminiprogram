@@ -1,6 +1,6 @@
 <!--cms/library/library_list.wxml-->
 <view style="text-align:center;margin-top:20rpx;" wx:if="{{pictureList.length == 0}}">
-  <image src="../../images/no-picture.png"></image>
+  <image src="https://yanyubao.tseo.cn/Tpl/static/images/zanwu.png" mode="widthFix"></image>
 </view>
 
 <view style='margin-top:50rpx;'></view>

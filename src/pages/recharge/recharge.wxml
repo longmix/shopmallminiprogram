@@ -17,7 +17,7 @@
   <form bindsubmit="formSubmit">
   <view class="section">
         <label style='font-size:28rpx'>充值：</label>
-        <input bindinput="moneyInput" disabled="{{all_price ? true : false}}" placeholder='请输入充值金额' value='{{all_price}}' style="border-bottom:1px solid #17A8E2;height:31px;"/>元
+        <input type="digit" bindinput="moneyInput" disabled="{{all_price ? true : false}}" placeholder='请输入充值金额' value='{{all_price}}' style="border-bottom:1px solid #17A8E2;height:31px;"/>元
   </view>
   <view class="section2">
     <text style="padding-left:3%;">备注</text>
@@ -25,6 +25,6 @@
 			<textarea class="min_60" auto-height name="remark" placeholder="如有备注请填写" bindinput="remarkInput" value="{{remark}}" rows="3"/> 
 		</view>
    </view> 	
-    <button class="pay_submit"   formType="submit">确认支付</button>  
+    <button class="pay_submit"  style="background:{{wxa_shop_nav_bg_color}};color:{{wxa_shop_nav_font_color=='#000000' ? '#333' : 'wxa_shop_nav_font_color'}};"  formType="submit">立即充值</button>  
   </form>
 </view>

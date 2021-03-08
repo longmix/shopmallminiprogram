@@ -214,7 +214,9 @@ Page({
     var that = this;
 
     var last_url = '/o2o/address/listdetail?shengname=' + that.data.level01 + '&qvname=' + that.data.level02;
-    app.goto_user_login(last_url, 'normal');
+    if(app.goto_user_login(last_url)){
+      return;
+    }
 
     var totalfloor = e.currentTarget.dataset.totalfloor;
     var bid = e.currentTarget.dataset.bid;

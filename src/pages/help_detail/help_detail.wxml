@@ -1,12 +1,12 @@
 <!--pages/help_detail/help_detail.wxml-->
  
-    <view class='detail_top' wx:if="{{wz_keyword2}}">
+    <view class='detail_top' wx:if="{{wz_keyword2}}" style="display: none;">
      <view class='detail_top_view' wx:for="{{wz_keyword2}}">
       <view class='biaoqian'><image src='{{item.status==1?"../../images/shced1.png":"../../images/shced2.png"}}' bindtap="add_tj" data-text='{{item.name}}'></image><text>{{item.name}}</text></view>
      </view>
     </view>
 
-<view class='title'>{{wz_text.title}}</view>
+<view class="title" style="margin-top:0rpx;"><text selectable="true">{{wz_text.title}}</text></view>
 <view style='margin:32rpx;margin-top:30rpx;margin-bottom:150rpx;padding-bottom:80rpx;'>
 
 <view class='datetime' wx:if="{{wxa_show_article_detail_category == 1}}">
@@ -39,7 +39,9 @@
                   <!-- <view bindtap="doDianzan" data-tongjiid="{{item.tongjiid}}"><image class="comment_list_dianzan" src="../../images/dianzan_grey.png" style="margin-right:20rpx;"></image><text style="font-size:26rpx;">222</text></view> -->
               </view>
               <view class="comment_text">{{item.message}}</view>
-              <!-- <view class="comment_time">{{item.createtime}}</view> -->
+              
+              <view class="comment_time">{{item.time}}</view>
+
               <view class="comment_huifu" wx:if="{{item.reply}}">
                   <text class="comment_huifu_author" style="border-left-color:{{theme_color_wenku}}">{{item.reply_name}}</text>
                   <text class="comment_huifu_text" style="">{{item.reply}}</text>

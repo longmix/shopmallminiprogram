@@ -28,6 +28,8 @@ Page({
   },
   onLoad: function(options) {
 
+    console.log('options==', options)
+
     app.set_option_list_str(null, app.getColor());
 
     app.set_option_list_str(this, this.callback_set_option);
@@ -58,13 +60,7 @@ Page({
   callback_set_option: function (that, cb_params) {
     console.log('getShopOptionAndRefresh+++++:::' + cb_params)
 
-    //从本地读取
-    var option_list_str = wx.getStorageSync("option_list_str");
-    if (!option_list_str) {
-      return null;
-    }
-
-    var option_list = JSON.parse(option_list_str);
+    var option_list = cb_params;
 
     if (!option_list) {
       return;
@@ -685,6 +681,18 @@ loadReturnOrderList:function(){
           title: '网络异常！',
           duration: 2000
         });
+      }
+    })
+  },
+
+  copyText: function (e) {
+    console.log(e)
+    wx.setClipboardData({
+      data: e.currentTarget.dataset.text,
+      success: function (res) {
+        wx.showToast({
+          title: '复制成功'
+        })
       }
     })
   },

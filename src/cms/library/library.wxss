@@ -21,12 +21,12 @@
 
 
 .tab-item1{
-  margin:0 67rpx;
+  margin:0 25rpx;
   display:inline-block;
   font-size:31rpx;
   color:#5AB1AB;
 }
-.tab-item{margin:0 36rpx;display: inline-block;font-size: 28rpx;}
+.tab-item{margin:0 25rpx;display: inline-block;font-size: 28rpx;}
 /* .tab-item.active{color: #4675F9;position: relative;}
 .tab-item.active:after{ content: "";display: block;height: 8rpx;width: 52rpx;background: #4675F9;position: absolute; bottom: 0;left: 5rpx;border-radius: 16rpx;} */
 .item-ans{ width: 100%;display: flex; flex-grow: row no-wrap;justify-content: space-between; padding: 30rpx;box-sizing: border-box; height: 180rpx;align-items: center;border-bottom: 1px solid #F2F2F2;}

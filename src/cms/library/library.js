@@ -50,6 +50,11 @@ Page({
         var code = res.data.code;
         if (code == 1) {
           var list = res.data.data;
+
+          if(!list){
+            return;
+          }
+
           that.setData({
             types: list,
             typeTree: list[0].sub_cata,

@@ -84,15 +84,14 @@ Page({
             parentid: app.get_current_parentid(),
           },
           success: function (res) {
-            console.log(res);
+            console.log('一键获取头像和昵称成功' + res);
 
             if (res.data && (res.data.code == 1)) {
-          
 
-              console.log('一键获取头像和昵称成功' + res.data.userid);
+              app.globalData.userInfo = app.get_user_info();
 
+              console.log('已经保存的用户信息：', app.globalData.userInfo);
 
-              
               app.globalData.userInfo.is_get_userinfo = 1;
               app.set_user_info(app.globalData.userInfo); 
 
@@ -103,41 +102,24 @@ Page({
                 duration: 2000
               })
 
-              var last_url = wx.getStorageSync('last_url');
+              var last_url = wx.getStorageSync('get_userinfo_last_url');
 
               console.log('last_url-----', last_url)
-              var page_type = wx.getStorageSync('page_type');
+              var page_type = wx.getStorageSync('get_userinfo_page_type');
 
+
+              wx.removeStorageSync('get_userinfo_last_url');
+              wx.removeStorageSync('get_userinfo_page_type');
+
+              //如果打开这个页面时候指定了返回的URL
               if(that.data.retpage){
                 last_url = that.data.retpage
                 console.log('last_url===================1111', last_url)
                 app.call_h5browser_or_other_goto_url(last_url);
                 return;
 
-                // wx.navigateTo({
-                //   url: last_url,
-                // })
               }
 
-
-              if (last_url) {
-                if (page_type == 'switchTab') {
-
-                  wx.switchTab({
-                    url: last_url,
-                  })
-                  
-                }else{
-                
-                  wx.navigateBack({
-                    delta: 1
-                  })
-                  
-                }
-                wx.removeStorageSync('last_url');
-                wx.removeStorageSync('page_type');
-                return;
-              }
 
               if (app.globalData.is_ziliaoku_app == 1) {
                 wx.reLaunch({
@@ -153,6 +135,32 @@ Page({
                   delta: 1
                 })
               }
+
+              if (last_url){
+                console.log('last_url===================2222', last_url);
+                console.log('last_url===================3333', page_type);
+
+                if (page_type == 'switchTab'){
+                  console.log('last_url===================aaaaa');
+
+                  wx.switchTab({
+                    url: last_url
+                  })
+                }
+                else{
+                  console.log('last_url===================bbbbb');
+
+                  app.call_h5browser_or_other_goto_url(last_url);
+                }
+                
+                
+                return;
+
+              }
+
+              console.log('last_url===================ccccc');
+              
+
               wx.switchTab({
                 url: '/pages/user/user'
               })

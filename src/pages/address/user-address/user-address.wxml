@@ -32,8 +32,14 @@
   </view>
 </view>
 </radio-group>
-<navigator url="../address?cartId={{cartId}}&action=add" open-type="redirect">
+<navigator url="../address?cartId={{cartId}}&action=add&amount={{amount}}&productid={{productid}}&action={{action}}&action_pay={{action_pay}}" open-type="redirect">
   <view hidden="{{hiddenAddress}}" class="add-address">
-    <view class="btn_max">新增地址</view>
+    <view class="btn_max" style="background-color:{{wxa_shop_nav_bg_color}}">新增地址</view>
   </view>
 </navigator>
+<view bindtap="wxaddress">
+<view class="add-address">
+    <view class="btn_max">使用微信地址</view>
+  </view>
+</view>
+  

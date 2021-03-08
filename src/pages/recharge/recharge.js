@@ -1,6 +1,6 @@
 // pages/recharge/recharge_ways.js
 var app = getApp();
-var userInfo = app.get_user_info();
+
 var api = require('../../utils/api');
 var util = require('../../utils/util.js');
 Page({
@@ -9,7 +9,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    wxa_shop_nav_bg_color: '#1AAD19',
+    wxa_shop_nav_font_color: '#ffffff',
   },
 
   /**
@@ -17,9 +18,9 @@ Page({
    */
   onLoad: function (options) {
     var that = this
-    if(!userInfo){
-      userInfo = app.get_user_info();
-    }
+
+    //var userInfo = app.get_user_info(); 
+
     if (options.all_price){
       that.setData({
         pay_price: options.all_price,
@@ -48,7 +49,7 @@ Page({
     })
 
 
-    app.getColor();
+    
 
     app.set_option_list_str(this, this.callback_function);
 
@@ -58,6 +59,8 @@ Page({
 
 
   callback_function: function (that, cb_params) {
+    app.getColor();
+
     var option_list = app.globalData.option_list;
 
 
@@ -119,6 +122,9 @@ Page({
     if(!that.checkNumber(that.data.pay_price)){
       return;
     }
+
+
+    var userInfo = app.get_user_info(); 
 
 
     var data_orderAdd = {

@@ -21,12 +21,13 @@
     display: inline;
     margin: 0;
     padding: 0;
-    font-size:0.8em;
+    font-size:30rpx;
+    color: #333;
 }
 .wxParse-p{
     text-align: left;
     margin: 10rpx;
-    font-size:0.8em;
+    font-size:30rpx;
 }
 .weui-article__section p{
   margin-top: 30px;
@@ -55,7 +56,7 @@
   margin-bottom: .34em;
 }
 .weui-article__p {
-  margin: 0 0 .8em;
+  margin: 0 0 30rpx;
 }
 
 
@@ -106,7 +107,7 @@
   font-size: 34rpx;
   padding:32rpx;
   box-shadow:#EDEDED 2rpx 2rpx 15rpx 6rpx;
-  margin-top: 70rpx;
+  margin-top: 80rpx;
 }
 .datetime{
   margin-left:10rpx;
@@ -129,7 +130,7 @@
 .wenzhang_detail{
   font-size: 30rpx;
   font-family: "微软雅黑";
-  margin-bottom:80rpx;
+  margin-bottom:40rpx;
 }
 .tuijian{
   font-size: 24rpx;
@@ -341,11 +342,13 @@
 .comment_text{
   margin-top:10rpx;
   font-size: 30rpx;
+  color:#333;
 }
 
 .comment_time{
   margin-top:26rpx;
   font-size: 20rpx;
+  color:#666;
 }
 
 .comment_huifu{
@@ -390,7 +393,7 @@
 .article_bottom{
   display:flex;
   justify-content:space-between;
-  font-size:30rpx;
-  margin-top:20rpx;
+  font-size:25rpx;
+  margin:20rpx 10rpx;
 
 }

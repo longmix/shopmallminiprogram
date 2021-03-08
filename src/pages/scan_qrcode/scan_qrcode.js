@@ -73,7 +73,7 @@ Page({
 
   var current_openid = app.get_current_openid();
   if(current_openid){
-    that.__get_order_detail(that, orderno, current_openid);
+    that.__get_order_detail(that, orderno, current_openid, that.getMap);
 
     return;
   }
@@ -102,7 +102,7 @@ Page({
               var openid = http_res.data.openid;
               app.set_current_openid(openid);
 
-              that.__get_order_detail(that, orderno, openid);
+              that.__get_order_detail(that, orderno, openid, that.getMap);
             }
             else {
               wx.showModal({
@@ -145,7 +145,7 @@ Page({
   
 },
 
-  __get_order_detail: function (that, orderno, openid){
+  __get_order_detail: function (that, orderno, openid, callback_get_map){
 
   //请求延誉宝接口，根据订单编号和openid、appid得到订单的详细信息
   wx.request({
@@ -210,6 +210,8 @@ Page({
           owner_flag: 2
         })
       }
+
+      typeof callback_get_map == "function" && callback_get_map(that);
     },
     fail: function (e) {
       wx.showToast({
@@ -224,8 +226,8 @@ Page({
 
 
 
-  getMap:function(){
-    var that = this;
+  getMap: function (that){
+    //var that = this;
 
 
     var regeocoding_fail = function (data) {
@@ -351,10 +353,10 @@ Page({
       console.log('getShopOptionAndRefresh+++++:::' + cb_params)
 
       //从本地读取
-      var option_list_str = wx.getStorageSync("option_list_str");
+      var option_list_str = wx.getStorageSync('shop_option_list_str_' + app.get_sellerid());
       var option_list = JSON.parse(option_list_str);
 
-      console.log("获取商城选项数据：" + option_list_str + '用于百度地图');
+      console.log('获取商城选项数据用于百度地图');
       console.log("百度地图AK：" + option_list.baidu_map_ak_wxa);
 
       /* 获取定位地理位置 */
@@ -465,13 +467,27 @@ Page({
               'Content-Type': 'application/x-www-form-urlencoded'
             },
             success: function (res) {
-              console.log('ooooo',res)
-              wx.navigateTo({
-                url: '/pages/welcome_page/welcome_page',
+              console.log('ooooo',res);
+
+              that.setData({
+                is_send_mess: true
               })
-            that.setData({
-              is_send_mess: true
-            })
+
+              if(res && res.data && (res.data.code == 1)){
+                var messageid = res.data.messageid;
+
+                var data_url = 'https://yanyubao.tseo.cn/openapi/Jianghanyinhua/get_order_scan_report_page?orderno='+that.data.orderno+'&messageid='+messageid;
+
+                wx.navigateTo({
+                  url: '/pages/welcome_page/welcome_page?data_url='+ encodeURIComponent(data_url),
+                })
+              }
+              else{
+                wx.navigateTo({
+                  url: '/pages/welcome_page/welcome_page',
+                })
+              }
+              
 
             },
             fail: function (e) {
@@ -499,7 +515,7 @@ Page({
    */
   onShow: function () {
     var that = this;
-      that.getMap();
+      //that.getMap();
   },
 
   /**
@@ -535,5 +551,33 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+
+
+  scan_set_e_profile:function(){
+    var new_url = '/pages/selfform/selfform?form_type=2&sellerid=' + app.get_sellerid();
+    new_url += '&token=' + app.get_current_weiduke_token();
+    new_url += '&formid=325&orderno=' + this.data.orderno;
+    new_url += '&submit_url=https%3A%2F%2Fyanyubao.tseo.cn%2Fopenapi%2FJianghanyinhua%2Fsubmit_user_data';
+
+    wx.navigateTo({
+      url: new_url,
+    });
+
+  },
+
+  go_to_set_weixin_notify:function(){
+    var last_url = '/pages/selfform/selfform?form_type=2&token=mrfuhd1546833814&formid=342&submit_url=https%3A%2F%2Fyanyubao.tseo.cn%2Fopenapi%2FJianghanyinhua%2Fsubmit_data_notify_type';
+
+    console.log('go_to_set_weixin_notify====>>>>'+last_url);
+
+
+    if(app.goto_user_login(last_url)){
+      return;
+    }
+
+    app.call_h5browser_or_other_goto_url(last_url);
   }
+
+
 })

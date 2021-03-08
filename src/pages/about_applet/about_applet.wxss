@@ -27,7 +27,7 @@
     line-height: 60px;
     text-align: center;
     font-size: 14px;
-    color: #666;
+    color: #999;
 }
 .code_num2{
     width: 100%;
@@ -53,7 +53,7 @@
      font-size: 32rpx;
      text-indent: 16rpx;
      float: left;
-     color: #999;
+     color: #2a2a2a;
 }
 .li_info{
     width: 50%;
@@ -61,7 +61,7 @@
      line-height: 35px;
      font-size: 16px;
      float: right;
-     color: #999;
+     color: #2a2a2a;
      box-sizing: border-box;
      text-align: right;
      padding-right:8px; 

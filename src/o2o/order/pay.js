@@ -80,12 +80,15 @@ Page({
     this.setData({
       last_url: last_url
     })
-    app.goto_user_login(last_url, 'normal');
+
+    if(app.goto_user_login(last_url)){
+      return;
+    }
 
     
 
 
-    var option_list_str = JSON.parse(wx.getStorageSync("option_list_str"));
+    var option_list_str = JSON.parse(wx.getStorageSync('shop_option_list_str_' + app.get_sellerid()));
 
     if (options.cuxiao_type){
       this.setData({
@@ -199,7 +202,7 @@ Page({
     var userInfo = app.get_user_info();
 
     //从本地读取
-    var option_list_str = wx.getStorageSync("option_list_str");
+    var option_list_str = wx.getStorageSync('shop_option_list_str_' + app.get_sellerid());
     if (!option_list_str) {
       return null;
     }
@@ -278,7 +281,9 @@ Page({
 
       wx.clearStorageSync();
 
-      app.goto_user_login(this.data.last_url, 'normal');
+      if(app.goto_user_login(this.data.last_url)){
+        return;
+      }
   },
   
 

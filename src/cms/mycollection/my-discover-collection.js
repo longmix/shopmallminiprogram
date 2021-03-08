@@ -1,6 +1,16 @@
 // cms/discover/discover.js
+
+
+
+//这个模块已经不使用了，用  	/cms/discover/discover?display_type=collect 替代
+
+
+
+
+
+
 var app = getApp();
-var userInfo = app.get_user_info();
+
 Page({
 
   /**
@@ -10,6 +20,9 @@ Page({
     page: 1,
     faquanList: [],
     is_my_discover_collection: 1,
+
+    videometa_width_height_list: [],  //记录视频的高度
+    current_view_width: 480,  //当前屏幕的宽度
   },
 
   /**
@@ -17,11 +30,53 @@ Page({
    */
   onLoad: function (options) {
     var that = this;
+
+    that.setData({
+      nav_title: '发现.我收藏的',
+    });
     
 
     that.getFaquanList();
 
-    app.set_option_list_str(null, app.getColor());
+    app.set_option_list_str(that, function (that02, option_list){
+      app.getColor();
+
+      if (option_list.wxa_shop_nav_bg_color) {
+        that.setData({
+          wxa_shop_nav_bg_color: option_list.wxa_shop_nav_bg_color,
+          wxa_shop_nav_font_color: option_list.wxa_shop_nav_font_color,
+
+        });
+      }
+
+    });
+
+    app.getFaquanSetting(that, this.faquan_setting_callback);
+
+  },
+  faquan_setting_callback: function (that, cms_faquan_setting) {
+    if (!cms_faquan_setting) {
+      return;
+    }
+
+    if (cms_faquan_setting.faquan_tag_status) {
+      that.setData({
+        faquan_tag_status: cms_faquan_setting.faquan_tag_status
+      })
+    }
+
+
+    if (cms_faquan_setting.faquan_my_title) {
+      wx.setNavigationBarTitle({
+        title: cms_faquan_setting.faquan_my_title
+      })
+
+      that.setData({
+        nav_title: cms_faquan_setting.faquan_my_title,
+      });
+    }
+
+
 
   },
 
@@ -51,6 +106,8 @@ Page({
 
 
   getFaquanList:function(e){
+    var userInfo = app.get_user_info();
+
     var that = this;
     wx.request({
       url: app.globalData.http_server + 'index.php/openapi/FaquanData/get_faquan_collect_list',
@@ -58,7 +115,10 @@ Page({
       data: {
         appid: app.globalData.xiaochengxu_appid,
         sellerid: app.get_sellerid(),
-        userid: userInfo ? userInfo.userid : '',
+
+        userid: userInfo.userid,
+        checkstr: userInfo.checkstr,
+
         page: 1,
       },
       header: {
@@ -95,6 +155,8 @@ Page({
     var faquanid = e.currentTarget.dataset.faquanid;
     var index = e.currentTarget.dataset.index;
 
+    var userInfo = app.get_user_info();
+
 
     if(!userInfo){
       wx.showToast({
@@ -104,8 +166,8 @@ Page({
         success:function(){
           
 
-          wx.setStorageSync('last_url', '/cms/index/index');
-          wx.setStorageSync('page_type', 'switchTab');
+          wx.setStorageSync('get_userinfo_last_url', '/cms/index/index');
+          wx.setStorageSync('get_userinfo_page_type', 'switchTab');
 
           wx.navigateTo({
             url: '/pages/login/login',
@@ -119,7 +181,10 @@ Page({
       method: 'post',
       data: {
         sellerid: app.get_sellerid(),
-        userid: userInfo ? userInfo.userid : '',
+
+        userid: userInfo.userid,
+        checkstr: userInfo.checkstr,
+
         faquanid: faquanid,
       },
       header: {
@@ -193,6 +258,8 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    var userInfo = app.get_user_info();
+
     if(!userInfo){
       userInfo = app.get_user_info();
     }
@@ -225,6 +292,9 @@ Page({
    */
   onReachBottom: function () {
     console.log('ddddddd')
+    
+    var userInfo = app.get_user_info();
+
     var that = this;
     wx.request({
       url: app.globalData.http_server + 'index.php/openapi/FaquanData/get_faquan_list',
@@ -232,7 +302,10 @@ Page({
       data: {
         appid: app.globalData.xiaochengxu_appid,
         sellerid: app.get_sellerid(),
-        userid: userInfo ? userInfo.userid : '',
+
+        userid: userInfo.userid,
+        checkstr: userInfo.checkstr,
+
         page: that.data.page,
         keyword: that.data.keyword ? that.data.keyword : '',
       },
@@ -269,7 +342,46 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage22222: function () {
 
+  },
+
+  videometa: function (e) {
+    console.log('videometa======>>>>>', e);
+
+    var current_id = e.target.dataset.id;
+    var current_index = e.target.dataset.index;
+
+    var imgwidth = e.detail.width;
+    var imgheight = e.detail.height;
+
+
+    //宽高比  
+    var ratio = imgwidth / imgheight;
+
+    console.log(imgwidth, imgheight)
+
+    //var current_view_width = this.data.current_view_width;
+
+    // rpx（responsive pixel）: 可以根据屏幕宽度进行自适应。规定屏幕宽为750rpx。
+    // 如在 iPhone6 上，屏幕宽度为375px，共有750个物理像素，则750rpx = 375px = 750物理像素，1rpx = 0.5px = 1物理像素。
+    var current_view_width = 750;
+
+    current_view_width = current_view_width * 0.9 * 0.9;
+
+    //计算的高度值  
+    var current_view_height = current_view_width / ratio;
+
+
+    //赋值给前端
+    var videometa_width_height_list = this.data.videometa_width_height_list;
+    videometa_width_height_list[current_index] = [current_view_width, current_view_height];
+
+    console.log('videometa_width_height_list====>>>>', videometa_width_height_list);
+
+    this.setData({
+      videometa_width_height_list: videometa_width_height_list
+    });
   }
+
 })

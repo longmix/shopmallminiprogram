@@ -6,7 +6,10 @@
   <view class="weui-panel__bd">
     <block wx:for="{{articlelist}}" wx:key="artlist_for">
 
-      <view class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active" bindtap="showDetail" data-id="{{item.id}}">
+      <view class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active"
+         bindtap="showDetail" 
+         data-id="{{item.id}}"
+         data-url="{{item.url}}">
         <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
           <image class="weui-media-box__thumb" src="{{item.pic}}" />
         </view>
@@ -18,7 +21,8 @@
     
     </block>
   </view>
-  <view class="weui-panel__ft">
+
+  <view class="weui-panel__ft" style="display:none;">
     <view class="weui-cell weui-cell_access weui-cell_link">
       <view class="weui-cell__bd">查看更多</view>
       <view class="weui-cell__ft weui-cell__ft_in-access"></view>

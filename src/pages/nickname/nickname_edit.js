@@ -1,6 +1,6 @@
 // pages/nickname/nickname_edit.js
 var app = getApp();
-var userInfo = app.get_user_info();
+
 Page({
   data:{
       nickname:"",
@@ -11,10 +11,6 @@ Page({
     app.set_option_list_str(null, app.getColor());
 
     var that = this
-
-    if(!userInfo){
-      userInfo = app.get_user_info();
-    }
 
     app.check_user_login();
     
@@ -54,7 +50,13 @@ Page({
       // })
       return;
     }
+    
   console.log(1111555555);
+
+
+    var userInfo = app.get_user_info();
+
+
     wx.request({
       url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=user_info_save',
       header: {  

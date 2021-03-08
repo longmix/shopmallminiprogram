@@ -7,40 +7,47 @@ margin: 0;
 outline: 0 none;
 padding: 0;
 }
+.yh_1_1{
+  color:#E3170D;
+  width: 30%;
+display: block;
+float: right;
+
+}
 .drpt_0 {
-    margin-top: 1%;
-    width: 100%;
-    background-color: #f7f1f1;
-    border-bottom: 1px solid #eee;
-    box-shadow: 1px 1px 1px #888888;
+    margin: 1%;
+    width: 98%;
+    border-bottom: 1rpx solid #eee;
+    /*box-shadow: 0rpx 2rpx 2rpx #888888;*/
     display: none;
     outline: 0 none;
     padding: 0;
     overflow:hidden;
 }
 .yhmc {
-    margin-left: 10px;
-    margin-top: 10px;
-    font-size: 32rpx;
+    margin-left: 20rpx;
+    margin-top: 20rpx;
+    font-size: 28rpx;
     height: 40rpx;
     line-height: 40rpx;
-    border: 1px solid #f49595;
-    border-radius: 3px;
-    padding: 0 1px;
-    color: #f49595;
-    top: 15px;
-    left: 15px;
+    border: 2rpx solid #E3170D;
+    border-radius: 6rpx;
+    padding: 2rpx 8rpx;
+    color: #E3170D;
+    top: 30rpx;
+    left: 30rpx;
     float: left;
+    max-width: 25%;
 }
 .drpt_1 {
-    width: 77%;
+    width: 70%;
     height: auto;
-    padding-top: 3px;
-    padding-bottom: 3px;
+    padding-top: 6rpx;
+    padding-bottom: 6rpx;
     padding-right: 2%;
     float: right;
     text-align: right;
-    font-size: 30rpx;
+    font-size: 28rpx;
     color: #666;
 }
 .drpt_2 {
@@ -94,46 +101,46 @@ position: relative;
     display: none;
 }
 .ad .text-title{
-    font-size: 14px;
+    font-size: 28rpx;
     color: #fff;
     width: 60%;
     text-align: center;
     float: left;
-    line-height: 15px;
+    line-height: 30rpx;
 
 }
 .ad .button_icon{
-    border-radius: 20px;
+    border-radius: 40rpx;
     background: #fd9d21;
     width: 20%;
     text-align: center;
-    font-size: 14px;
+    font-size: 28rpx;
     color: #fff;
-    padding: 5px 10px;
+    padding: 10rpx 20rpx;
     float: left;
 
 }
 .ad .cl_button{
-    width: 16px;
-    height: 16px;
+    width: 32rpx;
+    height: 32rpx;
     float: right;
-    margin: 8px 10px;
+    margin: 8px 20rpx;
 }
 .cont{
   width: 100%;
   background: #fff;
-  margin-bottom: 10px;
+  margin-bottom: 20rpx;
 }
 .tp_image{
   width: 100%;
   height:910rpx;
 }
 .cont .title{
-  font-size: 15px;
+  font-size: 30rpx;
   color: #333;
-  line-height:20px;
+  line-height:40rpx;
   margin:0;
-  max-height:40px;
+  max-height:80rpx;
   overflow:hidden;
   text-overflow:ellipsis;
   display:-webkit-box;
@@ -144,42 +151,54 @@ position: relative;
 }
 .gmxx{
   padding:1% 5% 5% 5%;
-  line-height: 25px;
+  line-height: 50rpx;
 }
 .gmxx .jiage{
-  font-size: 15px;
+  font-size: 30rpx;
   color: #dd2727;
-  padding-top: 10px;
+  padding-top: 20rpx;
 }
+.gmxx .jiage-con{
+  float:left;
+  margin-right:50rpx;
+}
+
+.gmxx .jiage-con :nth-child(2){
+  float: right;
+  margin-left: 20rpx;
+  font-size: 24rpx;
+  color: #ec6d20;
+}
+
 .icon_kf{
-  width: 20px;
-  height: 20px;
+  width: 40rpx;
+  height: 40rpx;
   display: inline-block;
-  margin-top: 5px;
+  margin-top: 10rpx;
 
 }
 .ke{
 text-align: center
 }
 .l_h15{
-  line-height: 15px;
+  line-height: 30rpx;
   text-align: center;
 }
 .dbtext{
-  line-height: 15px;
+  line-height: 30rpx;
   color: #666;
-  font-size: 12px;
+  font-size: 24rpx;
 }
 
 .canshu{
-  border-bottom: 1px solid #eee;
-  font-size: 14px;
-  line-height: 23px;
+  border-bottom: 2rpx solid #eee;
+  font-size: 28rpx;
+  line-height: 46rpx;
   width: 100%;
   padding: 2% 0;
 }
 .canshu .name{
-   width: 80px;
+   width: 160rpx;
    color: #999;
    font-size: 28rpx;
 
@@ -193,7 +212,7 @@ text-align: center
     text-align: center;  
     line-height: 80rpx;
     background: #fff;
-    font-size: 14px;
+    font-size: 28rpx;
     }  
 .swiper-tab-list{  
   font-size: 29rpx;  
@@ -208,7 +227,7 @@ text-align: center
   background: #fff;
   display: block; 
   width: 100%; 
-  margin-bottom: 100px;
+  margin-bottom: 100rpx;
   /*overflow: hidden;*/
 } 
 .on{ 
@@ -218,13 +237,15 @@ text-align: center
 .tw_text{
   font-size: 28rpx;  
   color: #000;
-  line-height: 25px;
+  line-height: 50rpx;
 }
 .c3{
   font-size: 28rpx;
 }
 .fl_l{
-  font-weight: 700
+  font-weight: 700;
+  height: 100rpx;
+  line-height: 100rpx;
 }
 .footfixed {
 display:block;
@@ -234,9 +255,9 @@ left:0;
 background:#fff;
 z-index:100;
 width:100%;
-font-size:14px;
-border-top:1px solid #eee;
-line-height:50px;
+font-size:28rpx;
+border-top:2rpx solid #eee;
+line-height:50rpx;
 /*background: #dd2727;*/
 font-weight: 700;
 color: snow
@@ -250,9 +271,9 @@ left:0;
 background:red;
 z-index:100;
 width:100%;
-font-size:14px;
-border-top:1px solid #eee;
-line-height:50px;
+font-size:28rpx;
+border-top:2rpx solid #eee;
+line-height:100rpx;
 font-weight:700;
 color:snow;
 text-align: center
@@ -326,7 +347,7 @@ margin-left: 40rpx;
     width: 100%;
 }
 .cun{
-  margin: 5px;font-size:30rpx; 
+  margin: 10rpx;font-size:30rpx; 
   padding-left: 20rpx;
   width: 20%
 }
@@ -336,9 +357,9 @@ margin-left: 40rpx;
   height: 60rpx;
   text-align: center;
   line-height: 60rpx;
-  border: 1px solid #999;
+  border: 2rpx solid #999;
   display: inline-block;
-  margin: 5px;
+  margin: 10rpx;
 }
 .btn {
   width: 80%;
@@ -378,7 +399,7 @@ border-radius:29rpx;
 }
 .stepper text {
   background-color: #fff;
-  border: 1px solid #eee;
+  border: 2rpx solid #eee;
   border-radius:50%; 
   width: 26px;
   height: 26px;
@@ -388,12 +409,12 @@ border-radius:29rpx;
   color: #939393;
 }
 .stepper input {
-  width: 30px;
-  height: 25px;
+  width: 30rpx;
+  height: 50rpx;
   text-align: center;
   /*background-color: #f2f2f2;*/
-  /*border-top:  1px solid #666;
-  border-bottom:  1px solid #666;*/
+  /*border-top:  2rpx solid #666;
+  border-bottom:  2rpx solid #666;*/
 }
 
 
@@ -458,11 +479,11 @@ border-radius:29rpx;
 }
 /*button*/
 .btn-area {
-  margin: 1.17647059em 15px 0.3em;
+  margin: 1.17647059em 30rpx 0.3em;
 }
 
 .btn {
-  margin-top: 15px;
+  margin-top: 30rpx;
   background-color:#FFCC00;
   color: #fff;
 }
@@ -483,8 +504,8 @@ swiper{
 
 .pos{
   position: absolute;
-  top: 10px;
-  left: 23px;
+  top: 20rpx;
+  left: 46rpx;
   opacity: 0;
 }
 .wxParse-p{
@@ -531,22 +552,22 @@ swiper{
 }
 
 .specs-d{
-  border:1px solid #e5e5e5;
+  border:2rpx solid #e5e5e5;
   color:#444;
   margin-right: 20rpx;
   font-size:28rpx;
   padding:6rpx 14rpx;
-  border-radius:5px;
+  border-radius:10rpx;
 }
 
 .specs-e{
-  border:1px solid #dd2727;
+  border:2rpx solid #dd2727;
   background-color:#dd2727; 
   color:#fff;
   margin-right: 20rpx;
   font-size:28rpx;
   padding:6rpx 14rpx;
-  border-radius:5px;
+  border-radius:10rpx;
 }
 .gmx{
   text-align: left;

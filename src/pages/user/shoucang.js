@@ -11,8 +11,10 @@ Page({
     app.set_option_list_str(null, app.getColor());
 
     var last_url = '/pages/user/shoucang';
-    var page_type = 'normal';
-    app.goto_user_login(last_url, page_type);
+    
+    if(app.goto_user_login(last_url)){
+      return;
+    }
 
     this.loadProductData();
   },

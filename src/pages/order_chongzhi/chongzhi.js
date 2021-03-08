@@ -1,6 +1,6 @@
 // pages/order_chongzhi/chongzhi.js
 var app = getApp();
-var userInfo = app.get_user_info();
+
 var api = require('../../utils/api');
 var util = require('../../utils/util.js');
 
@@ -98,7 +98,7 @@ Page({
    */
   onShow: function () {
 
-    userInfo = app.get_user_info();
+    //userInfo = app.get_user_info();
 
     this.setData({
       topbackground: app.globalData.backgroundColor
@@ -176,6 +176,8 @@ Page({
       })
       return;
     }
+
+    var userInfo = app.get_user_info();
 
 
     var data_orderAdd = {

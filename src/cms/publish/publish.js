@@ -1,6 +1,7 @@
 // cms/publish/publish.js
 var app = getApp();
-var userInfo = app.get_user_info();
+var api = require('../../utils/api');
+
 Page({
 
   /**
@@ -12,7 +13,15 @@ Page({
     flag: 1,
     checked:true,
     disable:false,
-    selectTabArr:[]
+    selectTabArr:[],
+    faquan_video_max_second:60,
+
+    //所有图片的高度  
+    swiper_image_heights: [],
+
+    ideaText: '',
+    faquan_xieyi_show_directly:0,
+    faquan_page_title:'发布创意'
   },
 
   /**
@@ -25,11 +34,17 @@ Page({
       })
     }
 
+   
+
     app.set_option_list_str(null, app.getColor());
 
     var that = this;
-    
-    userInfo = app.get_user_info();
+
+    that.setData({
+      text_upload_video: '上传视频'
+    })
+
+    var userInfo = app.get_user_info();
     
     // wx.request({
     //   url: app.globalData.http_server + 'index.php/openapi/VideoListRemarkData/get_cata_month_list',
@@ -66,7 +81,9 @@ Page({
     //     });
     //   },
     // })
+
     console.log('userInfo---------2', userInfo)
+
     if (!userInfo) {
       wx.showToast({
         title: '请先登录',
@@ -74,9 +91,9 @@ Page({
         duration: 1000,
         success: function () {
 
-          wx.setStorageSync('last_url', '/cms/publish/publish?publishtype=' + that.data.publishtype);
+          wx.setStorageSync('get_userinfo_last_url', '/cms/publish/publish?publishtype=' + that.data.publishtype);
 
-          wx.navigateTo({
+          wx.redirectTo({
             url: '/pages/login/login',
           })
         }
@@ -90,9 +107,9 @@ Page({
    
     if (!is_get_userinfo) {
 
-      wx.setStorageSync('last_url', '/cms/publish/publish?publishtype=' + that.data.publishtype);
+      wx.setStorageSync('get_userinfo_last_url', '/cms/publish/publish?publishtype=' + that.data.publishtype);
 
-      wx.navigateTo({
+      wx.redirectTo({
         url: '/pages/login/login_get_userinfo',
       });
 
@@ -111,7 +128,8 @@ Page({
 
   callback_xieyi_content: function (that, cms_faquan_setting) {
 
-    console.log('cms_faquan_setting==', cms_faquan_setting)
+    console.log('cms_faquan_setting====>>>', cms_faquan_setting)
+
     if (!cms_faquan_setting) {
       return;
     }
@@ -158,13 +176,28 @@ Page({
         faquan_tag_all_num: cms_faquan_setting.faquan_tag_all_num
       })
     }
+
+    if (cms_faquan_setting.faquan_video_max_second) {
+      that.setData({
+        faquan_video_max_second: cms_faquan_setting.faquan_video_max_second
+      })
+    }
+
+    if (cms_faquan_setting.faquan_xieyi_show_directly) {
+      that.setData({
+        faquan_xieyi_show_directly: cms_faquan_setting.faquan_xieyi_show_directly
+      })
+    }
+
+
+    
+
     
     
     if (cms_faquan_setting.faquan_xieyi_status){
       that.setData({
         faquan_xieyi_status: cms_faquan_setting.faquan_xieyi_status
-      })
-      return;
+      })      
     }
 
     if (cms_faquan_setting.faquan_xieyi_title) {
@@ -187,7 +220,7 @@ Page({
     console.log('getShopOptionAndRefresh+++++:::' + cb_params)
 
     //从本地读取
-    var option_list_str = wx.getStorageSync("option_list_str");
+    var option_list_str = wx.getStorageSync('shop_option_list_str_' + app.get_sellerid());
     if (!option_list_str) {
       return null;
     }
@@ -199,7 +232,6 @@ Page({
     if (!option_list) {
       return;
     }
-
 
     if (option_list.wxa_shop_nav_bg_color) {
       that.setData({
@@ -270,10 +302,20 @@ Page({
       success(res) {
         console.log('chooseVideo===============',res)
 
+        if (parseInt(res.duration) > that.data.faquan_video_max_second){
+          wx.showModal({
+            title: '选择失败',
+            content: '视频时间超过' + that.data.faquan_video_max_second +'秒',
+            showCancel:false
+          })
+          return;
+        }
+
         var video = res.tempFilePath;
 
         that.setData({
-          video: video
+          video: video,
+          text_upload_video:'更换视频'
         })
 
       }
@@ -287,6 +329,10 @@ Page({
   publishIdea:function(e){
     var that = this;
 
+    var userInfo = app.get_user_info();
+    if(!userInfo){
+      return;
+    }
 
     // if (!that.data.cataValue) {
     //   wx.showToast({
@@ -355,44 +401,38 @@ Page({
 
     if(that.data.tab_content){
       selectTabStr += ',' + that.data.tab_content;
-    }
+    }    
 
-    
-    
+    that.setData({
+      disable: true,
+    })
 
-  that.setData({
-    disable: true,
-  })
+    api.abotRequest({
+      url: app.globalData.http_server + 'index.php/openapi/FaquanData/add_faquan_text',          
+      data: {
+          sellerid: app.get_sellerid(),
+          appid: app.globalData.xiaochengxu_appid,
 
-    var last_url = wx.getStorageSync('last_url');
-    var page_type = wx.getStorageSync('page_type');
+          userid: userInfo.userid,
+          checkstr: userInfo.checkstr,
 
-    wx.request({
-      url: app.globalData.http_server + 'index.php/openapi/FaquanData/add_faquan_text',
-          method: 'post',
-          data: {
-            sellerid: app.get_sellerid(),
-            appid: app.globalData.xiaochengxu_appid,
-            userid: userInfo ? userInfo.userid : '',
-            text: that.data.ideaText,
-            tag: selectTabStr,
-            // cata: that.data.cataValue,
-          },
-          header: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-          },
-          success: function (res) {
-            if(res.data.code == 1){
-              var faquanid = res.data.faquanid
-              that.setData({
-                faquanid: faquanid
-              })
-
-
-          if (that.data.publishtype == "image"){
-          
-          that.upLoadImg(0);
+          text: that.data.ideaText,
+          tag: selectTabStr,
+          // cata: that.data.cataValue,
+        },
          
+        success: function (res) {
+          if(res.data.code == 1){
+            var faquanid = res.data.faquanid
+            that.setData({
+              faquanid: faquanid
+            })
+
+
+        if (that.data.publishtype == "image"){
+        
+          that.upLoadImg(0);
+        
         }else{
             wx.showLoading({
               title: '正在上传',
@@ -410,47 +450,80 @@ Page({
             name: "uploadvideo",
             formData: {
               sellerid: app.get_sellerid(),
-              userid: userInfo ? userInfo.userid : '',
+              appid: app.globalData.xiaochengxu_appid,
+
+              userid: userInfo.userid,
+              checkstr: userInfo.checkstr,
+
               faquanid: faquanid,
               type: 1
             },
             success: function (res) {
               wx.hideLoading();
+
               console.log('res===========',res)
+
               if (res.errMsg == "uploadFile:ok") {
                 var data = res.data;
                 data = JSON.parse(data);
-                  if(data.code == 1){
-                    wx.showToast({
-                      title: '上传成功',
-                      success: function (e) {
-                        console.log('e=======', e)
-                        that.setData({
-                          ideaText: '',
-                        })
-                        if(last_url){
+
+                if(!data){
+                  wx.showToast({
+                    title: '处理上传失败！',
+                  });
+                  return;
+                }
+                
+
+                if(data.code == 1){
+
+                  wx.showModal({
+                    title: '上传成功',
+                    content: data.msg,
+                    showCancel:false,
+                    success: function (e) {
+                      
+                      that.setData({
+                        ideaText: '',
+                      })
+
+                      var last_url = wx.getStorageSync('get_userinfo_last_url');
+                      var page_type = wx.getStorageSync('get_userinfo_page_type');
+
+                      wx.removeStorageSync('get_userinfo_last_url');
+                      wx.removeStorageSync('get_userinfo_page_type');
+
+                      if(last_url){
+                        if (page_type == 'switchTab'){
                           wx.switchTab({
                             url: last_url,
                           })
-                        } else {
-                          wx.switchTab({
-                            url: '/pages/user/user2',
+                        }
+                        else{
+                          wx.redirectTo({
+                            url: last_url,
                           })
                         }
-                        wx.removeStorageSync('last_url');
-                        wx.removeStorageSync('page_type');
-                        
+                      } else {
+                        wx.switchTab({
+                          url: '/pages/user/user2',
+                        })
                       }
-                    })
-                  } else {
-                    wx.showToast({
-                      title: '上传失败',
-                    })
-                    that.setData({
-                      disable: true,
-                    })
+                      
+                      
+                    }
+                  })
+                } else {
+                  wx.showModal({
+                    title: '上传失败',
+                    content: data.msg,
+                    showCancel:false
+                  })
+                  that.setData({
+                    disable: true,
+                  })
 
-                  }        
+                }        
               } 
             },
             fail: function (res) {
@@ -464,34 +537,37 @@ Page({
         }
 
 
-        }else{
-          wx.showToast({
-            title: '提交失败，请重新发布',
-            icon:'none'
-          })
-        }
-        
-
-      },
-      fail: function (e) {
+      }else{
         wx.showToast({
-          title: '网络异常！',
-          duration: 2000
-        });
-      },
-    })
+          title: '提交失败，请重新发布',
+          icon:'none'
+        })
+      }
+      
+
+    },
+    fail: function (e) {
+      wx.showToast({
+        title: '网络异常！',
+        duration: 2000
+      });
+    },
+  })
   
-  },
+},
 
 upLoadImg:function(i){
   console.log('i=======',i)
-  var last_url = wx.getStorageSync('last_url');
-  var page_type = wx.getStorageSync('page_type');
+
+  var userInfo = app.get_user_info();
+
+  
  
   var that = this;
   wx.showLoading({
     title: '正在上传第' + (i+1) + '张',
   })
+
   wx.uploadFile({
     //url: 'http://192.168.0.205:81/index/upload/uploadImg',      //此处换上你的接口地址
     url: app.globalData.http_server + 'index.php/openapi/FaquanData/add_faquan_video_or_img',
@@ -505,7 +581,10 @@ upLoadImg:function(i){
     name: "image",
     formData: {
       sellerid: app.get_sellerid(),
-      userid: userInfo ? userInfo.userid : '',
+
+      userid: userInfo.userid,
+      checkstr: userInfo.checkstr,
+
       faquanid: that.data.faquanid,
       type: 0
     },
@@ -519,24 +598,41 @@ upLoadImg:function(i){
           console.log('data===', data)
           data = JSON.parse(data);
           if (data.code == 1) {
-            wx.showToast({
+            wx.showModal({
               title: '上传成功',
+              content:data.msg,
+              showCancel:false,
               success: function (e) {
                 console.log('e=======', e)
+
                 that.setData({
                   ideaText: '',
                 })
+
+                var last_url = wx.getStorageSync('get_userinfo_last_url');
+                var page_type = wx.getStorageSync('get_userinfo_page_type');
+
+                wx.removeStorageSync('get_userinfo_last_url');
+                wx.removeStorageSync('get_userinfo_page_type');
+
                 if (last_url) {
-                  wx.switchTab({
-                    url: last_url,
-                  })
+                  if (page_type == 'switchTab'){
+                    wx.switchTab({
+                      url: last_url,
+                    })
+                  }
+                  else{
+                    wx.redirectTo({
+                      url: last_url,
+                    })
+                  }
+                  
                 } else {
                   wx.switchTab({
                     url: '/pages/user/user2',
                   })
                 }
-                wx.removeStorageSync('last_url');
-                wx.removeStorageSync('page_type');
+                
               }
             })
           } else {
@@ -561,19 +657,19 @@ upLoadImg:function(i){
 
 
 
-  readAgreement:function(e){
+readAgreement:function(e){
     this.setData({
       flag: 0,
     })
   },
 
-  checkBox:function(e){
+checkBox:function(e){
     this.setData({
       checked: e.detail.value[0] ? true : false
     })
   },
 
-  selectAgree:function(e){
+selectAgree:function(e){
     this.setData({
       flag: 1,
       checked: true,
@@ -583,7 +679,7 @@ upLoadImg:function(i){
 
 
   //选择标签
-  selectTab: function (e) {
+selectTab: function (e) {
     var that = this;
     var index = e.currentTarget.dataset.index;
 
@@ -642,7 +738,7 @@ upLoadImg:function(i){
    */
   onShow: function () {
     
-    userInfo = app.get_user_info();
+    //userInfo = app.get_user_info();
     
     
   },
@@ -680,5 +776,38 @@ upLoadImg:function(i){
    */
   onShareAppMessage: function () {
 
-  }
+  },
+
+  swiper_image_load: function (e) {
+    console.log('swiper_image_load=====>>>>>', e);
+
+    var imgwidth = e.detail.width,
+      imgheight = e.detail.height,
+      //宽高比  
+      ratio = imgwidth / imgheight;
+
+    console.log(imgwidth, imgheight)
+
+    //计算的高度值  
+    var viewWidth = 190;
+    var viewHeight = viewWidth / ratio;
+    
+    if (viewHeight > 190){
+      viewHeight = 190;
+      viewWidth = viewHeight * ratio;
+    }
+
+    var swiper_image_heights = this.data.swiper_image_heights;
+
+    //把每一张图片的对应的高度记录到数组里  
+    swiper_image_heights[e.target.dataset.id] = [viewWidth, viewHeight];
+    this.setData({
+      swiper_image_heights: swiper_image_heights
+    })
+
+    console.log('11111111111111', this.data.swiper_image_heights);
+
+  },
+
+
 })

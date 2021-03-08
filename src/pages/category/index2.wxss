@@ -1,21 +1,35 @@
-.section{ position: absolute; width: 100%; height: 100% ; overflow: hidden;}
-.left{ position: absolute; left: 0; top: 0; height: 100%; width: 90px; background: #F6F6F6; text-align: center;font-size:28rpx;}
+.section{ position: absolute; width: 100%; height: 100% ; overflow: hidden;
+  padding-bottom: 200rpx;
+}
+.left{ position: absolute; left: 0; top: 100rpx; height: 100%; width: 180rpx; background: #F6F6F6; text-align: center;font-size:28rpx;}
 .left::before{ content: ""; position: absolute; background: #dcdcdc; right: 0; top: 0; height: 100%; }
 .left view.active{ background: #FFF; position: relative; z-index: 2;}
-.left view{ display: block; height: 60px; line-height: 60px; border-bottom: 0px solid #dcdcdc;}
+.left view{ display: block; height: 120rpx; line-height: 120rpx; border-bottom: 0px solid #dcdcdc;}
 
-.right{ margin-left: 90px; height: 100%; overflow: hidden; width: auto;background: #fff;}
-.right text{ font-size: 15px}
-.typeTree{ padding-top: 10px;width: 100%}
+.right{ margin-left: 180rpx; height: 100%; overflow: hidden; width: auto;background: #fff;}
+.right text{ font-size: 30rpx}
+.typeTree{ padding-top: 20rpx;width: 100%}
 .typeTree .item{  text-align: center; display: inline-block; vertical-align: top;}
 .typeTree .brand,
-.typeTree .category{ flex-wrap: wrap; overflow: hidden;display: inline-block;width: 40%;margin-left: 6%}
-.typeTree .title{ padding: 10px 0; display: block; color: #333;}
-.typeTree image { width: 100px; margin: 0 auto;}
-.brand image{ height: 100px;}
-.typeTree .category image{ height: 85px;}
-.typeTree .category{ padding-bottom: 10px;}
-.item text{ padding-bottom: 5px; display: block;}
+.typeTree .category{ 
+  flex-wrap: wrap; overflow: hidden;display: inline-block;width: 45%;margin-left: 3%;
+  margin-bottom: 28rpx;
+}
+.typeTree .title{ padding: 20rpx 0; display: block; color: #333;}
+.typeTree image { width: 200rpx; margin: 0 auto;}
+.brand image{ height: 200rpx;}
+.typeTree .category image{ height: 810rpx;}
+.typeTree .category{ padding-bottom: 20rpx;}
+.item text{ 
+  padding-bottom: 10rpx; display: block;
+  height: 100rpx;
+  text-overflow: hidden;
+  overflow: hidden;
+  font-size: 28rpx;
+  text-align: left;
+  margin: 20rpx auto;
+  color: #2a2a2a;
+}
 .addcart-con{display: flex;justify-content: space-between;align-items: center;}
 .addcart-con text{ font-size: 28rpx;color: #f00;}
 .addcart-con image{width: 36rpx;height: 36rpx;}
@@ -30,7 +44,7 @@
   background: #fff;
   margin-bottom: 16rpx;
   float: left;
-  width: 500rpx
+  width: 95%;
 }
 .logo_pic{
   width:40%;
@@ -58,3 +72,40 @@
   z-index: 99; 
   background: #b02c41;
 }
+
+.product_item_right_one_line_one {
+  float: left;
+  height: 200rpx;
+padding: 30rpx 10rpx;
+width: 55%;
+display: block;
+
+}
+
+.right_one_line_one_title{
+  text-align: left;
+  height: 80rpx;
+overflow: hidden;
+margin-bottom: 10rpx;
+}
+
+/* 搜索相关 */
+.scroll-txt{
+  text-align: center;
+  margin: 10rpx 20rpx;
+  border: 20rpx red;
+  padding: 12rpx 0 12rpx 0;
+  color: #333;
+  background: #e6e6e6;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  border-radius: 60rpx;
+  height:50rpx;
+}
+
+.scroll-ads{
+  text-align: center;
+  font-size: 28rpx;
+}
+

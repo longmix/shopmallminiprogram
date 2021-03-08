@@ -1,0 +1,98 @@
+
+/* page{background:#212131;} */
+page{
+	background:#e3e3e3;
+}
+.live_list{
+	padding-left:10rpx;
+	padding-right:10rpx;
+	padding-top:10rpx;
+}
+.live_list .live_list_li{
+	height:300rpx;
+	width:50%;
+	border:0px red solid;
+	float: left;
+	box-sizing: border-box;
+	padding:10rpx;
+}
+.live_list .live_list_li .live_list_li_ve{
+	width:100%;
+	height:100%;
+	border:0rpx green solid;
+	border-radius:20rpx;
+	overflow: hidden;
+}
+.live_list .live_list_li .live_list_li_ve image{
+	width:100%;
+	height:100%;
+}
+.live_list .live_list_li .live_list_li_ve .live_list_li_ve_title{
+	position: relative;
+	border:0px red solid;
+	width:100%;
+	height:50rpx;
+	top:-65rpx;
+}
+.live_list .live_list_li .live_list_li_ve .live_list_li_ve_title .live_list_li_ve_title_l,.live_list_li_ve_title_r{
+	height:100%;
+	width:50%;
+	border:0px yellow solid;
+	float: left;
+	box-sizing: border-box;
+}
+.live_list .live_list_li .live_list_li_ve .live_list_li_ve_title .live_list_li_ve_title_r,.live_list_li_ve_title_l{
+	padding:5rpx;
+}
+.live_list .live_list_li .live_list_li_ve .live_list_li_ve_title .live_list_li_ve_title_r{padding-right:13rpx;}
+.live_list .live_list_li .live_list_li_ve .live_list_li_ve_title .live_list_li_ve_title_r view{
+	color:#fff;
+	font-size:20rpx;
+	line-height:50rpx;
+	height: 50rpx;
+	background:#FA6185;
+	border-radius:10rpx;
+	padding-left:10rpx;
+	padding-right:10rpx;
+	float: right;
+	right:0;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+					align-items: center;
+					overflow: hidden;
+					display: -webkit-box;
+					-webkit-line-clamp: 1;
+					-webkit-box-orient: vertical;
+}
+.live_list .live_list_li .live_list_li_ve .live_list_li_ve_title .live_list_li_ve_title_l view{
+	height:100%;
+	border:0px red solid;
+	color:#fff;
+	font-size:25rpx;
+	float: left;
+	left:0;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	padding-left:10rpx;
+}
+
+.live_list_status{
+	position: relative;
+	top: 25px;
+	color: #fff;
+	font-size: 13px;
+	left: 10px;
+}

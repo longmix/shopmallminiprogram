@@ -35,6 +35,7 @@ color:#fff;
   font-size: 28rpx;
   align-items: center;
   margin-left: 60rpx;
+  margin-top: 60rpx;
 }
 .section2{
 display: block;
@@ -84,8 +85,8 @@ text-align: center;
 .chongzhi image{
   height:176rpx;
   width:176rpx;
-  border-radius: 100px;
-  border:1px solid #17A8E2;
+  border-radius: 10rpx;
+  border:0px solid #17A8E2;
 }
 
 

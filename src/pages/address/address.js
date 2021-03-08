@@ -60,8 +60,10 @@ Page({
           });
           return;
         }
+
+        console.log('productid=================00', that.data.productid)
         wx.redirectTo({
-          url: 'user-address/user-address?'
+          url: 'user-address/user-address?cartId=' + cartId + '&amount=' + that.data.amount + '&productid=' + that.data.productid + '&action_pay=' + that.data.action_pay
         });
       },
       fail: function () {
@@ -80,7 +82,7 @@ Page({
   },
   onLoad: function (options) {
     app.set_option_list_str(null, app.getColor());
-    
+    console.log('address----options==', options)
     // 生命周期函数--监听页面加载
     this.setData({
       shengIndex: 0,
@@ -96,11 +98,41 @@ Page({
       return;
     } 
 
-    that.setData({
-      cartId: options.cartId,
-      addressId: options.addressId,
-      action: options.action
-    })
+    if(options.cartId){
+      that.setData({
+        cartId: options.cartId,
+      })
+    }
+
+    if (options.addressId) {
+      that.setData({
+        addressId: options.addressId,
+      })
+    }
+    if (options.action) {
+      that.setData({
+        action: options.action,
+      })
+    } 
+
+    if(options.amount){
+      that.setData({
+        amount: options.amount,
+      })
+    }
+
+    if (options.productid) {
+      that.setData({
+        productid: options.productid,
+      })
+    }
+    if (options.action_pay) {
+      that.setData({
+        action_pay: options.action_pay,
+      })
+    } 
+
+    
 
     //调用市和区地址
     if(that.data.action == 'edit'){
@@ -358,7 +390,7 @@ Page({
   },
 
   bindPickerChangeshiArr: function (e) {
-    console.log(e);
+    console.log('eeee===>',e);
     this.setData({
       shiIndex: e.detail.value,
       quArr:[],

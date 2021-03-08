@@ -1,5 +1,5 @@
 var app = getApp();
-var userInfo = app.get_user_info();
+
 // pages/order/downline.js
 Page({
   data:{
@@ -12,7 +12,7 @@ Page({
     this.setData({
       orderId: options.orderId,
     });
-    userInfo = app.get_user_info();
+
   },
   submitReturnData:function(){
     //console.log(this.data);
@@ -34,6 +34,8 @@ Page({
     //   return;
     // }
     var that = this;
+
+    var userInfo = app.get_user_info();
 
     wx.request({
       url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=order_tuikuan',

@@ -21,8 +21,8 @@ Page({
 
     var redirect_url = decodeURIComponent(options.url);
 
-    // console.log('redirect_url=======', redirect_url);
-    // return;
+    console.log('redirect_url=======', redirect_url);
+    //return;
 
     var parent_openid = options.parent_openid;
 
@@ -81,7 +81,7 @@ Page({
 
               app.set_user_info(app.globalData.userInfo);
 
-              redirect_url = redirect_url + '&openid=' + res.data.openid + '&userid=%wxa_userid%';
+              redirect_url = redirect_url + '&openid=' + res.data.openid;
               // o2yUE5hWMpWHKGYzI3NEfwSymo5o
               // redirect_url = 'https://yanyubao.tseo.cn/chouheji/?sellerid=pmyxQxkkU&openid=' + res.data.openid;
 

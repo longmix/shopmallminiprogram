@@ -95,8 +95,8 @@ border-radius:21px;
 }
 
 .icon-jump{
-  width: 152rpx;
-  height: 152rpx;
+  width: 120rpx;
+  height: 120rpx;
   position: fixed;
   right: 40rpx;
   bottom: 260rpx;
@@ -109,6 +109,6 @@ border-radius:21px;
 }
 
 .icon-jump image{
-  width: 70rpx;
-  height: 70rpx;
+  width: 60rpx;
+  height: 60rpx;
 }

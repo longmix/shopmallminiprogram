@@ -20,7 +20,7 @@
   height: 350rpx;
 }
 .list-box {
-  margin-top: 10px;
+  margin-top: 50rpx;
   padding:0 5%; 
   font-size:32rpx;
   border-bottom:20rpx solid #eee;
@@ -80,6 +80,8 @@
 .list-address {
   color: #999;
    display: flex;
+   height: 60rpx;
+margin-top: 20rpx;
 }
 
 .list-time {
@@ -143,7 +145,7 @@
 }
 
 .list-con{
-    border-bottom: 1px solid #eee;
+    border-bottom: 2rpx solid #eee;
 }
 
 .c-1{
@@ -152,7 +154,7 @@
 }
 .c-1 input{
   border-radius:100rpx;
-  border:1px solid #ccc;
+  border:2rpx solid #ccc;
   font-size:28rpx;
   height: 70rpx;
   padding:6rpx 10rpx 0rpx 60rpx;
@@ -163,7 +165,7 @@
   width:30rpx;
   height:30rpx;
   left:18rpx;
-  top:70rpx;
+  top:65rpx;
 }
 .cancel-search{
   position:fixed;
@@ -241,7 +243,7 @@ align-items:center;
 .col-con{
   display:flex;
   font-size:32rpx;
-  border-bottom:1px solid #eee;
+  border-bottom:2rpx solid #eee;
   padding:18rpx 0 18rpx 20rpx;
   font-weight:bold;
 }
@@ -251,12 +253,13 @@ align-items:center;
   justify-content:center;
   align-items:center;
   font-size:28rpx;
-  color:#aaa;
+  color:#666;
+  height: 150rpx;
 }
 
 .bottom-line-a{
-  border:1px solid #eee;
-  width:30%;
+  border:2rpx solid #eee;
+  width:15%;
 }
 
 .download-img{
@@ -294,9 +297,9 @@ align-items:center;
 
 .tab-con view{
   float: left;
-  border: 1px solid#1E90FF;
+  border: 2rpx solid#1E90FF;
   color: 	#1E90FF;
-  margin-left: 20rpx;
+  margin-right: 20rpx;
   border-radius: 4px;
   font-size: 30rpx;
   padding: 10rpx 20rpx;
@@ -304,12 +307,12 @@ align-items:center;
 
 .tab-con-each{
   width: 90%;
-  margin-left: 5%;
+  margin-left: 0%;
 }
 
 .tab-con-each view{
   float: left;
-  border: 1px solid#1E90FF;
+  border: 2rpx solid#1E90FF;
   color: #1E90FF;
   margin-left: 20rpx;
   border-radius: 4px;

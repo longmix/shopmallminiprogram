@@ -28,8 +28,22 @@ module.exports = {
   formatTime: formatTime,
   formatTime2: formatTime2,
   sprintf: sprintf,
-  bezier: bezier
+  bezier: bezier,
+  getQueryVariable: getQueryVariable
 }
+
+
+
+function getQueryVariable(url,variable) {
+  var query = url.toString().split("?")[1];//截取url中？后的字符串
+  var vars = query.split("&");
+  for (var i = 0; i < vars.length; i++) {
+    var pair = vars[i].split("=");
+    if (pair[0] == variable) { return pair[1]; }
+  }
+  return (false);
+}
+
 
 function checkStringEmpty(data){
   if(null == data || "" == data){

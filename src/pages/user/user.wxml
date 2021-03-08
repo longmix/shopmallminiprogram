@@ -12,7 +12,7 @@
             <navigator url="/pages/recharge/recharge" class="c_1" wx:if="{{wxa_show_recharge_button_in_usercenter == 1}}">[充值]</navigator>
           </view>
           <view wx:if="{{wxa_show_zengkuan_in_usercenter == 1}}"> 赠款 {{data.balance_zengsong}} </view>
-          <view wx:if="{{wxa_show_levelname_in_usercenter == 1}}"> {{data.fenxiao_info.level_name}} </view>
+          <view wx:if="{{wxa_show_levelname_in_usercenter == 1}}"> 等级 {{data.fenxiao_info.level_name}} </view>
         </view>
     </view>
 
@@ -21,7 +21,8 @@
         <open-data type="userAvatarUrl" class="userinfo-avatar" ></open-data>        
       </navigator>
       <view class="a_2">
-          <open-data style="color:{{wxa_shop_nav_font_color=='#000000' ? '#000000' : 'wxa_shop_nav_font_color'}}" type="userNickName"></open-data>        
+          <open-data style="color:{{wxa_shop_nav_font_color=='#000000' ? '#000000' : 'wxa_shop_nav_font_color'}}" type="userNickName"></open-data>
+          <view style="color:{{wxa_shop_nav_font_color=='#000000' ? '#000000' : 'wxa_shop_nav_font_color'}}">点击头像登录</view>    
       </view>
   
     </view>
@@ -110,9 +111,9 @@
         </view>
     </navigator>
 --><block wx:if="{{wxa_usercenter_function_list == 1}}">
-    <view style="width:100%;padding:5px 20px;line-height:40px;" bindtap='mytiaozhuan' data-url='{{item.url}}' class=''>
+    <view style="width:100%;padding:10rpx 40rpx;line-height:60rpx;margin-top: 20rpx;border-bottom:1px solid #999999;" bindtap='mytiaozhuan' data-url='{{item.url}}' class=''>
     <view style="float:left;">
-      <image style="width:35px;height:35px;margin-right:30px;" src="{{item.src}}"></image>
+      <image style="width:35px;height:35px;margin-right:20px;" src="{{item.src}}"></image>
     </view>
       <view style="float:left;">
         <text style="color:#333;font-size:35rpx;">{{item.name}}</text>
@@ -132,9 +133,9 @@
 
 </view>
 <block wx:if="{{wxa_usercenter_function_list == 1}}">
-     <navigator style="padding:5px 20px;" url="../about_applet/about_applet" open-type="navigate">
+     <navigator style="padding:10rpx 40rpx;line-height:60rpx;margin-top: 20rpx;border-bottom:1px solid #999999;" url="../about_applet/about_applet" open-type="navigate">
     <view style="float:left;">
-      <image style="width:35px;height:35px;margin-right:30px;" src="../../images/icon/xiaochengxu.png"></image>
+      <image style="width:35px;height:35px;margin-right:20px;" src="../../images/wxa.png"></image>
     </view>
       <view style="float:left;">
         <text style="color:#333;font-size:35rpx;">关于小程序</text>
@@ -146,16 +147,24 @@
   <block wx:if="{{wxa_usercenter_function_list != 1}}">
    <navigator url="../about_applet/about_applet" open-type="navigate">
   <view class='icon-list'>
-   <image src='../../images/icon/xiaochengxu.png'></image>
+   <image src='../../images/wxa.png'></image>
    <view class='icon-text'><text>关于小程序</text></view>
   </view>
   </navigator>
+
+<!--
+  <navigator url="/pages/h5browser/test" open-type="navigate">
+  <view class='icon-list'>
+   <image src='../../images/wxa.png'></image>
+   <view class='icon-text'><text>测试</text></view>
+  </view>
+  </navigator>-->
 </block>
     
 
    <!-- <navigator url="/cms/toy-cabinet/mytoy-cabinet" open-type="navigate">
   <view class='icon-list'>
-   <image src='../../images/icon/xiaochengxu.png'></image>
+   <image src='../../images/wxa.png'></image>
    <view class='icon-text'><text>我的玩具柜</text></view>
   </view>
   </navigator> -->

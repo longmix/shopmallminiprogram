@@ -24,8 +24,10 @@
 
 <template name="WxEmojiView">
   <view class="WxEmojiView wxParse-inline" style="{{item.styleStr}}">
-    <block wx:for="{{item.textArray}}" wx:key="">
-      <block class="{{item.text == '\\n' ? 'wxParse-hide':''}}" wx:if="{{item.node == 'text'}}">{{item.text}}</block>
+    <block wx:for="{{item.textArray}}" wx:key="text">
+      <block class="{{item.text == '\\n' ? 'wxParse-hide':''}}" wx:if="{{item.node == 'text'}}">
+        <text selectable="true">{{item.text}}</text>
+      </block>
       <block wx:elif="{{item.node == 'element'}}">
         <image class="wxEmoji" src="{{item.baseSrc}}{{item.text}}" />
       </block>
@@ -36,7 +38,7 @@
 <!--入口模版-->
 
 <template name="wxParse">
-    <block wx:for="{{wxParseData}}" wx:key="">
+    <block wx:for="{{wxParseData}}" wx:key="*this">
         <template is="wxParse0" data="{{item}}"/>
     </block>
 </template>
@@ -49,7 +51,7 @@
     <block wx:if="{{item.node == 'element'}}">
         <block wx:if="{{item.tag == 'button'}}">
             <button type="default" size="mini" >
-                <block wx:for="{{item.nodes}}" wx:for-item="item" wx:key="">
+                <block wx:for="{{item.nodes}}" wx:for-item="item" wx:key="*this">
                     <template is="wxParse1" data="{{item}}"/>
                 </block>
              </button>

@@ -1,4 +1,12 @@
 <view class="section">
+
+   <!-- 商品搜索 -->
+   <view wx:if="{{1}}" class="scroll-txt" bindtap="goto_search" data-value="">
+      <icon type="search" size="14" style="margin: 0px 10rpx 0 0"></icon>
+      <text class="scroll-ads">搜索</text>
+   </view>
+
+
     <!-- 左侧类型 -->
     <scroll-view scroll-y="true" class="left">
         <view wx:for="{{types}}" wx:for-index="idx" wx:key="typeId" data-idx='{{idx}}' bindtap="tapType" class="{{idx == currType ? 'active' : ''}}" style="font-size:33rpx；">
@@ -8,10 +16,14 @@
 
     <!-- 右侧数据 -->
     <scroll-view scroll-y="true" class="right">
+
+        <view>
+          <image src="{{typeTree_icon}}" mode="widthFix" style="max-width:95%;" wx:if="{{typeTree_icon}}"></image>
+        </view>
     
         <view class="typeTree">
         <block wx:if="{{wxa_product_super_list_style == 0}}">
-            <view  class="brand" wx:for="{{typeTree}}" wx:for-item="data" wx:key="{{index}}">
+            <view  class="brand" wx:for="{{typeTree}}" wx:for-item="data" wx:key="productid">
                 <navigator url="../product/detail?productid={{data.productid}}" wx:key="typeId" class="item">
                     <image src="{{data.picture}}"></image>
                     <text>{{data.name}}</text>                  
@@ -30,11 +42,11 @@
     
       <navigator style="" url="../product/detail?productid={{item.productid}}"  open-type='navigateTo'>
       <view class="logo_pic" style="margin-top:18rpx;">
-        <image src="{{item.picture}}" style="width:100%;height:100%;"></image>
+        <image src="{{item.picture}}" style="width:100%;" mode="widthFix" ></image>
        </view>
        
-      <view style='float:left;height:109%;padding-top:60rpx;'>
-        <view class="titles" style='text-align: left;'><text class="wenzi">{{item.name}}</text>
+      <view class="product_item_right_one_line_one">
+        <view class="right_one_line_one_title" style='text-align: left;'><text class="wenzi">{{item.name}}</text>
         </view>
         <view class="brief">
         <view >
@@ -47,7 +59,7 @@
         </view>
       </view>
       
-      <view style="float:right;margin-top: 108rpx;"><image style="padding:0 10px;width:36rpx;height:36rpx;" catchtap="addCart" src="../../images/car.png" data-productid="{{item.productid}}"></image></view>
+      <view style="float:right;margin-top: 8rpx;"><image style="padding:0 10px;width:36rpx;height:36rpx;" catchtap="addCart" src="../../images/car.png" data-productid="{{item.productid}}"></image></view>
       </navigator>
       
     </view>

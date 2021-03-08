@@ -1,0 +1,139 @@
+/* cms/quanquan/quanquan_details.wxss */
+.a-1{
+  width:100%;
+  border-bottom:2px solid red;
+  height:82rpx;
+  line-height:74rpx;
+
+}
+
+
+
+
+.userwords {
+    background-color: white;
+    padding: 20rpx;
+    font-size: 26rpx;
+    display: flex;
+    border-bottom: 1rpx solid #eee;
+    padding-top: 50rpx;
+}
+
+.userwords:last-child {
+    padding-bottom: 90rpx;
+}
+
+.userwords_img {
+    width: 100rpx;
+    height: 100rpx;
+    border-radius: 50%;
+}
+
+.userwords_rit {
+    width: 590rpx;
+    margin-left: 20rpx;
+}
+
+.userwords_content {
+    margin-top: 20rpx;
+    color: #666;
+}
+
+
+.kuangs {
+    position: absolute;
+    content: "";
+    border-width: 15rpx;
+    border-style: solid;
+    border-color: transparent transparent #eee #eee;
+    transform: rotate(135deg);
+    left: 50rpx;
+    top: -12rpx;
+}
+
+.userwords_box {
+    background-color: #eee;
+    padding: 10rpx 15rpx;
+    line-height: 40rpx;
+    margin-top: 20rpx;
+    position: relative;
+}
+
+.userwords_one {
+    color: #666;
+}
+
+.userwords_mar {
+    margin: 0rpx 10rpx;
+}
+
+.userwords_color {
+    color: #4395f5;
+}
+
+.userwords_color2 {
+    color: #999;
+}
+.share_box{
+/* width:220rpx; */
+height:60rpx;
+float:right;
+position:relative;
+left:37px;
+}
+.share_hide{
+  width:220rpx;
+  height:60rpx;
+  position:absolute;
+  overflow:hidden;
+  top:0;
+  right:0;
+  font-size:26rpx;
+  line-height:86rpx;
+}
+.share_hide image{
+  width: 100%;
+  height: 100%;
+}
+.share{
+  width:200rpx;
+  height:70rpx;
+  position: absolute;
+  top:-5rpx;
+  left:38rpx;
+  background:transparent;
+  opacity: 0;
+}
+
+.remark-bar{
+  display:flex;
+  position:fixed;
+  bottom:40rpx;
+  font-size:30rpx;
+  justify-content:space-between;
+  width:90%;
+  margin-left:5%;
+  background: #fff;
+  align-items:center;
+}
+
+.remark-bar input{
+  border:1px solid #999;
+  border-radius:40px;
+  padding-left:20rpx;
+  padding-right:20rpx;
+  height:60rpx;
+  padding-top:8rpx;
+}
+
+.sendbutton{
+  background:#6798E9;
+  color:#fff;
+  font-size:28rpx;
+  width:130rpx;
+  text-align:center;
+  height:60rpx;
+  line-height:60rpx;
+  padding:center;
+  border-radius:60rpx;
+}

@@ -144,18 +144,10 @@ Page({
     //var url = 'http://192.168.0.87:8080/chouheji/pages/chouheji/chouheji_index2?sellerid=' + app.get_sellerid();
     var url = app.globalData.http_server + 'chouheji/?sellerid=' +  this.data.sellerid;
 
-    var redirect_url = url + '&openid=' + app.get_current_openid();
-
-    // redirect_url = '/pages/h5browser/h5browser?url=' + encodeURIComponent(redirect_url);
-    console.log('redirect_url===', redirect_url)
-
-    // wx.redirectTo({
-    //   url: redirect_url,
-    // })
 
     return {
-      title: '自定义转发标题',
-      path: '/pages/h5browser/h5hub?url=' + encodeURIComponent(url) + '&parent_openid=' + app.get_current_openid()
+      title: '抽盒机',
+      path: '/pages/h5browser/h5hub?url=' + encodeURIComponent(url) + '&parent_openid=' + app.get_current_openid() + '&sellerid=' + this.data.sellerid
     }
 
   },

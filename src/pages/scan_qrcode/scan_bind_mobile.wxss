@@ -1,0 +1,99 @@
+/* pages/scan_qrcode/scan_bind_mobile.wxss */
+page{
+    background-color:#F0F0F0;
+    font-size:28rpx;
+}
+
+.box {
+  width:100%;
+  text-align: center;
+  font-size: 40rpx;
+}
+.box view{
+  height:85rpx;
+  line-height:85rpx;
+  background-color:#fff;
+  padding:13px;
+}
+
+.from-list{
+    width:100%;
+   
+}
+
+.section1{
+    width:100%;
+    height:100rpx;
+    background-color:#fff;
+    margin:28rpx auto 0;
+    border-bottom: 1px solid #ECECEC;
+    font-size: 40rpx;
+}
+.section1 input{
+    width:80%;
+    height:100rpx;
+    padding-left:40rpx;
+}
+.section2{
+    width:100%;
+    height:100rpx;
+    background-color:#fff;
+    margin:28rpx 0 0;
+    position:relative;
+    font-size: 40rpx;
+}
+.section2 input{
+    width:70%;
+    height:100rpx;
+    padding-left:40rpx;
+    margin:0 0 0;
+}
+.send_btn{
+    width:240rpx;
+    height:80rpx;
+    line-height:80rpx;
+    position:absolute;
+    top:8rpx;
+    left:60%;
+    font-size:40rpx;
+}
+.section3{
+    width:100%;
+    height:100rpx;
+    background-color:#fff;
+    margin:28rpx 0 0;
+    position:relative;
+    font-size: 40rpx;
+}
+.section3 image{
+    width:26%;
+    height:80rpx;
+    line-height:60rpx;
+    padding-top:8rpx;
+    margin-left:40rpx;
+    float:left;
+}
+.section3 input{
+    width:65%;
+    height:100rpx;
+    margin-left:20rpx;
+    float:left;
+}
+
+.check_btn{
+    margin:20rpx auto;
+    width:85%;
+    height:100rpx;
+    background-color:orange;
+    line-height:100rpx;
+    font-size: 40rpx;
+    color:#FFF;
+}
+.check_btn2{
+    margin:50px auto;
+    width:80%;
+    height:40px;
+    background-color:orange;
+    line-height:40px;
+    color:#FFF;
+}

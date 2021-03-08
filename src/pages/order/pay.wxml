@@ -1,7 +1,7 @@
 <!--pay.wxml-->
 <view wx:if="{{wxa_order_queren_hide_address != 1 && from_o2o != 1}}" style="border-bottom:1px dashed #e5e5e5;">
     <view class="p_all bg_white mt10 font_14" wx:if="{{addemt==0}}">
-          <navigator open-type='redirect' url="../address/user-address/user-address?cartId=321&amount={{amount}}&productid={{productid}}&action={{action}}" hover-class="none">
+          <navigator open-type='redirect' url="../address/user-address/user-address?cartId=321&amount={{amount}}&productid={{productid}}&action_pay={{action}}" hover-class="none">
           <view class="df">
             <view class="df_1 c6">
             <view style='display:flex;'>
@@ -16,7 +16,7 @@
           </navigator>
         </view>
         <view class="p_all bg_white mt10 font_14" wx:else>
-          <navigator url="../address/user-address/user-address?cartId={{cartId}}" hover-class="none">
+          <navigator open-type='redirect' url="../address/user-address/user-address?cartId=321&amount={{amount}}&productid={{productid}}&action_pay={{action}}" hover-class="none">
           <view class="df">
             <view class="df_1 c6">添加收货地址</view>
 
@@ -26,7 +26,8 @@
         </view>
     </view>
 
-<view wx:if="{{from_o2o == 1}}" style="border-bottom:1px dashed #e5e5e5;">
+<!-- O2O订单处理 Begin、 -->
+  <view wx:if="{{from_o2o == 1}}" style="border-bottom:1px dashed #e5e5e5;">
     <view class="p_all bg_white mt10 font_14" >
           <view class="df">
             <view class="df_1 c6">
@@ -41,8 +42,8 @@
           <view style='color:#666;margin-top:10rpx;'>配送时间：{{weekItem.date}} {{weekItem.week}} {{weekItem.time}}</view>
         </view>
         
-    </view>
-
+  </view>
+<!-- O2O订单处理 End -->
 
 		<view class="p_all bg_white df item"  wx:for="{{productData}}" wx:key="key">
         <view class="photo_name">
@@ -142,7 +143,7 @@
 </view>
     <text style="font-size:28rpx;padding-left:3%;">备注</text>
 		<view class="p_all bg_white mt10 font_14">
-			<textarea class="min_60" auto-height name="remark" placeholder="如有备注请填写" bindinput="remarkInput" value="{{remark}}" rows="3"/> 
+			<textarea class="min_60" auto-height name="remark" placeholder="如有备注请填写" bindinput="remarkInput" value="{{buyer_memo}}" rows="3"/> 
 		</view>	
 
 	<!-- <view class="zhifu mt10 tc">应共支付：<span class="font_20 red">¥ {{pay_price}}</span></view> -->

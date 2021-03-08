@@ -7,6 +7,7 @@ var app = getApp();
 
 //引入这个插件，使html内容自动转换成wxml内容
 var WxParse = require('../../wxParse/wxParse.js');
+var api = require('../../utils/api');
 
 Page({
   firstIndex: -1,
@@ -39,7 +40,8 @@ Page({
     commodityAttr:[],
     attrValueList: [],
     buys:'立即购买',
-    status:''
+    status:'',
+    shop_info:''
   },
 
   // 弹窗
@@ -47,22 +49,19 @@ Page({
 
     var that = this;
 
-    var userInfo = app.get_user_info();
+    var last_url = null;
 
+    if (that.data.productid) {
+      last_url = '/pages/product/detail?' + that.data.options_str;
+    }
     
-    if ((!userInfo) || (!userInfo.userid)) {
-      
-      var last_url = null;
-      var page_type = 'normal';
-
-      if (that.data.productid) {
-        last_url = '/pages/product/detail?' + that.data.options_str;
-      }
-      app.goto_user_login(last_url, page_type);
-
+    if(app.goto_user_login(last_url)){
       return;
     }
 
+    var userInfo = app.get_user_info();
+
+    
     var animation = wx.createAnimation({
       duration: 200,
       timingFunction: "linear",
@@ -141,7 +140,7 @@ Page({
 
     var that = this;
 
-    app.set_option_list_str(null, app.getColor());
+    app.set_option_list_str(this, this.set_option_list_callback);
 
 
     var options_str = '';
@@ -199,34 +198,60 @@ Page({
 
     that.loadCataXiangqing();
 
+    app.get_shop_info_from_server(function (shop_info) {
+      console.log('product/detail/index get_shop_info_from_server 回调：');
+      console.log(shop_info);
+
+      that.setData({
+        shop_info: shop_info,
+      });
+
+    })
+
 
     //从本地读取
     setTimeout(function () {
-      var option_list_str = wx.getStorageSync("option_list_str");
-
-      console.log("获取商城选项数据：" + option_list_str + '333333333');
-
-      if (!option_list_str) {
-        return null;
-      }
-
-      var option_list = JSON.parse(option_list_str);
-
-      if (option_list.wxa_show_kucun_xiaoliang){
-        that.setData({
-          wxa_show_kucun_xiaoliang: option_list.wxa_show_kucun_xiaoliang
-        });
-      }
+      
 
     }, 1000);
 
   },
+
+  onShareTimeline: function () {
+    console.log('app.globalData.shop_name : '+app.globalData.shop_name);
+
+    return this.share_return();
+  },
+  onAddToFavorites: function () {
+    return this.share_return();
+  },
+  share_return: function () {
+    return {
+      title: this.data.detail['name'],
+      query: 'productid=' + this.data.productid,
+      imageUrl:this.data.bannerItem[0]['picture'],
+    }
+  },
+
+
+  set_option_list_callback: function (that, cb_params){
+    app.getColor();
+
+
+    var option_list = cb_params;
+
+    if (option_list.wxa_show_kucun_xiaoliang) {
+      that.setData({
+        wxa_show_kucun_xiaoliang: option_list.wxa_show_kucun_xiaoliang
+      });
+    }
+
+    
+  },
   goto_cart:function(){
     console.log('准备跳转到购物车');
     
-    var option_list_str = wx.getStorageSync("option_list_str");
-
-    console.log("获取商城选项数据：" + option_list_str + '44444444444444');
+    var option_list_str = wx.getStorageSync('shop_option_list_str_' + app.get_sellerid());
 
     if (!option_list_str) {
       return null;
@@ -262,12 +287,14 @@ Page({
 
 
       var last_url = null;
-      var page_type = 'normal';
 
       if (that.data.productid) {
         last_url = '/pages/product/detail?productid=' + that.data.productid;
       }
-      app.goto_user_login(last_url, page_type);
+      
+      if(app.goto_user_login(last_url)){
+        return;
+      }
 
 
       return;
@@ -320,13 +347,9 @@ Page({
       data_params.userid = userInfo.userid;
     }
 
-    wx.request({
+    api.abotRequest({
       url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=product_detail',
-      method:'post',
       data: data_params,
-      header: {
-        'Content-Type':  'application/x-www-form-urlencoded'
-      },
       success: function (res) {
         wx.hideLoading();
         //--init data 
@@ -450,32 +473,61 @@ Page({
   },
   loadCataXiangqing:function(){
     var that = this;
+
+
+
     wx.request({
-      url: app.globalData.http_server +'/Yanyubao/ShopAppWxa/product_detail_youhui',
+      url: app.globalData.http_server +'index.php/Yanyubao/ShopAppWxa/product_detail_youhui',
       method: 'post',
       data: {
         productid:that.data.productid,
         //'productid': '2039',
+        sellerid: app.get_sellerid()
       },
       header: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
       success: function (res) {
         //--init data 
+
+        that.setData({
+          jietijiage: 0,
+
+          huiyuanzhekou: 0,
+          duorenpintuan: 0,
+          sharekanjia: 0,
+          xianshimiaosha:0
+        });
+
+
         var code = res.data.code;
+
         if (code >= 0) {
           var xiangqing = res.data.data;
           var cataArr = [];
           for (var i = 0; i < xiangqing.length; i++) {
             cataArr.push(xiangqing[i].youhui_type);
           }
+          
           if (cataArr.indexOf("jietijiage")>-1){
             var cata_key = cataArr.indexOf("jietijiage");
             that.setData({
-              youhui_data: xiangqing[cata_key].youhui_data,
+              jietijiage_youhui_data: xiangqing[cata_key].youhui_data,
               jietijiage:1,
             });
           }
+
+          if (cataArr.indexOf("huiyuanzhekou") > -1) {
+            var cata_key = cataArr.indexOf("huiyuanzhekou");
+            that.setData({
+              huiyuanzhekou_youhui_data: xiangqing[cata_key].youhui_data,
+              huiyuanzhekou_youhui_name: xiangqing[cata_key].youhui_name,
+              huiyuanzhekou: 1,
+            });
+          }
+
+
+
           if (cataArr.indexOf("duorenpintuan") > -1) {
             var cata_key = cataArr.indexOf("duorenpintuan");
             console.log(cata_key);
@@ -520,20 +572,19 @@ Page({
 
     var that = this;
 
-    var userInfo = app.get_user_info();
+    var last_url = null;
+    var page_type = 'normal';
 
+    if (that.data.productid) {
+      last_url = '/pages/product/detail?productid=' + that.data.productid;
+    }
     
-    if ((!userInfo) || (!userInfo.userid)) {
-      var last_url = null;
-      var page_type = 'normal';
-
-      if (that.data.productid) {
-        last_url = '/pages/product/detail?productid=' + that.data.productid;
-      }
-      app.goto_user_login(last_url, page_type);
-
+    if(app.goto_user_login(last_url)){
       return;
     }
+
+    var userInfo = app.get_user_info();
+
     var cata_id = e.currentTarget.id;
 
     var join_flag = '?';
@@ -791,20 +842,19 @@ Page({
   addFavorites:function(e){
     var that = this;
 
-    var userInfo = app.get_user_info();
+    var last_url = null;
+    var page_type = 'normal';
 
-    if ((!userInfo) || (!userInfo.userid)) {
-
-      var last_url = null;
-      var page_type = 'normal';
-
-      if (that.data.productid) {
-        last_url = '/pages/product/detail?productid=' + that.data.productid;
-      }
-      app.goto_user_login(last_url, page_type);
-
+    if (that.data.productid) {
+      last_url = '/pages/product/detail?productid=' + that.data.productid;
+    }
+    
+    if(app.goto_user_login(last_url)){
       return;
     }
+
+    var userInfo = app.get_user_info();
+
     wx.request({
       url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=favorite', 
       method:'post',
@@ -847,24 +897,20 @@ Page({
 
     var that = this;
 
+    var last_url = null;
+    var page_type = 'normal';
+
+    if (that.data.productid){
+      last_url = '/pages/product/detail?' + that.data.options_str;
+    }
+
+  
+    if(app.goto_user_login(last_url)){
+      return;
+    }
+
     var userInfo = app.get_user_info();
 
-
-    if ((!userInfo) || (!userInfo.userid)) {
-      console.log('没有登录，跳转到登录界面');
-
-      var last_url = null;
-      var page_type = 'normal';
-
-      if (that.data.productid){
-        last_url = '/pages/product/detail?' + that.data.options_str;
-      }
-
-    
-      app.goto_user_login(last_url, page_type);
-
-      return;
-    } 
 
     // 弹窗
 
@@ -960,6 +1006,12 @@ Page({
             title: '添加成功',
 
           });
+
+          that.setData({
+            showModalStatus:0
+          });
+
+
         },
         fail: function (e) {
           wx.showToast({
@@ -1046,9 +1098,12 @@ Page({
       share_path += '&userid='+userInfo.userid;
     }
 
+    var share_img = this.data.shop_info.icon;
+
     return {
       title: share_title + ' ￥' + that.data.detail.price,
       path: share_path,
+      imageUrl : share_img,
       success: function (res) {
         // 分享成功
       },
@@ -1121,6 +1176,8 @@ Page({
       spec2: spec2,
       option_list_arr: option_list_arr
     })
+
+    var productid = 0;
     
     for (var i = 0; i < attr_list.length; i++){
       if (spec_str == attr_list[i].option_name){
@@ -1128,15 +1185,21 @@ Page({
       }
     }
 
-    wx.request({
+
+    var userInfo = app.get_user_info();
+
+    var data_params = {
+      productid: productid,
+      sellerid: app.get_sellerid(),
+    }
+
+    if (userInfo) {
+      data_params.userid = userInfo.userid;
+    }
+
+    api.abotRequest({
       url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=product_detail',
-      method: 'post',
-      data: {
-        productid: productid,
-      },
-      header: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
+      data: data_params,
       success: function (res) {
         var code = res.data.code;
         if (code == 1) {
@@ -1151,6 +1214,17 @@ Page({
           });
 
           WxParse.wxParse('content', 'html', res.data.data.describe, that, 15);
+
+          that.setData({
+            productid: productid
+          });
+
+          that.loadCataXiangqing();
+
+
+
+
+
         } else {
           wx.showToast({
             title: res.data.msg,

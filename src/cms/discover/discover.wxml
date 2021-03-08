@@ -2,7 +2,7 @@
 <!--滚动图片start-->
  <view wx:if="{{!is_my_discover_collection && !is_my_discover && isShowBanner}}">
   <swiper bindchange="bindchange" indicator-dots="true" autoplay="true" interval="5000" duration="500" style="height:{{imgheights[current]}}rpx;">
-    <block wx:for="{{imgUrls}}" wx:key="{{index}}">
+    <block wx:for="{{imgUrls}}" wx:key="*this">
       <swiper-item>
         <image src="{{item.image}}"  data-id='{{index}}'  mode="widthFix" class="slide-image" bindload="imageLoad" bindtap="toProductDetail" data-url="{{item.url}}"/>
       </swiper-item>
@@ -20,7 +20,7 @@
 
 
   <view class="tab-con" wx:if="{{faquan_tag_status == 1}}">
-    <view class="{{item.select==true ? 'select-tab' : ''}}" bindtap="selectTab"  wx:for='{{hot_tag}}' wx:for-index="index" data-index="{{index}}">{{item.name}}</view>
+    <view class="{{item.select==true ? 'select-tab' : ''}}" bindtap="selectTab"  wx:for='{{hot_tag}}' wx:for-index="index" wx:key="*this" data-index="{{index}}">{{item.name}}</view>
   
   </view>
   <view style="clear:both;"></view>
@@ -30,9 +30,10 @@
 
 <!-- 标签end -->
 
-<!-- 总共收藏数 -->
-<view class='col-con' wx:if="{{is_my_discover_collection || is_my_discover}}">
-  <view >总共</view><view style="color:#E0B351;margin-left:10rpx;font-weight:normal;">{{count}}</view>
+<!-- 总共收藏数 或 发布  -->
+<view class='col-con' wx:if="{{is_my_discover_collection || is_my_discover}}" 
+  style="height: 100rpx;line-height: 100rpx;background-color: {{wxa_shop_nav_bg_color}};color:{{wxa_shop_nav_font_color=='#000000' ? '#333' : wxa_shop_nav_font_color}}">
+  <view >{{nav_title}}</view> <view style="color:#E0B351;margin-left:20rpx;font-weight:normal;"></view>
 </view>
 
 
@@ -46,46 +47,118 @@
 
 
 <!-- 发圈列表 start-->
-<view class="list-box clearfix" wx:for="{{faquanList}}" wx:for-index="idx" wx:for-item="item" wx:key>
-        <view class='list-con'>
-            <image class="list-avatar" src="{{item.headlogo}}" ></image>
-            <view class="list-item">
-                <view bindtap="" data-id="{{item._id}}">
+<view class="list-box clearfix" wx:for="{{faquanList}}" wx:for-index="idx" wx:for-item="item" wx:key="faquanid">
+        <view class='list-con'> <!-- 001 -->
+            <image class="list-avatar" src="{{item.headlogo}}" ></image> 
+            <view class="list-item">  <!-- 002 -->
+                <view bindtap="" data-id="{{item.faquanid}}">  <!-- 003 -->
                     <view class="list-type">
-                      <view class="list-zan-a" wx:if="{{!is_my_discover_collection && !is_my_discover}}">
+                      <view class="list-zan-a" wx:if="{{is_my_discover != 1}}">
 
                         <image class='list-zan' data-faquanid='{{item.faquanid}}' data-index='{{idx}}' bindtap="fanquaDianzan" src="{{faquanList[idx].has_like == 0 ? '../../images/dianzan_grey.png' : '../../images/dianzan_red.png'}}"></image>
-                        <view>{{item.like_num}}</view>
+                        <view style="color:#707070;">{{item.like_num}}</view>
+
+                        <image bindtap="fanquanCollect" data-faquanid='{{item.faquanid}}' data-index='{{idx}}' class='list-zan' src="{{faquanList[idx].has_collect == 0 ? '../../images/star_off.png' : '../../images/star_on.png'}}"></image>
+                        <view style="color:#707070;">{{item.collect_num}}</view>
+
                       </view>
 
-                      <image bindtap="fanquanCollect" wx:if="{{!is_my_discover}}" data-faquanid='{{item.faquanid}}' data-index='{{idx}}' class='list-zan' src="{{faquanList[idx].has_collect == 0 ? '../../images/star_off.png' : '../../images/star_on.png'}}"></image>
+                      
 
                     </view>
-                    <view class="list-name" data-id="{{item._id}}">{{item.username}}</view>               
-                    <text class="list-des" bindtap="copyText" data-text="{{item.text}}" data-id="{{item._id}}">{{item.text}}</text>
+                    <view class="list-name" data-id="{{item.faquanid}}">{{item.username}}</view>               
+                    <text class="list-des" bindtap="copyText" data-text="{{item.text}}" data-id="{{item.faquanid}}">{{item.text}}</text>
 
                     <view wx:if="{{item.type == 0}}">  
-                         <image wx:for="{{item.img_or_video_list}}" lazy-load="true"  bindtap='bigImg' mode="aspectFill" data-index="{{idx}}" data-index2="{{idx2}}" wx:for-index="idx2" wx:for-item="item2" class="list-image"  src="{{item2.url}}"  data-id="{{item._id}}"></image>                        
+                         <image wx:for="{{item.img_or_video_list}}" wx:key="*this" lazy-load="true"  bindtap='bigImg' mode="aspectFill" data-index="{{idx}}" data-index2="{{idx2}}" wx:for-index="idx2" wx:for-item="item2" class="list-image"  src="{{item2.url}}"  data-id="{{item.faquanid}}"></image>                        
                     </view>
 
                     <view wx:else>
-                        <video id="{{item2.imgid}}" bindtap='start_and_stop_other_videos' wx:for="{{item.img_or_video_list}}" poster='' controls="true" wx:for-item="item2" src="{{item2.url}}"   controls ></video>
+                        <video wx:for="{{item.img_or_video_list}}" wx:for-item="item2" wx:key="imgid"
+                        data-id="{{item2.imgid}}" data-index="{{item2.index}}"
+                        bindtap='start_and_stop_other_videos' 
+                        src="{{item2.url}}"  poster='{{item2.video_img}}'
+                        controls="true"
+                        bindloadedmetadata="videometa"
+                        style="width:{{videometa_width_height_list[item2.index][0]}}rpx; height:{{videometa_width_height_list[item2.index][1]}}rpx;"></video>
+                        {{item2.index}}
                     </view>
                     
-                </view>
+                </view>  <!-- End of 003  -->
                 
                 <view class="pb-time">{{item.createtime}}</view>
-                <view class="list-botton clearfix">        
-             </view>
-            </view>
-          </view>
-        <view class="tab-con-each" wx:if="{{faquan_tag_status == 1}}">
-          <view class=""  wx:for='{{item.tag}}' wx:for-index="index" wx:for-item="item3" data-index="{{index}}">{{item3}}             </view>         
-        </view>
+
+
+                <block wx:if="{{is_my_discover_collection || is_my_discover}}">
+                  <view class="" style="margin-left: 0;height: 40rpx;line-height: 40rpx;font-size: 26rpx;text-align: left;color:#666;">
+                      
+                      <block  wx:if="{{(faquan_tag_status == 1) && (item.tag_count > 0) }}">
+                        <view><text style="font-weight:bold;">标签</text>  
+                          <block wx:for='{{item.tag}}' wx:key="*this" wx:for-index="index" wx:for-item="item3" data-index="{{index}}"
+                              style="font-size: 26rpx;height: 30rpx;line-height: 30rpx;"><text style="margin-left:20rpx;">{{item3}}</text></block>
+                        </view>
+                        
+                      </block>
+                      
+                  </view>
+                </block>
+                <block wx:if="{{is_my_discover}}">
+                  <view class="" style="margin-left: 0;height: 40rpx;line-height: 40rpx;font-size: 26rpx;text-align: left;color:#666;">
+                      <view><text style="font-weight:bold;">点赞</text> <text style="margin-left:20rpx;">{{item.like_num}}</text>
+                      </view>  
+                  </view>
+                  <view class="" style="margin-left: 0;height: 40rpx;line-height: 40rpx;font-size: 26rpx;text-align: left;color:#666;">
+                      <view><text style="font-weight:bold;">收藏</text> <text style="margin-left:20rpx;">{{item.collect_num}}</text>
+                      </view>  
+                  </view>
+                  <view class="" style="margin-left: 0;height: 40rpx;line-height: 40rpx;font-size: 26rpx;text-align: left;color:#666;">
+                      <view><text style="font-weight:bold;">状态</text> <text style="margin-left:20rpx;">{{item.status_str}}</text>
+                      </view>  
+                  </view>
+
+                  <view class="" style="margin-left: 0;height: 40rpx;line-height: 40rpx;font-size: 26rpx;text-align: left;color:#666;" wx:if="{{item.status != 1}}">
+                      <view><text style="font-weight:bold;">备注</text> <text style="margin-left:20rpx;">{{item.memo}}</text>
+                      </view>  
+                  </view>
+
+                  <view class="" style="margin-left: 0;height: 40rpx;line-height: 40rpx;font-size: 26rpx;text-align: left;color:#666;">
+                      <view><text style="font-weight:bold;">操作</text>
+                        <block wx:if="{{item.status == 4}}">
+                        <text style="margin-left:20rpx; color:blue;" data-faquanid='{{item.faquanid}}' data-status='1' bindtap="change_faquan_status">显示</text>
+                        </block>
+                        <block wx:else>
+                          <text style="margin-left:20rpx; color:blue;" data-faquanid='{{item.faquanid}}' data-status='4' bindtap="change_faquan_status">隐藏</text>
+                        </block>
+
+                        <text style="margin-left:40rpx; color:blue;" data-faquanid='{{item.faquanid}}' data-status='3' bindtap="change_faquan_status">删除</text>
+                      </view>  
+                  </view>
+
+                </block>
+                <block wx:if="{{(is_my_discover_collection != 1) && (is_my_discover != 1)}}">
+                
+
+                  <block  wx:if="{{(faquan_tag_status == 1) && (item.tag_count > 0) }}">
+                    <view class="list-botton tab-con clearfix" style="margin-left: 0;height: 60rpx;line-height: 60rpx;">
+                      <view class=""  wx:for='{{item.tag}}' wx:key="*this" wx:for-index="index" wx:for-item="item3" data-index="{{index}}"
+                          style="font-size: 26rpx;height: 30rpx;line-height: 30rpx;">{{item3}}</view>
+                    </view>
+                  </block>
+
+                </block>
+
+
+
+
+            </view>  <!-- End of 002  -->
+          </view> <!-- End of 001  -->
+        
           <view style="clear:both;"></view>
 
-           <view wx:if="{{!is_my_discover_collection && !is_my_discover}}" class="list-address fz-10 m-t-5">
-              <view bindtap="{{disable ? '' : 'oneClickSave'}}" class='download-con' data-index='{{idx}}' data-type='{{item.type}}' >
+           <view wx:if="{{!is_my_discover_collection && !is_my_discover}}" class="list-address fz-10 m-t-5"> <!-- 004  -->
+              <view bindtap="{{disable ? '' : 'oneClickSave'}}" class='download-con' 
+                data-index='{{idx}}' data-type='{{item.type}}' 
+                style="display:{{faquan_one_click_to_save_show}}">
                 <image class="download-img" src="../../images/download.png"></image>一键保存</view>
 
 
@@ -97,11 +170,16 @@
                   <view class="share_hide">
                     
                       <view style='width:74rpx;'>分享</view>
-                    <button class="share" id="dddd" open-type="share"></button> 
+                    <button class="share" data-id="{{item.faquanid}}" open-type="share"></button> 
                   </view>
                 </view>
+
           </view>
-        </view>  
+
+
+        </view>  <!-- End of 004  -->
+
+
 <!-- 发圈列表 end-->
 
 
@@ -116,5 +194,5 @@
   <view>搜索</view>
 </view>
 <view class="publish-idea" style=''  wx:if="{{faquan_button_status==1}}">
-  <image src="/images/discover_publish_add.png" bindtap="publishIdea"></image>
+  <image src="{{faquan_add_img_url}}" bindtap="publishIdea"></image>
 </view>

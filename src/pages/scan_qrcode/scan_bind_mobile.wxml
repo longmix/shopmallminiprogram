@@ -1,0 +1,24 @@
+<!--pages/scan_qrcode/scan_bind_mobile.wxml-->
+<view class='box'>
+ <view>布贴编号：{{orderno}}</view>
+</view>
+ <view style='text-align:center;margin:50rpx auto;color:#666; font-size:30rpx;display:none;'>{{shop_list.name}}</view>
+<form bindsubmit="formSubmit" report-submit="true">
+<view class="section1">
+  <input type="number" bindinput="phoneInput"  placeholder="请输入要绑定的手机号码" value="{{mobile}}" name="mobile" confirm-type="next" />
+ 
+</view>
+<view class="section3">
+  
+  <image bindtap="click_check" src="{{img_checkcode_url}}"></image>
+  <input type="number" placeholder="请输入算术题答案"  bindinput="imgInput" confirm-type="next" />
+ 
+</view>
+<view class="section2">
+  <input type="number" name="verifycode_sms"  placeholder="请输入手机验证码"  bindinput="telInput" confirm-type="next"  />
+  <button type="primary" disabled="{{disabled}}" bindtap="send_btn" class="send_btn">{{second}}</button>
+</view>
+<view>
+<button type="primary" bindtap="btn_user_login"  formType="submit" class="check_btn" >绑定手机号</button>
+</view>
+</form>

@@ -3,7 +3,7 @@ var app = getApp();
 
 Page({
     data: {
-        imgUrls: [ "http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg", "http://img06.tooopen.com/images/20160818/tooopen_sy_175866434296.jpg", "http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg" ],
+        
       imgUrls: [],
       indicatorDots: true,
       autoplay: true,
@@ -100,7 +100,8 @@ Page({
 
     console.log('sellerid 06：' + sellerid);
 
-    app.globalData.sellerid = sellerid
+    app.globalData.sellerid = sellerid;
+    app.globalData.default_sellerid = sellerid;
     app.set_sellerid(sellerid);
 
     if(app.globalData.is_ziliaoku_app == 1){

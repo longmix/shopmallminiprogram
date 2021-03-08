@@ -4,7 +4,7 @@
       <image src="{{shop_info_from_server.icon ? shop_info_from_server.icon : '../../images/yyb.png'}}"></image>
     </view>
     <view class="code_num2" wx:if="{{shop_name}}">{{shop_name}}</view>
-    <view class="code_num" wx:if="{{version_number}}">版本号：{{version_number}}</view>
+    <view class="code_num" wx:if="{{version_number}}">{{version_number}}</view>
   </view>
 </view>
 <view class="list">
@@ -57,6 +57,11 @@
 
 <view class="logo_box">
   <view class="box_img">
-    <button class="xg_button" open-type="contact" type="primary">意见反馈</button>
+    <view style="width: 50%;float:left;text-align:center;">
+      <button class="xg_button" style="width:90%;background-color:{{button_bg_color}};color:{{button_font_color}}" open-type="contact" type="primary">联系客服</button>
+    </view>
+    <view style="width: 50%;float:left;text-align:center;">
+      <button class="xg_button" style="width:90%;background-color: #eee;color:#222;" open-type="feedback" type="primary">问题反馈</button>
+    </view>
   </view>
 </view>

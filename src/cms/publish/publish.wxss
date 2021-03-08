@@ -12,14 +12,11 @@
   height:110px; 
   width:100%;
   font-size: 28rpx;
-  padding-left:20rpx;
-  padding-right:20rpx;
 }
 
 .a-con-textarea{
-  width: 100%;
-  border-top:1px solid #8888;
-  border-bottom:1px solid #8888;
+  border:1px solid #8888;
+  margin: 30rpx 30rpx 0 30rpx;
 }
 
 .camera-a{
@@ -50,7 +47,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  display:flex;
   padding:60rpx 0 30rpx 0;
 }
 
@@ -69,6 +65,7 @@
 .pub-xieyi{
   font-size:28rpx;
   margin-top:24rpx;
+  color: #515151;
 }
 
 .pub-xieyi checkbox{
@@ -111,8 +108,9 @@
 .wx-popup-title {
   padding: 20rpx;
   text-align: center;
-  font-size: 28rpx;
+  font-size: 30rpx;
   border-bottom: 2rpx solid red;
+  font-weight: bold;
 }
 
 .wx-popup-subtitle{
@@ -122,10 +120,11 @@
   margin-top:26rpx;
 }
 .wx-popup-con {
-  margin: 60rpx 10rpx;
-  text-align: center;
-  font-size:28rpx;
-  margin-top:20rpx;
+  margin: 60rpx 30rpx;
+text-align: left;
+font-size: 28rpx;
+margin-top: 20rpx;
+text-indent: 0em;
 }
 .wx-popup-btn {
   display: flex;
@@ -172,9 +171,9 @@
 
 .tab-con view{
   float: left;
-  border: 1px solid #f00;
-  margin-left: 20rpx;
-  border-radius: 4px;
+  border: 1rpx solid #f00;
+  margin: 0 20rpx 20rpx 0;
+  border-radius: 8rpx;
   font-size: 30rpx;
   padding: 10rpx 20rpx;
 }

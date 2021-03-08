@@ -1,9 +1,11 @@
 <!--pages/login/login.wxml-->
 <view class="page" style='width:100%;overflow-x:hidden;'>
-<view class='box'>
+<view class='box' wx:if="{{show_shop_logo == 1}}">
  <image src='{{shop_list.icon}}' mode="widthFix" style='border-radius: 50%;'></image>
 </view>
- <view style='text-align:center;margin:50rpx auto;color:#666; font-size:30rpx;display:none;'>{{shop_list.name}}</view>
+<view style='text-align:center;margin:50rpx auto;color:#666; font-size:36rpx;display:block;'  wx:if="{{show_shop_name == 1}}">{{shop_list.name}}</view>
+
+<view style='text-align:left;margin:50rpx 30rpx;color:#666; font-size:32rpx;display:block;'  wx:if="{{show_memo_text == 1}}"><text>{{memo_text_content}}</text></view>
 
 
 <view wx:if="{{show_mobile_login == 0}}">
@@ -20,10 +22,10 @@
 </view>
 <view class="section2">
   <input type="number" name="verifycode_sms"  placeholder="请输入手机验证码"  bindinput="telInput" confirm-type="next"  />
-  <button type="primary" disabled="{{disabled}}" bindtap="send_btn" class="send_btn">{{second}}</button>
+  <button disabled="{{disabled}}" bindtap="send_btn" class="send_btn" style="background: {{icon_jump_bg_color}};color:{{wxa_shop_nav_font_color}}">{{second}}</button>
 </view>
 <view>
-<button type="primary" open-type="getUserInfo"   bindgetuserinfo="btn_user_login"  formType="submit" class="check_btn" >登    录</button>
+<button open-type="getUserInfo" bindgetuserinfo="btn_user_login"  formType="submit" class="check_btn" style="background: {{icon_jump_bg_color}};color:{{wxa_shop_nav_font_color}}">登    录</button>
 </view>
 </form>
 <view style='font-size:15px;color:#666;margin-top: 50rpx;text-align: right;padding-right: 50rpx;'>
@@ -36,7 +38,7 @@
 
 
 
-<button open-type="getPhoneNumber" plain="true" bindgetphonenumber="btn_one_click_login" class="check_btn" style="color:#555;margin:80rpx auto;">使用微信一键登录</button>
+<button open-type="getPhoneNumber" bindgetphonenumber="btn_one_click_login" class="check_btn" style="margin:80rpx auto;" type="primary">{{btn_one_click_login_text}}</button>
 </view>
 
 

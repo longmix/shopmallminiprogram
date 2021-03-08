@@ -1,0 +1,151 @@
+{
+  "extEnable": true,
+  "extAppid": "wx00d1e2843c3b3f77",
+  "directCommit": false,
+  "ext": {
+    "name": "wechat",
+    "attr": {
+      "host": "open.weixin.qq.com",
+      "users": [
+        "user_1",
+        "user_2"
+      ]
+    },
+
+    "xiaochengxu_appid": "wx00d1e2843c3b3f77",
+    "force_sellerid_flag": 0,
+    "force_sellerid_value": "pQNNmSkaq",
+
+    "is_ziliaoku_app": 0,
+    "is_o2o_app": 0,
+
+    "shop_name": "通版商城",
+    "version_number": "2.1.1",
+
+    "navigationBarBackgroundColor_fixed": 0,
+
+    "kefu_telephone": "021-31128716",
+    "kefu_qq": "537086268",
+    "kefu_website": "www.abot.cn",
+    "kefu_gongzhonghao": "延誉宝"
+  },
+  "pages": [
+    "pages/index/Liar",
+    "pages/index/index",
+    "pages/product/detail",
+    "pages/search/search",
+    "pages/h5browser/h5browser",
+    "pages/user/user",
+    "pages/userinfo/userinfo",
+    "pages/nickname/nickname_edit",
+    "pages/update_mobile/update_mobile",
+    "pages/user/dingdan",
+    "pages/user/shoucang",
+    "pages/user/shangchengma",
+    "pages/about_applet/about_applet",
+    "pages/help/help",
+    "pages/help_detail/help_detail",
+    "pages/login/login",
+    "pages/login/login_by_password",
+    "pages/login/login_get_userinfo",
+    "pages/user/tuihuo",
+    "pages/order/pay",
+    "pages/order/detail",
+    "pages/order/downline",
+    "pages/order/zhifu",
+    "pages/cart/cart",
+    "pages/listdetail/listdetail",
+    "pages/listdetail/list_yushou",
+    "pages/address/address",
+    "pages/address/user-address/user-address",
+    "pages/category/index",
+    "pages/category/index2",
+    "pages/ritual/ritual",
+    "pages/rituall/rituall",
+    "pages/shop_store/shop_store",
+    "pages/account_edit/account_edit",
+    "pages/welcome_page/welcome_page",
+    "pages/share-gift/share-gift",
+    "pages/share-gift/share-detail",
+    "pages/order/coupon_list",
+    "pages/index/index_off",
+    "pages/user/user2",
+    "pages/recharge/recharge",
+    "pages/order_chongzhi/chongzhi",
+    "pages/h5browser/h5share",
+    "cms/quanquan/quanquan_details",
+    "cms/mydiscover/my-discover",
+    "cms/mycollection/my-discover-collection",
+    "cms/mycollection/my-videolist-collection",
+    "cms/index/index",
+    "cms/library/library",
+    "cms/discover/discover",
+    "cms/library/library_list",
+    "cms/publish/publish",
+    "cms/top_showcase/my",
+    "cms/quanquan/quanquanlist",
+    "o2o/index/index",
+    "o2o/address/address_list",
+    "o2o/address/listdetail",
+    "o2o/order/pay",
+    "pages/h5browser/h5hub",
+    "pages/selfform/selfform",
+    "pages/yanyubao/module_list",
+    "pages/live_room/live_room"
+  ],
+  "extPages": {
+    "pages/help/help": {
+      "navigationBarTitleText": "帮助中心"
+    } 
+  },
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#1569db",
+    "navigationBarTitleText": "通版商城",
+    "navigationBarTextStyle": "white"
+  },
+  "networkTimeout": {
+    "request": 10000,
+    "downloadFile": 10000
+  },
+  "tabBar": {
+    "color": "#858585",
+    "selectedColor": "#008842",
+    "borderStyle": "white",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "images/icons/btn-tabs_01.png",
+        "selectedIconPath": "images/icons/btn-tabs_07.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/category/index",
+        "iconPath": "images/icons/btn-tabs_03.png",
+        "selectedIconPath": "images/icons/btn-tabs_08.png",
+        "text": "分类"
+      },
+      {
+        "pagePath": "pages/cart/cart",
+        "iconPath": "images/icons/btn-tabs_05.png",
+        "selectedIconPath": "images/icons/btn-tabs_09.png",
+        "text": "购物车"
+      },
+      {
+        "pagePath": "pages/user/user",
+        "iconPath": "images/icons/btn-tabs_06.png",
+        "selectedIconPath": "images/icons/btn-tabs_10.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "plugins": {
+    "live-player-plugin": {
+        "version": "1.0.17",
+        "provider": "wx2b03c6e691cd7370" 
+    }
+  }
+}
+
+

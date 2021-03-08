@@ -1,6 +1,6 @@
 // pages/order/coupon_list.js
 var app = getApp();
-var userInfo = app.get_user_info();
+
 Page({
 
   /**
@@ -19,9 +19,6 @@ Page({
     app.set_option_list_str(null, app.getColor());
 
     console.log('dddd', options)
-    if(!userInfo){
-      userInfo = app.get_user_info();
-    }
 
 
     if(options.productid){
@@ -51,6 +48,8 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+
+    var userInfo = app.get_user_info();
 
     var that = this;
     wx.request({

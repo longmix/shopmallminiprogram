@@ -1,6 +1,6 @@
 // pages/panic/panic.js
 var app = getApp();
-var userInfo = app.get_user_info();
+
 Page({
   data:{
     vou:[],
@@ -23,6 +23,9 @@ Page({
   onLoad:function(options){
     // 页面初始化 options为页面跳转所带来的参数
     var that = this;
+
+    var userInfo = app.get_user_info();
+
     wx.request({
       url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=get_user_youhui_info', 
       method:'post',

@@ -89,6 +89,13 @@ Page({
               }, 
         method: "POST",
         success: function(res) {
+          if(res.data.code == -1){
+            wx.redirectTo({
+              url: '../login/login',
+            })
+            
+            return;
+          }
           var headimgurl = res.data.data.headimgurl
           //var img_url = JSON.stringify(headimgurl);
           console.log(headimgurl);

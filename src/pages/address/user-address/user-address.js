@@ -1,5 +1,5 @@
 // pages/address/user-address/user-address.js
-
+var api = require('../../../utils/api');
 var app = getApp();
 var userInfo = app.get_user_info();
 Page({
@@ -12,13 +12,24 @@ Page({
     buynum:'',
     productid:'',
     action:'',
-    is_from_order_page:false
+    is_from_order_page:false,
+
+    wxa_shop_nav_bg_color: '#000000'
   },
   onShow: function () {
 
   },
   onLoad: function (options) {
-    app.set_option_list_str(null, app.getColor());
+    console.log('user-address----options==', options)
+    app.set_option_list_str(this, function (that001, option_list){
+      app.getColor();
+
+      that001.setData({
+        wxa_shop_nav_bg_color: option_list.wxa_shop_nav_bg_color
+      });
+
+
+    });
     
     var userInfo = app.get_user_info();
     if ((!userInfo) || (!userInfo.userid)) {
@@ -45,12 +56,31 @@ Page({
     console.log(userInfo);
     console.log(333333)
 
-    that.setData({
-      productid: options.productid,
-      amount: options.amount,
-      action: options.action,
-    });
+
+    if (options.productid){
+      that.setData({
+        productid: options.productid,
+      });
+    }
     
+    if (options.amount) {
+      that.setData({
+        amount: options.amount,
+      });
+    }
+
+    if (options.action) {
+      that.setData({
+        action: options.action,
+      });
+    }
+    
+    if (options.action_pay) {
+      that.setData({
+        action_pay: options.action_pay,
+      });
+    }
+
     wx.showLoading({
       title: '加载中...',
     })
@@ -144,11 +174,14 @@ Page({
         var cartId = that.data.cartId;
         var amount = that.data.amount;
         var productid = that.data.productid;
-        var action = that.data.action;
+        var action_pay = that.data.action_pay;
 
+        console.log('productid=================11', productid)
+        console.log('amount=================11', amount)
+        console.log('action_pay=================11', action_pay)
         if(cartId == 321){
           if (code == 1) {
-            if (action == 'direct_buy') {
+            if (action_pay == 'direct_buy') {
               wx.redirectTo({
                 //url: '../../order/pay?productid=' + productid + "&buynum=" + buynum,
                 url: '../../order/pay?amount=' + amount + "&productid=" + that.data.productid + "&action=direct_buy",
@@ -189,11 +222,106 @@ Page({
       }
     })
   },
+
+  //调用微信地址
+  wxaddress: function wxaddress() {
+    var that = this;
+    var userInfo = app.get_user_info();
+    console.log('aaahush',userInfo);
+    wx.chooseAddress({
+
+      success: function success(res) {
+
+        console.log('aaaaasss', res);
+        var provinceName = res.provinceName;
+        var cityName = res.cityName;
+        var countyName = res.countyName;
+        var Name = res.userName;
+        var telNumber = res.telNumber;
+        var detailInfo = res.detailInfo;
+        console.log('aaaaas====ss', countyName);
+
+        var post_data = {
+          userid: userInfo.userid,
+          checkstr: userInfo.checkstr,
+          sellerid: app.get_sellerid(),
+          provinceName: provinceName,
+          cityName: cityName,
+          countyName: countyName,
+          Name: Name,
+        };
+        api.abotRequest({
+          url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=get_city_coding',
+          method: 'post',
+          data: post_data,
+          header: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          success: function (res) { 
+              console.log('aaaaaname', res);
+            var province = res.data.data.provinceCode;
+            var city = res.data.data.cityCode;
+            var county = res.data.data.countyCode;
+
+            api.abotRequest({
+              url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=address_save',
+              method: 'post',
+              data: {
+                action: 'add',
+                checkstr: userInfo.checkstr,
+                userid: userInfo.userid,
+                sellerid: app.get_sellerid(),
+                name: Name,
+                mobile: telNumber,
+                province: province,
+                city: city,
+                district: county,
+                address: detailInfo
+              },
+              header: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+              },
+
+              success: function success() {
+                wx.showToast({
+                  title: '添加成功！'
+                });
+                that.DataonLoad();
+              },
+              fail: function fail() {
+
+              }
+            });
+
+          },
+          fail: function fail() {
+            // fail
+            uni.showToast({
+              title: '网络异常！',
+              duration: 2000
+            });
+
+          }
+        });
+
+      },
+      fail: function fail() {
+        console.log(456789);
+      },
+      complete: function complete() {
+        console.log(741822);
+      }
+    });
+
+
+  },
+
   saveAddress:function (e) {
     var addressId = e.currentTarget.dataset.id;
+
     wx.redirectTo({
-      url: '../address?action=edit&addressId=' + addressId,
-    });
+      url: '../address?action=edit&addressId=' + addressId + '&amount=' + this.data.amount + '&productid=' + this.data.productid + '&action=' + this.data.action + '&action_pay=' + this.data.action_pay,
+    }); 
   },
   delAddress: function (e) {
     var that = this;
@@ -242,6 +370,7 @@ Page({
     });
 
   },
+  
   DataonLoad: function () {
     var that = this;
     var userInfo = app.get_user_info();

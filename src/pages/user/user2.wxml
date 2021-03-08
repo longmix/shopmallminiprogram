@@ -74,7 +74,7 @@
 
    <navigator url="../about_applet/about_applet" open-type="navigate">
   <view class='icon-list'>
-   <image src='../../images/icon/xiaochengxu.png'></image>
+   <image src='../../images/wxa.png'></image>
    <view class='icon-text'><text>关于小程序</text></view>
   </view>
   </navigator>

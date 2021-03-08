@@ -23,15 +23,14 @@ Page({
   onLoad: function (options) {
     app.set_option_list_str(null, app.getColor());
 
-    var userInfo = app.get_user_info();
+    var last_url = 'switchTab /cms/top_showcase/my';
 
-    if (!userInfo) {
-      console.log('userInfo')
-      var last_url = '/cms/top_showcase/my';
-      app.goto_user_login(last_url, 'switchTab');
-
+    if(app.goto_user_login(last_url)){
       return;
     }
+
+    var userInfo = app.get_user_info();
+
     var self = this;
     var current_web_url = 'https://yanyubao.tseo.cn/Yanyubao/TopShowcase/my/ensellerid/%ensellerid%.html?oneclicklogin=%oneclicklogin%';
 

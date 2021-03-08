@@ -34,6 +34,10 @@ page {
 
 .address-name{
   margin-right: 20rpx;
+  font-size: 30rpx;
+}
+.address-phone{
+  font-size: 30rpx;
 }
 
 .address-info {
@@ -53,7 +57,7 @@ page {
   align-items: center;
   margin-top: 20px;
   padding: 18rpx;
-  background-color: #fff;
+  background-color: #efeff4;
   font-size: 11pt;
   font-weight: 900;
 }

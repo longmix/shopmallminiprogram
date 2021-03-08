@@ -1,4 +1,4 @@
-// cms/video/videolist.js
+// cms/quanquan/quanquanlist.js
 var app = getApp();
 var userInfo = app.get_user_info();
 Page({
@@ -263,7 +263,7 @@ Page({
     console.log('0000',e)
      
     wx.navigateTo({
-      url: '/cms/video/video_details?videoid=' + e.currentTarget.dataset.videoid,
+      url: '/cms/quanquan/quanquan_details?videoid=' + e.currentTarget.dataset.videoid,
     })
   }
 })

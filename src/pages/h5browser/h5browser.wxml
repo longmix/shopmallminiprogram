@@ -1,2 +1,2 @@
 
-<web-view src="{{url}}"></web-view>
+<web-view src="{{url}}" bindmessage="bindmessage"></web-view>

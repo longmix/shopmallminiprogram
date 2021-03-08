@@ -1,12 +1,16 @@
 var app = getApp();
-var userInfo = app.get_user_info();
+
 var util = require('../../utils/util.js');
 Page({
   data: {
     date:'2016-09-01',
     zz_pay:true,
     payView:true,
-    pageBackgroundColor:''
+    pageBackgroundColor:'',
+    balance_zengsong_dikou:0,
+    balance_dikou:0,
+    wxa_shop_nav_bg_color:'#1AAD19',
+    wxa_shop_nav_font_color:'#ffffff',
   },
   onShow: function () {
     
@@ -14,7 +18,7 @@ Page({
   onLoad: function (options) {
     console.log('options', options)
 
-    app.set_option_list_str(null, app.getColor());
+    app.set_option_list_str(this, this.callback_function);
 
     var date = util.formatTime(new Date());
     var time = util.formatTime2(new Date());
@@ -65,6 +69,7 @@ Page({
     }
 
     this.loadOrderDetail();
+
     var that = this;
     wx.request({
       url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=payment_type_list',
@@ -115,6 +120,31 @@ Page({
         });
       }
     });
+  },
+  callback_function: function (that, cb_params) {
+    app.getColor();
+
+    var option_list = app.globalData.option_list;
+
+
+    console.log('callback_function+++++:::' + cb_params)
+
+    if (!option_list) {
+      return;
+    }
+
+    if (option_list.wxa_shop_nav_bg_color) {
+      that.setData({
+        wxa_shop_nav_bg_color: option_list.wxa_shop_nav_bg_color
+      });
+    }
+
+    if (option_list.wxa_shop_nav_font_color) {
+      that.setData({
+        wxa_shop_nav_font_color: option_list.wxa_shop_nav_font_color
+      });
+    }
+
   },
   radioChange: function (e) {
     var that = this;
@@ -192,6 +222,8 @@ Page({
         
 
           var pay_price = parseFloat(orderData.order_total_price);
+
+          console.log('order_xiangqing pay_price ====>>>  11111 ====>>>' + pay_price);
           
 
           if(that.data.balance_zengsong_dikou < pay_price){
@@ -200,12 +232,18 @@ Page({
             pay_price = 0
           }
 
+          console.log('order_xiangqing pay_price ====>>>  22222 ====>>>' + that.data.balance_zengsong_dikou);
+
+          console.log('order_xiangqing pay_price ====>>>  22222 ====>>>' + pay_price);
+
           
           if (that.data.balance_dikou < pay_price) {
             pay_price = pay_price - that.data.balance_dikou;
           } else {
             pay_price = 0
           }
+
+          console.log('order_xiangqing pay_price ====>>>  33333 ====>>>' + pay_price);
 
           
           that.setData({

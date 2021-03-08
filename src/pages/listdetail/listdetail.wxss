@@ -164,6 +164,8 @@ align-items:Center;
 .search{
     padding: 1% 1%;
     padding-right:80rpx;
+    margin-bottom: 40rpx;
+    margin-top: 20rpx;
 }
 .searchcion{
     width: 24px;

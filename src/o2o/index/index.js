@@ -305,9 +305,8 @@ Page({
     console.log('getShopOptionAndRefresh+++++:::' + cb_params)
 
     //从本地读取
-    var option_list_str = wx.getStorageSync("option_list_str");
+    var option_list_str = wx.getStorageSync('shop_option_list_str_' + app.get_sellerid());
 
-    console.log("获取商城选项数据：" + option_list_str + '333333333');
 
     if (!option_list_str) {
       return null;
@@ -444,7 +443,7 @@ Page({
     console.log('下拉刷新==============')
 
     wx.removeStorage({
-      key: 'option_list_str',
+      key: 'shop_option_list_str_' + app.get_sellerid(),
       success(res) {
         // app.set_option_list_str(this, this.getShopOptionAndRefresh);
         //停止当前页面的下拉刷新   
@@ -666,10 +665,10 @@ Page({
       console.log('getShopOptionAndRefresh+++++:::' + cb_params)
 
       //从本地读取
-      var option_list_str = wx.getStorageSync("option_list_str");
+      var option_list_str = wx.getStorageSync('shop_option_list_str_' + app.get_sellerid());
       var option_list = JSON.parse(option_list_str);
 
-      console.log("获取商城选项数据：" + option_list_str + '用于百度地图');
+      console.log('获取商城选项数据用于百度地图');
       console.log("百度地图AK：" + option_list.baidu_map_ak_wxa);
 
       /* 获取定位地理位置 */
@@ -1024,52 +1023,7 @@ Page({
     var index = e.currentTarget.dataset.index;
     var url = that.data.icon_list[index].url;
 
-    if (url.indexOf("%oneclicklogin%") != -1) {
-
-      var last_url = '/pages/index/index';
-      app.goto_user_login(last_url, 'normal');
-      //app.goto_get_userinfo(last_url, 'normal');
-
-      var userInfo = app.get_user_info();
-
-      wx.request({
-        url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=one_click_login_str',
-        method: 'post',
-        data: {
-          sellerid: app.get_sellerid(),
-          checkstr: userInfo.checkstr,
-          userid: userInfo.userid
-        },
-        header: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        success: function (res) {
-          //--init data        
-          var code = res.data.code;
-          if (code == 1) {
-            var oneclicklogin = res.data.oneclicklogin;
-
-            url = url.replace('%oneclicklogin%', oneclicklogin);
-
-            app.call_h5browser_or_other_goto_url(url, var_list, 'o2o_index');
-          }
-        },
-        fail: function (res) {
-
-        }
-      });
-
-      return;
-
-    }
-
-
     app.call_h5browser_or_other_goto_url(url, var_list, 'o2o_index');
-
-
-
-
-
 
   },
   touTiaoList: function (e) {
@@ -1283,12 +1237,6 @@ Page({
 
   //点击加入购物车
   tapAddCart: function(e){
-    // var last_url = '/o2o/index/index';   
-    // app.goto_user_login(last_url, 'normal');
-
-    // app.goto_get_userinfo(last_url,'normal');
-  
-
 
     this.touchOnGoods(this, e);
     var that = this
@@ -1504,10 +1452,6 @@ Page({
   },
 
   cartAddCart: function (e) {
-    // var last_url = '/o2o/index/index';
-    // app.goto_user_login(last_url, 'normal');
-    // app.goto_get_userinfo(last_url, 'normal');
-
 
     var that = this;
 
@@ -1531,9 +1475,7 @@ Page({
 
   //点击购物车减号将饭菜加入购物车
   tapReduceCart: function (e) {
-    // var last_url = '/o2o/index/index';
-    // app.goto_user_login(last_url, 'normal');
-    // app.goto_get_userinfo(last_url, 'normal');
+
     var bindex = e.currentTarget.dataset.bindex;
     var count = this.data.cartlist[bindex].count;
     // 商品总数量-1
@@ -1770,7 +1712,10 @@ Page({
     var that = this;
     var last_url = '/o2o/index/index';
 
-    app.goto_user_login(last_url, 'normal');
+    if(app.goto_user_login(last_url)){
+      return;
+    }
+    
     app.goto_get_userinfo(last_url, 'normal');
 
 

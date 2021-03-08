@@ -1,6 +1,8 @@
 var util = require('../../utils/util.js');
+var api = require('../../utils/api');
+
 var app = getApp();
-var userInfo = app.get_user_info();
+
 
 Page({ 
   data: {
@@ -27,7 +29,16 @@ Page({
     imgwidth: 750,
     //默认  
     current: 0,
+
+    wxa_hidden_product_list:0,
+    wxa_product_list_show_type:'',
+
+
+
+
     hide_good_box: true,
+    zhengdianmaoshao_currentTabTime: 0,
+    wxa_show_video_autoplay:false
   },
 //跳转商品列表页   
 listdetail:function(e){
@@ -62,15 +73,23 @@ getMore:function(e){
 
   var userInfo = app.get_user_info();
 
-  wx.request({
+  var post_data = {
+    page: that.data.page,
+    userid: userInfo ? userInfo.userid: 0,
+    sellerid: app.get_sellerid()
+  };
+
+  if(this.data.wxa_product_list_show_type == 'is_recommend'){
+    post_data.is_recommend = 1;
+  }
+  else if(this.data.wxa_product_list_show_type == 'is_hot'){
+    post_data.is_hot = 1;
+  }
+
+  api.abotRequest({
       url: app.globalData.http_server+ '?g=Yanyubao&m=ShopAppWxa&a=product_list',
       method:'post',
-      data: { 
-        sellerid: app.get_sellerid(), 
-        page: that.data.page,
-        userid: userInfo ? userInfo.userid : 0,
-        is_hot: 1
-        },
+      data: post_data,
       header: {
         'Content-Type':  'application/x-www-form-urlencoded'
       },
@@ -200,12 +219,12 @@ getMore:function(e){
   getShopOptionAndRefresh: function (that, cb_params) {
     //var that = this;
 
+    app.getColor()
+
     console.log('getShopOptionAndRefresh+++++:::'+cb_params)
 
     //从本地读取
-    var option_list_str = wx.getStorageSync("option_list_str");
-
-    console.log("获取商城选项数据：" + option_list_str + '333333333');
+    var option_list_str = wx.getStorageSync('shop_option_list_str_' + app.get_sellerid());
 
     if (!option_list_str) {
       return null;
@@ -262,9 +281,17 @@ getMore:function(e){
         wxa_show_toutiao: option_list.wxa_show_toutiao
       });
     }
+    
+    //视频组件
     if (option_list.wxa_show_video_player) {
       that.setData({
         wxa_show_video_player: option_list.wxa_show_video_player
+      });
+    }
+    option_list.wxa_show_video_autoplay = 0;
+    if (option_list.wxa_show_video_autoplay) {
+      that.setData({
+        wxa_show_video_autoplay: true
       });
     }
     if (option_list.wxa_video_player_url) {
@@ -277,6 +304,9 @@ getMore:function(e){
         wxa_video_screen_url: option_list.wxa_video_screen_url
       });
     }
+
+    
+    //商户头条
     if (option_list.wxa_shop_toutiao_flash_line) {
       that.setData({
         wxa_shop_toutiao_flash_line: option_list.wxa_shop_toutiao_flash_line
@@ -289,15 +319,33 @@ getMore:function(e){
       });
     }
 
+    if (option_list.wxa_product_list_show_type) {
+      that.setData({
+        wxa_product_list_show_type: option_list.wxa_product_list_show_type
+      });
+    }
+
     if (option_list.wxa_kefu_button_type) {
       that.setData({
         wxa_kefu_button_type: option_list.wxa_kefu_button_type
       });
     }
 
+    //客服按钮和背景颜色
     if (option_list.wxa_kefu_button_icon) {
       that.setData({
         wxa_kefu_button_icon: option_list.wxa_kefu_button_icon
+      });
+    }
+    if (option_list.wxa_show_kefu_button) {
+      that.setData({
+        wxa_show_kefu_button: option_list.wxa_show_kefu_button
+      });
+    }
+
+    if (option_list.wxa_kefu_bg_color) {
+      that.setData({
+        wxa_kefu_bg_color: option_list.wxa_kefu_bg_color
       });
     }
 
@@ -313,18 +361,25 @@ getMore:function(e){
       });
     }
 
-    if (option_list.wxa_show_kefu_button) {
+    if (option_list.wxa_share_title) {
       that.setData({
-        wxa_show_kefu_button: option_list.wxa_show_kefu_button
+        wxa_share_title: option_list.wxa_share_title
       });
     }
 
-    if (option_list.wxa_kefu_bg_color) {
+    if (option_list.wxa_share_img) {
       that.setData({
-        wxa_kefu_bg_color: option_list.wxa_kefu_bg_color
+        wxa_share_img: option_list.wxa_share_img
       });
     }
+    
 
+
+    if (option_list.zhengdian_miaosha_status) {
+      that.setData({
+        zhengdian_miaosha_status: option_list.zhengdian_miaosha_status
+      });
+    }
 
     // that.setData({
     //   wxa_kefu_button_type: option_list.wxa_kefu_button_type,
@@ -348,6 +403,52 @@ getMore:function(e){
     //     }
     //   });
     // }
+
+
+
+    var post_data = {
+      page: that.data.page,
+      //userid: userInfo ? userInfo.userid: 0,
+      sellerid: app.get_sellerid()
+    };
+
+    console.log('that.wxa_product_list_show_type====>>>>', that.wxa_product_list_show_type);
+
+    if(that.data.wxa_product_list_show_type == 'is_recommend'){
+			post_data.is_recommend = 1;
+		}
+		else if(that.data.wxa_product_list_show_type == 'is_hot'){
+			post_data.is_hot = 1;
+		}
+
+
+    api.abotRequest({
+      url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=product_list',
+      method:'post',
+      data: post_data,
+      header: {
+        'Content-Type':  'application/x-www-form-urlencoded'
+      },
+      success: function (res) {
+        if (res && res.data && res.data.code == 1) {
+          var product_list = res.data.product_list;
+          console.log(product_list);
+          //that.initProductData(data);
+          that.setData({
+            page: that.data.page + 1,
+            product_list: product_list,
+          });
+        }  
+        //endInitData
+      },
+      fail:function(e){
+        wx.showToast({
+          title: '网络异常！',
+          duration: 2000
+        });
+      },
+    })
+    
     
     
 
@@ -363,7 +464,7 @@ getMore:function(e){
     })
 
     try {
-      wx.removeStorageSync('option_list_str')
+      wx.removeStorageSync('shop_option_list_str_' + app.get_sellerid())
     } catch (e) {
       // Do something when catch error
     }
@@ -372,6 +473,17 @@ getMore:function(e){
       wx.removeStorageSync('shop_info_from_server_str_' + app.get_sellerid())
     } catch (e) {
       // Do something when catch error
+    }
+
+    wx.removeStorage({
+      key: 'icon_list_usercenter_' + app.get_sellerid(),
+      success(res) {
+        
+      }
+    })
+
+    if (that.data.zhengdian_miaosha_status == 1) {
+      clearTimeout(this.data.zhengdian_miaosha_dingshi);		
     }
 
     
@@ -384,11 +496,6 @@ getMore:function(e){
     
   },
   onLoad: function (options) {
-   
-    
-
-
-
 
     var that = this;
 
@@ -485,25 +592,28 @@ getMore:function(e){
 
     console.log('sellerid 06：' + sellerid);
 
-    app.globalData.sellerid = sellerid
+    app.globalData.sellerid = sellerid;
+    app.globalData.default_sellerid = sellerid;
     app.set_sellerid(sellerid);
 
     //======以上获取sellerid的逻辑必须被优先执行，以下可以执行后续的刷新界面的操作===
 
-    app.get_shop_info_from_server(that.loadInfo);
-
-    app.set_option_list_str(null, app.getColor());
     
+
     wx.setNavigationBarTitle({
       title: app.globalData.shop_name
     })
+
+    app.set_option_list_str(this, this.getShopOptionAndRefresh);
+
+    app.get_shop_info_from_server(that.loadInfo);
 
     this.loadImg();
     this.loadIcon();
 
     this.initArticleList();
 
-    app.set_option_list_str(this, this.getShopOptionAndRefresh);
+    
 
     //console.log('当前sellerid:' + sellerid + "，来自请求" + q);
 
@@ -530,41 +640,9 @@ getMore:function(e){
       show_click_to_get_more:'block'
     });
 
-
-    wx.request({
-      url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=product_list',
-      method:'post',
-      data: {
-        page: that.data.page,
-        is_hot:1,
-        userid: userInfo ? userInfo.userid: 0,
-        sellerid: app.get_sellerid()
-      },
-      header: {
-        'Content-Type':  'application/x-www-form-urlencoded'
-      },
-      success: function (res) {
-        if (res && res.data && res.data.code == 1) {
-          var product_list = res.data.product_list;
-          console.log(product_list);
-          //that.initProductData(data);
-          that.setData({
-            page: that.data.page + 1,
-            product_list: product_list,
-          });
-        }  
-        //endInitData
-      },
-      fail:function(e){
-        wx.showToast({
-          title: '网络异常！',
-          duration: 2000
-        });
-      },
-    })
     
 
-    wx.request({
+    api.abotRequest({
       url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=get_flash_ad_list',
       method: 'post',
       data: {
@@ -622,6 +700,29 @@ getMore:function(e){
     this.busPos = {};
     this.busPos['x'] = 234.375;//购物车的位置
     this.busPos['y'] = app.globalData.hh - 32;
+
+
+
+
+    //整点秒杀
+    console.log('zhengdian_miaosha_status===', that.data.zhengdian_miaosha_status);
+    if(that.data.zhengdian_miaosha_status == 1){
+
+      var query = wx.createSelectorQuery()//创建节点查询器 query
+      query.select('#zhengdianmiaosha').boundingClientRect()//这段代码的意思是选择Id= the - id的节点，获取节点位置信息的查询请求
+      query.exec(function (res) {
+        //console.log(res[0].top); // #affix节点的上边界坐
+        that.setData({
+          menuTop: res[0].top
+        })
+      });
+
+
+
+      that.zhengdian_miaosha_get();
+
+      
+    }
     
   }, 
 
@@ -652,7 +753,7 @@ getMore:function(e){
   },
   loadImg: function () {
     var that = this;
-    wx.request({
+    api.abotRequest({
       url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=get_flash_img_list',
       method: 'post',
       data: {
@@ -681,7 +782,7 @@ getMore:function(e){
   },
   loadIcon: function () {
     var that = this;
-    wx.request({
+    api.abotRequest({
       url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=get_shop_icon_index',
       method: 'post',
       data: {
@@ -722,45 +823,11 @@ getMore:function(e){
 
     var index = e.currentTarget.dataset.index;
     var url = that.data.icon_list[index].url;
-    if (url.indexOf("%oneclicklogin%") != -1) {
-
-      var last_url = '/pages/index/index';
-      app.goto_user_login(last_url, 'switchTab');
-
-      var userInfo = app.get_user_info();
-
-
-      wx.request({
-        url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=one_click_login_str',
-        method: 'post',
-        data: {
-          sellerid: app.get_sellerid(),
-          checkstr: userInfo.checkstr,
-          userid: userInfo.userid
-        },
-        header: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        success: function (res) {
-          //--init data        
-          var code = res.data.code;
-          if (code == 1) {
-            var oneclicklogin = res.data.oneclicklogin;
-            
-            url = url.replace('%oneclicklogin%', that.data.oneclicklogin);
-
-            app.call_h5browser_or_other_goto_url(url, var_list, 'pages_index');
-          }
-        },
-        fail: function (res) {
-
-        }
-      });
-
-      return;
-    }
 
     app.call_h5browser_or_other_goto_url(url, var_list, 'pages_index');
+    
+
+    
   },
   touTiaoList: function (e) {
     console.log('点击商户头条进入列表');
@@ -799,60 +866,35 @@ getMore:function(e){
       }
     }
   },
+  onShareTimeline: function () {
+    console.log('app.globalData.shop_name : '+app.globalData.shop_name);
 
+    return this.share_return();
+  },
+  onAddToFavorites: function () {
+    return this.share_return();
+  },
+  share_return: function () {
+    return {
+      title: this.data.wxa_share_title,
+      query: '', 
+      imageUrl:this.data.wxa_share_img
+    }
+  },
   //跳转到商品详情
   toProductDetail:function(e){
     var url = e.currentTarget.dataset.url;
-
-    console.log('toProductDetail准备跳转至：'+url);
-
-    if(url.indexOf('https://') == 0){      
-      wx.navigateTo({
-        url: '/pages/h5browser/h5browser?url=' + encodeURIComponent(url),
-      })
+    var that = this;
+    var var_list = Object();
+    if (that.data.productid) {
+      var_list.productid = that.data.productid;
     }
-    else if (url.indexOf('miniprogram') == 0) {
-      var arr = url.split(" ");
-      if (arr.length >= 3) {
-        var appid = arr[2];
-        var pagepath = arr[3];
-        var extraData = null;
-        if (arr[4]) {
-          extraData = arr[4];
-        }
+    console.log('index.js toProductDetail准备跳转至：'+url);
 
-        //console.log('1111111111111', extraData)
 
-        var extraData_obj = null;
-        if (extraData) {
-          extraData_obj = JSON.parse(extraData);
-        }
+    app.call_h5browser_or_other_goto_url(url, var_list, 'pages_index');
 
-        wx.navigateToMiniProgram({
-          appId: appid,
-          envVersion: 'release',
-          path: pagepath,
-          extraData: extraData_obj,
-          success(res) {
-            // 打开成功
-          },
-          fail: function (res) {
-            wx.showModal({
-              title: '跳转小程序失败',
-              content: res.errMsg,
-              showCancel:false
-            })
-
-            console.log('跳转小程序失败：', res);
-          }
-        })
-      }
-    }
-    else{
-      wx.navigateTo({
-        url: url,
-      })
-    }
+    
 
   },
   imageLoad: function (e) {//获取图片真实宽度  
@@ -881,7 +923,7 @@ getMore:function(e){
 
 
 //搜索
-  search: function (view) {
+  goto_search: function (view) {
     var welfareId = view.currentTarget.dataset.value;
     var url = "../listdetail/listdetail?name=" + welfareId;
     wx.navigateTo({
@@ -908,15 +950,17 @@ goToOtherPage:function(){
   addCart: function (e) {
     var that = this;
 
-    if (!userInfo) {
-      var last_url = '/pages/index/index';
-      app.goto_user_login(last_url, 'switchTab');
+    var last_url = 'switchTab /pages/index/index';
+
+    if(app.goto_user_login(last_url)){
       return;
     }
 
+    var userInfo = app.get_user_info();
+
     var productid = e.currentTarget.dataset.productid;
 
-    wx.request({
+    api.abotRequest({
       url: app.globalData.http_server + '?g=Yanyubao&m=ShopApp&a=cart_add',
       method: 'post',
 
@@ -935,7 +979,7 @@ goToOtherPage:function(){
           title: '添加成功',
         });
 
-        wx.request({
+        api.abotRequest({
           url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=cart_list',
           method: 'post',
           data: {
@@ -1033,9 +1077,245 @@ goToOtherPage:function(){
   },
 
 
+
+  // 获取整点秒杀列表
+  zhengdian_miaosha_get:function(e){
+    console.log('zhengdian_miaosha_get====')
+    var userInfo = app.get_user_info();
+    var that = this;
+    api.abotRequest({
+      url: app.globalData.http_server + 'openapi/ZhengdianmiaoshaData/get_zhengdian_setting',
+      method: 'post',
+      data: {
+        sellerid: app.get_sellerid(),
+        userid: userInfo ? userInfo.userid : ''
+
+      },
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      success: function (res) {
+        console.log('res====', res)
+        var data = res.data;
+        if (data.code == 1) {
+          that.setData({
+            zhengdian_miaosha_list: data.data,
+            zhengdian_miaosha_title: data.title,
+            zhengdian_miaosha_timestamp: data.timestamp
+          })
+
+          that.data.zhengdian_miaosha_list.map((v, i) => {
+        
+            v.zhengdian_timeout = v.over_time - that.data.zhengdian_miaosha_timestamp;
+            if(i==0){
+              that.setData({
+                zhengdian_miaosha_is_begin: v.is_begin
+              })
+            }
+       
+            return v;
+          })
+
+          that.zhengdian_miaosha_countdown();
+        }
+
+      },
+      fail: function (e) {
+        wx.showToast({
+          title: '网络异常！',
+          duration: 2000
+        });
+      },
+    })
+
+  },
+
+  //整点秒杀预约提醒
+  zhengdian_miaosha_yuyue_tixing: function (e) {
+    var that = this;
+
+    if(app.goto_user_login(last_url)){
+      return;
+    }
+
+    var userInfo = app.get_user_info();
+    
+    var productid = e.currentTarget.dataset.productid;
+    var index = e.currentTarget.dataset.idx;
+
+  
+
+    api.abotRequest({
+      url: app.globalData.http_server + 'openapi/ZhengdianmiaoshaData/add_yuyue_tixing',
+      method: 'post',
+      data: {
+        sellerid: app.get_sellerid(),
+        userid: userInfo.userid,
+        checkstr: userInfo.checkstr,
+        productid: productid,
+        schedule_time: that.data.zhengdian_miaosha_list[that.data.zhengdianmaoshao_currentTabTime].timestamp
+      },
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      success: function (res) {
+        console.log('res====', res)
+        var data = res.data;
+        if (data.code == 1) {
+          
+          that.data.zhengdian_miaosha_list[that.data.zhengdianmaoshao_currentTabTime].product_list[index].is_yuyue_tixing = 1;
+        }
+
+      
+
+      },
+      fail: function (e) {
+        wx.showToast({
+          title: '网络异常！',
+          duration: 2000
+        });
+      },
+    })
+
+  },
+  
+
+  //选择整点秒杀时间
+  zhengdian_miaosha_choosetime: function (e) {
+    clearTimeout(this.data.zhengdian_miaosha_dingshi);
+
+    console.log('e===',e)
+
+    var index = e.currentTarget.dataset.idx
+    var is_begin = e.currentTarget.dataset.isbegin
+
+    this.zhengdian_miaosha_countdown();
+
+
+    this.setData({
+      zhengdianmaoshao_currentTabTime: index,
+      zhengdian_miaosha_is_begin: is_begin
+    })
+  },
+
+
+  /**
+    * 倒计时
+    */
+  zhengdian_miaosha_countdown: function () {
+    let time = 1000;
+    let zhengdian_miaosha_list = this.data.zhengdian_miaosha_list;
+
+    // let currentTime = Date.parse(new Date()) / 1000;
+    // console.log('currentTime===', currentTime);
+
+    let list = zhengdian_miaosha_list.map((v, i) => {
+
+
+      if (v.zhengdian_timeout <= 0) {
+          v.zhengdian_timeout = 0;
+          this.zhengdian_miaosha_get();
+        }
+      let formatTime = this.zhengdian_miaosha_getformat(v.zhengdian_timeout);
+        v.zhengdian_timeout -= 1;
+        v.zhengdian_timeout_format = `${formatTime.hh}:${formatTime.mm}:${formatTime.ss}`;
+        return v;
+    })
+
+    this.setData({
+      zhengdian_miaosha_list: zhengdian_miaosha_list
+    });
+    this.setData({
+      zhengdian_miaosha_dingshi:setTimeout(this.zhengdian_miaosha_countdown, time)
+    })
+  },
+
+  /**
+   * 格式化时间
+   */
+  zhengdian_miaosha_getformat: function (msec) {
+    let ss = parseInt(msec);
+
+    // let ms = parseInt(msec % 1000);
+    let mm = 0;
+    let hh = 0;
+    if (ss > 60) {
+      mm = parseInt(ss / 60);
+      ss = parseInt(ss % 60);
+      if (mm > 60) {
+        hh = parseInt(mm / 60);
+        mm = parseInt(mm % 60);
+      }
+    }
+
+    ss = ss > 9 ? ss : `0${ss}`;
+    mm = mm > 9 ? mm : `0${mm}`;
+    hh = hh > 9 ? hh : `0${hh}`;
+    return { ss, mm, hh };
+  },
+
+
   onReachBottom: function (e) {
     var that = this;
     that.getMore();
   },
+
+  // 2.监听页面滚动距离scrollTop
+  onPageScroll: function (e) {
+    var that = this;
+    // console.log(e.scrollTop);
+    // 3.当页面滚动距离scrollTop > menuTop菜单栏距离文档顶部的距离时，菜单栏固定定位
+    if(that.data.zhengdian_miaosha_status == 1){
+      if (e.scrollTop > that.data.maioshaTop) {
+        that.setData({
+          miaoshaFixed: true
+        })
+      } else {
+        that.setData({
+          miaoshaFixed: false
+        })
+      }
+    }
+    
+  },
+
+  videometa: function (e) {
+    console.log('videometa======>>>>>', e);
+
+    var imgwidth = e.detail.width;
+    var imgheight = e.detail.height;
+
+
+    //宽高比  
+    var ratio = imgwidth / imgheight;
+
+    console.log(imgwidth, imgheight)
+
+    var current_view_width = 750;
+
+    current_view_width = current_view_width;
+
+    //计算的高度值  
+    var current_view_height = current_view_width / ratio;
+
+
+    //赋值给前端
+    var videometa_width_height = [current_view_width, current_view_height];
+
+    console.log('videometa_width_height====>>>>', videometa_width_height);
+
+    this.setData({
+      videometa_width_height: videometa_width_height
+    });
+
+  },
+  //播放点击视频并停止播放其他视频
+  start_and_stop_other_videos: function (e) {
+    console.log('start_and_stop_other_videos=====>>>>', e);
+    var video_id = e.currentTarget.dataset.id;
+  }
+
+
+
   
 });

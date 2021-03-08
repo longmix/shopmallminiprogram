@@ -1,5 +1,64 @@
 // app.js
 App({
+
+  globalData: {
+    
+
+    //通版商城，
+    xiaochengxu_appid: 'wx00d1e2843c3b3f77', //，，需要这个参数的地方：get_session_key
+    default_sellerid: 'pQNNmSkaq', //大卖家服务市场
+
+    shop_name: '通版商城小程序',
+
+    //============以下为开发过程中使用=======
+    //default_sellerid: 'pmyxQxkkU',  // 13112341234
+
+
+    //xiaochengxu_appid: 'wx93c05a83c11904b5',
+    //default_sellerid: 'fmJyUPkWj', //  连云港顺鸿欣远 //开心拼享购
+
+    // shopListdefault_sellerid: 'fNzJUPqgq',//韩品购
+    //default_sellerid: 'fzyzUPgjP',//敦煌丝路
+
+    // default_sellerid: 'fQSzUPggU', //乐相邻
+
+    // default_sellerid: 'fXiNUPaWV',//说彩商城
+
+    //default_sellerid: 'fzXJUPWqa', //慕斯兰
+
+    //  default_sellerid:'fyXiUPUUg', //趣抽盒
+
+    //  default_sellerid: 'fmJyUPkWj',
+
+    //  default_sellerid: 'fxiyUPgee',
+
+
+    //default_sellerid: 'pQNNmSkaq', //http://192.168.0.205/yanyubao_server/
+
+    
+
+    version_number: "1.2.0",
+
+    kefu_telephone:"",
+    kefu_qq:"",
+    kefu_website:"",
+    kefu_gongzhonghao:"",
+
+    //sellerid: '',
+    //force_sellerid: 0,
+
+
+    http_weiduke_server: 'https://cms.weiduke.com/',
+    //  http_server:'http://192.168.0.205/yanyubao_server/',
+
+    http_server: 'https://yanyubao.tseo.cn/',
+    //  http_server: 'http://192.168.0.87/yanyubao_server/',
+
+    userInfo: {}
+
+  },
+
+
   onLaunch: function () {   
     var that = this;
     //调用API从本地缓存中获取数据
@@ -192,60 +251,75 @@ App({
   /**
    * page_type normal/switchTab
    */
-  goto_user_login: function (last_url, page_type){
+  goto_user_login: function (last_url, var_list=null, ret_page=''){
     var userInfo = this.get_user_info();
 
-    console.log('goto_user_login:');
+    console.log('goto_user_login===last_url', last_url);
     console.log(userInfo);
+
+    console.log('goto_user_login:0000000000000000');
 
     if ((!userInfo) || (!userInfo.userid)) {
       console.log('goto_user_login:222222222222');
 
-      wx.showToast({
-        title: '请先登录',
-        icon: 'none',
-        duration: 1000,
-        success: function () {
+      wx.showModal({
+        title: '提示',
+        content: '请先登录',
+        showCancel: false,
+        success: function (res) {
 
           if (last_url) {
-            wx.setStorageSync('last_url', last_url);
-            wx.setStorageSync('page_type', page_type);
+            wx.setStorageSync('login_last_url', last_url);
+            wx.setStorageSync('login_var_list', var_list);
+            wx.setStorageSync('login_ret_page', ret_page);
           }
 
           wx.redirectTo({
             url: '/pages/login/login',
           })
-
-          wx.hideToast();
+          
         }
       })
 
-      return;
-    };
+      return true;
+
+    }
+
+    console.log('goto_user_login:333333333');
+
+    //this.call_h5browser_or_other_goto_url(last_url, var_list, ret_page);
+
+    return false;
+    
 
   },
 
  /**
    * page_type normal/switchTab
+   * 获取用户的头像和昵称
    */
   goto_get_userinfo: function (last_url, page_type){
     var userInfo = this.get_user_info();
     if (!userInfo){
-      return;
+      return false;
     }
+
     var is_get_userinfo = userInfo.is_get_userinfo;
     console.log('is_get_userinfo', is_get_userinfo)
     if (!is_get_userinfo) {
       if (last_url) {
-        wx.setStorageSync('last_url', last_url);
-        wx.setStorageSync('page_type', page_type);
+        wx.setStorageSync('get_userinfo_last_url', last_url);
+        wx.setStorageSync('get_userinfo_page_type', page_type);
       }
+      
       wx.navigateTo({
         url: '/pages/login/login_get_userinfo',
       });
 
-      return;
+      return true;
     }
+
+    return false;
   },
   
 
@@ -310,6 +384,7 @@ App({
     if ((sellerid == null) || (sellerid.length == 0)) {
       var that = this
       sellerid = that.globalData.default_sellerid;
+      
       console.log("0000000000000000000获取sellerid不成功，使用默认sellerid：" + that.globalData.default_sellerid + ' ==>>  ' + sellerid);
     }
 
@@ -317,9 +392,8 @@ App({
   },
   getColor:function(){
     //从本地读取
-    var option_list_str = wx.getStorageSync("option_list_str");
+    var option_list_str = wx.getStorageSync('shop_option_list_str_' + this.get_sellerid());
 
-    console.log("获取商城选项数据====：" + option_list_str + '333333333');
 
     if (!option_list_str) {
       //return null;
@@ -359,6 +433,13 @@ App({
       }
     }
 
+    //2020.7.29. 隐藏底部导航的选项
+    if(option_list && (option_list.wxa_hidden_tabbar == 1)){
+      wx.hideTabBar({
+        animation: false,
+      })
+    }
+
     
     return option_list.wxa_shop_nav_bg_color;
     /*wx.setTabBarStyle({
@@ -371,15 +452,18 @@ App({
   },
   
   set_option_list_str: function (that, callback_function) {
+    //console.log('调用set_option_list_str=========================》》》》》');
 
     var currentTime = (new Date()).getTime();//获取当前时间
 
-    if (wx.getStorageSync("option_list_str") && (currentTime - wx.getStorageSync("option_list_str_time")) < 3600 * 1000) {
+    if (wx.getStorageSync('shop_option_list_str_' + this.get_sellerid()) && (currentTime - wx.getStorageSync("option_list_str_time")) < 3600 * 1000) {
       
-      var option_list = JSON.parse(wx.getStorageSync("option_list_str"))
+      var option_list = JSON.parse(wx.getStorageSync('shop_option_list_str_' + this.get_sellerid()))
 
       this.globalData.option_list = option_list;
-      console.log(' this.globalData.option_list===========', this.globalData.option_list)
+      
+      //console.log(' this.globalData.option_list===========', this.globalData.option_list)
+
       //刷新界面
       typeof callback_function == "function" && callback_function(that, option_list);
 
@@ -407,7 +491,7 @@ App({
           var option_list_str = JSON.stringify(option_list);
 
           //缓存返回数据
-          wx.setStorageSync("option_list_str", option_list_str);
+          wx.setStorageSync('shop_option_list_str_' + that002.get_sellerid(), option_list_str);
           var currentTime = (new Date()).getTime();//获取当前时间
           wx.setStorageSync("option_list_str_time", currentTime);
 
@@ -504,12 +588,21 @@ App({
 
     var that002 = this;
 
+    var userInfo = this.get_user_info();
+
+    var data_params = {
+      sellerid: this.get_sellerid(),
+    }
+
+    if(userInfo){
+      data_params.userid = userInfo.userid;
+      data_params.checkstr = userInfo.checkstr;
+    }
+
     wx.request({
       url: this.globalData.http_server + 'openapi/FaquanData/get_faquan_setting',
       method: 'post',
-      data: {
-        sellerid: this.get_sellerid()
-      },
+      data: data_params,
       header: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
@@ -538,6 +631,9 @@ App({
       },
     });
 
+  },
+  delFaquanSetting: function () {
+    wx.removeStorageSync("cms_faquan_setting");
   },
 
 
@@ -653,9 +749,98 @@ App({
       url = url.replace('%wxa_openid%', this.get_current_openid());
     }
 
+
+
+    if ((url.indexOf("%oneclicklogin%") != -1) || (url.indexOf("%refresh_token%") != -1)) {
+
+      var userInfo = this.get_user_info();
+
+      console.log('userInfo====', userInfo)
+
+      if(!userInfo){
+        this.goto_user_login(url, var_list, ret_page);
+
+        return;
+
+      }
+
+      var that = this;
+
+      var new_url = this.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=one_click_login_str';
+      if (url.indexOf("%refresh_token%") != -1){
+        new_url = this.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=generate_refresh_token_value_for_other_system';
+      }
+
+
+
+      wx.request({
+        url: new_url,
+        method: 'post',
+        data: {
+          sellerid: this.get_sellerid(),
+          checkstr: userInfo.checkstr,
+          userid: userInfo.userid
+        },
+        header: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        success: function (res) {
+          //--init data        
+          var code = res.data.code;
+          if (code == 1) {
+			  
+          if(res.data.oneclicklogin){
+            url = url.replace('%oneclicklogin%', res.data.oneclicklogin);
+          }
+			
+            if (res.data.refresh_token) {
+              url = url.replace('%refresh_token%', res.data.refresh_token);
+            }        
+
+            that.call_h5browser_or_other_goto_url(url, var_list);
+
+            return;
+
+          } else {
+            wx.showToast({
+              title: '非法操作.',
+              duration: 2000
+            });
+
+            setTimeout(function () {
+              app.del_user_info();
+
+              var last_url = url;
+              app.goto_user_login(last_url);
+
+            }, 2000);
+
+
+
+          }
+        },
+        error: function (e) {
+          wx.showToast({
+            title: '网络异常！',
+            duration: 2000
+          });
+        }
+      });
+
+      return;
+
+    }
+
+    console.log('url==============00000', url);
+    
+   
+
     //判断各种跳转条件
     if (url.indexOf('switchTab') == 0) {
       var arr = url.split(" ");
+
+      console.log('switchTab ========>>>> ', arr);
+
       if (arr.length >= 2) {
         var new_url = arr[1];
         wx.switchTab({
@@ -665,10 +850,29 @@ App({
     }
     else if (url.indexOf('navigateTo') == 0) {
       var arr = url.split(" ");
+
+      console.log('navigateTo ========>>>> ', arr);
+
       if (arr.length >= 2) {
         var new_url = arr[1];
+
+        console.log('navigateTo ========>>>> ', new_url);
+
         wx.navigateTo({
+          
           url: new_url
+        })
+      }
+    }
+    else if (url.indexOf('redirectTo') == 0) {
+      var arr = url.split(" ");
+
+      console.log('redirectTo ========>>>> ', arr);
+
+      if (arr.length >= 2) {
+        var new_url = arr[1];
+        wx.redirectTo({
+          url: new_url,
         })
       }
     }
@@ -690,7 +894,7 @@ App({
     }
     else if (url == 'duorenpintuan') {
       var url1 = 'https://yanyubao.tseo.cn/Home/DuorenPintuan/pintuan_list/ensellerid/' + this.get_sellerid() + '.html?click_type=Wxa';
-      wx.navigateTo({
+      wx.redirectTo({
         url: '/pages/h5browser/h5browser?url=' + encodeURIComponent(url1) + '&ret_page=' + ret_page,
       })
     } else if (url == 'fenxiangkanjia') {
@@ -698,21 +902,27 @@ App({
       if (var_list && var_list.productid) {
 
         var url1 = 'https://yanyubao.tseo.cn/Home/ShareKanjia/share_list/productid/' + var_list.productid + '.html?click_type=Wxa';
-        wx.navigateTo({
+        wx.redirectTo({
           url: '/pages/h5browser/h5browser?url=' + encodeURIComponent(url1) + '&ret_page=' + ret_page,
         })
 
       }
 
-    } else if (url.indexOf('http://') == 0) {
-      wx.navigateTo({
-        url: '/pages/h5browser/h5browser?url=' + encodeURIComponent(url) + '&ret_page=' + ret_page,
-      })
-    }
-    else if (url.indexOf('https://') == 0) {
-      wx.navigateTo({
-        url: '/pages/h5browser/h5browser?url=' + encodeURIComponent(url) + '&ret_page=' + ret_page,
-      })
+    } 
+    else if ((url.indexOf('https://') == 0) || (url.indexOf('http://') == 0)) {
+      if (url.indexOf('#redirectTo') != -1){
+        //如果指定了跳转方式为 #redirectTo
+        url = url.replace(/#redirectTo/, '');
+        wx.redirectTo({
+          url: '/pages/h5browser/h5browser?url=' + encodeURIComponent(url) + '&ret_page=' + ret_page,
+        })
+      }
+      else{
+        wx.navigateTo({
+          url: '/pages/h5browser/h5browser?url=' + encodeURIComponent(url) + '&ret_page=' + ret_page,
+        })
+      }
+      
     }
     else if (url.indexOf('miniprogram') == 0) {
       var arr = url.split(" ");
@@ -775,32 +985,6 @@ App({
     return dis * 6378137;
   },
 
-
- 
-
- 
-
- globalData:{
-   http_weiduke_server: 'https://cms.weiduke.com/',
-
-    http_server: 'https://yanyubao.tseo.cn/',
-
-   userInfo: {},
-
-  //通版商城，
-  xiaochengxu_appid: 'wx00d1e2843c3b3f77', //，，需要这个参数的地方：get_session_key
-  default_sellerid: 'pQNNmSkaq', //大卖家服务市场
-  
-  shop_name:'通版商城小程序',
-
-
-   force_sellerid: 0, 
-   
-  },
-
-  onPullDownRefresh: function (){
-    wx.stopPullDownRefresh();
-  },
 });
 
 

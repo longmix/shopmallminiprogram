@@ -57,3 +57,32 @@
   font-size: 30rpx;
   margin-top: 30rpx;
 }
+
+.wenzhang_detail{
+  font-size: 30rpx;
+  font-family: "微软雅黑";
+  margin-bottom:80rpx;
+}
+
+
+.wxParse-img{
+  display: flex;
+}
+
+.wxParse-h1{
+  font-size: 40rpx;
+  font-weight: bold;
+  margin: 40rpx auto;
+  border-left: 20rpx solid red;
+  padding-left: 20rpx;
+
+}
+
+.wxParse-h2{
+  font-size: 36rpx;
+  font-weight: bold;
+  margin: 20rpx auto;
+  border-left: 10rpx solid red;
+  padding-left: 10rpx;
+
+}

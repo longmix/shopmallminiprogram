@@ -1,6 +1,5 @@
 // pages/user/user.js
 var app = getApp();
-//var userInfo = app.get_user_info();
 
 Page( {
   data: {
@@ -10,7 +9,6 @@ Page( {
     headimgurl: "../../images/cry80.jpg",
     userInfo: {},
     orderInfo:{},
-    projectSource: 'https://github.com/liuxuanqiang/wechat-weapp-mall',
     userListInfo: [ {
         icon: '../../images/iconfont-dingdan.png',
         text: '我的订单',
@@ -44,40 +42,12 @@ Page( {
     //  app.check_user_login()
     var that = this
 
-    app.set_option_list_str(null, app.getColor());
+    app.set_option_list_str(that, that.callback_function);
     
     //调用应用实例的方法获取全局数据
     var userInfo = app.get_user_info();
 
 
-    var option_list = app.globalData.option_list;
-
-    if (option_list.wxa_login_only_weixin && option_list.wxa_login_only_weixin == 1) {
-      that.setData({
-        show_mobile_login: 1
-      })
-    }
-
-    if (option_list.wxa_show_return_to_index_in_usercenter){
-      that.setData({
-        wxa_show_return_to_index_in_usercenter: option_list.wxa_show_return_to_index_in_usercenter
-      })
-    }
-
-    if (option_list.wxa_show_recharge_button_in_usercenter) {
-      that.setData({
-        wxa_show_recharge_button_in_usercenter: option_list.wxa_show_recharge_button_in_usercenter
-      })
-    }
-   
-
-    if (option_list.wxa_shop_nav_bg_color) {
-      that.setData({
-        icon_jump_bg_color: option_list.wxa_shop_nav_bg_color,
-        wxa_shop_nav_font_color: option_list.wxa_shop_nav_font_color,
-
-      });
-    }
 
     if(app.globalData.is_o2o_app == 1){
        wx.hideTabBar({
@@ -89,16 +59,7 @@ Page( {
         }
       })
     }
-    /*
-    wx.getStorage({
-      key: 'key5',
-      success: function (res) {
-        that.setData({
-          headimgurl: res.data
-        })
-      }
-    }) 
-    */
+
     
 
     if (userInfo == null) {
@@ -112,26 +73,86 @@ Page( {
     }
     
 
-    wx.removeStorage({
-      key: 'icon_list_usercenter_' + app.get_sellerid(),
-      success(res) {
+    // wx.removeStorage({
+    //   key: 'icon_list_usercenter_' + app.get_sellerid(),
+    //   success(res) {
         
-      }
-    })
+    //   }
+    // })
 
 
   },
+  callback_function: function (that, option_list) {
 
+    if (!option_list) {
+      return;
+    }
+
+
+    app.getColor();
+
+    var option_list = app.globalData.option_list;
+
+    if (option_list.wxa_login_only_weixin && option_list.wxa_login_only_weixin == 1) {
+      that.setData({
+        show_mobile_login: 1
+      })
+    }
+
+    if (option_list.wxa_show_return_to_index_in_usercenter) {
+      that.setData({
+        wxa_show_return_to_index_in_usercenter: option_list.wxa_show_return_to_index_in_usercenter
+      })
+    }
+
+    if (option_list.wxa_show_recharge_button_in_usercenter) {
+      that.setData({
+        wxa_show_recharge_button_in_usercenter: option_list.wxa_show_recharge_button_in_usercenter
+      })
+    }
+
+
+    console.log('背景颜色：' + option_list.wxa_shop_nav_bg_color);
+
+    if (option_list.wxa_shop_nav_bg_color) {
+      that.setData({
+        wxa_shop_nav_bg_color: option_list.wxa_shop_nav_bg_color,
+        icon_jump_bg_color: option_list.wxa_shop_nav_bg_color,
+      });
+    }
+
+    if (option_list.wxa_shop_nav_font_color) {
+      that.setData({
+        wxa_shop_nav_font_color: option_list.wxa_shop_nav_font_color,
+      });
+    }
+    if (option_list.wxa_usercenter_function_list) {
+      that.setData({
+        wxa_usercenter_function_list: option_list.wxa_usercenter_function_list,
+      });
+    }
+    if (option_list.wxa_show_zengkuan_in_usercenter) {
+      that.setData({
+        wxa_show_zengkuan_in_usercenter: option_list.wxa_show_zengkuan_in_usercenter,
+      });
+    }
+
+    if (option_list.wxa_show_levelname_in_usercenter) {
+      that.setData({
+        wxa_show_levelname_in_usercenter: option_list.wxa_show_levelname_in_usercenter,
+      });
+    }
+
+    if (option_list.wxa_hidden_order_index_in_usercenter) {
+      that.setData({
+        wxa_hidden_order_index_in_usercenter: option_list.wxa_hidden_order_index_in_usercenter,
+      });
+    }
+
+
+
+  },
   onShow: function () {
-    // var userInfo = app.get_user_info();
-
-    // if (!userInfo) {
-    //   var last_url = '/pages/user/user';
-    //   app.goto_user_login(last_url, 'switchTab');
-
-    //   return;
-    // }
-
 
     this.get_user_info_from_server();
 
@@ -140,51 +161,7 @@ Page( {
     //this.onLoad();
 
 
-    var option_list_str = wx.getStorageSync("option_list_str");
-
-    console.log("获取商城选项数据：" + option_list_str + '333333333');
-
-    if (!option_list_str) {
-      return null;
-    }
-
-    var option_list = JSON.parse(option_list_str);
-
-    console.log('背景颜色：' + option_list.wxa_shop_nav_bg_color);
-
-    if (option_list.wxa_shop_nav_bg_color){
-      this.setData({
-        wxa_shop_nav_bg_color: option_list.wxa_shop_nav_bg_color,
-      });
-    }
-
-    if (option_list.wxa_shop_nav_font_color) {
-      this.setData({
-        wxa_shop_nav_font_color: option_list.wxa_shop_nav_font_color,
-      });
-    }
-    if (option_list.wxa_usercenter_function_list) {
-      this.setData({
-        wxa_usercenter_function_list: option_list.wxa_usercenter_function_list,
-      });
-    }
-    if (option_list.wxa_show_zengkuan_in_usercenter) {
-      this.setData({
-        wxa_show_zengkuan_in_usercenter: option_list.wxa_show_zengkuan_in_usercenter,
-      });
-    }
-
-    if (option_list.wxa_show_levelname_in_usercenter) {
-      this.setData({      
-        wxa_show_levelname_in_usercenter: option_list.wxa_show_levelname_in_usercenter,
-      });
-    }
     
-    if (option_list.wxa_hidden_order_index_in_usercenter) {
-      this.setData({
-        wxa_hidden_order_index_in_usercenter: option_list.wxa_hidden_order_index_in_usercenter,
-      });
-    }
 
     //加载用户中心图标
     var that = this;
@@ -248,12 +225,9 @@ Page( {
   
   get_user_info_from_server:function(){
     var that = this;
-    console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+
     var userInfo = app.get_user_info();
     if(!userInfo){
-      // var last_url = '/pages/user/user';
-      // app.goto_user_login(last_url, 'switchTab');
-      // app.goto_get_userinfo(last_url, 'switchTab');
       that.setData({
         nick_name: ''
       })
@@ -276,11 +250,7 @@ Page( {
         console.log('ddd', res);
         // console.log('ddd', res.data.code);
 
-        if (res.data.code == "-1") {
-          var last_url = '/pages/user/user';
-          app.goto_user_login(last_url, 'switchTab');
-          
-        } else {
+        if(res.data.code == 1){
           var data = res.data
           var data2 = data.data
           var headimgurl = data.data.headimgurl
@@ -292,7 +262,9 @@ Page( {
             nick_name: 1,
             data: data2
           });
+
         }
+
 
       }
     })
@@ -300,9 +272,16 @@ Page( {
   },
 
   myDingdan: function (e) {
-    var last_url = '/pages/user/user';
-    app.goto_user_login(last_url, 'switchTab');
-    app.goto_get_userinfo(last_url, 'switchTab');
+    var last_url = 'switchTab /pages/user/user';
+
+    if(app.goto_user_login(last_url)){
+      return;
+    }
+    
+    //如果需要用户授权头像和昵称
+    if(app.goto_get_userinfo(last_url)){
+      return;
+    }
     
     var currenttab = e.currentTarget.dataset.currenttab;
     var otype = e.currentTarget.dataset.otype;
@@ -319,9 +298,17 @@ Page( {
  
   mytiaozhuan: function (e) {
 
-    var last_url = '/pages/user/user';
-    app.goto_user_login(last_url, 'switchTab');
-    //app.goto_get_userinfo(last_url, 'switchTab');
+
+    var url = e.currentTarget.dataset.url;
+    console.log('user myChat准备跳转：' + url);
+
+    
+    var last_url = 'switchTab /pages/user/user?retpage=' + encodeURIComponent(url);
+
+    if(app.goto_user_login(last_url)){
+      return;
+    }
+   
 
     var that = this;
 
@@ -331,77 +318,10 @@ Page( {
       var_list.productid = that.data.productid;
     }
 
-    var url = e.currentTarget.dataset.url;
-    console.log('user myChat准备跳转：' + url);
-
-
-    if (url.indexOf("%oneclicklogin%") != -1) {
-
-      var userInfo = app.get_user_info();
-
-      if (!userInfo) {
-        var last_url = '/pages/user/user';
-        app.goto_user_login(last_url, 'switchTab');
-
-        return;
-      }
-
-      wx.request({
-        url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=one_click_login_str',
-        method: 'post',
-        data: {
-          sellerid: app.get_sellerid(),
-          checkstr: userInfo.checkstr,
-          userid: userInfo.userid
-        },
-        header: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        success: function (res) {
-          //--init data        
-          var code = res.data.code;
-          if (code == 1) {
-            var oneclicklogin = res.data.oneclicklogin;
-
-            console.log('ddddd+++++', oneclicklogin);
-
-            that.setData({
-              oneclicklogin: oneclicklogin
-            })
-            url = url.replace('%oneclicklogin%', that.data.oneclicklogin);
-
-            if (url.indexOf("%ensellerid%") != -1) {
-              url = url.replace('%ensellerid%', app.get_sellerid());
-            }
-
-            if (url.indexOf("%wxa_openid%") != -1) {
-              url = url.replace('%wxa_openid%', app.get_current_openid());
-            }
-
-            app.call_h5browser_or_other_goto_url(url, var_list, 'user_index');
-
-            return;
-
-          } else {
-            wx.showToast({
-              title: '非法操作.',
-              duration: 2000
-            });
-          }
-        },
-        error: function (e) {
-          wx.showToast({
-            title: '网络异常！',
-            duration: 2000
-          });
-        }
-      });
-
-      return;
-
-    };
-
     app.call_h5browser_or_other_goto_url(url, var_list, 'user_index');
+
+    return;
+
 
 
   },
@@ -432,10 +352,11 @@ Page( {
             orderInfo: orderInfo
           });
         }else{
-          wx.showToast({
+          /*wx.showToast({
             title: '非法操作.',
             duration: 2000
-          });
+          });*/
+          console.log('获取订单列表失败：', res);
         }
       },
       error:function(e){
@@ -468,6 +389,25 @@ Page( {
     wx.navigateTo({
       url: '/pages/userinfo/userinfo',
     })
+  },
+
+  onPullDownRefresh: function () {
+    console.log('下拉刷新==============')
+
+    var that = this;
+  
+    wx.removeStorage({
+      key: 'icon_list_usercenter_' + app.get_sellerid(),
+      success(res) {
+
+      }
+    })
+
+    that.onShow();
+
+    //停止当前页面的下拉刷新
+    wx.stopPullDownRefresh();
+
   }
 
 })

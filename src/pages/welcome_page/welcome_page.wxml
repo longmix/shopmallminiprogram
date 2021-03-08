@@ -1,8 +1,34 @@
 <!--pages/welcome_page/welcome_page.wxml-->
-<view>
-<image src="http://yanyubao.tseo.cn/uploads/jianghanyinhua_wxa_welcome_index.jpg" mode="widthFix" style="width:100%"></image>
+
+<block wx:if="{{video_url}}">
+  <video
+    bindtap='start_and_stop_other_videos' 
+    src="{{video_url}}"  poster='{{video_cover_url}}'
+    controls="true"
+    autoplay="{{video_autoplay}}"
+    bindloadedmetadata="videometa"
+    style="width:{{videometa_width_height[0]}}rpx; height:{{videometa_width_height[1]}}rpx;"></video>
+</block>
+
+
+<block wx:if="{{content_type == 'cms'}}">
+<view class='wenzhang_detail'>
+    <import src="../../wxParse/wxParse.wxml"/> 
+    <view class="wxParse"> 
+        <scroll-view  scroll-y='true'>
+           <template is="wxParse" data='{{wxParseData:content.nodes}}'/>
+        </scroll-view>
+    </view>
 </view>
-<view class="list">
+</block>
+
+<block wx:if="{{content_type == 'pic'}}">
+<view>
+<image src="{{content_pic_image}}" data-url="{{content_pic_url}}" mode="widthFix" style="width:100%" bindtap="content_pic_click"></image>
+</view>
+</block>
+
+<view class="list" wx:if="{{wxa_show_latest_product_in_welcome_page == 1}}">
     <block wx:for="{{shopList}}" wx:key="*this" data-productid="{{item.productid}}">
         <view class="ban">
             <navigator url="../product/detail?productid={{item.productid}}" class="cover flex-wrp">

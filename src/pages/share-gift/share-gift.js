@@ -38,9 +38,7 @@ Page({
 
 
     //从本地读取
-    var option_list_str = wx.getStorageSync("option_list_str");
-
-    console.log("获取商城选项数据：" + option_list_str + '333333333');
+    var option_list_str = wx.getStorageSync('shop_option_list_str_' + app.get_sellerid());
 
     if (!option_list_str) {
       return null;
