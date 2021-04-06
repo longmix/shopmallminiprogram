@@ -16,6 +16,11 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    
+    if(options.userid){
+      app.set_current_parentid(options.userid);
+    }
+   
     var userInfo = app.get_user_info();
 
     var that = this;
@@ -280,18 +285,26 @@ Page({
 
 
   },
+
+  //分享朋友圈
   onShareTimeline: function () {
     console.log('app.globalData.shop_name : '+app.globalData.shop_name);
 
     return this.share_return();
   },
+
+  //收藏
   onAddToFavorites: function () {
     return this.share_return();
   },
+
   share_return: function () {
+
+    var userInfo = app.get_user_info();
+
     return {
       title: this.data.video_data.title,
-      query: 'videoid=' + this.data.videoid, 
+      query: 'videoid=' + this.data.videoid + '&userid=' + userInfo.userid,
       imageUrl:this.data.video_data.img_url
     }
   },
@@ -303,6 +316,7 @@ Page({
     })
   },
 
+  //发送
   sendRemark:function(){
     var that = this;
 
@@ -361,7 +375,7 @@ Page({
 
   },
 
-
+//收藏
   collectVedio:function(e){
     var that = this;
 
@@ -423,6 +437,7 @@ Page({
     })
   },
 
+  //评论
   showRemarkInput:function(e){
     var that = this;
 
@@ -536,7 +551,25 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
+    var userInfo = app.get_user_info();
 
+    var share_url = '/cms/quanquan/quanquan_details?videoid=' + this.data.videoid + '&userid=' + userInfo.userid;
+    
+    
+    if (userInfo){
+      share_url += "&parentid=" + userInfo.userid;
+    }
+
+    return {
+      title: '' + app.globalData.shop_name,
+      path: share_url, 
+      success: function(res) {
+        // 分享成功
+      },
+      fail: function(res) {
+        // 分享失败
+      }
+    }
   },
 
   

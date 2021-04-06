@@ -961,6 +961,13 @@ App({
         })
       }
     }
+    else if (url.indexOf('tel:') == 0) {
+      url = url.replace(/tel:/, '');
+
+      wx.makePhoneCall({
+        phoneNumber: url,
+      })
+    }
     else {
       wx.navigateTo({
         url: url

@@ -16,7 +16,16 @@ Page({
     get_default_imgid:false,
     content_type:'cms',
     video_autoplay:false,
-    current_title : ''
+
+    current_title : '',
+
+    current_params_str:'',
+    wxa_share_img:'',
+
+    welcome_page_bottom_bg_color:'#000',
+    welcome_page_bottom_font_color:'#fff',
+    welcome_page_bottom_font_size:'30rpx',
+    welcome_page_bottom_icon_size:'40rpx'
 
   },
 
@@ -26,6 +35,27 @@ Page({
   onLoad: function (options) {
 
     console.log('welcome welcome welcome ====>>', options);
+
+    //=====分析参数=====
+    if(options){
+      var arr = Object.keys(options);
+      var options_len = arr.length;
+  
+      if (options_len > 0){
+        var params_str = '';
+  
+        for(var key in options){
+          params_str += key+'='+options[key]+'&';
+        }
+        params_str = params_str.substr(0, params_str.length - 1);
+  
+        this.setData({
+          current_params_str:params_str
+        });
+      }
+    }
+   
+    //===== End ======
 
     //options.scene = '2176@0';
     //options.data_url = 'https://yanyubao.tseo.cn/openapi/Jianghanyinhua/get_order_scan_report_page?orderno=20170123172139NJVOPW&messageid=2968';
@@ -92,7 +122,7 @@ Page({
 
       if(platform == 'cms'){
         if(imgid){
-          imgid = 0;
+          //imgid = 0;
   
           this.__get_img_from_weiduke(imgid, this);
         }
@@ -116,6 +146,68 @@ Page({
   __handle_option_list:function(that, option_list){
     app.getColor();
 
+
+
+
+
+    console.log('123456',option_list);
+    console.log('123456',option_list.welcome_page_bottom_icon_list);
+
+    //自定义底部导航图
+    if(option_list.welcome_page_bottom_icon_list){
+      console.log('122223456',option_list.welcome_page_bottom_icon_style);
+      //设置底部导航的颜色风格
+      if(option_list.welcome_page_bottom_icon_style && (option_list.welcome_page_bottom_icon_style == 1)){
+        //底色变成文字的颜色，文字变成底色
+        this.setData({
+          welcome_page_bottom_bg_color:option_list.wxa_shop_nav_font_color,
+          welcome_page_bottom_font_color:option_list.wxa_shop_nav_bg_color
+        });
+
+      }
+      else{
+        this.setData({
+          welcome_page_bottom_bg_color:option_list.wxa_shop_nav_bg_color,
+          welcome_page_bottom_font_color:option_list.wxa_shop_nav_font_color
+        });
+      }
+      
+
+      this.setData({
+        welcome_page_bottom_icon_list:option_list.welcome_page_bottom_icon_list,
+        welcome_page_btn_count : option_list.welcome_page_bottom_icon_list.length,
+      })
+
+      console.log('option_list.welcome_page_bottom_icon_list.length=====>>>>', option_list.welcome_page_bottom_icon_list.length);
+
+      if(option_list.welcome_page_bottom_icon_list.length == 1){
+        this.setData({
+          welcome_page_bottom_font_size:'60rpx',
+          welcome_page_bottom_icon_size:'70rpx'
+        });
+      }
+      else if(option_list.welcome_page_bottom_icon_list.length == 2){
+        this.setData({
+          welcome_page_bottom_font_size:'45rpx',
+          welcome_page_bottom_icon_size:'52rpx'
+        });
+      }
+      if(option_list.welcome_page_bottom_icon_list.length == 3){
+        this.setData({
+          welcome_page_bottom_font_size:'35rpx',
+          welcome_page_bottom_icon_size:'40rpx'
+        });
+      }
+      
+    }
+
+
+    if (option_list.wxa_share_img) {
+      that.setData({
+        wxa_share_img: option_list.wxa_share_img
+      });
+    }
+
     if(this.data.get_default_imgid && option_list && option_list.wxa_default_imgid_in_welcome_page){
       this.__get_img_from_weiduke(option_list.wxa_default_imgid_in_welcome_page, this);
     }
@@ -124,6 +216,8 @@ Page({
     if(!option_list || !option_list.wxa_show_latest_product_in_welcome_page){
       return;
     }
+    
+
 
     //获取最新的商品信息
     var wxa_show_latest_product_in_welcome_page = option_list.wxa_show_latest_product_in_welcome_page;
@@ -435,6 +529,18 @@ Page({
     }
 
   },
+  onShareTimeline: function () {
+    console.log('app.globalData.shop_name : '+app.globalData.shop_name);
+
+    return {
+      title: this.data.current_title,
+      query: this.data.current_params_str,
+      imageUrl:this.data.wxa_share_img
+    }
+  },
+  onAddToFavorites: function () {
+    return this.onShareTimeline();
+  },
 
   videometa:function(e){
     console.log('videometa======>>>>>', e);
@@ -470,6 +576,15 @@ Page({
   start_and_stop_other_videos: function (e) {
     console.log('start_and_stop_other_videos=====>>>>', e);
     var video_id = e.currentTarget.dataset.id;
+  },
+
+  //自定义页面底部导航跳转
+  btn_to_page:function(e){
+    console.log(e);
+    var url = e.currentTarget.dataset.url;
+    app.call_h5browser_or_other_goto_url(url);
   }
+
+
 
 })

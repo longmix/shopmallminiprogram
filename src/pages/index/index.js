@@ -38,7 +38,9 @@ Page({
 
     hide_good_box: true,
     zhengdianmaoshao_currentTabTime: 0,
-    wxa_show_video_autoplay:false
+    wxa_show_video_autoplay:false,
+
+    current_params_str:''
   },
 //跳转商品列表页   
 listdetail:function(e){
@@ -457,6 +459,16 @@ getMore:function(e){
   onPullDownRefresh: function () {   
     console.log('下拉刷新==============')
 
+
+    wx.showLoading({
+      title: '数据刷新中……',
+    })
+
+    setTimeout(function () {
+      wx.hideLoading()
+    }, 1000)
+
+
     var that = this;
     that.setData({
       page: 1,
@@ -505,6 +517,29 @@ getMore:function(e){
     //请求服务器,刷新卡券信息
     console.log('网页参数如下:');
     console.log(options); //console.log(options.sellerid);
+
+
+    //=====分析参数=====
+    if(options){
+      var arr = Object.keys(options);
+      var options_len = arr.length;
+
+      if (options_len > 0){
+        var params_str = '';
+
+        for(var key in options){
+          params_str += key+'='+options[key]+'&';
+        }
+        params_str = params_str.substr(0, params_str.length - 1);
+
+        this.setData({
+          current_params_str:params_str
+        });
+      }
+
+    }
+    
+    //===== End ======
 
     var sellerid = null;
    // var q = options.q;
@@ -877,7 +912,7 @@ getMore:function(e){
   share_return: function () {
     return {
       title: this.data.wxa_share_title,
-      query: '', 
+      query: this.data.current_params_str,
       imageUrl:this.data.wxa_share_img
     }
   },

@@ -51,20 +51,22 @@ Page({
     app.set_option_list_str(this, this.__handle_option_list);
 
     //=====分析参数=====
-    var arr = Object.keys(options);
-    var options_len = arr.length;
+    if(options){
+      var arr = Object.keys(options);
+      var options_len = arr.length;
 
-    if (options_len > 0){
-      var params_str = '';
+      if (options_len > 0){
+        var params_str = '';
 
-      for(var key in options){
-        params_str += key+'='+options[key]+'&';
+        for(var key in options){
+          params_str += key+'='+options[key]+'&';
+        }
+        params_str = params_str.substr(0, params_str.length - 1);
+
+        this.setData({
+          current_params_str:params_str
+        });
       }
-      params_str = params_str.substr(0, params_str.length - 1);
-
-      this.setData({
-        current_params_str:params_str
-      });
     }
     //===== End ======
     

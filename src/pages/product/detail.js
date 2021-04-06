@@ -217,6 +217,39 @@ Page({
 
   },
 
+  onShareAppMessage: function () {
+    var that = this;
+
+    var share_title = that.data.detail.name;
+    if(share_title.length > 22){
+      share_title = share_title.substr(0, 20) + '...';
+    }
+
+    var share_path = '/pages/product/detail?productid=' + that.data.productid + '&sellerid' + app.get_sellerid();
+
+    var userInfo = app.get_user_info();
+
+    if (userInfo && userInfo.userid) {
+      share_path += '&userid='+userInfo.userid;
+    }
+
+    var share_img = this.data.shop_info.icon;
+    if(this.data.bannerItem[0] && this.data.bannerItem[0]['picture']){
+      share_img = this.data.bannerItem[0]['picture'];
+    }
+
+    return {
+      title: share_title + ' ￥' + that.data.detail.price,
+      path: share_path,
+      imageUrl : share_img,
+      success: function (res) {
+        // 分享成功
+      },
+      fail: function (res) {
+        // 分享失败
+      }
+    }
+  },
   onShareTimeline: function () {
     console.log('app.globalData.shop_name : '+app.globalData.shop_name);
 
@@ -226,10 +259,29 @@ Page({
     return this.share_return();
   },
   share_return: function () {
+    var share_title = that.data.detail.name;
+    if(share_title.length > 22){
+      share_title = share_title.substr(0, 20) + '...';
+    }
+
+    var share_path = 'productid=' + that.data.productid + '&sellerid' + app.get_sellerid();
+
+    var userInfo = app.get_user_info();
+
+    if (userInfo && userInfo.userid) {
+      share_path += '&userid='+userInfo.userid;
+    }
+
+    var share_img = this.data.shop_info.icon;
+    if(this.data.bannerItem[0] && this.data.bannerItem[0]['picture']){
+      share_img = this.data.bannerItem[0]['picture'];
+    }
+
+
     return {
-      title: this.data.detail['name'],
-      query: 'productid=' + this.data.productid,
-      imageUrl:this.data.bannerItem[0]['picture'],
+      title: share_title,
+      query: share_path,
+      imageUrl:share_img,
     }
   },
 
@@ -1082,37 +1134,6 @@ Page({
     this.setData({ swiper_image_current: e.detail.current })
   },
 
-  onShareAppMessage: function () {
-    var that = this;
-
-    var share_title = that.data.detail.name;
-    if(share_title.length > 22){
-      share_title = share_title.substr(0, 20) + '...';
-    }
-
-    var share_path = '/pages/product/detail?productid=' + that.data.productid + '&sellerid' + app.get_sellerid();
-
-    var userInfo = app.get_user_info();
-
-    if (userInfo && userInfo.userid) {
-      share_path += '&userid='+userInfo.userid;
-    }
-
-    var share_img = this.data.shop_info.icon;
-
-    return {
-      title: share_title + ' ￥' + that.data.detail.price,
-      path: share_path,
-      imageUrl : share_img,
-      success: function (res) {
-        // 分享成功
-      },
-      fail: function (res) {
-        // 分享失败
-      }
-    }
-  },
-  
   changeSpec:function(e){
     var value = e.currentTarget.dataset.value;
     var option_list_arr = that.data.option_list_arr;

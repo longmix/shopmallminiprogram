@@ -92,6 +92,12 @@
 
 </block>    
 
+
+<!-- 平铺图片 -->
+<view style="width: 96%;margin-left: 2%;" wx:if="{{wxa_usercenter_ad_list}}">
+			<image style="width: 100%;"  wx:for="{{wxa_usercenter_ad_list}}" wx:key="index" src="{{item.image}}" bindtap="toUrl" data-url="{{item.url}}"  mode="widthFix"></image>
+</view>
+
 <view class='icon-box'>
 <!-- <view bindtap='mytiaozhuan' data-url='/pages/order_chongzhi/chongzhi' class='icon-list'>
         <image src='{{item.src}}'></image>
@@ -111,10 +117,10 @@
         </view>
     </navigator>
 --><block wx:if="{{wxa_usercenter_function_list == 1}}">
-    <view style="width:100%;padding:10rpx 40rpx;line-height:60rpx;margin-top: 20rpx;border-bottom:1px solid #999999;" bindtap='mytiaozhuan' data-url='{{item.url}}' class=''>
-    <view style="float:left;">
-      <image style="width:35px;height:35px;margin-right:20px;" src="{{item.src}}"></image>
-    </view>
+    <view class="icon_box_item" bindtap='mytiaozhuan' data-url='{{item.url}}'>
+      <view style="float:left;">
+        <image style="width:70rpx;height:70rpx;margin-right:40rpx;" src="{{item.src}}"></image>
+      </view>
       <view style="float:left;">
         <text style="color:#333;font-size:35rpx;">{{item.name}}</text>
       </view>
@@ -133,18 +139,18 @@
 
 </view>
 <block wx:if="{{wxa_usercenter_function_list == 1}}">
-     <navigator style="padding:10rpx 40rpx;line-height:60rpx;margin-top: 20rpx;border-bottom:1px solid #999999;" url="../about_applet/about_applet" open-type="navigate">
+     <navigator class="icon_box_item" url="../about_applet/about_applet" open-type="navigate">
     <view style="float:left;">
-      <image style="width:35px;height:35px;margin-right:20px;" src="../../images/wxa.png"></image>
+      <image style="width:70rpx;height:70rpx;margin-right:40rpx;" src="../../images/wxa.png"></image>
     </view>
       <view style="float:left;">
         <text style="color:#333;font-size:35rpx;">关于小程序</text>
       </view>
       <view style="clear:both;"></view>
      </navigator>
-  </block>
+</block>
 
-  <block wx:if="{{wxa_usercenter_function_list != 1}}">
+<block wx:if="{{wxa_usercenter_function_list != 1}}">
    <navigator url="../about_applet/about_applet" open-type="navigate">
   <view class='icon-list'>
    <image src='../../images/wxa.png'></image>

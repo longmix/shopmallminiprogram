@@ -3,6 +3,20 @@
   width: 100%;
   display:block;
 }
+
+.icon_box_item{
+  line-height: 80rpx;
+  margin: 10rpx 20rpx 10rpx 20rpx;
+  border-bottom: 1px solid #eee;
+  padding: 0 0 0 30rpx;
+  height: 80rpx;
+  width: 90%;
+  float: left;
+  clear: both;
+
+
+}
+
 .icon-list{
   width: 33%;
   height: 220rpx;

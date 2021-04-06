@@ -49,5 +49,14 @@
         </view> 
         
     </block>
-
+    
+</view>
+<view style="padding-bottom:45rpx;"></view>
+<view class="zdy_btn_box" style="background:{{welcome_page_bottom_bg_color}};color:{{welcome_page_bottom_font_color}};border-top:1rpx solid {{welcome_page_bottom_font_color}};">
+    <view class="{{welcome_page_btn_count > 2 ? 'btn_up_and_dow' : 'btn_left_and_right'}}" 
+        wx:for="{{welcome_page_bottom_icon_list}}" wx:key="*this"
+        bindtap="btn_to_page" data-url="{{item.url}}">
+        <image src="{{item.src}}" style="width:{{welcome_page_bottom_icon_size}};height:{{welcome_page_bottom_icon_size}};"></image>
+        <view style="font-size:{{welcome_page_bottom_font_size}};">{{item.name}}</view>
+    </view>
 </view>

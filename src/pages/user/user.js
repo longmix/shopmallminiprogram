@@ -3,7 +3,7 @@ var app = getApp();
 
 Page( {
   data: {
-    data: { status_count1: 0, status_count2: 0, status_count3: 0, status_count4: 0,},
+    data: { status_count1: 0, status_count2: 0, status_count3: 0, status_count4: 0,wxa_usercenter_ad_list:[]},
     wxa_shop_nav_bg_color:'#008842',
     nick_name:0,
     headimgurl: "../../images/cry80.jpg",
@@ -131,6 +131,13 @@ Page( {
         wxa_usercenter_function_list: option_list.wxa_usercenter_function_list,
       });
     }
+
+    if (option_list.wxa_usercenter_ad_list) {
+      that.setData({
+        wxa_usercenter_ad_list: option_list.wxa_usercenter_ad_list,
+      });
+    }
+
     if (option_list.wxa_show_zengkuan_in_usercenter) {
       that.setData({
         wxa_show_zengkuan_in_usercenter: option_list.wxa_show_zengkuan_in_usercenter,
@@ -325,6 +332,15 @@ Page( {
 
 
   },
+
+  toUrl:function(url){
+    if(url.length > 0){
+      app.call_h5browser_or_other_goto_url(url);
+      
+    }
+    return;
+  },
+  
 
   loadOrderStatus:function(){
     //获取用户订单数据

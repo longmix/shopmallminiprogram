@@ -86,3 +86,38 @@
   padding-left: 10rpx;
 
 }
+
+/* 底部导航 */
+.zdy_btn_box{
+  position: fixed;
+  left:0;
+  bottom:0;
+  width:100%;
+  background:#ffffff;
+  z-index:10;
+  height:120rpx;
+  display:flex;
+  font-size:30rpx;
+}
+
+.btn_left_and_right{
+  display: flex;
+  height: 120rpx;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  font-size:30rpx;
+}
+
+.btn_left_and_right image{
+  margin-right:15rpx;
+}
+
+.btn_up_and_dow{
+  display: flex;
+  height: 120rpx;
+  width: 100%;
+  flex-direction:column;
+  justify-content: center;
+  align-items: center;
+}
