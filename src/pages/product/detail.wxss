@@ -524,6 +524,9 @@ swiper{
 .specs{
   padding-left: 5%;
   font-size:28rpx;
+  margin-top: 50rpx;
+  color: #555;
+  clear: both;
 }
 
 .specs-a{

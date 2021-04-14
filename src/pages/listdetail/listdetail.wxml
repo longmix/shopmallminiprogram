@@ -33,14 +33,14 @@
       <view style="width:70%;float:right;height:220rpx;padding-top: 30rpx;">
         <view class="titles wenzi" style="text-align: left;font-weight:400;font-size:18px;overflow: hidden;white-space: nowrap;text-overflow:ellipsis;">{{item.name}}
         </view>
-        <view class="brief">
-        <view style="color:gray;font-size:26rpx;">
+        <view class="brief" style="margin-top: 30rpx;">
+        <view style="color:gray;font-size:26rpx;display:none;">
           {{item.seller_name}}
         </view>
         
-        <view wx:if="{{item.price2 > 0}}" style="color:red;">¥ {{item.price}} {{item.product_take_score}}</view>
+        <view wx:if="{{item.price > 0}}" style="color:red;">¥ {{item.price}} {{item.product_take_score}}</view>
         </view>
-        <view class='yueduliang'>
+        <view class='yueduliang' style="margin-top: 30rpx;">
           <text class="rexiao" style="color:gray;font-size:30rpx;">已有{{item.sale_volume}}人购买</text>
           
         </view>
@@ -66,13 +66,13 @@
               <text class="type">{{item.name}}</text>
             </view>
               <view class="act-item ellipsis" >
-                <text class="kkk">{{item.seller_name}}</text>
+                <text class="kkk" style="display:none;">{{item.seller_name}}</text>
             </view>
             <view class="act-item ellipsis" >
-                <text style="color:red">¥ {{item.price}} {{item.product_take_score}}</text>
+                <text style="color:red;margin-left: 10rpx;">¥ {{item.price}} {{item.product_take_score}}</text>
             </view>
               <view class="act-item ellipsis" >
-                <text style="color:#999999;font-size:25rpx">已有{{item.sale_volume}}人购买</text>
+                <text style="color:#999999;font-size:25rpx;margin-left: 10rpx;">已有{{item.sale_volume}}人购买</text>
             </view>
             </navigator>
         </view> 
