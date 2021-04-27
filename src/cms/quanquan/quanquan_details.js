@@ -2,6 +2,9 @@
 var app = getApp();
 var api = require('../../utils/api');
 
+//引入这个插件，使html内容自动转换成wxml内容
+var WxParse = require('../../wxParse/wxParse.js');
+
 Page({
 
   /**
@@ -61,6 +64,11 @@ Page({
             video_data: data.video_data,
             video_remark_list: data.video_remark_list
           });
+
+          //显示富媒体内容
+          if(data.video_data.describe){
+            WxParse.wxParse('content', 'html', data.video_data.describe, that, 15);
+          }
 
           wx.setNavigationBarTitle({
             title: data.video_data.title

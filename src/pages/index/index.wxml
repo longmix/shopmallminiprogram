@@ -7,7 +7,7 @@
  <!--滚动图片start-->
  <view wx:if="{{wxa_show_index_swiper == 1}}">
   <swiper bindchange="bindchange" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" style="height:{{imgheights[current]}}rpx;">
-    <block wx:for="{{imgUrls}}" wx:key="{{index}}">
+    <block wx:for="{{imgUrls}}" wx:key="index">
       <swiper-item>
         <image src="{{item.image}}"  data-id='{{index}}' mode="widthFix"  class="slide-image" bindload="imageLoad" bindtap="toProductDetail" data-url="{{item.url}}"/>
       </swiper-item>
@@ -17,7 +17,7 @@
   <!--5个导航图标start--> 
   <view wx:if="{{wxa_show_index_icon == 1}}">
    <view class='style1' wx:if="{{icon_list!=null||icon_list!=''}}">
-     <view class='style2' wx:for="{{icon_list}}" wx:key="{{index}}" style="width:{{100/icon_count}}%">
+     <view class='style2' wx:for="{{icon_list}}" wx:key="index" style="width:{{100/icon_count}}%">
       <image class='style3' mode="widthFix" src='{{item.src}}' bindtap='icon_url' data-index="{{index}}"></image>
       <view class='style4'>{{item.name}}</view>
      </view>
@@ -33,7 +33,7 @@
      <image src="{{wxa_shop_toutiao_icon}}"></image>
      </view>
    <swiper class="toutiao_right" vertical="true" autoplay="true" circular="true" interval="2000" wx:if="{{!wxa_shop_toutiao_flash_line||wxa_shop_toutiao_flash_line!=2}}">
-    <swiper-item wx:for="{{articlelist}}">
+    <swiper-item wx:for="{{articlelist}}" wx:key="key001">
     <view class="toutiao_right" bindtap="touTiaoList" data-id="{{toutiao_item_id}}">
     <text>{{item.title}}</text>
     </view>
@@ -41,7 +41,7 @@
 </swiper>
 
 <swiper class="toutiao_right2" vertical="true" autoplay="true" circular="true" interval="2000" wx:if="{{wxa_shop_toutiao_flash_line==2}}">
-    <swiper-item wx:for="{{articlelist2}}" bindtap="touTiaoList">
+    <swiper-item wx:for="{{articlelist2}}" wx:key="key001" bindtap="touTiaoList">
         <view>•  {{item[0].title}}</view>
         <view>•  {{item[1].title}}</view>
     </swiper-item>
@@ -74,8 +74,10 @@
 <!--平铺广告图片start-->
 <view wx:if="{{wxa_show_pic_pinpu == 1}}">
    <view style='width:100%;' wx:if="{{img_list!=null||img_list!=''}}">
-     <block  wx:for="{{img_list}}" wx:key="{{index}}">
-      <image style='width:100%;vertical-align: middle;' mode="widthFix" src='{{item.image}}' bindtap="toProductDetail" data-url="{{item.url}}"></image>
+     <block  wx:for="{{img_list}}" wx:key="index">
+      <image style='width:100%;vertical-align: middle;' mode="widthFix" 
+        src='{{item.image}}' 
+        bindtap="toProductDetail" data-url="{{item.url}}"></image>
      </block>
    </view>   
 </view>

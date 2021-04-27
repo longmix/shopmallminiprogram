@@ -143,7 +143,7 @@ Page({
               pictureList: that.data.pictureList.concat(data.data),
               type: data.type,
               page: that.data.page + 1,
-            })
+            })  
           }else{
             that.setData({
               isShowBottomLine: 1,

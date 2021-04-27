@@ -1,6 +1,9 @@
 /* pages/welcome_page/welcome_page.wxss */
+
+/* 商品列表相关的CSS */
 .list{
   display: flex;
+  margin-bottom: 150rpx;
 }
 
 .ban{
@@ -8,7 +11,8 @@
   padding: 10rpx ;
   border: 2rpx solid #ccc;
   display: block;
-  margin-left:6rpx 
+  margin-left:6rpx;
+  font-size: 28rpx;
 }
 
 .ban image{
@@ -16,7 +20,7 @@
 }
 
 .kkk{
-    font-size:26rpx;
+    font-size:20rpx;
   /*font-weight: 700;*/
   margin-left: 10rpx;
   color: gray;
@@ -57,67 +61,6 @@
   font-size: 30rpx;
   margin-top: 30rpx;
 }
-
-.wenzhang_detail{
-  font-size: 30rpx;
-  font-family: "微软雅黑";
-  margin-bottom:80rpx;
-}
+/* 商品列表相关的CSS  end  */
 
 
-.wxParse-img{
-  display: flex;
-}
-
-.wxParse-h1{
-  font-size: 40rpx;
-  font-weight: bold;
-  margin: 40rpx auto;
-  border-left: 20rpx solid red;
-  padding-left: 20rpx;
-
-}
-
-.wxParse-h2{
-  font-size: 36rpx;
-  font-weight: bold;
-  margin: 20rpx auto;
-  border-left: 10rpx solid red;
-  padding-left: 10rpx;
-
-}
-
-/* 底部导航 */
-.zdy_btn_box{
-  position: fixed;
-  left:0;
-  bottom:0;
-  width:100%;
-  background:#ffffff;
-  z-index:10;
-  height:120rpx;
-  display:flex;
-  font-size:30rpx;
-}
-
-.btn_left_and_right{
-  display: flex;
-  height: 120rpx;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  font-size:30rpx;
-}
-
-.btn_left_and_right image{
-  margin-right:15rpx;
-}
-
-.btn_up_and_dow{
-  display: flex;
-  height: 120rpx;
-  width: 100%;
-  flex-direction:column;
-  justify-content: center;
-  align-items: center;
-}

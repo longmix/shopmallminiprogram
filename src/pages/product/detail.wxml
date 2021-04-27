@@ -1,10 +1,12 @@
-<!--pages/index/detail.wxml-->
+<!-- pages/index/detail.wxml -->
 
 
 <!--内容开始-->
 <view class="cont">
   <!--<image class="tp_image" src="{{itemData.photo_d}}"></image>-->
-  <swiper style="height:{{swiper_image_heights[swiper_image_current]}}rpx;" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" bindchange="swiper_image_change">
+  <swiper style="height:{{swiper_image_heights[swiper_image_current]}}rpx;" 
+    indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" 
+    interval="{{interval}}" duration="{{duration}}" bindchange="swiper_image_change">
     <block wx:for="{{bannerItem}}" wx:key="picture">
       <swiper-item>
         <image src="{{item.picture}}" data-id='{{index}}' class="slide-image" bindload="swiper_image_load" />
@@ -158,12 +160,10 @@
   <view style='padding-bottom:200rpx;' wx:if="{{currentTab==0}}">
     <import src="../../wxParse/wxParse.wxml" />
     <view class="wxParse">
-      <scroll-view scroll-y='true'>
-        <template is="wxParse" data='{{wxParseData:content.nodes}}' />
-      </scroll-view>
+      <template is="wxParse" data='{{wxParseData:content.nodes}}' />
     </view>
   </view>
-
+ 
 
 
   <!-- 产品参数 -->

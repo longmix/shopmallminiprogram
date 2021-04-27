@@ -1,7 +1,7 @@
 <!--pages/help_detail/help_detail.wxml-->
  
     <view class='detail_top' wx:if="{{wz_keyword2}}" style="display: none;">
-     <view class='detail_top_view' wx:for="{{wz_keyword2}}">
+     <view class='detail_top_view' wx:for="{{wz_keyword2}}" wx:key="key001">
       <view class='biaoqian'><image src='{{item.status==1?"../../images/shced1.png":"../../images/shced2.png"}}' bindtap="add_tj" data-text='{{item.name}}'></image><text>{{item.name}}</text></view>
      </view>
     </view>
@@ -17,9 +17,7 @@
 <view class='wenzhang_detail'>
     <import src="../../wxParse/wxParse.wxml"/> 
     <view class="wxParse"> 
-        <scroll-view  scroll-y='true'>
-           <template is="wxParse" data='{{wxParseData:content.nodes}}'/>
-        </scroll-view>
+        <template is="wxParse" data='{{wxParseData:content.nodes}}'/>
     </view>
     <view class="article_bottom">
         <view style="color:#bfbfbf;">阅读 {{wz_text.click}}</view>
@@ -31,7 +29,7 @@
 <!-- 评论 -->
      <view class="comment_list" id="the-id">
        <view style="border-left:6rpx solid {{theme_color_wenku}};padding-left:20rpx;margin-top:36rpx;margin-bottom:36rpx;font-size:26rpx;color:#999">热门评论</view>
-       <view class="comment_list_aa" wx:if="{{remarkList.length}}" wx:for="{{remarkList}}">
+       <view class="comment_list_aa" wx:if="{{remarkList.length}}" wx:for="{{remarkList}}" wx:key="key002">
           <image class="comment_list_user_icon" src="{{item.headimgurl}}" mode='widthFix'></image>
           <view style="width:97%;">
               <view class="comment_list_right" style="">

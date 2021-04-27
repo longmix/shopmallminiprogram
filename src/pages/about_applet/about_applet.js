@@ -82,6 +82,52 @@ Page({
       phoneNumber: that.data.kefu_telephone
     })
   },
+  callKefuQQ:function(){
+    var that = this;
+
+    wx.setClipboardData({
+      data: that.data.kefu_qq,
+    })
+
+    wx.showModal({
+      cancelColor: 'cancelColor',
+      showCancel:false,
+      title:'客服QQ已复制',
+      content:'打开QQ，搜索“'+ that.data.kefu_qq +'”添加好友即可'
+    })
+  },
+  callKefuWebsite:function(){
+    var that = this;
+
+    wx.setClipboardData({
+      data: that.data.kefu_website,
+    })
+
+    wx.showModal({
+      cancelColor: 'cancelColor',
+      showCancel:false,
+      title:'官方网址已经复制',
+      content:'打开浏览器，输入“'+ that.data.kefu_website +'”访问'
+    })
+  },
+  callKefuGongzhonghao:function(){
+    var that = this;
+
+    wx.setClipboardData({
+      data: that.data.kefu_gongzhonghao,
+    })
+
+    wx.showModal({
+      cancelColor: 'cancelColor',
+      showCancel:false,
+      title:'公众号名称已经复制',
+      content:'打开手机微信，点击右上角选择“添加朋友”，类型“公众号”，输入“'+ that.data.kefu_gongzhonghao +'”。'
+    })
+  },
+
+
+
+
   useHelp: function () {
     wx.navigateTo({
       url: '../help_detail/help_detail?action=detail&id=xiaochengxuhelp'

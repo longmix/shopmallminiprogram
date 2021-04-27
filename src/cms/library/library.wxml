@@ -8,7 +8,7 @@
 <view >
     <scroll-view scroll-x="true" class="tab-h1" scroll-left="{{scrollLeft}}">
       
-      <block wx:for="{{types}}" wx:for-item="item">
+      <block wx:for="{{types}}" wx:for-item="item" wx:key="">
         <view class="tab-item1 {{currentTab==item.cataid?'active':''}}"  data-cataid="{{item.cataid}}" bindtap="swichNav">{{item.name}}</view>
       </block>  
        
@@ -31,7 +31,7 @@
       <block wx:for="{{productList}}" wx:for-item="item">
         <view class="a-2" bindtap='toLibraryList' data-productid="{{item.productid}}">
           <image  src='{{item.picture}}'></image>
-          <view  class="a-3"  data-cataid="{{item.cataid}}" >{{item.name}}</view>
+          <view  class="a-3"  data-cataid="{{item.cataid}}">{{item.name}}</view>
         </view>
         
       </block>  

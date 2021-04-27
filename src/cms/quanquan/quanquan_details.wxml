@@ -50,6 +50,18 @@
 </view>
 <view style='font-size:12px;color:#666;margin:6rpx 24rpx 0rpx 24rpx;'>{{video_data.ext_info}}</view>
 <view style='font-size:12px;color:#666;margin:6rpx 24rpx 0rpx 24rpx;'>{{video_data.ext_info02}}</view>
+
+<!-- 图文详情 -->
+<view style='padding:50rpx 0 50rpx 0;' wx:if="{{video_data.describe != null}}">
+  <import src="../../wxParse/wxParse.wxml" />
+  <view class="wxParse">
+    <scroll-view scroll-y='true'>
+      <template is="wxParse" data='{{wxParseData:content.nodes}}' />
+    </scroll-view>
+  </view>
+</view>
+
+
 <view class="userwords" wx:for="{{video_remark_list}}">
     <image class="userwords_img" src="{{item.headlogo}}"></image>
     <view class="userwords_rit">

@@ -14,6 +14,7 @@ page{
   line-height:85rpx;
   background-color:#fff;
   padding:13px;
+  text-align: initial;
 }
 
 .from-list{

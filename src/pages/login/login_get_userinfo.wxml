@@ -16,6 +16,19 @@
   <image class="shouquan-b" src="../../images/wxa.png"></image>
  </view>
 
+<!--
+<button open-type="getUserInfo" 
+  plain="true" 
+  bindgetuserinfo="btn_one_click_get_userinfo" 
+  class="check_btn2" 
+  style="background-color:#07C160; color:#ffffff;border:1px solid #fff;">授权获取头像和昵称</button>
+-->
 
-<button open-type="getUserInfo" plain="true" bindgetuserinfo="btn_one_click_get_userinfo" class="check_btn2" style="background-color:#07C160; color:#ffffff;border:1px solid #fff;">授权获取头像和昵称</button>
+<button
+  plain="true" 
+  bindtap="getUserProfile" 
+  class="check_btn2" 
+  style="background-color:#07C160; color:#ffffff;border:1px solid #fff;">授权获取头像和昵称</button>
+
+
 </view>

@@ -919,6 +919,13 @@ getMore:function(e){
   //跳转到商品详情
   toProductDetail:function(e){
     var url = e.currentTarget.dataset.url;
+
+    if(!url || (url.length == 0)){
+      console.log('没有设置跳转链接');
+      return;
+    }
+
+
     var that = this;
     var var_list = Object();
     if (that.data.productid) {

@@ -231,7 +231,9 @@ Page({
       var cataid2 = e.target.dataset.cataid;
     }
     
-    if (this.data.currentTab2 == cataid2) { return false; }
+    if (this.data.currentTab2 == cataid2) { 
+      return false; 
+    }
     else {
       wx.request({
         url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=product_list',

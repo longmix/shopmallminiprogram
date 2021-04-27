@@ -1,4 +1,7 @@
 /* pages/share-gift/share-detail.wxss */
+
+@import "../../wxParse/wxParse.wxss";
+
 .flex{
   text-align:center;
  

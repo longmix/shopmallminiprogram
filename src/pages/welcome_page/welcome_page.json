@@ -1,1 +1,5 @@
-{}
+{
+  "usingComponents": {
+    "welcome_page-tag": "plugin://yyb_selfform_plugin/welcome_page-tag"
+  }
+}

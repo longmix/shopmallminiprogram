@@ -322,7 +322,7 @@ Page({
 
         console.log('__getFaquanList===>>>>faquanList====>>>', faquanList)
 
-        if (res.data.code == 1) {
+        if( (res.data.code == 1)  && faquanList ) {
           that.setData({
             faquanList: that.data.faquanList.concat(faquanList),
             page: that.data.page + 1,

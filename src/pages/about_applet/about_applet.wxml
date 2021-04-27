@@ -1,7 +1,7 @@
 <view class="logo_box">
   <view class="box_img">
     <view class="logo_img">
-      <image src="{{shop_info_from_server.icon ? shop_info_from_server.icon : '../../images/yyb.png'}}"></image>
+      <image src="{{shop_info_from_server.icon ? shop_info_from_server.icon : 'https://yanyubao.tseo.cn/Tpl/static/images/yanyubao_logo.png'}}"></image>
     </view>
     <view class="code_num2" wx:if="{{shop_name}}">{{shop_name}}</view>
     <view class="code_num" wx:if="{{version_number}}">{{version_number}}</view>
@@ -13,16 +13,16 @@
     <view class="li_info" bindtap="callTel">{{kefu_telephone}}</view>
   </view>
   <view class="list_li" wx:if="{{kefu_qq}}">
-    <view class="li_title">客服</view>
-    <view class="li_info">{{kefu_qq}}</view>
+    <view class="li_title">客服QQ</view>
+    <view class="li_info" bindtap="callKefuQQ">{{kefu_qq}}</view>
   </view>
   <view class="list_li" wx:if="{{kefu_website}}">
     <view class="li_title">官方网站</view>
-    <view class="li_info">{{kefu_website}}</view>
+    <view class="li_info" bindtap="callKefuWebsite">{{kefu_website}}</view>
   </view>
    <view class="list_li" wx:if="{{kefu_gongzhonghao}}">
     <view class="li_title">微信公众号</view>
-    <view class="li_info">{{kefu_gongzhonghao}}</view>
+    <view class="li_info" bindtap="callKefuGongzhonghao">{{kefu_gongzhonghao}}</view>
   </view>
   <!--
   <view class="list_li" bindtap="openChat">

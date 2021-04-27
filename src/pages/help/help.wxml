@@ -1,6 +1,8 @@
-<import src="../../mars/templates/component.wxml" />
+<!--
+<import src="../../mars/templates/component.wxml" />>
 
 <template is="loading" data="{{loading}}" />
+-->
 
 <view hidden="{{loading}}" class="weui-panel weui-panel_access">
   <view class="weui-panel__bd">

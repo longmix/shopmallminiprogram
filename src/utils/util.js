@@ -24,14 +24,6 @@ function formatNumber(n) {
   return n[1] ? n : '0' + n
 }
 
-module.exports = {
-  formatTime: formatTime,
-  formatTime2: formatTime2,
-  sprintf: sprintf,
-  bezier: bezier,
-  getQueryVariable: getQueryVariable
-}
-
 
 
 function getQueryVariable(url,variable) {
@@ -145,3 +137,13 @@ function bezier(points, part) {
     'bezier_points': bezier_points
   };
 }
+
+
+
+module.exports = {
+  formatTime: formatTime,
+  formatTime2: formatTime2,
+  sprintf: sprintf,
+  bezier: bezier,
+  getQueryVariable: getQueryVariable
+};

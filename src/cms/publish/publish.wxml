@@ -39,7 +39,8 @@
   <view class="tab-con" wx:if="{{faquan_tag_status == 1}}">
     <view wx:for='{{faquan_hot_tag_words}}'  wx:key="*this"
       wx:for-index="index" data-index="{{index}}" 
-      style="color:{{item.select==true ? '#fff' : faquan_tag_color}};background:{{item.select==true ? faquan_tag_color : ''}};border:1px solid {{faquan_tag_color}}" bindtap="selectTab" >{{item.name}}</view>
+      style="color:{{item.select==true ? '#1569db' : faquan_tag_color}};background:{{item.select==true ? faquan_tag_color : ''}};border:1px solid {{faquan_tag_color}}" 
+      bindtap="selectTab" >{{item.name}}</view>
    
   </view>
 

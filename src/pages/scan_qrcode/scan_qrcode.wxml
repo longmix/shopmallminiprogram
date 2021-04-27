@@ -36,18 +36,18 @@
 </button>
 -->
 <button class="bt-a" bindtap="go_to_set_weixin_notify">
-  <view>1、短信通知是收费的。微信通知的方式是永久免费的，需要您关注微信公众号，请点击这里</view>
+  <view>1、请先关注微信公众号：安全熊广告码，请点击这里，如果已经关注，请忽略，谢谢！</view>
 </button>
 
 
 <button class="bt-b" bindtap="scan_location">
-  <view>2、如果您想微信扫码定位，请点击这里</view>
+  <view>2、微信扫码看短视频，产品介绍和购买链接，请点击这里</view>
 </button>
 <button class="bt-c" bindtap="scan_remove_mobile">
-  <view>3、如果您想一键解除绑定，请点击这里</view>
+  <view>3、如果您想一键解除绑定广告码，请点击这里</view>
 </button>
 <button class="bt-d" bindtap="scan_set_e_profile">
-  <view>4、视频和广告资料上传入口，任何微信扫码者可以看见。视频+定位。适合T恤，广告衫，服装鞋帽，玩具等行业。同时适合老人，小学生，幼儿园小朋友的的保护</view>
+  <view>4、短视频和文字资料和购买链接的上传入口，任何微信扫码者可以秒看，也可以直接购买，适合印在儿童图书，玩具，婴童用品，服装鞋帽，日用百货，机电设备，农产品等的包装和吊牌上和餐饮菜单上面。如果印在衣服或者激光打标在宠物牌上面，可以用于老人小孩和宠物的防走失。</view>
 </button>
 
 </view>

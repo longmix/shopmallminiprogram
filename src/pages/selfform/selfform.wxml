@@ -1,189 +1,20 @@
-
-
-<view class='wenzhang_detail'>
-    <image style="width: 100%;" src="{{form_logourl}}" wx:if="{{form_logourl}}" mode="widthFix"></image>
-    <view wx:if="{{form_intro}}" style="margin: 20rpx;font-size: 28rpx;color: #555;">{{form_intro}}</view>
-    <import src="../../wxParse/wxParse.wxml"/> 
-    <view class="wxParse"> 
-        <scroll-view  scroll-y='true'>
-           <template is="wxParse" data='{{wxParseData:content.nodes}}'/>
-        </scroll-view>
-    </view>
-</view>
-
-
-<!--平铺广告图片start-->
-<view style='width:100%;background-color: #fff;margin-top: 20rpx;' wx:if="{{ad_img_list!=null||ad_img_list!=''}}">
-     <block  wx:for="{{ad_img_list}}" wx:key="*this">
-      <image style='width:100%;vertical-align: middle;' mode="widthFix" src='{{item.image}}' bindtap="go_to_ad_img_url" data-url="{{item.url}}"></image>
-     </block>
-   </view>
-<!--平铺广告图片end-->
-
-<!--主容器-->
-<view class="info-container">
- 
-<!--用户信息-->
-<form bindsubmit="submitData" >
-
-
-
- <view class="page-body-setting">
-
- <block wx:for="{{supplier_input_list}}">
-
-
- <!-- 文本输入框 -->
-  <block wx:if="{{item.inputtype == 'text'}}">
-    <view class="page-body-setting-item" >
-      <view class="own-info-item">
-        <view class="info-name">  <text>{{item.displayname}}</text></view>
-        <view class="info-text"> 
-          <input placeholder-style="color:#ccc;" name="{{item.fieldname}}" class="input-text" 
-            value="{{item.fieldvalue}}"
-            placeholder="请输入{{item.displayname}}"/>
-          
-        </view>
-      </view>
-
-      <view class="info-text-input-tips">{{item.errortip}}</view>
-
-    </view>
-  </block>
-<!-- ======end===== -->
- 
- <!-- 单选按钮 -->
- <block wx:if="{{item.inputtype == 'radio'}}">
-  <view class="page-body-setting-item" >
-    <view class="own-info-item">
-      <view class="info-name">{{item.displayname}}</view>
-      <view class="info-text">
-      
-        <radio-group name="{{item.fieldname}}">
-          <radio value="1" checked="true">男</radio>
-          <radio value="0">女</radio>
-        </radio-group>
-      </view>
-    </view>
-  </view>
- </block>
-
-<!-- 下拉框 --> 
-<block wx:if="{{item.inputtype == 'select'}}">
-  <view class="page-body-setting-item" >
-    <view class="own-info-item">
-    <view class="info-name">{{item.displayname}}</view>
-      <view class="info-text"> 
-        <picker class="input-text" bindchange="bindIndustryChange" data-options="{{item.options}}" data-id="{{item.id}}" data-fieldname="{{item.fieldname}}" name="{{item.fieldname}}" value="{{picker_list[item.id]}}" range="{{item.options}}">
-          <view class="picker">
-               <!-- {{item.fieldname + 'indexss'}} -->
-               {{picker_list[item.id]}}
-               <!-- {{item.id}} -->
-               <!-- {{index}} -->
-          </view>
-        </picker>
-      </view>
-    </view>
-  </view>
- </block>
-
- <!-- 时间下拉框 -->
- <block wx:if="{{item.inputtype == 'date'}}">
-  <view class="page-body-setting-item" >
-    <view class="own-info-item">
-    <view class="info-name">{{item.displayname}}</view>
-      <view class="info-text">
-        <picker name="birthday" bindchange="bindDateChange" mode="date" value="{{date}}" start="{{date_start_val}}" end="{{date_end_val}}">
-        <view class="picker">
-    {{date}}
-        </view>
-      </picker>
-      
-      </view>
-    </view>
-  </view>
-</block>
-
-  <!-- 文件上传 -->
-  <block wx:if="{{item.inputtype == 'file'}}">
-    <view class="page-body-setting-item" >
-      <view class="own-info-item">
-        <view class="info-name">{{item.displayname}}</view>
-        <view class="info-text">
-          <text class="info-file-wenzi" bindtap="chooseImg" data-name="{{item.fieldname}}">选择文件</text>
-          
-          <input hidden="true" value="{{imgList[item.fieldname]}}" name="{{item.fieldname}}"></input>
-          
-        </view>
-      </view>
-    </view>
-    <view class="img_box">
-      <image style="width:200rpx;height:{{height}}rpx;" src="{{imgList[item.fieldname]}}" mode="widthFix"></image>
-    </view>
+<view>
     
-  </block>
-  
-  <!-- 省市区选择器 -->
-  <block wx:if="{{item.inputtype == 'china_region'}}">
-  <view class="page-body-setting-item" >
-    <view class="own-info-item">
-    <view class="info-name">{{item.displayname}}</view>
-      <view class="info-text">
-        <picker mode="region" bindchange="bindRegionChange" value="{{region}}" custom-item="{{customItem}}" name="{{item.fieldname}}"> 
-          <view class="picker">
-                {{region}}
-          </view>
-        </picker>
-        <input value="{{region}}" name="{{item.fieldname}}" hidden="true"></input>
-      </view>
-    </view>
-  </view>
- </block>
+    <selfform-tag    
+        wx:if="{{show_selfform_tag == 1}}"        
+        callback_data = "{{callback_data}}"
+        bind:link_item_click="link_item_click" />
+
+   <!--
+   <selfform-tag         
+       sellerid="{{current_sellerid}}"
+       form_token="{{current_weiduke_token}}"
+       form_type="{{form_type}}"
+       formid ="{{current_formid}}"
+       submit_url="{{submit_url}}"
+       openid="{{current_openid}}"
+       bindevent001="aaaaaa" />
+-->
 
 
-
-<!-- 多行文本框 -->
-  <block wx:if="{{item.inputtype == 'textarea'}}">
-  <view class="page-body-setting-item">
-    <view class="own-info-item">
-    <view class="info-name">{{item.displayname}}</view>
-      <view class="info-text"> 
-        <textarea style="" placeholder-style="color:#ccc;" name="{{item.fieldname}}" value="{{item.fieldvalue}}" placeholder="请输入{{item.displayname}}" maxlength="{{maxlength}}" cursor="-1" auto-height="{{textarea_auto_height}}"></textarea>
-      </view>
-    </view>
-  </view>
- </block>
-
- <!-- 多项选择 -->
-<block wx:if="{{item.inputtype == 'checkbox'}}">
-<view class="page-body-setting-item" >
-   <view class="info-name">  <text>{{item.displayname}}</text></view>
-  <checkbox-group bindchange="checkboxChange" name="{{item.fieldname}}">
-  
-    <label class="checkbox_item" wx:for="{{item.new_option}}" wx:for-index="idx" wx:for-item="itemName">
-      
-      <checkbox value="{{itemName[0]}}" checked="{{itemName[1]}}" />{{itemName[0]}}
-     
-    </label>
-  </checkbox-group>
-  </view>
- </block>
-
-
-
-</block>
- 
- 
-  </view>
-
-  <!-- 按钮 -->
-  <view class="page-body-setting-submit" >
-    <button class="button" style="background-color:{{btn_background_color}}; color:{{btn_text_color}}" form-type="submit">
-    <block wx:if="{{submit_text}}">{{submit_text}}</block>
-   
-    <block wx:else>提交</block>
-    </button>
-  </view>
-  
-</form>
 </view>

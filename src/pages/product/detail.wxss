@@ -1,4 +1,7 @@
 /* pages/index/detail.wxss */
+
+@import "../../wxParse/wxParse.wxss";
+
 .none_ladder{
 	display:none;
 }

@@ -4,7 +4,7 @@
 </view>
 
 <view style='margin-top:50rpx;'></view>
-<view wx:if="{{type==0}}">
+<view wx:if="{{type==0}}">  
   <view wx:if="{{pictureList.length > 1}}">
       <view class="tupian" wx:for="{{pictureList}}" wx:for-index="index">
         <image src="{{item}}" mode="widthFix" bindtap="bigImg" data-index="{{index}}"></image>

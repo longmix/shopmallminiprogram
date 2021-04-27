@@ -1,6 +1,5 @@
- const apiURL = 'http://www.yunchehudong.com/yuncarcms/api';
-// const apiURL = 'http://yanyubao.tseo.cn/api/shopapp.js';
-const payURL = 'http://www.yunchehudong.com/yuncarcms/pay';
+const apiURL = 'http://yanyubao.tseo.cn/api/shopapp.js';
+const payURL = 'http://yanyubao.tseo.cn/api/shopapp.js';
 
 const abotRequest = (params) => {
   wx.request({

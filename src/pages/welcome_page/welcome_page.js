@@ -13,19 +13,24 @@ Page({
    * 页面的初始数据
    */
   data: {
-    get_default_imgid:false,
-    content_type:'cms',
-    video_autoplay:false,
 
-    current_title : '',
+    platform:'cms',
 
-    current_params_str:'',
-    wxa_share_img:'',
+		//分享转发使用
+		current_title : '',	
+		current_params_str:'',
+		wxa_share_img:'',
 
-    welcome_page_bottom_bg_color:'#000',
-    welcome_page_bottom_font_color:'#fff',
-    welcome_page_bottom_font_size:'30rpx',
-    welcome_page_bottom_icon_size:'40rpx'
+		//网络请求的表单数据
+		callback_data:'',
+		//是否显示表单数据
+    show_welcome_page_tag:0,
+    
+
+    //插件之外的参数，用于标志这个页面是否显示最新的商品列表
+    wxa_show_latest_product_in_welcome_page:0,
+
+    current_option:null,
 
   },
 
@@ -36,7 +41,10 @@ Page({
 
     console.log('welcome welcome welcome ====>>', options);
 
-    //=====分析参数=====
+    
+
+
+    //=====分析参数，用于分享转发=====
     if(options){
       var arr = Object.keys(options);
       var options_len = arr.length;
@@ -57,88 +65,69 @@ Page({
    
     //===== End ======
 
-    //options.scene = '2176@0';
-    //options.data_url = 'https://yanyubao.tseo.cn/openapi/Jianghanyinhua/get_order_scan_report_page?orderno=20170123172139NJVOPW&messageid=2968';
 
-    if (options.scene != null) {
-      //1、指定渠道
-      var url_value = decodeURIComponent(options.scene);
 
-      console.log(url_value);
-
-      var url_data = url_value.split('@');
-      console.log(url_data);
-
-      if (url_data.length < 3) {
-        //跳转到首页
-        wx.switchTab({
-          url: '../index/Liar'
-        })
-        return;
-      }
-
-      var imgid = url_data[0];
-      var parentid = url_data[1];
-      var platform = url_data[2];
-
-      app.set_current_parentid(parentid);
-
-      if(platform == 'cms'){
-        this.__get_img_from_weiduke(imgid, this);
-      }
-      else if(platform == 'pic'){
-        this.__get_pic_from_yanyubao(imgid, this);
-
-        this.setData({
-          content_type:'pic'
-        });
-      }
-
-      
+    if(!options.platform){
+			options.platform = this.data.platform;
     }
-    else if(options.data_url){
-      //2、 指定网址
-      var parentid = options.parentid;
-      if(parentid){
-        app.set_current_parentid(parentid);
-      }
 
-      this.__get_img_from_data_url(decodeURIComponent(options.data_url), this);
 
-    }
-    else{
-      //3、其他方式：直接传参（平台类型、推荐者、类型对应的ID）
-      var imgid = options.imgid;
-      var parentid = options.parentid;
-      var platform = options.platform;
+    options.sellerid = app.get_sellerid();
 
-      if(parentid){
-        app.set_current_parentid(parentid);
-      }
+    //options.sellerid = 'pQNNmSkaq';
 
-      if(!platform){
-        platform = 'cms';
-      }
+    this.setData({
+      current_option : options
 
-      if(platform == 'cms'){
-        if(imgid){
-          //imgid = 0;
-  
-          this.__get_img_from_weiduke(imgid, this);
-        }
-        else{
-          this.setData({get_default_imgid:true});
-        }
-      }
-      else if(platform == 'pic'){
-        this.__get_pic_from_yanyubao(imgid, this);
-        this.setData({content_type:'pic'});
-      }
-      
-    }
+    });
 
     app.set_option_list_str(this, this.__handle_option_list);
+    
 
+    
+
+  },
+
+  __call_plugin_welcome_page:function(options){
+    var welcome_data_params = {
+          data:{
+            sellerid:options.sellerid,
+            platform : options.platform,
+            imgid: options.imgid,
+          }, 
+          callback:this.welcome_page_callback
+    };
+
+    if(options.scene){
+      welcome_data_params.data.scene = options.scene;
+    }
+
+    if(options.data_url){
+      welcome_data_params.data.data_url = options.data_url;
+    }
+
+    //==== 以下四个参数，在组件外调用的时候，可以在小程序章具体定义 ====
+    if(options.parentid){
+      welcome_data_params.data.parentid = options.parentid;
+    }
+
+    //这三个参数，shopapp项目具体自定义
+    welcome_data_params.data.openid = app.get_current_openid();
+    var user_info = app.get_user_info();
+
+    if(user_info){
+      welcome_data_params.data.userid = user_info.userid;
+      welcome_data_params.data.checkstr = user_info.checkstr;
+    }
+    //=================== End ============================
+
+    wx.showLoading({
+      title: '数据加载中...',
+    });
+
+    //通过插件中的函数调用
+    var my_plugin = requirePlugin('yyb_selfform_plugin');
+    my_plugin.get_welcome_page_data(welcome_data_params);
 
 
   },
@@ -146,71 +135,25 @@ Page({
   __handle_option_list:function(that, option_list){
     app.getColor();
 
+    var options = that.data.current_option;
 
 
 
-
-    console.log('123456',option_list);
-    console.log('123456',option_list.welcome_page_bottom_icon_list);
-
-    //自定义底部导航图
-    if(option_list.welcome_page_bottom_icon_list){
-      console.log('122223456',option_list.welcome_page_bottom_icon_style);
-      //设置底部导航的颜色风格
-      if(option_list.welcome_page_bottom_icon_style && (option_list.welcome_page_bottom_icon_style == 1)){
-        //底色变成文字的颜色，文字变成底色
-        this.setData({
-          welcome_page_bottom_bg_color:option_list.wxa_shop_nav_font_color,
-          welcome_page_bottom_font_color:option_list.wxa_shop_nav_bg_color
-        });
-
-      }
-      else{
-        this.setData({
-          welcome_page_bottom_bg_color:option_list.wxa_shop_nav_bg_color,
-          welcome_page_bottom_font_color:option_list.wxa_shop_nav_font_color
-        });
-      }
-      
-
-      this.setData({
-        welcome_page_bottom_icon_list:option_list.welcome_page_bottom_icon_list,
-        welcome_page_btn_count : option_list.welcome_page_bottom_icon_list.length,
-      })
-
-      console.log('option_list.welcome_page_bottom_icon_list.length=====>>>>', option_list.welcome_page_bottom_icon_list.length);
-
-      if(option_list.welcome_page_bottom_icon_list.length == 1){
-        this.setData({
-          welcome_page_bottom_font_size:'60rpx',
-          welcome_page_bottom_icon_size:'70rpx'
-        });
-      }
-      else if(option_list.welcome_page_bottom_icon_list.length == 2){
-        this.setData({
-          welcome_page_bottom_font_size:'45rpx',
-          welcome_page_bottom_icon_size:'52rpx'
-        });
-      }
-      if(option_list.welcome_page_bottom_icon_list.length == 3){
-        this.setData({
-          welcome_page_bottom_font_size:'35rpx',
-          welcome_page_bottom_icon_size:'40rpx'
-        });
-      }
-      
+    //是否有默认的页面ID
+    var default_imgid = 0;
+    if(option_list && option_list.wxa_default_imgid_in_welcome_page){
+      default_imgid = option_list.wxa_default_imgid_in_welcome_page;
     }
 
-
-    if (option_list.wxa_share_img) {
-      that.setData({
-        wxa_share_img: option_list.wxa_share_img
-      });
+    if(!options.scene && !options.data_url && !options.imgid){
+      options.imgid = default_imgid;
+      options.platform = 'cms';
     }
 
-    if(this.data.get_default_imgid && option_list && option_list.wxa_default_imgid_in_welcome_page){
-      this.__get_img_from_weiduke(option_list.wxa_default_imgid_in_welcome_page, this);
-    }
+    //调用插件
+    that.__call_plugin_welcome_page(options);
+
+
 
 
     if(!option_list || !option_list.wxa_show_latest_product_in_welcome_page){
@@ -271,198 +214,6 @@ Page({
 
   },
 
-  __get_img_from_weiduke: function (imgid, that){
-
-    wx.showLoading({
-      title: '数据加载中……',
-    });
-
-    var url = app.globalData.http_weiduke_server + 'index.php/openapi/ArticleImgApi/article_detail.shtml';
-    var data = {
-      token: app.get_current_weiduke_token(),
-      id: imgid,
-      openid: app.get_current_openid()
-    };
-
-
-    var cbSuccess = function (res) {
-      wx.hideLoading();
-
-      if (res.data.code == 1) {
-        //var wz_keyword = res.data.data.keyword;
-        that.setData({
-          //wz_content: res.data.data.content,
-          //wz_title: res.data.data.title
-        });
-
-        wx.setNavigationBarTitle({
-          title: res.data.data.title
-        })
-        that.setData({
-          current_title: res.data.data.title
-        });
-
-        WxParse.wxParse('content', 'html', res.data.data.info, that, 15);
-
-        if (res.data.data.video_url) {
-          that.setData({
-            video_url: res.data.data.video_url,
-            video_cover_url: res.data.data.video_cover_url,
-          });
-
-          if (res.data.data.video_autoplay) {
-            that.setData({
-              video_autoplay: true
-            });
-          }
-        }
-      }
-    };
-    var cbError = function (res) {
-      wx.hideLoading();
-
-    };
-    app.httpPost(url, data, cbSuccess, cbError);
-      //========End====================
-  },
-
-  __get_pic_from_yanyubao:function(imgid, that){
-    wx.showLoading({
-      title: '数据加载中……',
-    });
-
-    var url = app.globalData.http_server + 'index.php/openapi/SupplierData/get_swiper_pic_url';
-    var data = {
-      sellerid: app.get_sellerid(),
-      swiperid:imgid
-    };
-
-    var userInfo = app.get_user_info();
-    if(userInfo){
-      data.userid = userInfo.userid;
-      data.checkstr = userInfo.checkstr;
-    }
-
-    var cbSuccess = function (res) {
-      wx.hideLoading();
-
-      if (res.data.code == 1) {
-        that.setData({
-          content_pic_image: res.data.data.image,
-          content_pic_url : res.data.data.url
-        });
-
-        if (res.data.data.video_url) {
-          that.setData({
-            video_url: res.data.data.video_url,
-            video_cover_url: res.data.data.video_cover_url,
-          });
-
-          if (res.data.data.video_autoplay) {
-            that.setData({
-              video_autoplay: true
-            });
-          }
-        }
-
-      }
-    };
-    var cbError = function (res) {
-      wx.hideLoading();
-
-    };
-    app.httpPost(url, data, cbSuccess, cbError);
-
-
-
-
-
-  },
-  __get_img_from_data_url: function (data_url, that){
-
-    wx.showLoading({
-      title: '数据加载中……',
-    });
-
-    var data = {
-      openid: app.get_current_openid()
-    };
-
-
-
-    var cbSuccess = function (res) {
-      wx.hideLoading();
-
-      if (res.data.code == 1) {
-        //var wz_keyword = res.data.data.keyword;
-        that.setData({
-          //wz_content: res.data.data.content,
-          //wz_title: res.data.data.title
-        });
-
-        wx.setNavigationBarTitle({
-          title: res.data.data.title
-        })
-        that.setData({
-          current_title: res.data.data.title
-        });
-
-        WxParse.wxParse('content', 'html', res.data.data.info, that, 15);
-
-        console.log('__get_img_from_data_url====>>>>>', res);
-
-        if(res.data.data.video_url){
-          that.setData({
-            video_url: res.data.data.video_url,
-            video_cover_url: res.data.data.video_cover_url,
-          });
-
-          if(res.data.data.video_autoplay){
-            that.setData({
-              video_autoplay: true
-            });
-          }
-        }
-      }
-    };
-    var cbError = function (res) {
-      wx.hideLoading();
-
-    };
-    app.httpPost(data_url, data, cbSuccess, cbError);
-      //========End====================
-  },
-
-  //点击图片的跳转事件
-  content_pic_click:function(e){
-    var url = e.currentTarget.dataset.url;
-
-    console.log('welcome page 准备跳转至：'+url);
-
-    var var_list = Object();
-
-    app.call_h5browser_or_other_goto_url(url, var_list, 'pages_index');
-
-
-
-  },
-
-
-
-  
-
-
-  //详情页跳转
-  lookdetail: function (e) {
-    console.log(e)
-    var lookid = e.currentTarget.dataset.procuctid;
-    console.log(lookid);
-    wx.navigateTo({
-      url: "../index/detail?id=" + lookid.id
-    })
-  },
-
-
 
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -512,14 +263,12 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-    console.log('app.globalData.shop_name : ' + app.globalData.shop_name);
-
-    //var share_url = '/pages/index/index?sellerid=' + app.globalData.sellerid;
 
     
     return {
       title: '' + this.data.current_title,
-      //path: share_url,
+			//path: share_url,
+			imageUrl: this.data.wxa_share_img,
       success: function (res) {
         // 分享成功
       },
@@ -530,7 +279,6 @@ Page({
 
   },
   onShareTimeline: function () {
-    console.log('app.globalData.shop_name : '+app.globalData.shop_name);
 
     return {
       title: this.data.current_title,
@@ -540,50 +288,108 @@ Page({
   },
   onAddToFavorites: function () {
     return this.onShareTimeline();
-  },
+	},
 
-  videometa:function(e){
-    console.log('videometa======>>>>>', e);
+	welcome_page_callback:function(callback_data){
 
-    var imgwidth = e.detail.width;
-    var imgheight = e.detail.height;
+    console.log('页面收到data中的回调数据 welcome_page_callback====>>>>', callback_data);
+    
+    wx.hideLoading({
+			success: (res) => {},
+		});
+  
+		if(callback_data.code != 1){
+			console.log('数据状态码不对');
+			return;
+		}
 
-
-    //宽高比  
-    var ratio = imgwidth / imgheight;
-
-    console.log(imgwidth, imgheight)
-
-    var current_view_width = 750;
-
-    current_view_width = current_view_width ;
-
-    //计算的高度值  
-    var current_view_height = current_view_width / ratio;
+		var callback_data_str = JSON.stringify(callback_data);
 
 
-    //赋值给前端
-    var videometa_width_height = [current_view_width, current_view_height];
+		//头部导航的颜色
+		if(callback_data.wxa_shop_nav_font_color && callback_data.wxa_shop_nav_bg_color){
+			wx.setNavigationBarColor({
+				frontColor: callback_data.wxa_shop_nav_font_color,
+				backgroundColor: callback_data.wxa_shop_nav_bg_color,
 
-    console.log('videometa_width_height====>>>>', videometa_width_height);
+				// animation: {
+				//   duration: 40,
+				//   timingFunc: 'easeIn'
+				// }
+			});
+		}
 
-    this.setData({
-      videometa_width_height: videometa_width_height
-    });
+		//显示组件到界面
+		this.setData({
+		  callback_data:callback_data_str,
+		  show_welcome_page_tag : 1
+		});
 
-  },
-  //播放点击视频并停止播放其他视频
-  start_and_stop_other_videos: function (e) {
-    console.log('start_and_stop_other_videos=====>>>>', e);
-    var video_id = e.currentTarget.dataset.id;
-  },
+		//渲染其他数据：标题
+		if(callback_data.data.title){
+			this.setData({
+				current_title: callback_data.data.title
+			});
 
-  //自定义页面底部导航跳转
-  btn_to_page:function(e){
-    console.log(e);
-    var url = e.currentTarget.dataset.url;
+			wx.setNavigationBarTitle({
+				title: this.data.current_title,
+			})
+
+		}
+
+		//渲染其他数据：分享的图片
+		if(this.data.platform == 'cms'){
+			this.setData({
+				wxa_share_img: callback_data.data.pic
+			});
+		}
+		else if(this.data.platform == 'pic'){
+			this.setData({
+				wxa_share_img: callback_data.data.image
+			});
+		}
+
+		console.log('current_title ===>>>', this.data.current_title);
+		console.log('wxa_share_img ===>>>', this.data.wxa_share_img);
+		console.log('current_params_str ===>>>', this.data.current_params_str);
+
+	},
+	
+	link_item_click: function(e){
+		console.log('bottom_icon_click===>>>', e);
+		//console.log('bottom_icon_click===>>>', url);
+
+
+		var url = e.detail.url;
+
+		console.log('被点击的网址：' + url);
+
+		//====== 在这里重写链接或路径被点击的事件，
+		//====== 例如跳转到其他界面，或者拨打电话，或者打开webview
+
+    //xxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    
     app.call_h5browser_or_other_goto_url(url);
-  }
+
+
+		//============== End ================
+
+
+
+  },
+  
+  //详情页跳转
+  lookdetail: function (e) {
+    console.log(e)
+    var lookid = e.currentTarget.dataset.procuctid;
+    console.log(lookid);
+    wx.navigateTo({
+      url: "../index/detail?id=" + lookid.id
+    })
+  },
+
+
+	
 
 
 

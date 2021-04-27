@@ -16,15 +16,12 @@
     font-size: 28rpx;
     color: #666;
     line-height: 1.8;
-}
-view{
     word-break:break-all; overflow:auto;
 }
 .wxParse-inline{
     display: inline;
-    margin: 100rpx;
+    margin: 0;
     padding: 0;
-    font-size:0.5em;
 }
 /*//标题 */
 .wxParse-div{margin: 0;padding: 0;}
@@ -95,7 +92,7 @@ view{
 }
 
 .wxParse-img{
-    background-color: #efefef;
+    /*background-color: #efefef;*/
     overflow: hidden;
 }
 
@@ -199,4 +196,9 @@ view{
 	background:#f0f0f0;
 	border-top:1px solid #e0e0e0;
 }
-
+.wxParse-del{
+    display: inline;
+}
+.wxParse-figure {
+  overflow: hidden;
+}

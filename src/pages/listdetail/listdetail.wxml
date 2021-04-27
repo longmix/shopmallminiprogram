@@ -1,15 +1,15 @@
 <view class="search df">
-    <input class="df_1" placeholder="请输入你有搜索的内容" confirm-type="search"  focus="{{focus}}" value="{{searchValue}}" bindinput="searchValueInput" bindconfirm="doSearch"/>
+    <input class="df_1" placeholder="请输入搜索内容" confirm-type="search"  focus="{{focus}}" value="{{searchValue}}" bindinput="searchValueInput" bindconfirm="doSearch"/>
     <button bindtap="doSearch"><image class="searchcion" src="/images/search.png"></image></button>
 </view>
 <view class="cont" wx:if="{{hotKeyShow}}">
     <text class="font_14">热门搜索</text>
     <view class="w100">
-        <button wx:for="{{hotKeyList}}" bindtap="doKeySearch" data-key="{{item}}">{{item}}</button>
+        <button wx:for="{{hotKeyList}}" wx:key="key001" bindtap="doKeySearch" data-key="{{item}}">{{item}}</button>
     </view>
     <text class="font_14">历史搜索</text>
     <view class="w100">
-        <button wx:for="{{historyKeyList}}" bindtap="doKeySearch" data-key="{{item}}">{{item}}</button>
+        <button wx:for="{{historyKeyList}}" wx:key="key001" bindtap="doKeySearch" data-key="{{item}}">{{item}}</button>
     </view>
 </view>
 

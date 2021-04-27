@@ -1,6 +1,0 @@
-{
-  "enablePullDownRefresh": true,
-  "navigationBarTitleText": "视频库",
-  "onReachBottomDistance": 10,
-  "usingComponents": {}
-}

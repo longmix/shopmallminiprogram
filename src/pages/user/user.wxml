@@ -3,10 +3,16 @@
     <view class="userinfo" style="background:{{wxa_shop_nav_bg_color}}">
       <view class="a_1" wx:if="{{nick_name}}">
 		  	<navigator url="../userinfo/userinfo" open-type="navigate" class='flex'>
-          <image wx:if="{{nick_name && headimgurl !='../../images/cry80.jpg'}}" class="userinfo-avatar "  src="{{headimgurl}}" background-size="cover"></image>         
+          <image wx:if="{{nick_name && headimgurl !='../../images/cry80.jpg'}}" 
+            class="userinfo-avatar "  
+            src="{{headimgurl}}" 
+            background-size="cover"></image>         
         </navigator>
         <view class="a_2" style="color:{{wxa_shop_nav_font_color=='#000000' ? '#333' : 'wxa_shop_nav_font_color'}}">
-          <view>{{nickname}}</view>
+          <view>
+            <navigator url="../login/login_get_userinfo" open-type="navigate" style="font-weight：bold;">{{nickname}}
+            </navigator>
+          </view>
           <view class="b_1"> 
             <view>余额 {{data.balance}}</view>
             <navigator url="/pages/recharge/recharge" class="c_1" wx:if="{{wxa_show_recharge_button_in_usercenter == 1}}">[充值]</navigator>

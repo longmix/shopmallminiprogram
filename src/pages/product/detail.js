@@ -259,6 +259,7 @@ Page({
     return this.share_return();
   },
   share_return: function () {
+    var that = this;
     var share_title = that.data.detail.name;
     if(share_title.length > 22){
       share_title = share_title.substr(0, 20) + '...';
@@ -1115,11 +1116,14 @@ Page({
       imgheight = e.detail.height,
       //宽高比  
       ratio = imgwidth / imgheight;
-    console.log(imgwidth, imgheight)
+
+    //console.log(imgwidth, imgheight)
+
     //计算的高度值  
     var viewHeight = 750 / ratio;
     var imgheight = viewHeight;
     var swiper_image_heights = this.data.swiper_image_heights;
+    
     //把每一张图片的对应的高度记录到数组里  
     swiper_image_heights[e.target.dataset.id] = imgheight;
     this.setData({

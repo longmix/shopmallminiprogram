@@ -1,4 +1,8 @@
 /* pages/shop_store/shop_store.wxss */
+
+@import "../../wxParse/wxParse.wxss";
+
+
 page {
   height: 100%;
   /*background: white*/
