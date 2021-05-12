@@ -375,6 +375,25 @@ Page({
 
     
   },
+  link_item_click : function(e) {
+    console.log('bottom_icon_click===>>>', e);
+		//console.log('bottom_icon_click===>>>', url);
+
+
+		var url = e.detail.url;
+
+		console.log('被点击的网址：' + url);
+
+		//====== 在这里重写链接或路径被点击的事件，
+		//====== 例如跳转到其他界面，或者拨打电话，或者打开webview
+
+    //xxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    
+    app.call_h5browser_or_other_goto_url(url);
+
+
+		//============== End ================
+  }
 
 
 
