@@ -50,9 +50,6 @@ Page({
 
     console.log('order/pay 参数：', options);
 
-    wx.showLoading({
-      title: '加载中...',
-    })
     
 
     if (options.productid) {
@@ -211,6 +208,12 @@ Page({
     if (!option_list) {
       return;
     }
+
+
+    wx.showLoading({
+      title: '加载中...',
+    })
+    
 
     app.getColor();
 

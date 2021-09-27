@@ -96,16 +96,6 @@
       }
     ]
   },
-  "plugins": {
-    "live-player-plugin": {
-        "version": "1.2.10",
-        "provider": "wx2b03c6e691cd7370" 
-    },
-    "yyb_selfform_plugin": {
-      "version": "1.2.6",
-      "provider": "wx00d1e2843c3b3f77" 
-    }
-  },
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#1569db",
@@ -117,10 +107,5 @@
       "desc": "获取当前位置以匹配最近的服务"
     }
   },
-  "navigateToMiniProgramAppIdList": [
-    "wx5ade221daf329103",
-    "wx424d6888ee0403e9",
-    "wxa36bafa53080cac8"
-  ],
   "sitemapLocation": "sitemap.json"
 }

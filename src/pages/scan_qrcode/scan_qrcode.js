@@ -168,6 +168,8 @@ Page({
         return;
       }
 
+      
+
       var mobile = data.mobile;
 
       //app.globalData.userInfo.user_openid = data.openid;
@@ -210,6 +212,69 @@ Page({
           owner_flag: 2
         })
       }
+
+
+
+      var is_expire = data.is_expire;
+      //如果不存在过期时间这个字段，默认为过期
+      //如果过期，弹窗提示，点击确认后去续费
+      //如果有过期时间，并且小于当期时间，那么也是过期的
+      if(is_expire){
+
+        var new_url = null;
+        var title001 = '提示';
+
+        if(that.data.owner_flag == 1){
+          new_url = '/pages/product/detail?productid='+data.buy_url_productid;
+
+          
+        }
+        else{
+          title001 = '代续费提示';
+
+          var order_option_key_and_value = [];
+          order_option_key_and_value.push({'key':'jianghan_orderno', 'value':orderno});
+
+          var order_option_key_and_value_str = encodeURIComponent(JSON.stringify(order_option_key_and_value));
+
+          new_url = '/pages/order/pay?action=direct_buy&amount=1&productid='+data.buy_url_productid+'&order_option_key_and_value_str='+order_option_key_and_value_str;
+
+
+        }
+
+        wx.showModal({
+          title: title001,
+          content: data.tips,
+          cancelColor: 'cancelColor',
+          success:function(res){
+            if(res.confirm){
+              wx.navigateTo({
+                url: new_url,
+              });
+            }
+            else{
+              app.call_h5browser_or_other_goto_url('/pages/index/index');
+            }
+            
+
+          },
+
+        });
+
+
+
+        
+
+        return;
+      }
+
+
+
+
+
+
+
+
 
       typeof callback_get_map == "function" && callback_get_map(that);
     },
@@ -407,34 +472,55 @@ Page({
   scan_remove_mobile:function(){
     var that = this;
 
-    wx.request({
-      url: app.globalData.http_server + 'index.php/openapi/Jianghanyinhua/remove_mobile_phone',
-      header: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      method: "POST",
-      data: {
-        openid: app.get_current_openid(),
-        appid: app.globalData.xiaochengxu_appid,        
-        orderno: that.data.orderno,
-        sellerid: app.get_sellerid()
-      },
-      success: function (res) {
-        console.log('res', res)
+    wx.showModal({
+      title: '提示',
+      content: '是否解除绑定？',
+      success (res) {
+        if (res.confirm) {
+          console.log('用户点击确定');
 
-        wx.showModal({
-          title: '提示',
-          content: res.data.msg,
-          showCancel: false,
-          success: function (res2) {
-            wx.switchTab({
-              url: '/pages/index/index',
-            })
-          }
-        })
 
+          wx.request({
+            url: app.globalData.http_server + 'index.php/openapi/Jianghanyinhua/remove_mobile_phone',
+            header: {
+              "Content-Type": "application/x-www-form-urlencoded"
+            },
+            method: "POST",
+            data: {
+              openid: app.get_current_openid(),
+              appid: app.globalData.xiaochengxu_appid,        
+              orderno: that.data.orderno,
+              sellerid: app.get_sellerid()
+            },
+            success: function (res) {
+              console.log('res', res)
+      
+              wx.showModal({
+                title: '提示',
+                content: res.data.msg,
+                showCancel: false,
+                success: function (res2) {
+                  wx.switchTab({
+                    url: '/pages/index/index',
+                  })
+                }
+              })
+      
+            }
+          });
+
+
+
+
+        } 
       }
     });
+
+    
+
+
+
+    
 
   },
 

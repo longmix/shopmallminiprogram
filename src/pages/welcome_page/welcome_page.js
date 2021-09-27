@@ -263,19 +263,28 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
+    console.log('onShareAppMessage===>>>>', this.data.current_title);
+    console.log('onShareAppMessage===>>>>', this.data.wxa_share_img);
+    console.log('onShareAppMessage===>>>>', 'pages/welcome_page/welcome_page?' + this.data.current_params_str);
 
-    
-    return {
+    var share_data = {
       title: '' + this.data.current_title,
-			//path: share_url,
-			imageUrl: this.data.wxa_share_img,
+			path: 'pages/welcome_page/welcome_page?' + this.data.current_params_str,
+			//imageUrl: this.data.wxa_share_img,
       success: function (res) {
         // 分享成功
       },
       fail: function (res) {
         // 分享失败
       }
+    };
+
+    if(this.data.wxa_share_img){
+      share_data.imageUrl = this.data.wxa_share_img;
     }
+
+
+    return share_data;
 
   },
   onShareTimeline: function () {
