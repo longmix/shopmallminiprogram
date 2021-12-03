@@ -407,7 +407,7 @@ Page({
 
                   if (that.data.recharge == 1) {
                     wx.switchTab({
-                      url: '/pages/user/user',
+                      url: '/pages/tabbar/user',
                     });
                   } else {
                     wx.navigateTo({
@@ -511,7 +511,7 @@ Page({
 
               if(that.data.recharge == 1){
                 wx.switchTab({
-                  url: '/pages/user/user',
+                  url: '/pages/tabbar/user',
                 });
               }else{
                 wx.navigateTo({
@@ -577,7 +577,7 @@ Page({
 
                 if (that.data.recharge == 1) {
                   wx.switchTab({
-                    url: '/pages/user/user',
+                    url: '/pages/tabbar/user',
                   });
                 } else {
                   wx.navigateTo({

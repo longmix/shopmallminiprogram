@@ -1,16 +1,19 @@
 //城市选择
 var app = getApp();
-var userInfo = app.get_user_info();
+var api = require('../../utils/api');
+
 Page({
   data: {
-    shengArr: [],//省级数组
-    shengId: [],//省级id数组
-    shiArr: [],//城市数组
-    shiId: [],//城市id数组
-    quArr: [],//区数组
+    shengArr: ['请选择'],//省级数组
+    shengId: [0],//省级id数组
+    shiArr: ['请选择'],//城市数组
+    shiId: [0],//城市id数组
+    quArr: ['请选择'],//区数组
+    quId: [0],
     shengIndex:0,
     shiIndex: 0,
     quIndex: 0,
+
     mid: 0,
     sheng:0,
     city:0,
@@ -18,77 +21,82 @@ Page({
     code:0,
     cartId:0,
     addressId:'',
-    action: 'add'
+    action: 'add',
+    address_detail:'',
+
+    
+    area_province:null,
+    area_city:null,
+    area_district:null,
+  
   },
   formSubmit: function (e) {
     var that = this;
     var adds = e.detail.value;
+    var rephone =/^[1][3,4,5,6,7,8][0-9]{9}$/; 
+    
     var cartId = this.data.cartId;
     var userInfo = app.get_user_info();
-    console.log(e)
-    wx.request({
-      url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=address_save',
-      data: {
-        action: that.data.action,
-        checkstr: userInfo.checkstr,
-        userid: userInfo.userid,
-        sellerid: app.get_sellerid(),
-        name: adds.name,
-        mobile: adds.phone,
-        province: that.data.province,
-        city: that.data.city,
-        district: that.data.area,
-        address: adds.address,
-        addressid: that.data.addressId
-      },
-      method: 'POST', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
-      header: {// 设置请求的 header
-        'Content-Type':  'application/x-www-form-urlencoded'
-      },
-      success: function (res) {
-        // success
-        var code = res.data.code;
-        if(code==1){
-          wx.showToast({
-            title: '保存成功！',
-            duration: 2000
-          });
-        }else{
-          wx.showToast({
-            title: res.data.msg,
-            duration: 2000
-          });
-          return;
-        }
+    if(!adds.name){
+      wx.showToast({
+        title:'请填写收件人'
+      })
+      return;
+    }
+    if(!rephone.test(adds.phone)) {
+      wx.showToast({
+        title:'请写填正确的电话号码'
+      })
+      return;
+    }
+    if(!that.data.shengIndex || !that.data.shiIndex){
+      wx.showToast({
+        title:'请选择省市区'
+      })
+      return;
+    }
+    if(!that.data.action){
+      that.data.action = 'add';
+    }
 
-        console.log('productid=================00', that.data.productid)
-        wx.redirectTo({
-          url: 'user-address/user-address?cartId=' + cartId + '&amount=' + that.data.amount + '&productid=' + that.data.productid + '&action_pay=' + that.data.action_pay
-        });
-      },
-      fail: function () {
-        // fail
+    var post_data = {
+      action: that.data.action,
+      checkstr: userInfo.checkstr,
+      userid: userInfo.userid,
+      sellerid: app.get_sellerid(),
+      name: adds.name,
+      mobile: adds.phone,
+      area_province: that.data.area_province,
+      area_city: that.data.area_city,
+      area_district: that.data.area_district,
+      address: adds.address,
+      addressid: that.data.addressid
+    };
+    that.__ajax_address_save(post_data, function(response_data){
+      console.log('response_data=====>>>',response_data)
+      if(response_data.code==1){
         wx.showToast({
-          title: '网络异常！',
+          title: '保存成功！',
           duration: 2000
         });
+        setTimeout(function() {
+          wx.navigateBack({
+              delta: 1
+          });
+        }, 2000);
       }
+      
     })
-
 
   },
   onShow: function () {
 
   },
   onLoad: function (options) {
-    app.set_option_list_str(null, app.getColor());
+    // app.set_option_list_str(null, app.getColor());
     console.log('address----options==', options)
     // 生命周期函数--监听页面加载
-    this.setData({
-      shengIndex: 0,
-      shengArr: [],
-      shengId: []
-    });
+  
     var that = this;
     var userInfo = app.get_user_info();
     if ((!userInfo) || (!userInfo.userid)) {
@@ -97,393 +105,303 @@ Page({
       })
       return;
     } 
+    
+    
+			this.data.addressid = options.addressId;
+			console.log('addressid000=====>>>',this.data.addressid);
 
-    if(options.cartId){
-      that.setData({
-        cartId: options.cartId,
-      })
-    }
-
-    if (options.addressId) {
-      that.setData({
-        addressId: options.addressId,
-      })
-    }
-    if (options.action) {
-      that.setData({
-        action: options.action,
-      })
-    } 
-
-    if(options.amount){
-      that.setData({
-        amount: options.amount,
-      })
-    }
-
-    if (options.productid) {
-      that.setData({
-        productid: options.productid,
-      })
-    }
-    if (options.action_pay) {
-      that.setData({
-        action_pay: options.action_pay,
-      })
-    } 
+			this.data.action = options.action;
+			console.log('action000===========>>>',	this.data.action)
 
     
+      if(this.data.addressid){
+				this.__get_address_item();
+			}
+			else{
+				this.__get_china_data_list();
+				
+			}
+			
 
-    //调用市和区地址
-    if(that.data.action == 'edit'){
-      var region_id = this.data.province;
-      this.bindPickerChangeshiArr
-      this.bindPickerChangequArr
+   
+  },
+
+  __get_china_data_list:function(code02=0, data_type='province'){
+    var that = this;
+  
+    var data_url = 'https://yanyubao.tseo.cn/openapi/ChinaListData/index';
+    
+    if(code02){
+      data_url += '?code02='+code02;
     }
-
-
-    wx.request({
-      url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=address_save',
-      data:{
-        action: 'get',
-        addressid: that.data.addressId,
-        checkstr: userInfo.checkstr,
-        userid: userInfo.userid,
-        sellerid: app.get_sellerid(),
-
-      },
-      method: 'POST', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
-      header: {// 设置请求的 header
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      success: function (res) {
-        console.log(res)
-        var province = res.data.data.province;
-        var city = res.data.data.city;
-        var district = res.data.data.district;
-        console.log(city)
-        province = province - 1;
-        city = ++city;
-        district = ++district;
-        console.log(city)
-        that.setData({
-          name: res.data.data.name,
-          mobile: res.data.data.mobile,
-          shengIndex: province,
-          shiIndex: city,
-          quIndex: district,
-          shixb: city,
-          quxb: district,
-          //拿到地址对应id
-          province: res.data.data.province,
-          city: res.data.data.city,
-          district: res.data.data.district,
-          area: res.data.data.district,
-          address: res.data.data.address,
-          sheng: res.data.data.province
-        })
-
-        //获取市级城市
-        wx.request({
-          url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=region_get',
-          data: {
-            region_id: that.data.province
-          },
-          method: 'POST', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
-          header: {// 设置请求的 header
-            'Content-Type': 'application/x-www-form-urlencoded'
-          },
-          success: function (res) {
-            // success
-            var code = res.data.code;
-            var city = res.data.data;
-            if (code == 1) {
-              var shiArr = [];
-              var shiId = [];
-              var shiIndex = 0;
-              var shiArr2 = [];
-              shiArr.push('请选择');
-              shiId.push('0');
-              for (var i = 0; i < city.length; i++) {
-                shiArr.push(city[i].region_name);
-                shiId.push(city[i].region_id);
-                console.log(2222222)
-                console.log(that.data.shixb)
-                if(city[i].region_id == that.data.shixb){
-                  shiIndex = i;
-                }
-              }
-              that.setData({
-                shiArr: shiArr,
-                shiId: shiId,
-                shiIndex: shiIndex,
-                shiArr2: city
-              })
-              var shArr = that.data.shiArr
-              var shId = that.data.shiId
-              console.log(shiIndex);
-              console.log(shId);
-              console.log(shArr);
-            }
-          },
-          fail: function () {
-            // fail
-            wx.showToast({
-              title: '网络异常！',
-              duration: 2000
-            });
-          },
-        })
-
-        //获取区地址
-        wx.request({
-          url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=region_get',
-          data: {
-            region_id: that.data.city
-          },
-          method: 'POST', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
-          header: {// 设置请求的 header
-            'Content-Type': 'application/x-www-form-urlencoded'
-          },
-          success: function (res) {
-            var code = res.data.code;
-            var city = res.data.data;
-            if (code == 1) {
-              var quArr = [];
-              var quId = [];
-              var quIndex = 0;
-              var quArr1 = [];
-              quArr.push('请选择');
-              quId.push('0');
-              for (var i = 0; i < city.length; i++) {
-                quArr.push(city[i].region_name);
-                quId.push(city[i].region_id);
-                console.log(2222222)
-                if (city[i].region_id == that.data.quxb) {
-                  quIndex = i;
-                }
-              }
-              that.setData({
-                quArr: quArr,
-                quId: quId,
-                quIndex: quIndex,
-                quArr1:city
-              })
-              var shArr = that.data.quArr
-              var shId = that.data.quId
-              console.log(quIndex);
-              console.log(shId);
-              console.log(shArr);
-            }
-          },
-          fail: function () {
-            // fail
-            wx.showToast({
-              title: '网络异常！',
-              duration: 2000
-            });
-          },
-        })
-
-
-
-      }
-
-    })
-
+    
     //获取省级城市
     wx.request({
-      url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=region_get',
-      data: {
-        region_id: 1
-      },
-      method: 'POST', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
-      header: {// 设置请求的 header
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
+      url:  data_url,
+      method: 'GET',
       success: function (res) {
         // success
-       var code = res.data.code;
-       var city = res.data.data;
-       if (code == 1) {
-         var shengArr = [];
-         var shengId = [];
-         shengArr.push('请选择');
-         shengId.push('0');
-         for (var i = 0; i < city.length; i++) {
-           shengArr.push(city[i].region_name);
-           shengId.push(city[i].region_id);
-         }
-        that.setData({
-          shengArr: shengArr,
-          shengId: shengId
-        })
-        var shArr = that.data.shengArr
-        var shId = that.data.shengId
-       }
+        console.log('ChinaListData====>>>>', res.data.data);
+
+        var city = res.data.data;
+        if (res.data.code != 1) {
+          return;
+        }
+        
+        var data_arr = null;
+        var data_id = null;
+        
+        if(data_type == 'province'){
+          that.setData({
+            shengArr : ['请选择'],
+            shengId : [0],
+   
+          });
+        
+
+          data_arr = that.data.shengArr;
+          data_id = that.data.shengId;
+        }
+        else if(data_type == 'city'){
+         that.setData({
+            shiArr : ['请选择'],
+            shiId : [0],
+            shiIndex : 0,
+          });
+        
+          data_arr = that.data.shiArr;
+          data_id = that.data.shiId;
+     
+        }
+        else if(data_type == 'district'){
+          that.setData({
+            quArr : ['请选择'],
+            quId : [0],
+            quIndex : 0,
+          });
+      
+          data_arr = that.data.quArr;
+          data_id = that.data.quId;
+         
+        }
+        
+       
+        for (var i = 0; i < res.data.data.length; i++) {
+          data_arr.push(res.data.data[i].chinese);
+          data_id.push(res.data.data[i].code01);
+          if(data_type == 'province'){
+            that.setData({
+              shengArr: data_arr,
+              shengId: data_id
+            })
+          }
+          else if(data_type == 'city'){
+            that.setData({
+              shiArr: data_arr,
+              shiId: data_id
+            })
+          }
+          else if(data_type == 'district'){
+            that.setData({
+              quArr: data_arr,
+              quId: data_id
+            })
+          }
+       
+          console.log('11111111111111====>>>>', res.data.data[i].chinese);
+          console.log('22222222222222====>>>>', res.data.data[i].code01);
+          // console.log('1111222223333333334444445555555555555====>>>>',that.data.area_province);
+          // console.log('1111222223333333334444445555555555555====>>>>',that.data.area_city);
+          // console.log('1111222223333333334444445555555555555====>>>>',that.data.area_district);
+
+          if((data_type == 'province') && (that.data.area_province) ){
+            if(res.data.data[i].chinese == that.data.area_province){
+              var shengIndex001 = i;
+              shengIndex001 ++;
+
+              that.setData({
+                shengIndex: shengIndex001
+
+              });
+              
+              that.__get_china_data_list(res.data.data[i].code01, 'city');
+              
+              
+              
+            }
+          }
+          else if((data_type == 'city') && (that.data.area_city) ){
+            if(res.data.data[i].chinese == that.data.area_city){
+              var shiIndex001 = i;
+              shiIndex001 ++;
+              that.setData({
+                shiIndex: shiIndex001
+
+              });
+
+              that.__get_china_data_list(res.data.data[i].code01, 'district');
+            }
+          }
+          else if((data_type == 'district') && (that.data.area_district) ){
+            if(res.data.data[i].chinese == that.data.area_district){
+              var quIndex001 = i;
+              quIndex001 ++;
+              that.setData({
+                quIndex: quIndex001
+
+              });
+            }
+          }
+          
+          
+        }
+        
+        console.log('this.shengArr', data_arr);
+        console.log('this.shengId', data_id);
+        
+        
+        
       },
       fail: function () {
         // fail
-        wx.showToast({
+        uni.showToast({
           title: '网络异常！',
           duration: 2000
         });
       },
-
     })
-    var region_id = that.data.shengIndex
+  },
+  __get_address_item:function(){
+    var that = this;
+    
+    if(!that.data.addressid){
+      return;
+    }
+  
+    var userInfo = app.get_user_info();
+    if ((!userInfo) || (!userInfo.userid)) {
+      wx.redirectTo({
+        url: '/pages/login/login',
+      })
+      return;
+    } 
+    
+    var post_data = {
+      action: 'get',
+      addressid: that.data.addressid,
+      checkstr: userInfo.checkstr,
+      userid: userInfo.userid,
+      sellerid: app.get_sellerid(),
+    };
+    console.log('8888888888888888======>>>>',that.data.addressid)
+    this.__ajax_address_save(post_data, function(response_data){
+      
+      if(response_data.code != 1){
+        return;
+      }
+      console.log('44444444444444444444444444444=======>>>>>>',response_data.data);
+      that.data.address_detail = response_data.data;
+      that.setData({
+        name: that.data.address_detail.name,
+        mobile: that.data.address_detail.mobile,
 
+        //拿到地址对应id
+        area_province : that.data.address_detail.area_province,
+        area_city : that.data.address_detail.area_city,
+        area_district : that.data.address_detail.area_district,
+   
+        address: that.data.address_detail.address,
+
+      })
+ 
+      console.log('111122222====>>>>',that.data.area_province);
+
+      that.__get_china_data_list();
+      
+    });
+
+  },
+
+  __ajax_address_save:function(post_data, callback_function){
+    var that = this;
+    api.abotRequest({
+      url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=address_save',
+      data: post_data,
+      method: 'POST',
+        success: function (res) {
+        
+        console.log(res);
+        
+        typeof callback_function == "function" && callback_function(res.data);
+      }
+    });
+    
+    
+    
+    
   },
 
   bindPickerChangeshengArr: function (e) {
     console.log(e);
+  
     this.setData({
-      shengIndex: e.detail.value,
-      shiArr: [],
-      shiId: [],
-      quArr:[],
-      quiId: []
-    });
-    var that = this;
-    var region_Val = e.detail.value
-    var region_Id = ++region_Val;
-    console.log(region_Id);
-    wx.request({
-      url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=region_get',
-      data: {
-        region_id	:++e.detail.value,
-      },
-      method: 'POST', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
-      header: {// 设置请求的 header
-        'Content-Type':  'application/x-www-form-urlencoded'
-      },
-      success: function (res) {
-        // success
-        var code = res.data.code;
-        var city = res.data.data;
-        if(code==1){
-        var hArr = [];
-        var hId = [];
-        hArr.push('请选择');
-        hId.push('0');
-        for (var i = 0; i < city.length; i++) {
-          hArr.push(city[i].region_name);
-          hId.push(city[i].region_id);
-        }
-        that.setData({
-          province: region_Id,
-          shi:res.data.data,
-          shiArr: hArr,
-          shiId: hId
-        })
-        }
-      },
-      fail: function () {
-        // fail
-        wx.showToast({
-          title: '网络异常！',
-          duration: 2000
-        });
-      },
-
-    })
+      shengIndex : e.detail.value,
+    });	
+    var code01 = this.data.shengIndex;
+    var code03 = this.data.shengId;
+    var code02 = code03[code01];
+    
+    var province = this.data.shengArr;
+		this.setData({
+      area_province :	province[code01]
+    });	
+		console.log('code02===>>>', code02);		
+				
+		console.log('当前选择的省的名字===>>>', this.data.area_province);
+				
+		this.__get_china_data_list(code02,'city');
   },
 
   bindPickerChangeshiArr: function (e) {
-    console.log('eeee===>',e);
+    console.log('eeeeeeeeeee==>>',e);
+   
     this.setData({
-      shiIndex: e.detail.value,
-      quArr:[],
-      quiId: []
-    })
-    var that = this;
-    var city_id = that.data.shiIndex;
-    console.log(city_id);
-    //var city_name = that.data.shi;
-    if (Array.isArray(that.data.shi)) {
-      var city_name = that.data.shi;
-    } else {
-      var city_name = that.data.shiArr2;
-    }
-    console.log(city_name);
-    var region_id = city_name[--city_id].region_id;
-    console.log(region_id);
-    wx.request({
-      url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=region_get',
-      data: {
-        region_id: region_id,
-      },
-      method: 'POST', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
-      header: {// 设置请求的 header
-        'Content-Type':  'application/x-www-form-urlencoded'
-      },
-      success: function (res) {
-        var code = res.data.code;
-        var area = res.data.data;
-        if(code==1){
-        var qArr = [];
-        var qId = [];
-        qArr.push('请选择');
-        qId.push('0');
-        for (var i = 0; i < area.length; i++) {
-          qArr.push(area[i].region_name)
-          qId.push(area[i].region_id)
-        }
-        that.setData({
-          area: res.data.data,
-          city: region_id,
-          quArr: qArr,
-          quiId: qId
-        })
-        }
-      },
-      fail: function () {
-        // fail
-        wx.showToast({
-          title: '网络异常！',
-          duration: 2000
-        });
-      }
-    })
+      shiIndex : e.detail.value,
+    });	
+    var code01 = this.data.shiIndex;
+    var code03 = this.data.shiId;
+    var code02 = code03[code01];
+    
+    var city = this.data.shiArr;
+		this.setData({
+      area_city :	city[code01]
+    });	
+		console.log('code02===>>>', code02);		
+				
+		console.log('当前选择的市的名字===>>>', this.data.area_city);
+	 
+    this.__get_china_data_list(code02, 'district');
+    
+   
   },
   bindPickerChangequArr: function (e) {
+    console.log('eeeeeeeeeee==>>',e);
+   
     this.setData({
-      quIndex: e.detail.value
-    });
-    var that = this;
-    var qu_id = that.data.quIndex;
-    console.log(qu_id);
-    console.log(that.data.area)
-    if (Array.isArray(that.data.area)){
-      var qu_name = that.data.area;
-    }else{
-      var qu_name = that.data.quArr1;
-    }
-    console.log(qu_name)
-    var region_id = qu_name[--qu_id].region_id;
-    console.log(region_id);
-    wx.request({
-      url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=region_get',
-      data: {
-        region_id: region_id
-      },
-      method: 'POST', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
-      header: {// 设置请求的 header
-        'Content-Type':  'application/x-www-form-urlencoded'
-      },
-      success: function (res) {
-        that.setData({
-          area: region_id,
-        })
-      },
-      fail: function () {
-        // fail
-        wx.showToast({
-          title: '网络异常！',
-          duration: 2000
-        });
-      }
-    })
+      quIndex : e.detail.value,
+    });	
+    var code01 = this.data.quIndex;
+    var code03 = this.data.quId;
+    var code02 = code03[code01];
+    
+    var district = this.data.quArr;
+		this.setData({
+      area_district :	district[code01]
+    });	
+		console.log('code02===>>>', code02);		
+				
+		console.log('当前选择的市的名字===>>>', this.data.area_district);
+	 
   },
 
 })

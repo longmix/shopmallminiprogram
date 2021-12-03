@@ -130,7 +130,7 @@ Page({
     wx.setStorageSync('browser_cache_id', id);
 
     wx.navigateTo({
-      url: '/pages/help_detail/help_detail?id=' + id + '&sellerid=' + app.get_sellerid()
+      url: '/pages/help/detail?id=' + id + '&sellerid=' + app.get_sellerid()
 
     })
   },

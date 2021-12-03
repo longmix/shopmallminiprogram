@@ -1,4 +1,4 @@
-/* pages/help_detail/help_detail.wxss */
+/* pages/help/detail.wxss */
 @import "../../wxParse/wxParse.wxss";
 
 .weui-article__title .summary {

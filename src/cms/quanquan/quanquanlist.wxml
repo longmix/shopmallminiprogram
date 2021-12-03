@@ -48,3 +48,11 @@
     <view>我也是有底线的</view>
      <view class='bottom-line-a'></view>
 </view>
+
+<view class='icon-jump' bindtap='toPageIndex' 
+  style="background: {{wxa_shop_nav_bg_color}};" 
+  >
+      <image src="/images/usercenter_goto_home.svg"  wx:if="{{wxa_shop_nav_font_color!='#000000'}}"></image>
+      <image src="/images/usercenter_goto_home2.svg"  wx:if="{{wxa_shop_nav_font_color=='#000000'}}"></image>
+      <view style="color:{{wxa_shop_nav_font_color}}">首页</view>     
+</view>

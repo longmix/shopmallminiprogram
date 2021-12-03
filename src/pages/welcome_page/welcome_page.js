@@ -125,6 +125,9 @@ Page({
       title: '数据加载中...',
     });
 
+    console.log('准备调用插件，参数为：', welcome_data_params);
+
+
     //通过插件中的函数调用
     var my_plugin = requirePlugin('yyb_selfform_plugin');
     my_plugin.get_welcome_page_data(welcome_data_params);
@@ -155,11 +158,62 @@ Page({
 
 
 
+    //===== 2021.11.13. 客服功能相关 =====
+    if(option_list.usercenter_contact_status){
+      that.setData({
+        usercenter_contact_status : option_list.usercenter_contact_status,
+      });
+
+      if(option_list.usercenter_contact_btn_type){
+        that.setData({
+          usercenter_contact_btn_type : option_list.usercenter_contact_btn_type,
+        });
+      }
+      if(option_list.usercenter_contact_btn_text){
+        that.setData({
+          usercenter_contact_btn_text : option_list.usercenter_contact_btn_text,
+        });
+      }
+      if(option_list.usercenter_contact_btn_img){
+        that.setData({
+          usercenter_contact_btn_img : option_list.usercenter_contact_btn_img,
+        });
+      }
+
+      //扩展的小程序卡片
+      if(option_list.usercenter_contact_wxa_extend){
+        that.setData({
+          usercenter_contact_wxa_extend : option_list.usercenter_contact_wxa_extend,
+        });
+
+        if(option_list.usercenter_contact_wxa_title){
+          that.setData({
+            usercenter_contact_wxa_title : option_list.usercenter_contact_wxa_title,
+          });
+        }
+        if(option_list.usercenter_contact_wxa_path){
+          that.setData({
+            usercenter_contact_wxa_path : option_list.usercenter_contact_wxa_path,
+          });
+        }
+        if(option_list.usercenter_contact_wxa_img){
+          that.setData({
+            usercenter_contact_wxa_img : option_list.usercenter_contact_wxa_img,
+          });
+        }
+
+      }
+    }
+    //=================== End ======================
+
+
+
 
     if(!option_list || !option_list.wxa_show_latest_product_in_welcome_page){
       return;
     }
     
+
 
 
     //获取最新的商品信息
@@ -384,6 +438,22 @@ Page({
 		//============== End ================
 
 
+
+  },
+  copy_text:function(e){
+    console.log('copy_text===>>>', e);
+		//console.log('bottom_icon_click===>>>', url);
+
+
+		var text = e.detail.text;
+
+    console.log('要复制的文本：' + text);
+    
+    wx.setClipboardData({
+      data: text,
+    })
+
+    
 
   },
   

@@ -327,3 +327,11 @@ align-items:center;
   color:#fff !important;
   background: #1E90FF;
 }
+
+.function_button {
+  margin-left: 10px;
+  /* color: blue; */
+  border: solid 1px #666;
+  padding: 8rpx;
+  border-radius: 3px;
+}

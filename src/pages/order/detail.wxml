@@ -73,7 +73,7 @@
           <view>物流公司：<view class='fl_n'>{{orderData.delivery_company}}</view></view>
           <view>
             物流编号：<view class='fl_n'>{{orderData.delivery_no}}</view>
-            <view class="copy_v" bindtap='copyText' data-text="{{orderData.delivery_no}}" style="">复制</view>
+            <view class="copy_v" bindtap='copyText' data-text="{{orderData.delivery_no}}">复制</view>
           </view>
           <view>发货时间：<view class='fl_n'>{{orderData.delivery_time}}</view></view>
         </view>

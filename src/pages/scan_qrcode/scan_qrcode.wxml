@@ -35,19 +35,29 @@
   <view>1、如果您想更换绑定的手机号码，请点击这里</view>
 </button>
 -->
+
+<button class="bt-1" bindtap="go_to_weixin_pay">
+  <view>1、广告码充值：点击这里，给当前的广告码充值</view>
+</button>
+
+
 <button class="bt-a" bindtap="go_to_set_weixin_notify">
-  <view>1、请先关注微信公众号：安全熊广告码，请点击这里，如果已经关注，请忽略，谢谢！</view>
+  <view>2、请先关注微信公众号：安全熊广告码，请点击这里，如果已经关注，请忽略，谢谢！</view>
 </button>
 
 
 <button class="bt-b" bindtap="scan_location">
-  <view>2、微信扫码看短视频，产品介绍和购买链接，请点击这里</view>
+  <view>3、微信扫码看短视频，产品介绍和购买链接，请点击这里</view>
 </button>
+
+
 <button class="bt-c" bindtap="scan_remove_mobile">
-  <view>3、如果您想一键解除绑定广告码，请点击这里</view>
+  <view>4、如果您想一键解除绑定广告码，请点击这里</view>
 </button>
+
+
 <button class="bt-d" bindtap="scan_set_e_profile">
-  <view>4、短视频和文字资料和购买链接的上传入口，任何微信扫码者可以秒看，也可以直接购买，适合印在儿童图书，玩具，婴童用品，服装鞋帽，日用百货，机电设备，农产品等的包装和吊牌上和餐饮菜单上面。如果印在衣服或者激光打标在宠物牌上面，可以用于老人小孩和宠物的防走失。</view>
+  <view>5、短视频和文字资料和购买链接的上传入口，任何微信扫码者可以秒看，也可以直接购买，适合印在儿童图书，玩具，婴童用品，服装鞋帽，日用百货，机电设备，农产品等的包装，产品说明书和吊牌上。如果印在衣服或者激光打标在宠物牌上面，可以用于老人小孩和宠物的防走失，因为有定位功能。</view>
 </button>
 
 </view>

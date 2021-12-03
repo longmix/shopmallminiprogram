@@ -5,7 +5,9 @@ Page({
   data:{
     telephone: '021-31128716',
     button_bg_color:'#179b16',
-    button_font_color:'rgba(255,255,255, 0.6)'
+    button_font_color:'rgba(255,255,255, 0.6)',
+
+    show_restYanyubaoData:0
   },
   onShow: function () {
 
@@ -23,6 +25,18 @@ Page({
     });
 
     console.log("444444", _self.data.shop_name)
+    console.log("444444", app.globalData.force_sellerid_flag);
+
+
+    if(app.globalData.force_sellerid == 0){
+      _self.setData({
+        show_restYanyubaoData:1
+      });
+    }
+
+
+
+
 
     app.set_option_list_str(this, function(that, option_list){
       app.getColor();
@@ -130,12 +144,12 @@ Page({
 
   useHelp: function () {
     wx.navigateTo({
-      url: '../help_detail/help_detail?action=detail&id=xiaochengxuhelp'
+      url: '../help/detail?action=detail&id=xiaochengxuhelp'
     });
   },
   shenMing:function(){
     wx.navigateTo({
-      url: '../help_detail/help_detail?action=detail&id=yinsishengming'
+      url: '../help/detail?action=detail&id=yinsishengming'
     });
   },
   clearStorage:function(){
@@ -171,6 +185,29 @@ Page({
     
        
     
+  },
+  restYanyubaoData:function(){
+
+    var _self = this;
+
+    wx.removeStorage({
+      key: 'current_sellerid',
+      success(res) {
+        wx.showToast({
+          icon: 'none',
+          title: '重置延誉宝数据成功',
+        });
+
+        app.globalData.default_sellerid = 'pQNNmSkaq';
+
+        wx.reLaunch({
+          url: '/pages/index/index',
+        })
+      }
+    })
+
+
+
   },
   onReady:function(){
     // 页面渲染完成

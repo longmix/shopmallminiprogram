@@ -164,8 +164,9 @@ align-items:Center;
 .search{
     padding: 1% 1%;
     padding-right:80rpx;
-    margin-bottom: 40rpx;
-    margin-top: 20rpx;
+    margin: 20rpx;
+    border: solid 1px #666666;
+    border-radius: 10rpx;
 }
 .searchcion{
     width: 24px;
@@ -181,14 +182,14 @@ align-items:Center;
     padding:1% 2.5%;
     }
 .search button{
-    line-height:30px;
+    line-height:60rpx;
     background: none;
     text-align: center;
     border: none;
-    padding: 3px;
+    padding: 6rpx;
     position:absolute;
-    right:20rpx;
-    top:13rpx;
+    right:35rpx;
+    top:25rpx;
 }
 .search button::after{
     content: none;

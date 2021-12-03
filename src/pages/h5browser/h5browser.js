@@ -354,11 +354,11 @@ Page({
   
 
     // wx.reLaunch({
-    //   url: '/pages/user/user',
+    //   url: '/pages/tabbar/user',
     // })
 
     // wx.switchTab({
-    //   url: '/pages/user/user',
+    //   url: '/pages/tabbar/user',
     // })
 
 

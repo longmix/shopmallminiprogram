@@ -52,6 +52,12 @@
         <view class="jiantou"><image src="../../images/icon-arrowdown.png"></image></view>    
     </view>    
   </view>
+  <view class="list_li" bindtap="restYanyubaoData" wx:if="{{show_restYanyubaoData == 1}}">
+    <view class="li_title">重置延誉宝数据</view>
+    <view class="li_info">
+        <view class="jiantou"><image src="../../images/icon-arrowdown.png"></image></view>    
+    </view>    
+  </view>
 
 </view>
 

@@ -25,12 +25,17 @@ Page({
     cartId:'321',
     balance_zengsong_dikou: 0,
     balance_dikou: 0,
-    wxa_order_queren_hide_address:0
+    wxa_order_queren_hide_address:0,
+    //2021.9.30. 是否显示优惠券
+    wxa_order_hide_coupon:1,
   },
   onShow: function () {
      //userInfo = app.get_user_info();
   },
   /**
+   * 
+   * /pages/order/pay?action=direct_buy&amount=1&productid=169508
+   * 
    * 
    * action = direct_buy
    * 如果 action = direct_buy，需要参数
@@ -44,6 +49,17 @@ Page({
    * 否则带参数：
    *  xxx=aaaa
    * 
+   * [2021.9.9. 附带订单选项的请求示例]
+   * 
+          var order_option_key_and_value = [];
+          order_option_key_and_value.push({'key':'jianghan_orderno', 'value':orderno});
+
+          var order_option_key_and_value_str = encodeURIComponent(JSON.stringify(order_option_key_and_value));
+
+          new_url = '/pages/order/pay?action=direct_buy&amount=1&productid='+data.buy_url_productid;
+          new_url += '&order_option_key_and_value_str='+order_option_key_and_value_str;
+          new_url += '&buyer_memo=' + '代续费订单：'+orderno;
+
    * 
    */
   onLoad:function(options){
@@ -200,10 +216,10 @@ Page({
 
 
 
-    app.set_option_list_str(this, this.loadProductDetail);
+    app.set_option_list_str(this, this.set_option_list_callback);
 
   },
-  loadProductDetail:function(that, option_list){
+  set_option_list_callback:function(that, option_list){
 
     if (!option_list) {
       return;
@@ -227,7 +243,7 @@ Page({
 
 
     that.setData({
-      wxa_order_hide_coupon: option_list.wxa_order_hide_coupon,
+      //wxa_order_hide_coupon: option_list.wxa_order_hide_coupon,
       wxa_order_hide_balance_zengsong: option_list.wxa_order_hide_balance_zengsong,
       wxa_order_hide_balance: option_list.wxa_order_hide_balance,
     })
@@ -316,6 +332,12 @@ Page({
               });
             }
 
+            if(res.data.coupon_list){
+              that.setData({wxa_order_hide_coupon:0});
+            }
+
+            console.log('wxa_order_hide_coupon ===>>>>' + that.data.wxa_order_hide_coupon);
+
             if(that.data.from_o2o==1){
               // 如果是来自o2o模块的订单
 
@@ -374,7 +396,18 @@ Page({
                   pay_price_origin: that.data.pay_price
                 })
               }
-            }    
+            }
+
+
+            //2021.8.7. 订单是否不需要填写收货地址
+            var current_wxa_order_queren_hide_address = that.wxa_order_queren_hide_address;
+
+            if(res.data.hide_address && (res.data.hide_address == 1)){
+              current_wxa_order_queren_hide_address = 1;
+            }
+            
+            that.wxa_order_queren_hide_address = current_wxa_order_queren_hide_address;
+            //========== End ===================
 
             that.setData({
               order_address_detail: order_address_detail,
@@ -383,6 +416,7 @@ Page({
               all_product_take_score: res.data.all_product_take_score,              
               balance: res.data.balance,
               balance_zengsong: res.data.balance_zengsong,
+              wxa_order_queren_hide_address:current_wxa_order_queren_hide_address
             });
 
             if (res.data.user_coupon_item){

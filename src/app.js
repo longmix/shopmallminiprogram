@@ -371,6 +371,8 @@ App({
 
     //缓存返回数据
     wx.setStorageSync("current_sellerid", sellerid);
+
+    this.globalData.default_sellerid = sellerid;
   },
   get_sellerid: function () {
     if (this.globalData.force_sellerid == 1){
@@ -876,11 +878,11 @@ App({
         })
       }
     }
-    else if (url == '/pages/index/index' || url == '/pages/category/index' || url == '/pages/cart/cart' || url == '/pages/user/user') {
+    else if (url == '/pages/index/index' || url == '/pages/category/index' || url == '/pages/cart/cart' || url == '/pages/tabbar/user') {
       wx.switchTab({
         url: url,
       })
-    } else if (url == '/pages/help_detail/help_detail') {
+    } else if (url == '/pages/help/detail') {
       var browser_cache_id = wx.getStorageSync('browser_cache_id');
       if (browser_cache_id) {
         wx.navigateTo({

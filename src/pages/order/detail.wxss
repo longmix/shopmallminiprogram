@@ -88,7 +88,7 @@
     height: 18px;
     display:inline-block; 
     vertical-align: middle;
-    float: right; 
+
 }
 .zhifu{
     background: #fff;

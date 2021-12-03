@@ -317,7 +317,7 @@ Page({
                   })
                 }
                 wx.switchTab({
-                  url: '/pages/user/user'
+                  url: '/pages/tabbar/user'
                 })
               }
             }

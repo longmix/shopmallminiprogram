@@ -1,4 +1,4 @@
-<!--pages/help_detail/help_detail.wxml-->
+<!--pages/help/detail.wxml-->
  
     <view class='detail_top' wx:if="{{wz_keyword2}}" style="display: none;">
      <view class='detail_top_view' wx:for="{{wz_keyword2}}" wx:key="key001">

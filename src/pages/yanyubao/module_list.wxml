@@ -1,4 +1,3 @@
-<!--pages/user/user.wxml-->
 <view class="page" style='width:100%;overflow-x:hidden;margin-bottom: 60rpx;padding-bottom: 60rpx;'>
 
 

@@ -97,7 +97,7 @@ Page({
     }
     
     wx.navigateTo({
-      url: '../help_detail/help_detail?id=' + id + '&sellerid=' + that.data.sellerid
+      url: '../help/detail?id=' + id + '&sellerid=' + that.data.sellerid
       
     })
   },

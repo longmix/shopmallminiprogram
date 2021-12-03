@@ -95,6 +95,16 @@
   flex-direction:column;
 }
 
+.bt-1{
+  background-color:#0066ff;
+  color:#fff;
+  font-size:32rpx;
+  text-align: left;
+  line-height:48rpx;
+  padding:24rpx 20rpx;
+
+}
+
 .bt-a{
   background-color:#E64340;
   color:#fff;

@@ -1,4 +1,4 @@
-// pages/help_detail/help_detail.js
+// pages/help/detail.js
 var app = getApp();
 //var mars = require('../../mars/modules/mars')
 var WxParse = require('../../wxParse/wxParse.js');
@@ -239,7 +239,7 @@ Page({
     var that = this;
     return {
       title: '' + that.data.wz_text.title,
-      path: 'pages/help_detail/help_detail?id='+that.data.id,
+      path: 'pages/help/detail?id='+that.data.id,
       imageUrl:that.data.wz_text.pic,
       success: function(res) {
         // 分享成功
@@ -294,7 +294,7 @@ Page({
   returnto_toutiao:function(){
     var that = this;
     wx.redirectTo({
-      url: '../help/help?sellerid=' + that.data.sellerid
+      url: '../help/list?sellerid=' + that.data.sellerid
 
     })
   },

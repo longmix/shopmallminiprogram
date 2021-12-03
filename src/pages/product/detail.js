@@ -44,93 +44,7 @@ Page({
     shop_info:''
   },
 
-  // 弹窗
-  setModalStatus: function (e) {
-
-    var that = this;
-
-    var last_url = null;
-
-    if (that.data.productid) {
-      last_url = '/pages/product/detail?' + that.data.options_str;
-    }
-    
-    if(app.goto_user_login(last_url)){
-      return;
-    }
-
-    var userInfo = app.get_user_info();
-
-    
-    var animation = wx.createAnimation({
-      duration: 200,
-      timingFunction: "linear",
-      delay: 0
-    })
-
-    this.animation = animation
-    animation.translateY(300).step();
-    
-    this.setData({
-      animationData: animation.export()
-    })
-
-    var action_type = '';
-    if(e.currentTarget.dataset.type){
-      action_type = e.currentTarget.dataset.type;
-    }
-
-    if (e.currentTarget.dataset.status == 1) {
-      this.setData(
-        {
-          showModalStatus: true,
-          buys: '立即购买',
-          status: '1',
-          action_type : action_type
-        }
-      );
-    }else {
-      this.setData(
-        {
-          showModalStatus: true,
-          buys: '加入购物车',
-          status: '2',
-          action_type: action_type
-        }
-      );
-    }
-    
-    setTimeout(function () {
-      animation.translateY(0).step()
-      this.setData({
-        animationData: animation
-      })
-      if (e.currentTarget.dataset.status == 0) {
-        this.setData(
-          {
-            showModalStatus: false
-          }
-        );
-      }
-    }.bind(this), 200)
-  },
-  // 加减
-  changeNum:function  (e) {
-    var that = this;
-    if (e.target.dataset.alphaBeta == 0) {
-        if (this.data.amount <= 1) {
-            amount:1
-        }else{
-            this.setData({
-                amount:this.data.amount - 1 
-            })
-        };
-    }else{
-        this.setData({
-            amount:this.data.amount + 1
-        })
-    };
-  },
+  
   // 传值
   onLoad: function (option) {  
 
@@ -141,6 +55,21 @@ Page({
     var that = this;
 
     app.set_option_list_str(this, this.set_option_list_callback);
+    console.log('0000000000000000000======>>>>',option)
+
+
+    //========== 2021.10.22. 如果是通过带参二维码进来的 =========
+     if(option.scene && (option.scene.indexOf('pro_') != -1) ){
+       var params = option.scene.split('_');
+       option.productid = params[2];
+      
+      console.log('通过小程序码扫描进入，productID====>>>>>'+option.productid);
+      
+      var new_sellerid = params[1];
+      app.set_sellerid(new_sellerid);
+      
+     }
+    //==================== End ============================
 
 
     var options_str = '';
@@ -330,6 +259,93 @@ Page({
 
     //app.call_h5browser_or_other_goto_url('/pages/cart/cart');
 
+  },
+  // 弹窗
+  setModalStatus: function (e) {
+
+    var that = this;
+
+    var last_url = null;
+
+    if (that.data.productid) {
+      last_url = '/pages/product/detail?' + that.data.options_str;
+    }
+    
+    if(app.goto_user_login(last_url)){
+      return;
+    }
+
+    var userInfo = app.get_user_info();
+
+    
+    var animation = wx.createAnimation({
+      duration: 200,
+      timingFunction: "linear",
+      delay: 0
+    })
+
+    this.animation = animation
+    animation.translateY(300).step();
+    
+    this.setData({
+      animationData: animation.export()
+    })
+
+    var action_type = '';
+    if(e.currentTarget.dataset.type){
+      action_type = e.currentTarget.dataset.type;
+    }
+
+    if (e.currentTarget.dataset.status == 1) {
+      this.setData(
+        {
+          showModalStatus: true,
+          buys: '立即购买',
+          status: '1',
+          action_type : action_type
+        }
+      );
+    }else {
+      this.setData(
+        {
+          showModalStatus: true,
+          buys: '加入购物车',
+          status: '2',
+          action_type: action_type
+        }
+      );
+    }
+    
+    setTimeout(function () {
+      animation.translateY(0).step()
+      this.setData({
+        animationData: animation
+      })
+      if (e.currentTarget.dataset.status == 0) {
+        this.setData(
+          {
+            showModalStatus: false
+          }
+        );
+      }
+    }.bind(this), 200)
+  },
+  // 加减
+  changeNum:function  (e) {
+    var that = this;
+    if (e.target.dataset.alphaBeta == 0) {
+        if (this.data.amount <= 1) {
+            amount:1
+        }else{
+            this.setData({
+                amount:this.data.amount - 1 
+            })
+        };
+    }else{
+        this.setData({
+            amount:this.data.amount + 1
+        })
+    };
   },
   myChat: function () {
     var that = this;

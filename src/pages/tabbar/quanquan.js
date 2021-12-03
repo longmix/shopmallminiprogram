@@ -12,6 +12,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+
+
+    /*
     if(options.cata){
       //跳转到 cms/quanquan/quanquanlist  在tab栏 参数写缓存
 
@@ -20,7 +23,7 @@ Page({
         url: '/cms/quanquan/quanquanlist',
       })
 
-    }
+    }*/
   },
 
   /**
@@ -34,6 +37,18 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+
+    //通过  redirectTo 跳转，模板页面应该添加一个返回首页的链接，不然在APP中会出现跳不回去的情况
+    wx.redirectTo({
+      url: '/cms/quanquan/quanquanlist',
+      fail: (res) => {
+        console.log(res);
+      },
+      success: (res) => {
+        console.log(res);
+      }
+    })
+
 
   },
 
