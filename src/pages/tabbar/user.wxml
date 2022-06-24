@@ -10,7 +10,7 @@
         </navigator>
         <view class="a_2" style="color:{{wxa_shop_nav_font_color=='#000000' ? '#333' : 'wxa_shop_nav_font_color'}}">
           <view>
-            <navigator url="../login/login_get_userinfo" open-type="navigate" style="font-weight：bold;">{{nickname}}
+            <navigator url="../login/login_get_userinfo" open-type="navigate" style="font-weight:bold;">{{nickname}}
             </navigator>
           </view>
           <view class="b_1" wx:if="{{wxa_hide_balance_in_usercenter != 1}}"> 

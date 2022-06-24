@@ -3,7 +3,8 @@
     <selfform-tag    
         wx:if="{{show_selfform_tag == 1}}"        
         callback_data = "{{callback_data}}"
-        bind:link_item_click="link_item_click" />
+        bind:link_item_click="link_item_click"
+        bind:copy_text = "copy_text" />
 
    <!--
    <selfform-tag         

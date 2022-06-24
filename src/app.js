@@ -287,7 +287,7 @@ App({
 
     console.log('goto_user_login:333333333');
 
-    //this.call_h5browser_or_other_goto_url(last_url, var_list, ret_page);
+   // this.call_h5browser_or_other_goto_url(last_url, var_list, ret_page);
 
     return false;
     
@@ -804,20 +804,16 @@ App({
             return;
 
           } else {
-            wx.showToast({
-              title: '非法操作.',
-              duration: 2000
-            });
-
-            setTimeout(function () {
+           
+          
               app.del_user_info();
 
               var last_url = url;
-              app.goto_user_login(last_url);
 
-            }, 2000);
-
-
+              if(app.goto_user_login(new_url)){
+                return;
+              }
+             // app.call_h5browser_or_other_goto_url(last_url);
 
           }
         },

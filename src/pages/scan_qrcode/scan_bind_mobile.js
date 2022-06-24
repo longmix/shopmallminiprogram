@@ -150,7 +150,7 @@ Page({
       key: 'userListInfo',
       success: function (res) {
         if (res.data) {
-          console.log(res.data[2].content);
+         
           that.setData({
             mobile: res.data[2].content,
 

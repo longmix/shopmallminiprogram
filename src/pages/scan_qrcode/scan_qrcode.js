@@ -10,11 +10,18 @@ Page({
    */
   data: {
     markers: [],
-    latitude: '',
-    longitude: '',
+
+    current_latitude: '',
+    current_longitude: '',
+    current_address:'',
+
     rgcData: {},
     owner_flag:0,  //订单管理者标记，0 不是订单所有者 1 订单所有者 2 订单所有者要发短信
-    display: ''
+    display: '',
+
+    showModal: false,
+    selfform_mazhu_url:'',
+
   },
   makertap: function (e) {
     var that = this;
@@ -28,8 +35,8 @@ Page({
   onLoad: function (options) {
 
     var that = this;
-    // this.getMap();
-
+     //this.getMap();
+  
     var q = options.q;
     var orderno = null;
 
@@ -100,6 +107,7 @@ Page({
           if (http_res && http_res.data) {
             if (http_res.data.code == 1) {
               var openid = http_res.data.openid;
+              console.log('999999999999999999',openid)
               app.set_current_openid(openid);
 
               that.__get_order_detail(that, orderno, openid, that.getMap);
@@ -167,7 +175,13 @@ Page({
       if (!res.data.data) {
         return;
       }
-
+     
+      if(data.selfform_mazhu_url){
+        that.setData({
+          selfform_mazhu_url : data.selfform_mazhu_url,
+        })
+        console.log('123456789',that.data.selfform_mazhu_url);
+      }
       
 
       var mobile = data.mobile;
@@ -195,7 +209,7 @@ Page({
 
       console.log('ddddd', data.openid);
       // app.get_current_openid()
-
+      console.log('ddddd',app.get_current_openid())
       if (data.openid == app.get_current_openid()) {
 
         console.log('!mobile&&888888')
@@ -204,9 +218,12 @@ Page({
         that.setData({
           owner_flag: 1,
           mobile: mobile,
-          display: "block"
+          display: "block",
+          map_type: data.map_type,
+          token: data.token,
+          formid:data.formid,
         })
-
+        console.log('map_type',that.data.map_type)
       } else {
         that.setData({
           owner_flag: 2
@@ -387,8 +404,9 @@ Page({
 
 
                 that.setData({
-                  latitude: wxMarkerData[0].latitude,
-                  longitude: wxMarkerData[0].longitude
+                  current_latitude: wxMarkerData[0].latitude,
+                  current_longitude: wxMarkerData[0].longitude,
+                  current_address: wxMarkerData[0].address,
                 });
 
 
@@ -419,8 +437,9 @@ Page({
 
 
       that.setData({
-        latitude: wxMarkerData[0].latitude,
-        longitude: wxMarkerData[0].longitude
+        current_latitude: wxMarkerData[0].latitude,
+        current_longitude: wxMarkerData[0].longitude,
+        current_address: wxMarkerData[0].address,
       });
 
 
@@ -457,7 +476,7 @@ Page({
       //从本地读取
       var option_list_str = wx.getStorageSync('shop_option_list_str_' + app.get_sellerid());
       var option_list = JSON.parse(option_list_str);
-
+      console.log('获取商城选项数据用于百度地图',option_list);
       console.log('获取商城选项数据用于百度地图');
       console.log("百度地图AK：" + option_list.baidu_map_ak_wxa);
 
@@ -567,15 +586,32 @@ Page({
     that.send_location_sms();
   },
 
+  qrcode_meihua:function(){
+   
+    var qrcode_data = decodeURIComponent(this.options.q);
+    console.log('123456',this.options)
+    console.log('decodeURI转码后的q：' + qrcode_data);
+
+    var orderno = qrcode_data.replace('http://jh.tseo.cn/index.php?g=Home&m=Scan&a=index&orderno=', '');
+    if (orderno.length > 20) {
+      orderno = orderno.replace('http%3A%2F%2Fjh.tseo.cn%2Findex.php%3Fg%3DHome%26m%3DScan%26a%3Dindex%26orderno%3D', '');
+    }
+    console.log('45645645',orderno)
+    var qrcode_new_url = "https://yanyubao.tseo.cn/index.php?g=Home&m=BeautyQrcode&a=index&ensellerid=pQNNmSkaq&data=" + this.options.q + "&qrfont_xia=" + orderno ;
+   console.log('asdasdaa',qrcode_new_url)
+   
+    app.call_h5browser_or_other_goto_url(qrcode_new_url);
+
+  },
 
   send_location_sms:function(data){
     var that = this;
-    console.log('dddd');
-
+    console.log('dddd',data);
+    console.log('123456789',wxMarkerData)
     if ((wxMarkerData[0].latitude == 0) || (wxMarkerData[0].longitude == 0)){
       return;
     }
-    
+   
     wx.request({
       url: app.globalData.http_server + 'index.php/openapi/Jianghanyinhua/mapaddress',
       method: 'post',
@@ -601,8 +637,29 @@ Page({
           
           var data_url = 'https://yanyubao.tseo.cn/openapi/Jianghanyinhua/get_order_scan_report_page?orderno='+that.data.orderno+'&messageid='+messageid;
 
-          wx.navigateTo({
-            url: '/pages/welcome_page/welcome_page?data_url='+ encodeURIComponent(data_url),
+          var new_url = '/pages/welcome_page/welcome_page?data_url='+ encodeURIComponent(data_url);
+
+          if(res.data.map_type == 2){
+            new_url = '/pages/selfform/selfform?form_type=2&token=' + res.data.data.token  + '&formid=' + res.data.data.formid;
+
+            new_url += '&hidden_ad_img_list=1';
+
+            new_url += '&latitude=' + that.data.current_latitude;
+            new_url += '&longitude=' + that.data.current_longitude;
+            new_url += '&address=' + that.data.current_address;
+
+            if(res.data.data.video_url){
+              new_url += '&video_url=' + encodeURIComponent(res.data.data.video_url);
+              new_url += '&video_cover_url=' + encodeURIComponent(res.data.data.video_cover_url);
+              new_url += '&video_autoplay=1';
+            }
+
+          }
+
+          console.log('888888888888888888888888888888', new_url);
+
+          wx.redirectTo({
+            url: new_url,
           })
 
           //var page_url = 'https://yanyubao.tseo.cn/openapi/Jianghanyinhua/show_order_scan_report_page?orderno='+that.data.orderno+'&messageid='+messageid;
@@ -681,8 +738,31 @@ Page({
   onShareAppMessage: function () {
 
   },
+  scan_set_community_interaction:function(){
+ 
+    app.call_h5browser_or_other_goto_url(this.data.selfform_mazhu_url);
+  },
+  updataRadio:function(e){
+    console.log('555555',e);
+    wx.request({
+      url: app.globalData.http_server + 'index.php/openapi/Jianghanyinhua/set_order_map_type',
+      method: 'post',
+      header: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      data: {
+        map_type:e.detail.value,
+        orderno:this.data.orderno,
+        openid:app.get_current_openid(),
+      },
+      success: function (res) {
+        if(res.data.code != 1){
+          return
+        }
+      }
 
-
+    });
+  },
   scan_set_e_profile:function(){
     var new_url = '/pages/selfform/selfform?form_type=2&sellerid=' + app.get_sellerid();
     new_url += '&token=' + app.get_current_weiduke_token();
@@ -709,7 +789,7 @@ Page({
   },
 
   go_to_weixin_pay:function(){   
-    var new_url = 'https://yanyubao.tseo.cn/Home/Jianghanyinhua/order_chongzhi/ensellerid/fSmyUPkjj?wxa_openid=%wxa_openid%&orderno001=' + this.data.orderno;
+    var new_url = 'https://yanyubao.tseo.cn/Home/Jianghanyinhua/order_chongzhi/ensellerid/fSmyUPkjj?wxa_openid=%wxa_openid%&orderno001=' + this.data.orderno + '&oneclicklogin=%oneclicklogin%';
     
     if(app.goto_user_login(new_url)){
       return;
@@ -717,7 +797,51 @@ Page({
 
     app.call_h5browser_or_other_goto_url(new_url);
     
+  },
+
+
+
+
+
+  // ----------------------------------------------
+  /**
+   * 弹窗
+   */
+  showDialogBtn: function () {
+    this.setData({
+      showModal: true
+    })
+  },
+  /**
+   * 弹出框蒙层截断touchmove事件
+   */
+  preventTouchMove: function () {
+  },
+  /**
+   * 隐藏模态对话框
+   */
+  hideModal: function () {
+    this.setData({
+      showModal: false
+    });
+  },
+  /**
+   * 对话框取消按钮点击事件
+   */
+  onCancel: function () {
+    this.hideModal();
+  },
+  /**
+   * 对话框确认按钮点击事件
+   */
+  onConfirm: function () {
+    this.hideModal();
   }
+
+
+
+
+  
 
 
 })

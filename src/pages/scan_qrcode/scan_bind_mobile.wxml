@@ -1,6 +1,6 @@
 <!--pages/scan_qrcode/scan_bind_mobile.wxml-->
 <view class='box'>
- <view>广告码编号：{{orderno}}</view>
+ <view>微产品码编号：{{orderno}}</view>
 </view>
  <view style='text-align:center;margin:50rpx auto;color:#666; font-size:30rpx;display:none;'>{{shop_list.name}}</view>
 <form bindsubmit="formSubmit" report-submit="true">
