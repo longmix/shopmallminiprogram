@@ -111,7 +111,7 @@ Page({
               app.del_user_info();
 
               wx.reLaunch({
-                url: '/pages/user/user',
+                url: '/pages/tabbar/user',
               })
             }
 

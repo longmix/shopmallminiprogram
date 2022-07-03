@@ -33,6 +33,12 @@ Page({
    * 
    * 2021.4.10. 调用插件，与标准的不同的参数：token，插件中的参数名为 form_token，需要转换，其他不变。
    * 
+   * /pages/selfform/selfform?form_type=2&token=' + that.data.token  + '&formid=' + that.data.formid;
+   * 必带以下两个参数：
+   * /pages/selfform/selfform?form_type=2&token=gwcuuk1411034699&formid=420
+   * 可以带扩展参数：
+   * /pages/selfform/selfform?form_type=2&token=gwcuuk1411034699&formid=420&latitude=25556.255&longitude=655844.2554&address=商城路
+   * 
    */
   onLoad: function (options) {
     
@@ -393,6 +399,22 @@ Page({
 
 
 		//============== End ================
+  },
+  copy_text: function(e){
+    console.log('copy_text===>>>', e);
+    //console.log('bottom_icon_click===>>>', url);
+
+
+    var text = e.detail.text;
+
+    console.log('准备复制的内容：' + text);
+
+    wx.setClipboardData({
+      data: text,
+    })
+
+
+
   }
 
 

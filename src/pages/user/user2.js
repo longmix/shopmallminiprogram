@@ -1,4 +1,4 @@
-// pages/user/user.js
+// pages/tabbar/user.js
 var app = getApp();
 var userInfo = app.get_user_info();
 Page( {

@@ -223,7 +223,7 @@
               <text wx:if="{{item.product_take_score}}">{{item.product_take_score}}</text>
               <text wx:elif="{{item.is_recommend==1}}">推荐</text>
               <text wx:elif="{{item.is_hot==1}}">热销</text>
-              <text wx:else>新品</text>  
+              <text wx:else></text>  
             </view>
             <image catchtap="addCart" src="../../images/car.png" data-productid="{{item.productid}}"></image>
             <block wx:if="{{wxa_show_kucun_in_list == 1}}">

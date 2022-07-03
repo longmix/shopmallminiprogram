@@ -73,10 +73,10 @@ Page({
             coupon_list: res.data.data,
           })
         } else {
-          wx.showToast({
+          /*wx.showToast({
             title: res.data.msg,
             duration: 2000
-          });
+          });*/
         }
       },
       fail: function () {

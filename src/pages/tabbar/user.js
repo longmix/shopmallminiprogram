@@ -1,10 +1,16 @@
-// pages/user/user.js
+// pages/tabbar/user.js
 var app = getApp();
 
 Page( {
   data: {
-    data: { status_count1: 0, status_count2: 0, status_count3: 0, status_count4: 0,wxa_usercenter_ad_list:[]},
-    wxa_shop_nav_bg_color:'#008842',
+    data: { status_count1: 0, status_count2: 0, 
+      status_count3: 0, 
+      status_count4: 0,
+      wxa_usercenter_ad_list:[]},
+
+    wxa_shop_nav_bg_color:'red',
+    wxa_shop_nav_font_color:'white',
+
     nick_name:0,
     headimgurl: "../../images/cry80.jpg",
     userInfo: {},
@@ -34,8 +40,12 @@ Page( {
         icon: '../../images/iconfont-help.png',
         text: '常见问题'
       }],
-       loadingText: '加载中...',
-       loadingHidden: false,
+
+      loadingText: '加载中...',
+      loadingHidden: false,
+
+      //是否在昵称下方显示余额
+      wxa_hide_balance_in_usercenter:0,
   },
 
   onLoad: function () {
@@ -111,13 +121,23 @@ Page( {
       })
     }
 
+    if(option_list.wxa_hide_balance_in_usercenter){
+      
+      
+
+      that.setData({
+        wxa_hide_balance_in_usercenter: option_list.wxa_hide_balance_in_usercenter
+      });
+
+      console.log('wxa_hide_balance_in_usercenter====>>>>'+ that.data.wxa_hide_balance_in_usercenter);
+    }
+
 
     console.log('背景颜色：' + option_list.wxa_shop_nav_bg_color);
 
     if (option_list.wxa_shop_nav_bg_color) {
       that.setData({
         wxa_shop_nav_bg_color: option_list.wxa_shop_nav_bg_color,
-        icon_jump_bg_color: option_list.wxa_shop_nav_bg_color,
       });
     }
 
@@ -155,6 +175,63 @@ Page( {
         wxa_hidden_order_index_in_usercenter: option_list.wxa_hidden_order_index_in_usercenter,
       });
     }
+
+
+    //===== 2021.11.13. 客服功能相关 =====
+    if(option_list.usercenter_contact_status){
+      that.setData({
+        usercenter_contact_status : option_list.usercenter_contact_status,
+      });
+
+      if(option_list.usercenter_contact_btn_type){
+        that.setData({
+          usercenter_contact_btn_type : option_list.usercenter_contact_btn_type,
+        });
+      }
+      if(option_list.usercenter_contact_btn_text){
+        that.setData({
+          usercenter_contact_btn_text : option_list.usercenter_contact_btn_text,
+        });
+      }
+      if(option_list.usercenter_contact_btn_img){
+        that.setData({
+          usercenter_contact_btn_img : option_list.usercenter_contact_btn_img,
+        });
+      }
+
+      //扩展的小程序卡片
+      if(option_list.usercenter_contact_wxa_extend){
+        that.setData({
+          usercenter_contact_wxa_extend : option_list.usercenter_contact_wxa_extend,
+        });
+
+        if(option_list.usercenter_contact_wxa_title){
+          that.setData({
+            usercenter_contact_wxa_title : option_list.usercenter_contact_wxa_title,
+          });
+        }
+        if(option_list.usercenter_contact_wxa_path){
+          that.setData({
+            usercenter_contact_wxa_path : option_list.usercenter_contact_wxa_path,
+          });
+        }
+        if(option_list.usercenter_contact_wxa_img){
+          that.setData({
+            usercenter_contact_wxa_img : option_list.usercenter_contact_wxa_img,
+          });
+        }
+
+      }
+    }
+    //=================== End ======================
+
+
+
+
+
+
+
+    that.get_user_info_from_server();
 
 
 
@@ -241,13 +318,44 @@ Page( {
       return;
     }
 
+
+    if(userInfo.is_get_userinfo != 1){
+      wx.showModal({
+        title:'提示',
+        content:'需要获取头像和昵称以继续',
+        success: (res) => {
+          if(res.confirm){
+            wx.navigateTo({
+              url: '/pages/login/login_get_userinfo'
+            })
+          }
+          else{
+            wx.showModal({
+              title:'提示',
+              content:'没有您的头像和昵称，个性化信息无法展示，是否不再提示？',
+              success: (res02) => {
+                if(res02.confirm){
+                  app.globalData.userInfo.is_get_userinfo = 1;
+                }
+              }
+            })
+          }
+        }
+      })
+      
+    }
+
+
+
+
     wx.request({
       url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=get_user_info',
       data: {
         sellerid: app.get_sellerid(),
         checkstr: userInfo.checkstr,
         userid: userInfo.userid,
-        appid: app.globalData.xiaochengxu_appid,
+        xiaochengxu_appid: app.globalData.xiaochengxu_appid,
+        xiaochengxu_openid: app.get_current_openid(),
       },
       header: {
         "Content-Type": "application/x-www-form-urlencoded"
@@ -279,7 +387,7 @@ Page( {
   },
 
   myDingdan: function (e) {
-    var last_url = 'switchTab /pages/user/user';
+    var last_url = 'switchTab /pages/tabbar/user';
 
     if(app.goto_user_login(last_url)){
       return;
@@ -310,7 +418,7 @@ Page( {
     console.log('user myChat准备跳转：' + url);
 
     
-    var last_url = 'switchTab /pages/user/user?retpage=' + encodeURIComponent(url);
+    var last_url = 'switchTab /pages/tabbar/user?retpage=' + encodeURIComponent(url);
 
     if(app.goto_user_login(last_url)){
       return;
@@ -418,6 +526,8 @@ Page( {
 
       }
     })
+
+    app.set_option_list_str(that, that.callback_function);
 
     that.onShow();
 

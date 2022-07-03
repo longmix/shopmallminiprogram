@@ -42,6 +42,9 @@ Page({
       })
     }
 
+    if (!options.currentTab) {
+      options.currentTab = 0;
+    }
     
     this.initSystemInfo();
     this.setData({
@@ -49,9 +52,9 @@ Page({
       isStatus:options.otype
     });
   
-    if (options.currentTab) {
-      this.loadOrderList();
-    }  
+    
+
+    this.loadOrderList();
 
 
     
@@ -702,7 +705,7 @@ loadReturnOrderList:function(){
    */
   onUnload: function () {
     wx.switchTab({      
-      url: '/pages/user/user',
+      url: '/pages/tabbar/user',
     })
   },
   

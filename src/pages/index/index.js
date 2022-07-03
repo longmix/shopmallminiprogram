@@ -867,7 +867,7 @@ getMore:function(e){
   touTiaoList: function (e) {
     console.log('点击商户头条进入列表');
     wx.navigateTo({
-      url: '../help/help?sellerid=' + app.get_sellerid()
+      url: '../help/list?sellerid=' + app.get_sellerid()
     })
   },
 
@@ -876,7 +876,7 @@ getMore:function(e){
 
     var id = e.currentTarget.dataset.id;
     wx.navigateTo({
-      url: '../help_detail/help_detail?id=' + id + '&sellerid=' + app.get_sellerid()
+      url: '../help/detail?id=' + id + '&sellerid=' + app.get_sellerid()
 
     })
   },

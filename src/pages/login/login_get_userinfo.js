@@ -177,7 +177,7 @@ Page({
           
 
           wx.switchTab({
-            url: '/pages/user/user'
+            url: '/pages/tabbar/user'
           })
 
           
@@ -202,7 +202,7 @@ Page({
   },
 
 
-  getUserProfile:function(e){
+  btn_one_click_get_userinfo:function(e){
 
     var that = this;
 
@@ -308,7 +308,7 @@ Page({
               
     
               wx.switchTab({
-                url: '/pages/user/user'
+                url: '/pages/tabbar/user'
               })
     
               

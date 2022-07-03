@@ -506,7 +506,7 @@ Page({
                         }
                       } else {
                         wx.switchTab({
-                          url: '/pages/user/user2',
+                          url: '/pages/tabbar/user',
                         })
                       }
                       
@@ -629,7 +629,7 @@ upLoadImg:function(i){
                   
                 } else {
                   wx.switchTab({
-                    url: '/pages/user/user2',
+                    url: '/pages/tabbar/user',
                   })
                 }
                 

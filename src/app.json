@@ -4,25 +4,15 @@
     "pages/index/index",
     "pages/product/detail",
     "pages/search/search",
-    "pages/h5browser/h5browser",
-    "pages/user/user",
+
+    "pages/tabbar/user",
+    "pages/tabbar/quanquan",
+
     "pages/userinfo/userinfo",
     "pages/nickname/nickname_edit",
     "pages/update_mobile/update_mobile",
-    "pages/user/dingdan",
-    "pages/user/shoucang",
-    "pages/user/shangchengma",
-    "pages/about_applet/about_applet",
-    "pages/help/help",
-    "pages/help_detail/help_detail",
-    "pages/login/login",
-    "pages/login/login_by_password",
-    "pages/login/login_get_userinfo",
-    "pages/user/tuihuo",
-    "pages/order/pay",
-    "pages/order/detail",
-    "pages/order/downline",
-    "pages/order/zhifu",
+    
+    
     "pages/cart/cart",
     "pages/listdetail/listdetail",
     "pages/listdetail/list_yushou",
@@ -34,72 +24,120 @@
     "pages/rituall/rituall",
     "pages/shop_store/shop_store",
     "pages/account_edit/account_edit",
+
     "pages/welcome_page/welcome_page",
+
     "pages/share-gift/share-gift",
     "pages/share-gift/share-detail",
-    "pages/order/coupon_list",
-    "pages/index/index_off",
-    "pages/user/user2",
+    
+    "pages/index/index_off",    
     "pages/recharge/recharge",
     "pages/order_chongzhi/chongzhi",
-    "pages/h5browser/h5share",
-    "cms/quanquan/quanquan_details",
+
+    "pages/order/pay",
+    "pages/order/detail",
+    "pages/order/downline",
+    "pages/order/zhifu",
+    "pages/order/coupon_list",
+
+    "pages/selfform/selfform",
+
+    "pages/live_room/live_room",
+    
     "cms/mydiscover/my-discover",
-    "cms/mycollection/my-discover-collection",
-    "cms/mycollection/my-videolist-collection",
+
     "cms/index/index",
     "cms/library/library",
     "cms/discover/discover",
     "cms/library/library_list",
     "cms/publish/publish",
-    "cms/top_showcase/my",
-    "cms/quanquan/quanquanlist",
-    "o2o/index/index",
-    "o2o/address/address_list",
-    "o2o/address/listdetail",
-    "o2o/order/pay",
-    "pages/h5browser/h5hub",
-    "pages/selfform/selfform",
-    "pages/yanyubao/module_list",
-    "pages/live_room/live_room",
-    "cms/quanquan/quanquan"
+    "cms/top_showcase/my"
+    
+
+    
   ],
-  "tabBar": {
-    "color": "#858585",
-    "selectedColor": "#008842",
-    "borderStyle": "white",
-    "backgroundColor": "#ffffff",
-    "list": [
-      {
-        "pagePath": "pages/index/index",
-        "iconPath": "images/icons/btn-tabs_01.png",
-        "selectedIconPath": "images/icons/btn-tabs_07.png",
-        "text": "首页"
-      },
-      {
-        "pagePath": "pages/category/index",
-        "iconPath": "images/icons/btn-tabs_03.png",
-        "selectedIconPath": "images/icons/btn-tabs_08.png",
-        "text": "分类"
-      },
-      {
-        "pagePath": "pages/cart/cart",
-        "iconPath": "images/icons/btn-tabs_05.png",
-        "selectedIconPath": "images/icons/btn-tabs_09.png",
-        "text": "购物车"
-      },
-      {
-        "pagePath": "pages/user/user",
-        "iconPath": "images/icons/btn-tabs_06.png",
-        "selectedIconPath": "images/icons/btn-tabs_10.png",
-        "text": "我的"
-      }
-    ]
-  },
+  "subpackages": [
+    {
+      "root": "pages/login",
+      "pages": [
+        "login",
+        "login_by_password",
+        "login_get_userinfo"
+      ]
+    },
+    {
+      "root": "pages/h5browser",
+      "pages": [
+        "h5browser",
+        "h5hub",
+        "h5share"
+      ]
+    },
+
+    {
+      "root": "pages/user",
+      "pages": [
+        "dingdan",
+        "shoucang",
+        "shangchengma",    
+        "tuihuo",
+        "user2"
+      ]
+    },
+    {
+      "root": "pages/help",
+      "pages": [
+        "list",
+        "detail"
+      ]
+    },
+    {
+      "root": "cms/quanquan",
+      "pages": [
+        "quanquanlist",
+        "quanquan_details",
+        "mycollection"
+      ]
+    },
+    {
+      "root": "pages/yanyubao",
+      "pages": [
+        "module_list"
+      ]
+    },
+    {
+      "root": "pages/about_applet",
+      "pages": [
+        "about_applet"
+      ]
+    },
+    {
+      "root": "cms/mycollection/",
+      "pages": [
+        "my-discover-collection"        
+      ]
+    },
+    {
+      "root": "o2o",
+      "pages": [
+        "index/index",
+        "address/address_list",
+        "address/listdetail",
+        "order/pay"
+      ]
+    },
+    {
+      "root": "pages/scan_qrcode/",
+      "pages": [
+        "scan_qrcode",
+        "scan_bind_mobile",
+        "scan_change_mobile"
+      ]
+    }
+  ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#1569db",
-    "navigationBarTitleText": "通版商城",
+    "navigationBarBackgroundColor": "#2d96ff",
     "navigationBarTextStyle": "white"
   },
   "permission": {

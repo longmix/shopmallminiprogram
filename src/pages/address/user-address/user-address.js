@@ -30,7 +30,7 @@ Page({
 
 
     });
-    
+
     var userInfo = app.get_user_info();
     if ((!userInfo) || (!userInfo.userid)) {
       wx.redirectTo({
@@ -43,7 +43,7 @@ Page({
     var cartId = options.cartId;
     var buynum = options.buynum;
     
-    console.log(options);
+    console.log('options000===>>>',options);
     console.log(654987)
 
     if(options.cartId){
@@ -80,7 +80,7 @@ Page({
         action_pay: options.action_pay,
       });
     }
-
+    console.log('000000000000====>>>>',options)
     wx.showLoading({
       title: '加载中...',
     })
@@ -106,7 +106,7 @@ Page({
         if (code == 1) {
           var address = res.data.addressList;
         }
-
+        console.log('addresss111111111====>>>>>',address)
         that.setData({
           address: address          
         })
@@ -116,7 +116,7 @@ Page({
             cartId: cartId
           })
         }
-
+        console.log('cartId',cartId)
         if (buynum) {
           that.setData({
             buynum: buynum
@@ -139,19 +139,12 @@ Page({
   onReady: function () {
     // 页面渲染完成
   },
-  select_address_to_order:function(e){
-    console.log('aaaaaaaaaaaaaaaaaaaaa', this.data.is_from_order_page);
-    
-    if (!this.data.is_from_order_page){
-      return;
-    }
 
-    this.setDefault(e);
-  },
   setDefault: function(e) {
     var that = this;
 
     var addrId = e.currentTarget.dataset.id;
+    console.log('addrId1111111111======>>>>>',addrId)
     var userInfo = app.get_user_info();
     wx.request({
       url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=address_save',
@@ -178,7 +171,7 @@ Page({
 
         console.log('productid=================11', productid)
         console.log('amount=================11', amount)
-        console.log('action_pay=================11', action_pay)
+        console.log('action_pay=================11', that.data.action_pay)
         if(cartId == 321){
           if (code == 1) {
             if (action_pay == 'direct_buy') {
@@ -187,11 +180,7 @@ Page({
                 url: '../../order/pay?amount=' + amount + "&productid=" + that.data.productid + "&action=direct_buy",
               });
               //    return false;
-            } else {
-              wx.redirectTo({
-                url: '../../order/pay?amount=' + amount + "&productid=" + that.data.productid,
-              });
-            }
+            } 
             wx.showToast({
               title: '操作成功！',
               duration: 2000
@@ -204,12 +193,12 @@ Page({
             });
           }
         }else{
-          wx.showToast({
-            title: '设置成功！',
-          });
-          wx.redirectTo({
-            url: '../user-address/user-address',
-          });
+          wx.showModal({
+            title: '提示',
+            content: '设置默认成功！',
+            
+          })
+          that.DataonLoad();
         }
         
       },
@@ -273,9 +262,9 @@ Page({
                 sellerid: app.get_sellerid(),
                 name: Name,
                 mobile: telNumber,
-                province: province,
-                city: city,
-                district: county,
+                area_province: provinceName,
+                area_city: cityName,
+                area_district: countyName,
                 address: detailInfo
               },
               header: {
@@ -319,8 +308,12 @@ Page({
   saveAddress:function (e) {
     var addressId = e.currentTarget.dataset.id;
 
+    var new_url = '../address?action=edit&addressId=' + addressId + '&amount=' + this.data.amount + '&productid=' + this.data.productid + '&action_pay=' + this.data.action_pay;
+
+    console.log('new_url000=====>>>>>',new_url)
+
     wx.redirectTo({
-      url: '../address?action=edit&addressId=' + addressId + '&amount=' + this.data.amount + '&productid=' + this.data.productid + '&action=' + this.data.action + '&action_pay=' + this.data.action_pay,
+      url: new_url,
     }); 
   },
   delAddress: function (e) {

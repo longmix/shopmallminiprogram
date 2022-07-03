@@ -8,7 +8,7 @@
                 <view class="l_h20" style="font-size:40rpx;margin-right:56rpx;">{{order_address_detail.name}}</view>
                 <view class="l_h20 " style="font-size:40rpx;">{{order_address_detail.mobile}}</view>
             </view>
-            <view class="l_h20 mt5" style="font-size:22rpx;margin-top:22rpx;">{{order_address_detail.province_name}}{{order_address_detail.city_name}}{{order_address_detail.district_name}}
+            <view class="l_h20 mt5" style="font-size:22rpx;margin-top:22rpx;">{{order_address_detail.area_province}}{{order_address_detail.area_city}}{{order_address_detail.area_district}}
             {{order_address_detail.address}}</view>
             </view>
             <image class="x_right mt15" src="/images/x_right.png"></image>			
@@ -52,7 +52,10 @@
           </view>
           <view class="df_1">	
             <view class="font_14 mt5">
-                  {{item.name}} {{item.option_name}}
+                  {{item.name}} 
+            </view>
+            <view class="font_12 mt5 c9">
+                  {{item.option_name}}
             </view>	
           </view>
         </view>	  
@@ -106,7 +109,7 @@
   </view>
 
 
-<view class="a-dikou" hidden="{{wxa_order_hide_balance_zengsong==1}}">
+<view class="a-dikou" hidden="{{(wxa_order_hide_balance_zengsong==1) || (balance_zengsong == 0)}}">
     <view class="b-dikou">
       <view>赠款抵扣</view>
       <view class="c-dikou">剩余 ￥ {{balance_zengsong}}</view>
@@ -115,7 +118,7 @@
   </view>
 
 
-<view class="a-dikou" hidden="{{wxa_order_hide_balance==1}}">
+<view class="a-dikou" hidden="{{(wxa_order_hide_balance==1)  || (balance == 0)}}">
     <view class="b-dikou">
       <view>余额抵扣</view>
       <view class="c-dikou">剩余 ￥ {{balance}}</view>
@@ -130,7 +133,7 @@
         <text class="gm_ovh_1h pt10">合计</text>
         <text class="gm_ovh_1h pt10">¥ {{all_price}}</text>
     </view>
-    <view class="heji_con">
+    <view class="heji_con" wx:if="{{traffic_price > 0}}">
         <text class="gm_ovh_1h pt10">运费</text>	
         <text class="gm_ovh_1h pt10">¥ {{traffic_price}}</text>	
     </view> 
@@ -141,9 +144,12 @@
           
           
 </view>
+
     <text style="font-size:28rpx;padding-left:3%;">备注</text>
 		<view class="p_all bg_white mt10 font_14">
-			<textarea class="min_60" auto-height name="remark" placeholder="如有备注请填写" bindinput="remarkInput" value="{{buyer_memo}}" rows="3"/> 
+			<textarea class="min_60 c6" style="padding:10rpx;" 
+        auto-height name="remark" 
+        placeholder="如有备注请填写" bindinput="remarkInput" value="{{buyer_memo}}" rows="3"/> 
 		</view>	
 
 	<!-- <view class="zhifu mt10 tc">应共支付：<span class="font_20 red">¥ {{pay_price}}</span></view> -->

@@ -287,7 +287,7 @@ App({
 
     console.log('goto_user_login:333333333');
 
-    //this.call_h5browser_or_other_goto_url(last_url, var_list, ret_page);
+   // this.call_h5browser_or_other_goto_url(last_url, var_list, ret_page);
 
     return false;
     
@@ -371,6 +371,8 @@ App({
 
     //缓存返回数据
     wx.setStorageSync("current_sellerid", sellerid);
+
+    this.globalData.default_sellerid = sellerid;
   },
   get_sellerid: function () {
     if (this.globalData.force_sellerid == 1){
@@ -802,20 +804,16 @@ App({
             return;
 
           } else {
-            wx.showToast({
-              title: '非法操作.',
-              duration: 2000
-            });
-
-            setTimeout(function () {
+           
+          
               app.del_user_info();
 
               var last_url = url;
-              app.goto_user_login(last_url);
 
-            }, 2000);
-
-
+              if(app.goto_user_login(new_url)){
+                return;
+              }
+             // app.call_h5browser_or_other_goto_url(last_url);
 
           }
         },
@@ -876,11 +874,11 @@ App({
         })
       }
     }
-    else if (url == '/pages/index/index' || url == '/pages/category/index' || url == '/pages/cart/cart' || url == '/pages/user/user') {
+    else if (url == '/pages/index/index' || url == '/pages/category/index' || url == '/pages/cart/cart' || url == '/pages/tabbar/user') {
       wx.switchTab({
         url: url,
       })
-    } else if (url == '/pages/help_detail/help_detail') {
+    } else if (url == '/pages/help/detail') {
       var browser_cache_id = wx.getStorageSync('browser_cache_id');
       if (browser_cache_id) {
         wx.navigateTo({

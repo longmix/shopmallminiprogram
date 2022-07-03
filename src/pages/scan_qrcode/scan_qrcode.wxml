@@ -12,7 +12,7 @@
 
 
  <view  wx:if="{{showCon}}" class="modal-mask" bindtap="changeModalCancel">
-    <view class="modal-dialog">
+    <view class="modal-dialog" >
       <view class="modal-title">温馨提示</view>
       <view class="modal-content">
         来自上海的，安全熊定位以及反光童装提醒您：这件衣服上的二维码不是骗子，如果您点击了确定，这位儿童或者老人的家人，将会知道他们的大概位置，对您没有任何影响，您的确定，对老人和儿童很重要，谢谢！！
@@ -27,7 +27,7 @@
 
 
 
-<view class="bg" bindtap='hideview' style='display:{{display}}'></view>
+<view class="bg" bindtap='hideview' style='display:{{display}}' ></view>
 <view class="show" bindtap='hideview' style='display:{{display}}'>
 <view class='txt'>
 <!--
@@ -35,20 +35,87 @@
   <view>1、如果您想更换绑定的手机号码，请点击这里</view>
 </button>
 -->
-<button class="bt-a" bindtap="go_to_set_weixin_notify">
-  <view>1、请先关注微信公众号：安全熊广告码，请点击这里，如果已经关注，请忽略，谢谢！</view>
+
+<button class="bt-1" bindtap="go_to_weixin_pay">
+  <view>1，微产品码充值：点击这里，给当前的微产品码充值</view>
+</button>
+
+
+<button class="bt-a" bindtap888="go_to_set_weixin_notify" open-type="contact">
+  <view>2，必须先关注微信公众号：微产品码。点击这里，发送“888”，按照提示关注“微产品码”，就可以免费接收顾客的扫码通知。如果已经关注了，请忽略。谢谢！</view>
 </button>
 
 
 <button class="bt-b" bindtap="scan_location">
-  <view>2、微信扫码看短视频，产品介绍和购买链接，请点击这里</view>
+  <view>3，模仿路人扫码：微信扫码看视频，产品介绍和购买链接，或者是意见反馈，会议签到，设备巡检上报等等。</view>
 </button>
+
+
 <button class="bt-c" bindtap="scan_remove_mobile">
-  <view>3、如果您想一键解除绑定广告码，请点击这里</view>
+  <view>4，如果您想一键解除绑定微产品码，请点击这里</view>
 </button>
-<button class="bt-d" bindtap="scan_set_e_profile">
-  <view>4、短视频和文字资料和购买链接的上传入口，任何微信扫码者可以秒看，也可以直接购买，适合印在儿童图书，玩具，婴童用品，服装鞋帽，日用百货，机电设备，农产品等的包装和吊牌上和餐饮菜单上面。如果印在衣服或者激光打标在宠物牌上面，可以用于老人小孩和宠物的防走失。</view>
+
+
+<!-- <button class="bt-d" bindtap="scan_set_e_profile">
+  <view>5， 微产品码资料上传入口
+a：产品方向，短视频，图片文字资料和各大电商平台购买链接的上传入口，任何微信扫码者可以秒看，也可以直接购买。适合用在各行各业的产品上面，也可以用于老人小孩和宠物的防走失，因为有扫码定位功能。
+b：社区方向，短视频，图片和文字资料的电子表格上传入口，适合于访客登记，设备巡检上报，产品介绍，隐患排查上报，培训班报名，会议签到，有声图书，视频使用说明书，产品标签等等各个方面。适用于政府部门，小区物业，学校，企事业单位等等。</view>
+</button> -->
+
+<!-- ------------------------------------------------------------------------------------------ -->
+<!--index.wxml-->
+<button class="bt-d" bindtap="showDialogBtn">
+  <view class="btn-dialog">
+  <text>5，微产品码资料上传入口
+    \na：视频，图片，文字和链接的上传入口，适合印在各种产品的包装，吊牌和不干胶上 ，是产品的销售渠道和广告平台，任何人微信扫码，秒看码主上传的内容，码主可随时修改内容
+    \nb：社区方向：适合用于访客登记，设备巡检上报，培训班报名，会议签到，意见反馈等等
+  </text>
+ 
+  </view>
 </button>
+
+<button class="bt-e"  bindtap="qrcode_meihua">
+  <view class="btn-dialog">
+  <text>6，美化二维码
+  </text>
+ 
+  </view>
+</button>
+<!--弹窗-->
+<view class="modal-mask" bindtap="hideModal" catchtouchmove="preventTouchMove" wx:if="{{showModal}}"></view>
+<view class="modal-dialog" wx:if="{{showModal}}" style="padding: 20px;top: 35%;left: -20px;">
+  <view class="modal-title">微产品码资料上传入口</view>
+  <view class="modal-content" >
+   
+    <radio-group class="radio" bindchange="updataRadio" style="text-align: left;">
+    <view class="btn-radio-group" >
+      <radio class="btn-radio" value="1"  checked="{{(map_type == '1') ? 'true' : '' }}">视频图片文字</radio>
+      <view type="primary" class="btn-canpinshezhi"  bindtap="scan_set_e_profile" >设置</view>
+    </view>
+    <view class="btn-radio-group" >
+      <radio class="btn-radio"  value="2" checked="{{(map_type == '2') ? 'true' : '' }}" >社区使用</radio>
+      <view type="primary" class="btn-shequshezhi"  bindtap="scan_set_community_interaction" >设置</view>
+    </view>
+    </radio-group>
+    <view class="show-btn-tishi" style="margin-top: 60rpx;">
+      <view class="tishi"> 提示1：</view><view class="tishi-xuanxiang">选择哪一个，路人微信扫码时就会看到哪一个。</view>
+    </view>
+    <view class="show-btn-tishi" style="margin-top: 10rpx;">
+      <view class="tishi"> 提示2：</view><view class="tishi-xuanxiang">包装印刷不干胶行业，请一律选择上面的一个：视频图片文字</view>
+    </view>
+    <view class="show-btn-tishi" style="margin-top: 10rpx;">
+      <view class="tishi"> 提示3：</view><view class="tishi-xuanxiang">社区使用，就是扫码的人可以用文字和图片的方式发送反馈，码主可以立刻收到这些反馈</view>
+    </view>
+  </view>
+  <!-- <view class="modal-footer">
+    <view bindtap="onCancel" data-status="cancel" style="text-align: center;padding: 16rpx;">取消</view>
+    <view class="btn-confirm" bindtap="onConfirm" data-status="confirm">确定</view>
+  </view> -->
+</view>
+
+
+
+
 
 </view>
 </view>

@@ -39,7 +39,10 @@ Page({
     btn_one_click_login_text:'使用微信一键登录',
     show_shop_logo:1,
     show_shop_name:0,
-    show_memo_text:0
+    show_memo_text:0,
+
+    //2021.9.19. 将  获取 js code的过程提前
+    current_weixin_js_code:null,
   },
 
 
@@ -81,16 +84,7 @@ Page({
 
       console.log('wx.login <<<==== btn_user_login');
 
-      wx.login({
-        success: function (res) {
-          console.log('btn_user_login wx.login return message');
-          console.log(res);
-          console.log(res.code);
-          that.data.js_code = res.code;
-          console.log(that.data.js_code);
-          that.get_userinfo_ok_callback(userinfo, that.data.js_code);
-        }
-      });
+      that.get_userinfo_ok_callback(userinfo, that.data.current_weixin_js_code);
 
 
     } else if (userinfo.detail.errMsg == 'getUserInfo:fail auth deny') { // 当用户点击拒绝时
@@ -104,7 +98,6 @@ Page({
   onLoad: function (options) {
 
 
-    
     app.set_option_list_str(this, function (that, option_list){
       app.getColor();
 
@@ -157,6 +150,29 @@ Page({
     });
     
     var that = this;
+
+
+    wx.login({
+      success: function (res) {
+        console.log("btn_one_click_login 获取到的jscode是:" + res.code);
+
+        //如果拒绝授权， e.detail.errMsg
+        //console.log(e.detail.errMsg);return;
+
+        that.setData({
+          current_weixin_js_code : res.code
+        });
+
+        
+
+      },
+      fail: function (login_res) {
+        console.log('login.js  wx.login失败。');
+      }
+
+    });
+
+
     
     console.log('options======',options);
 
@@ -392,7 +408,7 @@ Page({
                 }
 
                 wx.switchTab({
-                  url: '/pages/user/user'
+                  url: '/pages/tabbar/user'
                 })
               }
             }
@@ -526,142 +542,134 @@ Page({
 
     console.log('wx.login <<<==== btn_one_click_login');
 
-    wx.login({
-      success: function (res) {
-        console.log("btn_one_click_login 获取到的jscode是:" + res.code);
 
-        //如果拒绝授权， e.detail.errMsg
-        //console.log(e.detail.errMsg);return;
-
-        wx.request({
-          url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=wxa_one_click_login',
-          header: {
-            "Content-Type": "application/x-www-form-urlencoded"
-          },
-          method: "POST",
-          dataType: 'json',
-          data: {
-            js_code: res.code,
-            xiaochengxu_appid: app.globalData.xiaochengxu_appid,
-            iv: e.detail.iv,
-            encryptedData: e.detail.encryptedData,
-            sellerid: app.get_sellerid(),
-            parentid: app.get_current_parentid(),
-
-            //uwid: app.globalData.userInfo.uwid,
-            //checkstr: app.globalData.userInfo.checkstr,
-            // userid: app.globalData.userInfo.userid
-          },
-          success: function (res) {
-            console.log(res);
-
-            if (res.data && (res.data.code == 1)) {
-              //更新checkstr和uwid，
-              app.globalData.userInfo.userid = res.data.userid;
-              //app.globalData.userInfo.checkstr = res.data.checkstr;
-
-              console.log('一键登录成功，userid:' + res.data.userid);
-
-              app.globalData.sellerid = app.get_sellerid();
-              app.globalData.userInfo.user_openid = res.data.openid;
-              app.globalData.userInfo.userid = res.data.userid;
-              app.globalData.userInfo.checkstr = res.data.checkstr;
-              app.globalData.userInfo.is_get_userinfo = res.data.is_get_userinfo;
-
-              //保存openid
-              app.set_current_openid(res.data.openid);
-
-              console.log(app.globalData.userInfo);
-
-              app.set_user_info(app.globalData.userInfo);
-
-              //跳转到指定页面
-              //var last_url = app.get_last_url();
-              //console.log(last_url);
-
-
-              wx.showToast({
-                title: res.data.msg,
-                icon: 'success',
-                duration: 2000
-              })
-
-              //=======检查登录成功之后的跳转=======
-              var last_url = wx.getStorageSync('login_last_url');
-
-
-              if (last_url) {
-                var var_list = wx.getStorageSync('login_var_list');
-                var ret_page = wx.getStorageSync('login_ret_page');
-
-                wx.removeStorageSync('login_last_url');
-                wx.removeStorageSync('login_var_list');
-                wx.removeStorageSync('login_ret_page');
-
-
-                app.call_h5browser_or_other_goto_url(last_url, var_list, ret_page);
-
-                /*if (page_type && (page_type == 'switchTab')) {
-                  wx.switchTab({
-                    url: last_url,
-                  })
-                }
-                else{
-                  wx.redirectTo({
-                    url: last_url,
-                  })
-                }*/
-
-                
-
-                return;
-
-              }
-
-              if (app.globalData.is_ziliaoku_app == 1) {
-                wx.reLaunch({
-                  url: "/cms/index/index"
-                });
-
-                return;
-              }
-              //===================End===========
-
-              if (that.data.fromPage == 'share-detail') {
-                wx.navigateBack({
-                  delta: 1
-                })
-                return;
-              }
-              wx.switchTab({
-                url: '/pages/user/user'
-              })
-
-            }
-            else {
-              //一键登录返回错误代码
-              wx.showModal({
-                title: '提示',
-                content: res.data.msg,
-                showCancel:false,
-                success(res) {
-                  if (res.confirm) {
-                    console.log('用户点击确定')
-                  }
-                }
-              })
-
-
-            }
-          }
-        });
-
+    wx.request({
+      url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=wxa_one_click_login',
+      header: {
+        "Content-Type": "application/x-www-form-urlencoded"
       },
-      fail: function (login_res) {
-        console.log('login.js  wx.login失败。');
-      }
+      method: "POST",
+      dataType: 'json',
+      data: {
+        js_code: that.data.current_weixin_js_code,
+        xiaochengxu_appid: app.globalData.xiaochengxu_appid,
+        iv: e.detail.iv,
+        encryptedData: e.detail.encryptedData,
+        sellerid: app.get_sellerid(),
+        parentid: app.get_current_parentid(),
 
+        //uwid: app.globalData.userInfo.uwid,
+        //checkstr: app.globalData.userInfo.checkstr,
+        // userid: app.globalData.userInfo.userid
+      },
+      success: function (res) {
+        console.log(res);
+
+        if (res.data && (res.data.code == 1)) {
+          //更新checkstr和uwid，
+          app.globalData.userInfo.userid = res.data.userid;
+          //app.globalData.userInfo.checkstr = res.data.checkstr;
+
+          console.log('一键登录成功，userid:' + res.data.userid);
+
+          app.globalData.sellerid = app.get_sellerid();
+          app.globalData.userInfo.user_openid = res.data.openid;
+          app.globalData.userInfo.userid = res.data.userid;
+          app.globalData.userInfo.checkstr = res.data.checkstr;
+          app.globalData.userInfo.is_get_userinfo = res.data.is_get_userinfo;
+
+          //保存openid
+          app.set_current_openid(res.data.openid);
+
+          console.log(app.globalData.userInfo);
+
+          app.set_user_info(app.globalData.userInfo);
+
+          //跳转到指定页面
+          //var last_url = app.get_last_url();
+          //console.log(last_url);
+
+
+          wx.showToast({
+            title: res.data.msg,
+            icon: 'success',
+            duration: 2000
+          })
+
+          //=======检查登录成功之后的跳转=======
+          var last_url = wx.getStorageSync('login_last_url');
+
+
+          if (last_url) {
+            var var_list = wx.getStorageSync('login_var_list');
+            var ret_page = wx.getStorageSync('login_ret_page');
+
+            wx.removeStorageSync('login_last_url');
+            wx.removeStorageSync('login_var_list');
+            wx.removeStorageSync('login_ret_page');
+
+
+            app.call_h5browser_or_other_goto_url(last_url, var_list, ret_page);
+
+            /*if (page_type && (page_type == 'switchTab')) {
+              wx.switchTab({
+                url: last_url,
+              })
+            }
+            else{
+              wx.redirectTo({
+                url: last_url,
+              })
+            }*/
+
+            
+
+            return;
+
+          }
+
+          if (app.globalData.is_ziliaoku_app == 1) {
+            wx.reLaunch({
+              url: "/cms/index/index"
+            });
+
+            return;
+          }
+          //===================End===========
+
+          if (that.data.fromPage == 'share-detail') {
+            wx.navigateBack({
+              delta: 1
+            })
+            return;
+          }
+          wx.switchTab({
+            url: '/pages/tabbar/user'
+          })
+
+        }
+        else {
+          //一键登录返回错误代码
+          wx.showModal({
+            title: '提示',
+            content: res.data.msg,
+            showCancel:false,
+            success(res) {
+              if (res.confirm) {
+                console.log('用户点击确定')
+              }
+            }
+          })
+
+
+        }
+      }
     });
+
+
+
+
+
   },
 
 //跳转到账号密码登录页面

@@ -15,6 +15,9 @@ Page({
     current:0,
     isShowBottomLine:0,
     page_info:'精彩瞬间',
+
+    wxa_shop_nav_bg_color:'red',
+    wxa_shop_nav_font_color:'white',
   },
 
   /**
@@ -28,6 +31,10 @@ Page({
     }
     else{
       var cata001 = wx.getStorageSync('current_quanquan_cata');
+
+      //2021.10.23. 不再使用这种机制
+        cata001 = null;
+        
       if(cata001){
         this.setData({
           cata:cata001
@@ -35,15 +42,14 @@ Page({
       }
     }
 
-    
+    var that = this;
 
-    app.set_option_list_str(null, app.getColor());
+    app.set_option_list_str(that, that.callback_function);
 
     // wx.setNavigationBarTitle({
     //   title: '视频库'
     // })
 
-    var that = this;
     api.abotRequest({
       url: app.globalData.http_server + '?g=Yanyubao&m=ShopAppWxa&a=get_flash_ad_list',
       method: 'post',
@@ -147,6 +153,34 @@ Page({
 
     this.getVideoList();
    
+  },
+
+  callback_function: function (that, option_list) {
+
+    if (!option_list) {
+      return;
+    }
+
+
+    app.getColor();
+
+    var option_list = app.globalData.option_list;
+ 
+    console.log('背景颜色：' + option_list.wxa_shop_nav_bg_color);
+
+    if (option_list.wxa_shop_nav_bg_color) {
+      that.setData({
+        wxa_shop_nav_bg_color: option_list.wxa_shop_nav_bg_color,
+      });
+    }
+
+    if (option_list.wxa_shop_nav_font_color) {
+      that.setData({
+        wxa_shop_nav_font_color: option_list.wxa_shop_nav_font_color,
+      });
+    }
+
+
   },
 
 // 加载视频库列表
@@ -343,6 +377,21 @@ Page({
   bindchange: function (e) {
     // console.log(e.detail.current)
     this.setData({ current: e.detail.current })
+  },
+
+
+  //跳转首页
+  toPageIndex:function(e){
+    if (app.globalData.is_o2o_app==1){
+
+      wx.redirectTo({
+        url:'/pages/index/Liar'
+      })
+    }else{
+      wx.switchTab({
+        url: '/pages/index/index',
+      })
+    }
   },
 
   /**

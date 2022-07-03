@@ -304,7 +304,7 @@ Page({
 
   btn_goto_user_center:function(){
     wx.switchTab({
-      url: '/pages/user/user',
+      url: '/pages/tabbar/user',
     })
   }
 

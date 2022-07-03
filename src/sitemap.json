@@ -24,12 +24,12 @@
       "matching": "inclusive"
     },{
       "action": "allow",
-      "page": "pages/help_detail/help_detail",
+      "page": "pages/help/detail",
       "params": ["id", "sellerid"],
       "matching": "partial"
     },{
       "action": "allow",
-      "page": "pages/help/help",
+      "page": "pages/help/list",
       "params": ["sellerid8888"],
       "matching": "exclusive"
     },{
@@ -54,7 +54,7 @@
       "matching": "exclusive"
     },{
       "action": "disallow",
-      "page": "pages/user/user"
+      "page": "pages/tabbar/user"
     },{
       "action": "allow",
       "page": "pages/login/login"

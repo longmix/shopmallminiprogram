@@ -8,8 +8,7 @@
       <input type="text" name="phone" placeholder="电话号码" value='{{mobile}}'/>
     </view>
     <view class="section">
-      <picker bindchange="bindPickerChangeshengArr" value="{{shengIndex}}" range="{{shengArr}}"
-      data-id="{{shengId[shengIndex].region_id}}">
+      <picker bindchange="bindPickerChangeshengArr" value="{{shengIndex}}" range="{{shengArr}}" >
         <view class="picker">
           选择省份：{{shengArr[shengIndex]}}
           <input hidden="true" name="province" value="{{shengArr[shengIndex]}}"/>
@@ -41,5 +40,6 @@
     <view class="btn-area">
       <button formType="submit">保存地址</button>
     </view>
+   
   </form>
 </view>

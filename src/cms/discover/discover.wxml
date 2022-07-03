@@ -90,7 +90,7 @@
 
 
                 <block wx:if="{{is_my_discover_collection || is_my_discover}}">
-                  <view class="" style="margin-left: 0;height: 40rpx;line-height: 40rpx;font-size: 26rpx;text-align: left;color:#666;">
+                  <view class="" style="margin:20rpx 0;height: 40rpx;line-height: 40rpx;font-size: 26rpx;text-align: left;color:#666;">
                       
                       <block  wx:if="{{(faquan_tag_status == 1) && (item.tag_count > 0) }}">
                         <view><text style="font-weight:bold;">标签</text>  
@@ -103,34 +103,42 @@
                   </view>
                 </block>
                 <block wx:if="{{is_my_discover}}">
-                  <view class="" style="margin-left: 0;height: 40rpx;line-height: 40rpx;font-size: 26rpx;text-align: left;color:#666;">
+                  <view class="" style="margin:20rpx 0;height: 40rpx;line-height: 40rpx;font-size: 26rpx;text-align: left;color:#666;">
                       <view><text style="font-weight:bold;">点赞</text> <text style="margin-left:20rpx;">{{item.like_num}}</text>
                       </view>  
                   </view>
-                  <view class="" style="margin-left: 0;height: 40rpx;line-height: 40rpx;font-size: 26rpx;text-align: left;color:#666;">
+                  <view class="" style="margin:20rpx 0;height: 40rpx;line-height: 40rpx;font-size: 26rpx;text-align: left;color:#666;">
                       <view><text style="font-weight:bold;">收藏</text> <text style="margin-left:20rpx;">{{item.collect_num}}</text>
                       </view>  
                   </view>
-                  <view class="" style="margin-left: 0;height: 40rpx;line-height: 40rpx;font-size: 26rpx;text-align: left;color:#666;">
+                  <view class="" style="margin:20rpx 0;height: 40rpx;line-height: 40rpx;font-size: 26rpx;text-align: left;color:#666;">
                       <view><text style="font-weight:bold;">状态</text> <text style="margin-left:20rpx;">{{item.status_str}}</text>
                       </view>  
                   </view>
 
-                  <view class="" style="margin-left: 0;height: 40rpx;line-height: 40rpx;font-size: 26rpx;text-align: left;color:#666;" wx:if="{{item.status != 1}}">
+                  <view class="" style="margin:20rpx 0;height: 40rpx;line-height: 40rpx;font-size: 26rpx;text-align: left;color:#666;">
                       <view><text style="font-weight:bold;">备注</text> <text style="margin-left:20rpx;">{{item.memo}}</text>
                       </view>  
                   </view>
 
-                  <view class="" style="margin-left: 0;height: 40rpx;line-height: 40rpx;font-size: 26rpx;text-align: left;color:#666;">
+                  <view class="" style="margin:20rpx 0;height: 40rpx;line-height: 40rpx;font-size: 26rpx;text-align: left;color:#666;">
                       <view><text style="font-weight:bold;">操作</text>
                         <block wx:if="{{item.status == 4}}">
-                        <text style="margin-left:20rpx; color:blue;" data-faquanid='{{item.faquanid}}' data-status='1' bindtap="change_faquan_status">显示</text>
+                        <text class="function_button" data-faquanid='{{item.faquanid}}' data-status='1' bindtap="change_faquan_status">显示</text>
                         </block>
                         <block wx:else>
-                          <text style="margin-left:20rpx; color:blue;" data-faquanid='{{item.faquanid}}' data-status='4' bindtap="change_faquan_status">隐藏</text>
+                          <text class="function_button" data-faquanid='{{item.faquanid}}' data-status='4' bindtap="change_faquan_status">隐藏</text>
                         </block>
 
-                        <text style="margin-left:40rpx; color:blue;" data-faquanid='{{item.faquanid}}' data-status='3' bindtap="change_faquan_status">删除</text>
+                        <block wx:if="{{item.sort == 100}}">
+                        <text class="function_button" data-faquanid='{{item.faquanid}}' data-status='101' bindtap="change_faquan_status">取消置顶</text>
+                        </block>
+                        <block wx:else>
+                          <text class="function_button" data-faquanid='{{item.faquanid}}' data-status='100' bindtap="change_faquan_status">置顶视频</text>
+                        </block>
+
+
+                        <text class="function_button" data-faquanid='{{item.faquanid}}' data-status='3' bindtap="change_faquan_status">删除</text>
                       </view>  
                   </view>
 
@@ -139,7 +147,7 @@
                 
 
                   <block  wx:if="{{(faquan_tag_status == 1) && (item.tag_count > 0) }}">
-                    <view class="list-botton tab-con clearfix" style="margin-left: 0;height: 60rpx;line-height: 60rpx;">
+                    <view class="list-botton tab-con clearfix" style="margin:20rpx 0;height: 60rpx;line-height: 60rpx;">
                       <view class=""  wx:for='{{item.tag}}' wx:key="*this" wx:for-index="index" wx:for-item="item3" data-index="{{index}}"
                           style="font-size: 26rpx;height: 30rpx;line-height: 30rpx;">{{item3}}</view>
                     </view>

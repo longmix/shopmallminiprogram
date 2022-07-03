@@ -66,8 +66,8 @@
   top: 0%;
   left: 0%;
   width: 100%;
-  height: 100%;
-  background-color: black;
+  height: 1400px;
+  background-color: #CCFFFF;
   z-index: 1001;
   -moz-opacity: 0.7;
   opacity: 0.70;
@@ -93,6 +93,16 @@
   color:royalblue;
   display:flex;
   flex-direction:column;
+}
+
+.bt-1{
+  background-color:#0066ff;
+  color:#fff;
+  font-size:32rpx;
+  text-align: left;
+  line-height:48rpx;
+  padding:24rpx 20rpx;
+
 }
 
 .bt-a{
@@ -130,8 +140,155 @@
   line-height:48rpx;
   padding:24rpx 20rpx;
 }
+.bt-e{
+  padding: 0;
+  height: 80rpx;
+  padding-left: 20rpx;
+  line-height: 80rpx;
+  font-size: 32rpx;
+  text-align: left;
+  color: #fff;
+  background-color: #1290da;
+}
 
 .txt button{
   margin-bottom: 60rpx;
   width: 85%;
+}
+.btn-canpinshezhi{
+  background-color: #ffffff;
+  border:#09bb07 1rpx solid;
+  border-radius: 50rpx;
+  width: 80rpx;
+  color: #09bb07;
+  padding-left: 22rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+  margin-top: 10rpx;
+  margin-left: 40rpx;
+}
+.btn-radio-group{
+  display: flex;
+  border-bottom: solid 1rpx #999999;
+  padding-bottom: 20rpx;
+  padding-top: 20rpx;
+}
+.btn-radio{
+  color: #333333;
+  font-size: 40rpx;
+  margin-right: 20rpx;
+  /* padding-right: 30rpx;
+  padding-left: 20rpx; */
+}
+.btn-shequshezhi{
+  background-color: #ffffff;
+  border:#09bb07 1rpx solid;
+  border-radius: 50rpx;
+  width: 80rpx;
+  color: #09bb07;
+  padding-left: 22rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+  margin-top: 10rpx;
+  margin-left: 120rpx;
+}
+.btn-dialog{
+  white-space:pre-wrap;
+}
+.show-btn-tishi{
+  display: flex;
+}
+.tishi{
+  width: 120rpx;
+}
+.tishi-xuanxiang{
+  width: 400rpx;
+  text-align: left;
+}
+/* -------------------------------------------------------------------- */
+
+/**index.wxss**/
+.show-btn {
+  margin-top: 100rpx;
+  color: #22cc22;
+}
+.modal-mask {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #000;
+  opacity: 0.5;
+  overflow: hidden;
+  z-index: 9000;
+  color: #fff;
+}
+.modal-dialog {
+  width: 540rpx;
+  overflow: hidden;
+  position: fixed;
+  top: 50%;
+  left: 0;
+  z-index: 9999;
+  background: #f9f9f9;
+  margin: -180rpx 105rpx;
+  border-radius: 36rpx;
+}
+.modal-title {
+  padding-top: 50rpx;
+  font-size: 36rpx;
+  color: #030303;
+  text-align: center;
+}
+.modal-content {
+  padding: 50rpx 32rpx;
+}
+.modal-input {
+  display: flex;
+  background: #fff;
+  border: 2rpx solid #ddd;
+  border-radius: 4rpx;
+  font-size: 28rpx;
+}
+
+.input {
+  width: 100%;
+  height: 82rpx;
+  font-size: 28rpx;
+  line-height: 28rpx;
+  padding: 0 20rpx;
+  box-sizing: border-box;
+  color: #333;
+}
+input-holder {
+  color: #666;
+  font-size: 28rpx;
+}
+
+.modal-footer {
+  display: flex;
+  flex-direction: row;
+  height: 86rpx;
+  border-top: 1px solid #dedede;
+  font-size: 34rpx;
+  line-height: 86rpx;
+}
+.btn-cancel {
+  width: 50%;
+  color: #666;
+  text-align: center;
+  border-right: 1px solid #dedede;
+}
+.btn-confirm {
+  width: 50%;
+  color: #ec5300;
+  text-align: center;
+}
+
+.btn-fangxiang{
+  font-size:34rpx;
+  border:2rpx solid #222;
+  padding: 10rpx;
+  margin-top: 16rpx;
 }

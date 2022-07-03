@@ -5,7 +5,27 @@
         wx:if="{{show_welcome_page_tag == 1}}"
         callback_data = "{{callback_data}}"
         bind:link_item_click = "link_item_click"
+        bind:copy_text = "copy_text"
     />
+
+    <!-- 客服按钮 -->
+    <block wx:if="{{usercenter_contact_show_in_welcome_page == 1}}">  
+        <view wx:if="{{usercenter_contact_btn_type == 0}}">
+            <button style="background-color:{{wxa_shop_nav_bg_color}};color: {{wxa_shop_nav_font_color}};margin: 10rpx auto;width: 90%;"  
+            type="primary" open-type="contact" show-message-card="usercenter_contact_wxa_extend == 1 ? 'true' : 'false'" 
+            send-message-title="{{usercenter_contact_wxa_title}}"  send-message-path="{{usercenter_contact_wxa_path}}" 
+            send-message-img="{{usercenter_contact_wxa_img}}" >
+            {{usercenter_contact_btn_text}}
+            </button>
+        </view>
+        <view wx:if="{{usercenter_contact_btn_type == 1}}">
+            <button style="margin: 10rpx auto;width: 90%;padding: 0;border: 0;" type="primary" open-type="contact" show-message-card="usercenter_contact_wxa_extend == 1 ? 'true' : 'false'" 
+            send-message-title="{{usercenter_contact_wxa_title}}"  send-message-path="{{usercenter_contact_wxa_path}}" 
+            send-message-img="{{usercenter_contact_wxa_img}}" plain="true">
+            <image style="margin: 10rpx auto;width: 100%;" src="{{usercenter_contact_btn_img}}" mode="widthFix"></image>
+            </button>
+        </view>
+    </block>
         
     <view class="list" wx:if="{{wxa_show_latest_product_in_welcome_page == 1}}">
         <block wx:for="{{shopList}}" wx:key="*this" data-productid="{{item.productid}}">

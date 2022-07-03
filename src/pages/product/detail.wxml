@@ -192,7 +192,7 @@
     <view class="df_1 l_h15 pt5 bre">
       <contact-button type="default-light" class="ke" bindtap='goto_shop_home'>
         <image class="icon_kf" src="/images/shoo.png" style="margin-left:-20px;"></image>
-        <view class="dbtext" style="line;margin-top:5px">进店</view>
+        <view class="dbtext" style="margin-top:2px">进店</view>
       </contact-button>
     </view>
 
